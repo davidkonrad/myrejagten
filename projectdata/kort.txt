@@ -1,0 +1,43 @@
+kortforsyningen
+
+davidkonrad
+nhmdzm
+
+http://services.kortforsyningen.dk/?servicename=RestGeokeys_v2&method=sted&stednavn=Nyk%C3%B8bing
+
+http://services.kortforsyningen.dk/Geosearch?search=Tivoli%20forlystelse&resources=stednavne_v2&limit=1&login=davidkonrad&password=nhmdzm
+
+git remote add origin remote repository URL
+
+git remote add origin https://github.com/davidkonrad/dnaliv
+
+sudo chown -R zoo ~/.npm
+
+http://services.kortforsyningen.dk/?servicename=RestGeokeys_v2&method=vej&login=davidkonrad&password=nhmdzm&geometry=true&f=jsonp&callback=?&vejnavn=ac*
+
+stedkategori "Sø ID"
+
+alle stednavne kategorier 
+http://services.kortforsyningen.dk/?servicename=RestGeokeys_v2&method=stedkat&login=davidkonrad&password=nhmdzm
+
+
+https://services.kortforsyningen.dk/?servicename=RestGeokeys_v2&method=stedv2&login=davidkonrad&password=nhmdzm&geometry=true&f=jsonp&callback=?&vejnavn=ac*
+
+
+https://services.kortforsyningen.dk/Geosearch?search=hald&resources=stednavne_v2&limit=10&login=davidkonrad&password=nhmdzm
+
+Stednavne_v2
+
+https://services.kortforsyningen.dk/?servicename=RestGeokeys_v2&method=stednavne_v2&search=furesø&limit=10&login=davidkonrad&password=nhmdzm
+
+https://services.kortforsyningen.dk/Geosearch?search=furesø&resources=stednavne_v2&limit=10&login=davidkonrad&password=nhmdzm
+
+----------------
+https://services.kortforsyningen.dk/?servicename=RestGeokeys_v2&method=sted&stednavn=Gram Skole&limit=10&login=davidkonrad&password=nhmdzm
+
+
+http://services.kortforsyningen.dk/?servicename=RestGeokeys_v2&method=sted&stednavn=Asgård Skole&login=davidkonrad&password=nhmdzm
+
+
+http://kortforsyningen.kms.dk//?servicename=RestGeokeys_v2&method=kommune&komkode=0510&login=davidkonrad&password=nhmdzm
+

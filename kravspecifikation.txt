@@ -1,0 +1,56 @@
+
+Sider som skitseret i "flow-diagram" af MLN  
+
+1. oprettelse af bruger
+
+2. mine førsøg, oversigt over forsøg - oprettelse med stamdata 
+- automatisk fortløbende nummer
+- angivelse af skole, klasse osv
+- måske forskellige typer af "forsøg" - familie eller skole 
+- oprettelse af grupper (hver gruppe kan gives et navn, bogstav, en kode osv)
+
+3. grupper indtaster resultat
+- antal myrer
+- lokkemad
+- vejr
+- om lokkemaden var stjålet
+- lokkemad skal slåes op fra liste (redigerbar, med id'er)
+<---- svar tilbage, "tak for dine data"
+
+
+3.x Lærer / Myrejagten, detaljer
+lokalitet
+	prik-kort
+	og mulighed for at redigere lat/lng manuelt
+	
+- også opslag på institutioner, skoler
+- opslag på andre administrative enheder end vandområder
+
+--- vejr
+	tagliste med vejrtyper
+
+--- sted
+	også opslag fra liste, med flere "tags" der beskriver sted
+----
+	sol / skygge er bare skygge
+
+4. PhD
+- sætter artsbestemmelse på et resultat fra et forsøg
+- forsøg
+	- gruppe
+		- tun
+			tilføj antal optalte eksemplarer for en art
+			4 x
+			17 x
+			32 x
+
+4.x. Elektronisk feedback
+PhD sender besked til forsøgets bruger / ejer om at nu er myrerne artsbestemt.
+Event / begivenhedsliste knyttet itl projekt
+
+Forside
+"Åben" forside man kan søge i, og som indekseres af google (mv) for at eksponere resultaterne. 
+
+
+
+

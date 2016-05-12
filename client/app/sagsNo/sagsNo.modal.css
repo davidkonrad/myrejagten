@@ -1,0 +1,10 @@
+
+#modal-sagsNo .modal-dialog {
+	min-width: 320px !important;
+	width: 320px !important;
+}
+
+#modal-sagsNo .modal-body {
+	min-height: 120px !important;
+	height: 120px !important;
+}

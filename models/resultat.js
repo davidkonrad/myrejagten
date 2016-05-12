@@ -1,0 +1,23 @@
+/* jshint indent: 2 */
+
+module.exports = function(sequelize, DataTypes) {
+  return sequelize.define('resultat', {
+    resultat_id: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    booking_id: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false
+    },
+    proeve_id: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false
+    }
+  }, {
+    tableName: 'resultat',
+    freezeTableName: true
+  });
+};

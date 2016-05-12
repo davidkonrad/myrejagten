@@ -1,0 +1,21 @@
+<div class="modal ng-scope top am-fade-and-slide-top center" tabindex="-1" role="dialog" style="display: block;" id="modal-alert">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			
+			<div class="modal-header">
+				<h4 class="modal-title"> {{ alertParams.title }}</h4>
+			</div>
+
+			<div class="modal-body">
+				<i class="fa fa-warning" style="font-size:300%;"></i>
+				<span class="text" ng-bind-html="alertParams.message"></span>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success" ng-click="alertModalClose(true)">Fortsæt</button> 
+				<button type="button" class="btn btn-default" ng-click="alertModalClose(false)">Fortryd</button> 
+			</div>
+
+		</div>
+	</div>
+</div>

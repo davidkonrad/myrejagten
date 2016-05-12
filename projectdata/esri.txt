@@ -1,0 +1,13 @@
+davidkonrad
+nhmdzm2016
+https://developers.arcgis.com/applications/#/f354cc709e9d42aaa2c9adf920e42252/
+
+clientid
+GLMNrWQf7qoYGb0p
+
+Client Secret:
+1ab4c924ce744cf0b0ec13a23d372434
+
+test Token
+Fa8k0Foc5-cHunXdR4tEkZi-D4Ir0lwassp-4ZVZtQA6FeUHLz5knK6Rbpi-qT_BoyuNZh4SWDFD3YoaBlpr39RXyt5i43ptwtLpSImYNFZ0T8g3g-2fwahONMcc7aYlFAD9o3WOOE7TW0MTngKX1w..
+

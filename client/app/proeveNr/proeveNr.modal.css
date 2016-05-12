@@ -1,0 +1,10 @@
+
+#modal-proeveNr .modal-dialog {
+	min-width: 320px !important;
+	width: 320px !important;
+}
+
+#modal-proeveNr .modal-body {
+	min-height: 120px !important;
+	height: 120px !important;
+}

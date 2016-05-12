@@ -1,0 +1,163 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <base href="/">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+			<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css" />
+			<link rel="stylesheet" href="http://cdn.datatables.net/buttons/1.1.2/css/buttons.bootstrap.css" />
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(client) app/vendor.css -->
+      <!-- bower:css -->
+      <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+      <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
+      <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
+      <link rel="stylesheet" href="bower_components/datatables/media/css/jquery.dataTables.css" />
+      <link rel="stylesheet" href="bower_components/angular-datatables/dist/plugins/bootstrap/datatables.bootstrap.css" />
+      <link rel="stylesheet" href="bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css" />
+      <link rel="stylesheet" href="bower_components/datatables.net-bs/css/dataTables.bootstrap.css" />
+      <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css({.tmp,client}) app/app.css -->
+    <link rel="stylesheet" href="app/app.css">
+      <!-- injector:css -->
+      <link rel="stylesheet" href="app/account/login/login.css">
+      <link rel="stylesheet" href="app/admin/admin.css">
+      <link rel="stylesheet" href="app/alert/alert.modal.css">
+      <link rel="stylesheet" href="app/createuser/createuser.css">
+      <link rel="stylesheet" href="app/forsoeg/forsoeg.css">
+      <link rel="stylesheet" href="app/forsoegModal/forsoegModal.modal.css">
+      <link rel="stylesheet" href="app/main/main.css">
+      <link rel="stylesheet" href="app/mypage/mypage.css">
+      <link rel="stylesheet" href="app/proeveNr/proeveNr.modal.css">
+      <link rel="stylesheet" href="app/sagsNo/sagsNo.modal.css">
+      <link rel="stylesheet" href="app/xxx_app.css">
+      <link rel="stylesheet" href="components/angular-hotkeys/hotkeys.css">
+      <!-- endinjector -->
+    <!-- endbuild -->
+  </head>
+ 
+  <body ng-app="myrejagtenApp">
+	   <div ng-include="'components/navbar/navbar.html'"></div>
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <div ng-view=""></div>
+ <div ng-include="'components/footer/footer.html'"></div>
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-XXXXX-X');
+      ga('send', 'pageview');
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+    <!-- build:js({client,node_modules}) app/vendor.js -->
+      <!-- bower:js -->
+      <script src="bower_components/jquery/dist/jquery.js"></script>
+      <script src="bower_components/angular/angular.js"></script>
+      <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+      <script src="bower_components/angular-resource/angular-resource.js"></script>
+      <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+      <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+      <script src="bower_components/angular-route/angular-route.js"></script>
+      <script src="bower_components/lodash/dist/lodash.compat.js"></script>
+      <script src="bower_components/angular-socket-io/socket.js"></script>
+      <script src="bower_components/angular-strap/dist/angular-strap.js"></script>
+      <script src="bower_components/angular-strap/dist/angular-strap.tpl.js"></script>
+      <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+      <script src="bower_components/moment/moment.js"></script>
+      <script src="bower_components/leaflet/dist/leaflet-src.js"></script>
+      <script src="bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.js"></script>
+      <script src="bower_components/leaflet-providers/leaflet-providers.js"></script>
+      <script src="bower_components/proj4/dist/proj4.js"></script>
+      <script src="bower_components/proj4leaflet/src/proj4leaflet.js"></script>
+      <script src="bower_components/angular-inview/angular-inview.js"></script>
+      <script src="bower_components/datatables/media/js/jquery.dataTables.js"></script>
+      <script src="bower_components/angular-datatables/dist/angular-datatables.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/bootstrap/angular-datatables.bootstrap.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/colreorder/angular-datatables.colreorder.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/columnfilter/angular-datatables.columnfilter.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/light-columnfilter/angular-datatables.light-columnfilter.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/colvis/angular-datatables.colvis.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/fixedcolumns/angular-datatables.fixedcolumns.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/fixedheader/angular-datatables.fixedheader.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/scroller/angular-datatables.scroller.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/tabletools/angular-datatables.tabletools.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/buttons/angular-datatables.buttons.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/select/angular-datatables.select.js"></script>
+      <script src="bower_components/datatables.net/js/jquery.dataTables.js"></script>
+      <script src="bower_components/datatables.net-buttons/js/dataTables.buttons.js"></script>
+      <script src="bower_components/datatables.net-buttons/js/buttons.colVis.js"></script>
+      <script src="bower_components/datatables.net-buttons/js/buttons.flash.js"></script>
+      <script src="bower_components/datatables.net-buttons/js/buttons.html5.js"></script>
+      <script src="bower_components/datatables.net-buttons/js/buttons.print.js"></script>
+      <script src="bower_components/Wicket/wicket.js"></script>
+      <script src="bower_components/Wicket/wicket-arcgis.js"></script>
+      <script src="bower_components/Wicket/wicket-gmap3.js"></script>
+      <script src="bower_components/Wicket/wicket-leaflet.js"></script>
+      <script src="bower_components/bootstrap-switch/dist/js/bootstrap-switch.js"></script>
+      <script src="bower_components/angular-bootstrap-switch/dist/angular-bootstrap-switch.js"></script>
+      <script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.js"></script>
+      <script src="bower_components/jszip/dist/jszip.js"></script>
+      <script src="bower_components/pdfmake/build/pdfmake.js"></script>
+      <script src="bower_components/pdfmake/build/vfs_fonts.js"></script>
+      <!-- endbower -->
+      <script src="socket.io-client/socket.io.js"></script>
+      <script src="https://code.angularjs.org/1.0.8/i18n/angular-locale_da-dk.js"></script>
+    <!-- endbuild -->
+
+        <!-- build:js({.tmp,client}) app/app.js -->
+        <script src="app/app.js"></script>
+          <!-- injector:js -->
+          <script src="app/account/account.js"></script>
+          <script src="app/account/login/login.controller.js"></script>
+          <script src="app/account/settings/settings.controller.js"></script>
+          <script src="app/account/signup/signup.controller.js"></script>
+          <script src="app/admin/admin.controller.js"></script>
+          <script src="app/admin/admin.js"></script>
+          <script src="app/alert/alert.modal.js"></script>
+          <script src="app/createuser/createuser.controller.js"></script>
+          <script src="app/createuser/createuser.js"></script>
+          <script src="app/directives/alleartertypeahead.js"></script>
+          <script src="app/directives/dnalivServices.js"></script>
+          <script src="app/directives/geoHelper.js"></script>
+          <script src="app/directives/institutionTypeahead.js"></script>
+          <script src="app/directives/wetlandTypeahead.js"></script>
+          <script src="app/forsoeg/forsoeg.controller.js"></script>
+          <script src="app/forsoeg/forsoeg.js"></script>
+          <script src="app/forsoegModal/forsoegModal.modal.js"></script>
+          <script src="app/main/main.controller.js"></script>
+          <script src="app/main/main.js"></script>
+          <script src="app/mypage/mypage.controller.js"></script>
+          <script src="app/mypage/mypage.js"></script>
+          <script src="app/proeveNr/proeveNr.modal.js"></script>
+          <script src="app/sagsNo/sagsNo.modal.js"></script>
+          <script src="components/angular-hotkeys/hotkeys.js"></script>
+          <script src="components/auth/auth.service.js"></script>
+          <script src="components/auth/user.service.js"></script>
+          <script src="components/bootstrap3typeahead/typeahead2.js"></script>
+          <script src="components/mongoose-error/mongoose-error.directive.js"></script>
+          <script src="components/navbar/navbar.controller.js"></script>
+          <script src="components/orderObjectBy/orderObjectBy.filter.js"></script>
+          <script src="components/socket/socket.service.js"></script>
+          <!-- endinjector -->
+        <!-- endbuild -->
+</body>
+</html>

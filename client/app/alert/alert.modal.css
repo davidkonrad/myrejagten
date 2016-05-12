@@ -1,0 +1,23 @@
+
+#modal-alert .modal-dialog {
+	min-width: 380px !important;
+	width: 380px !important;
+}
+
+#modal-alert .text {
+	display: inline-block;
+	clear: none;
+	float: none;
+	width: 290px;
+	padding-left: 10px;
+	vertical-align: top;
+}
+
+#modal-alert .modal-body i {
+	clear: none;
+	float: none;
+	color: darkred;
+}
+
+
+	
