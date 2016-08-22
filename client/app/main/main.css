@@ -35,3 +35,43 @@ table.dataTable tbody td {
 	cursor: pointer;
 }
 
+/* 17082016 */
+html,body,.container
+{
+    height:100%;
+}
+.container
+{
+    display:table;
+    width: 1100px;
+    margin-top: -50px;
+    padding-top: 50px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+header
+{
+    background: green;
+    height: 50px;
+}
+
+.row
+{
+    height: 100%;
+    display: table-row;
+}
+.col-md-3.no-float, .col-md-9.no-float {
+    float: none; /* thanks baxabbit */
+}
+.col-md-3
+{
+    display: table-cell;
+    background: transparent;
+    width: 25%;
+}
+.col-md-9
+{
+    display: table-cell;
+    background: transparent;
+    width: 75%;
+}
