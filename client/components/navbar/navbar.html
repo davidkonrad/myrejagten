@@ -15,24 +15,32 @@
 
     <div collapse="isCollapsed" class="navbar-collapse collapse" id="navbar-main">
 
-			<!--
-      <ul class="nav navbar-nav">
-        <li ng-class="{ active: isActive('/opret-bruger')}"><a href="/opret-bruger">Opret bruger</span></a></li>
-        <li ng-show="isLoggedIn()" ng-class="{ active: isActive('/forsøg')}"><a href="/forsøg">Forsøg</span></a></li>
-        <li ng-show="isLoggedIn()" ng-class="{ active: isActive('/mine-forsøg')}"><a href="/mine-forsøg">Mine forsøg</span></a></li>
-      </ul>
-			-->
+      <ul class="nav navbar-nav navbar-right" style="margin-right:50px;">
 
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="/forside">Forside</a></li>
-        <li><a href="/tilmeld">Tilmeld</a></li>
-        <li><a href="/brugerkonto">Min brugerkonto</a></li>
-        <li><a href="/mine-eksperimenter">Mine eksperimenter</a></li>
-        <li><a href="/forside">Forsøg</a></li>
-        <li ng-hide="isLoggedIn()" ng-class="{active: isActive('/login')}"><a href="/login">Log af</a></li>
-        <li ng-show="isLoggedIn()">
-					<p class="navbar-text">Bruger: <strong>{{ getCurrentUser().name }}</strong></p> 
+        <li ng-show="isLoggedIn()" >
+					<a href="/min-konto">
+						<strong>{{ getCurrentUser().name }}</strong>
+					</a>
 				</li>
+
+        <li ng-show="isLoggedIn()">
+					<a href="/mine-eksperimenter">Mine eksperimenter</a>
+				</li>
+
+        <li>
+					<a href="/forside">Forside</a>
+				</li>
+
+        <li ng-show="!isLoggedIn()">
+					<a href="/tilmeld">Tilmeld dig Myrejagten</a>
+				</li>
+
+			  <li ng-show="!isLoggedIn()">
+					<a href="/login">Login</a>
+				</li>
+				<!--
+        <li ng-hide="isLoggedIn()" ng-class="{active: isActive('/login')}"><a href="/login">Log af</a></li>
+				-->
         <li ng-show="isLoggedIn()" ng-class="{active: isActive('/logout')}"><a href="" ng-click="logout()">Log af</a></li>
       </ul>
     </div>

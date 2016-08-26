@@ -9,12 +9,10 @@ angular.module('myrejagtenApp', [
 	'mgcrea.ngStrap', 
 	'cfp.hotkeys',
 	'LocalStorageModule',
-	'angular-inview',
 	'leaflet-directive',
 	'datatables',
 	'datatables.buttons',
-	'datatables.bootstrap',
-	'frapontillo.bootstrap-switch'
+	'datatables.bootstrap'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider

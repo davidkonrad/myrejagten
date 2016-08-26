@@ -6,9 +6,10 @@ var config = require('../config/environment');
 var jwt = require('jsonwebtoken');
 var expressJwt = require('express-jwt');
 var compose = require('composable-middleware');
-var User = require('../api/mongo/user/user.model');
+//var User = require('../api/mongo/user/user.model');
+var User = require('../api/mysql/user/mysqluser.model');
 var validateJwt = expressJwt({ secret: config.secrets.session });
-var specifydb = require('../api/mysql/')
+//var specifydb = require('../api/mysql/')
 
 /**
  * Attaches the user object to the request if authenticated

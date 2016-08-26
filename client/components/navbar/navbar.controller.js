@@ -1,16 +1,15 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-	.controller('NavbarCtrl', function($rootScope, $scope, $location, Auth) {
+	.controller('NavbarCtrl', function($rootScope, $scope, $location, Login) {
 
 		$scope.isCollapsed = true;
-		$scope.isLoggedIn = Auth.isLoggedIn;
-		$scope.isAdmin = Auth.isAdmin;
-		$scope.getCurrentUser = Auth.getCurrentUser;
+		$scope.isLoggedIn = Login.isLoggedIn;
+		$scope.getCurrentUser = Login.currentUser;
 		$scope.user;
 
 		$scope.logout = function() {
-			Auth.logout();
+			Login.logout();
 			$location.path('/login');
 		};
 
@@ -21,9 +20,6 @@ angular.module('myrejagtenApp')
 		$scope.getCurrentUser(function(user) {
 			$scope.user = user;
 		});
-
-		$scope.$watch(Auth.isLoggedIn, function(newval, oldval) {
-		})
 
 
 	});

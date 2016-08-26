@@ -1,8 +1,60 @@
 <div class="container">
 
-	<h2>Mine forsøg</h2>
+	<h3>
+		<button role="button" class="btn btn-success btn-md" ng-click="showProjekt()" title="Opret ny myrejagt">
+			<i class="fa fa-plus"></i>
+		</button>
+		&nbsp;Projekter
+	</h2>
 
-	<button role="button" class="btn btn-success" ng-click="createForsoeg()">Opret nyt forsøg</button>
+	<table datatable="ng" class="table" dt-options="dtOptions">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Titel</th>
+				<th>Lokalitet</th>
+				<th>Oprettet</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="p in projects" ng-click="showProjekt(p.projekt_id)">
+				<td> {{ p.projekt_id }} </td>
+				<td> {{ p.titel }} </td>
+				<td> {{ p.lokalitet }} </td>
+				<td> {{ p.created_timestamp | date : 'dd-MM-yyyy HH:mm'	}} </td>
+			</tr>			
+		</tbody>
+	</table>
+
+<!----------------------------->
+
+	<h3>
+		<button role="button" class="btn btn-success btn-md" ng-click="showEksperiment()" title="Opret nyt eksperiment">
+			<i class="fa fa-plus"></i>
+		</button>
+		&nbsp;Eksperimenter
+	</h2>
+
+<!--
+	<table datatable="ng" class="table" dt-options="dtOptions">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Titel</th>
+				<th>Lokalitet</th>
+				<th>Oprettet</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="p in projects" ng-click="showProjekt(p.projekt_id)">
+				<td> {{ p.projekt_id }} </td>
+				<td> {{ p.titel }} </td>
+				<td> {{ p.lokalitet }} </td>
+				<td> {{ p.created_timestamp | date : 'dd-MM-yyyy HH:mm'	}} </td>
+			</tr>			
+		</tbody>
+	</table>
+-->
 
 </div>
 

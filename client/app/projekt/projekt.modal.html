@@ -1,0 +1,61 @@
+<div class="modal ng-scope top am-fade-and-slide-top center" tabindex="-1" role="dialog" style="display: block;" id="modal-projekt">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			
+			<div class="modal-header">
+				<button type="button" class="close" ng-click="$hide()">×</button>
+				<h4 class="modal-title"><strong>{{ __projekt.header }}</strong></h4>
+			</div>
+
+			<div class="modal-body">
+
+				<form class="form-horizontal" role="form" action="" method="POST">
+
+					<div class="control-group col-md-5">
+						<label class="normal required">Titel / Navn på Projekt</label>
+						<input type="text" class="form-control bold input-lg" ng-model="__projekt.titel"/>
+
+						<label class="normal required">Lokalitet. (Adresse og stednavneopslag)</label>
+						<input type="text" class="form-control bold input-lg" ng-model="__projekt.lokalitet" id="stednavne_v2" />
+						
+						<div class="col-sm-12">
+	            <label class="radio-inline"> <input type="radio" ng-model="__projekt.lokalitetMethod" name="opslag" value="stednavne_v2" checked />Stednavne</label>
+	            <label class="radio-inline"> <input type="radio" ng-model="__projekt.lokalitetMethod" name="opslag" value="adresser" />Adresser</label>
+	            <label class="radio-inline"> <input type="radio" ng-model="__projekt.lokalitetMethod" name="opslag" value="" />Ingen opslag</label>
+		        </div>
+	
+						<label class="normal required">Start dato</label>
+						<input type="text" class="form-control bold input-lg" ng-model="__projekt.start_tid" bs-datepicker data-date-format="dd-MM-yyyy" size="7" data-autoclose="true" />
+
+						<label class="normal">Slut dato</label>
+						<input type="text" class="form-control bold input-lg" ng-model="__projekt.slut_tid" bs-datepicker data-date-format="dd-MM-yyyy" size="7" data-autoclose="true" />
+	
+						<br><br>
+					</div>
+
+					<div class="control-group col-md-7">
+						<label class="normal">Slå op i lokalitet eller klik på kortet for at markere et sted</label>
+						<leaflet id="map" center="center" defaults="defaults" layers="layers" markers="markers" events="events" height="300px" style="border:1px solid #ccc;border-radius:5px;"></leaflet>
+					</div>
+
+				</form>
+
+			</div>
+			
+			<div class="modal-footer">
+				<span style="float:left;">
+					<button type="button" class="btn btn-danger btn-sm" ng-disabled="!__projekt.projekt_id" ng-click="deleteProjekt(__projekt.projekt_id)">
+						Slet Projekt
+					</button> 
+				</span>
+				<button type="button" class="btn btn-success" ng-click="doCreateProjekt()" id="closeBtn" ng-disabled="!canCreateProjekt()">
+					{{ __projekt.btnCaption }}
+				</button> 
+				<button type="button" class="btn btn-primary" ng-click="$hide()" >
+					Fortryd
+				</button> 
+
+			</div>
+		</div>
+	</div>
+</div>

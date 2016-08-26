@@ -1,13 +1,12 @@
-
+/*
 .modal-dialog {
 	max-width: 90% !important;
 	width: 80% !important;
 }
+*/
 
 .modal-body {
-	padding-left: 0px;
-	padding-right: 0px;
-	padding-bottom: 0px;
+	padding-bottom: 50px;
 }
 
 .footer {
@@ -74,4 +73,13 @@ header
     display: table-cell;
     background: transparent;
     width: 75%;
+}
+
+label.normal {
+	font-weight: normal;
+	margin-bottom: 1px;
+	margin-top: 8px;
+}
+input.bold {
+	font-weight: bold;
 }

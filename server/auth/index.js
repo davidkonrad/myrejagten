@@ -3,7 +3,8 @@
 var express = require('express');
 var passport = require('passport');
 var config = require('../config/environment');
-var User = require('../api/mongo/user/user.model');
+//var User = require('../api/mongo/user/user.model');
+var User = require('../api/mysql/user/mysqluser.model');
 
 // Passport Configuration
 require('./local/passport').setup(User, config);

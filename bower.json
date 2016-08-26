@@ -24,11 +24,13 @@
     "angular-datatables": "*",
     "datatables.net-buttons": "*",
     "Wicket": "*",
-    "bootstrap-switch": "*",
-    "angular-bootstrap-switch": "*",
     "datatables.net-bs": "*",
     "jszip": "2.6.0",
-    "pdfmake": "*"
+    "pdfmake": "*",
+    "angular-bootstrap3-typeahead": "*",
+    "leaflet-plugins": "^1.9.0",
+    "ng-tags-input": "^3.1.1",
+    "bootstrap-tagsinput": "^0.8.0"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",

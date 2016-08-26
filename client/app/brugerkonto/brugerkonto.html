@@ -1,8 +1,45 @@
 <div class="container">
 
-	<h2>Mine forsøg</h2>
+	<h3>Konto oplysninger</h3>
 
-	<button role="button" class="btn btn-success" ng-click="createForsoeg()">Opret nyt forsøg</button>
+	<form class="form-horizontal" role="form" action="" method="POST">
+
+		<div class="control-group col-md-7">
+			<label class="normal required">Institution</label>
+			<input type="text" class="form-control bold input-lg" ng-model="settings.institution" id="institution" />
+
+			<label class="normal required">Fulde navn</label>
+			<input type="text" class="form-control bold input-lg" ng-model="settings.fulde_navn"/>
+
+			<label class="normal required">Addresse</label>
+			<input type="text" class="form-control bold input-lg" ng-model="settings.adresse"/>
+
+			<div class="control-group col-md-4" style="padding-left: 0px !important;">
+				<label class="normal required">Postnr</label>
+				<input type="text" class="form-control bold input-lg" ng-model="settings.postnr"/>
+			</div>
+
+			<div class="control-group col-md-8" style="padding-right: 0px !important; padding-left:0px !important;">
+				<label class="normal required">By</label>
+				<input type="text" class="form-control bold input-lg" ng-model="settings.by"/>
+			</div>
+
+			<div class="control-group col-md-6" style="padding-left: 0px !important;">
+				<label class="normal required">Kommune</label>
+				<input type="text" class="form-control bold input-lg" ng-model="settings.kommune"/>
+			</div>
+
+			<div class="control-group col-md-6" style="padding-right: 0px !important; padding-left:0px !important;">
+				<label class="normal required">Region</label>
+				<input type="text" class="form-control bold input-lg" ng-model="settings.region"/>
+			</div>
+
+
+		</div>
+
+		<div class="control-group col-md-5">
+			<div class="circle">K1</div>
+		</div>
 
 </div>
 
