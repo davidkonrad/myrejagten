@@ -48,7 +48,7 @@
 						Slet Projekt
 					</button> 
 				</span>
-				<button type="button" class="btn btn-success" ng-click="doCreateProjekt()" id="closeBtn" ng-disabled="!canCreateProjekt()">
+				<button type="button" class="btn btn-success" ng-click="doCreateProjekt();hide()" id="closeBtn" ng-disabled="!canCreateProjekt()">
 					{{ __projekt.btnCaption }}
 				</button> 
 				<button type="button" class="btn btn-primary" ng-click="$hide()" >

@@ -3,7 +3,7 @@
 	padding-top: 17px;
 	border-radius: 50%;
 	font-weight: bold;
-	color: maroon;
+	color: silver;
 	font-size: 14px !important;
 	width: 50px;
 	height: 50px; 
@@ -13,3 +13,55 @@
 .circle:after {
 	content: "_abc...";
 }
+
+
+/* display inline */
+.display-inline {
+	display: inline !important;
+}
+
+
+/* cursor hand in tabs */
+a[role="tab"] {
+	cursor: pointer;
+}
+
+/* color the left sorting arrow i dataTables */
+table.table thead .sorting_asc:before,
+table.table thead .sorting_desc:before {
+	color: blue;
+}
+/* datatable head and body norders */
+table.dataTable thead th, 
+table.dataTable thead td {
+	border-bottom: 1px solid silver;
+}
+.dataTables_wrapper.no-footer .dataTables_scrollBody {
+	border-bottom: 1px solid silver;
+}
+/* datatable select backgroundcolor */
+table.dataTable tbody tr.selected {
+	background-color: #ebebeb;
+}
+/* prevent text select in selected rows */
+table.dataTable tbody tr.selected {
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+
+/*********** #4285F4  **/
+.nav-tabs { border-bottom: 2px solid #DDD; }
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover { border-width: 0; }
+.nav-tabs > li > a { border: none; color: #666; }
+.nav-tabs > li.active > a, .nav-tabs > li > a:hover { border: none; color: #337ab7 !important; background: transparent; }
+.nav-tabs > li > a::after { content: ""; background: #337ab7; height: 2px; position: absolute; width: 100%; left: 0px; bottom: -1px; transition: all 250ms ease 0s; transform: scale(0); }
+.nav-tabs > li.active > a::after, .nav-tabs > li:hover > a::after { transform: scale(1); }
+.tab-nav > li > a::after { background: #21527d none repeat scroll 0% 0%; color: #fff; }
+.tab-pane { padding: 15px 0; }
+.tab-content{padding:20px}
+
+

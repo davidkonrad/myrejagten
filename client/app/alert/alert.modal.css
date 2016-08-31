@@ -2,6 +2,7 @@
 #modal-alert .modal-dialog {
 	min-width: 380px !important;
 	width: 380px !important;
+	height: 200px;
 }
 
 #modal-alert .text {

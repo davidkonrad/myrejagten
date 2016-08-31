@@ -19,7 +19,7 @@
 
         <li ng-show="isLoggedIn()" >
 					<a href="/min-konto">
-						<strong>{{ getCurrentUser().name }}</strong>
+						<strong>{{ getCurrentUser().brugernavn }}</strong>
 					</a>
 				</li>
 
@@ -38,10 +38,11 @@
 			  <li ng-show="!isLoggedIn()">
 					<a href="/login">Login</a>
 				</li>
-				<!--
-        <li ng-hide="isLoggedIn()" ng-class="{active: isActive('/login')}"><a href="/login">Log af</a></li>
-				-->
-        <li ng-show="isLoggedIn()" ng-class="{active: isActive('/logout')}"><a href="" ng-click="logout()">Log af</a></li>
+
+        <li ng-show="isLoggedIn()" ng-class="{active: isActive('/logout')}">
+					<a href="" ng-click="logout()">Log af</a>
+				</li>
+
       </ul>
     </div>
   </div>

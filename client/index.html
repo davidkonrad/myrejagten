@@ -23,11 +23,11 @@
       <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
       <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
       <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
+      <link rel="stylesheet" href="bower_components/ng-tags-input/ng-tags-input.css" />
+      <link rel="stylesheet" href="bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" />
       <link rel="stylesheet" href="bower_components/datatables/media/css/jquery.dataTables.css" />
       <link rel="stylesheet" href="bower_components/angular-datatables/dist/plugins/bootstrap/datatables.bootstrap.css" />
       <link rel="stylesheet" href="bower_components/datatables.net-bs/css/dataTables.bootstrap.css" />
-      <link rel="stylesheet" href="bower_components/ng-tags-input/ng-tags-input.css" />
-      <link rel="stylesheet" href="bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -97,34 +97,10 @@
       <script src="bower_components/leaflet-providers/leaflet-providers.js"></script>
       <script src="bower_components/proj4/dist/proj4.js"></script>
       <script src="bower_components/proj4leaflet/src/proj4leaflet.js"></script>
-      <script src="bower_components/angular-inview/angular-inview.js"></script>
-      <script src="bower_components/datatables/media/js/jquery.dataTables.js"></script>
-      <script src="bower_components/angular-datatables/dist/angular-datatables.js"></script>
-      <script src="bower_components/angular-datatables/dist/plugins/bootstrap/angular-datatables.bootstrap.js"></script>
-      <script src="bower_components/angular-datatables/dist/plugins/colreorder/angular-datatables.colreorder.js"></script>
-      <script src="bower_components/angular-datatables/dist/plugins/columnfilter/angular-datatables.columnfilter.js"></script>
-      <script src="bower_components/angular-datatables/dist/plugins/light-columnfilter/angular-datatables.light-columnfilter.js"></script>
-      <script src="bower_components/angular-datatables/dist/plugins/colvis/angular-datatables.colvis.js"></script>
-      <script src="bower_components/angular-datatables/dist/plugins/fixedcolumns/angular-datatables.fixedcolumns.js"></script>
-      <script src="bower_components/angular-datatables/dist/plugins/fixedheader/angular-datatables.fixedheader.js"></script>
-      <script src="bower_components/angular-datatables/dist/plugins/scroller/angular-datatables.scroller.js"></script>
-      <script src="bower_components/angular-datatables/dist/plugins/tabletools/angular-datatables.tabletools.js"></script>
-      <script src="bower_components/angular-datatables/dist/plugins/buttons/angular-datatables.buttons.js"></script>
-      <script src="bower_components/angular-datatables/dist/plugins/select/angular-datatables.select.js"></script>
-      <script src="bower_components/datatables.net/js/jquery.dataTables.js"></script>
-      <script src="bower_components/datatables.net-buttons/js/dataTables.buttons.js"></script>
-      <script src="bower_components/datatables.net-buttons/js/buttons.colVis.js"></script>
-      <script src="bower_components/datatables.net-buttons/js/buttons.flash.js"></script>
-      <script src="bower_components/datatables.net-buttons/js/buttons.html5.js"></script>
-      <script src="bower_components/datatables.net-buttons/js/buttons.print.js"></script>
       <script src="bower_components/Wicket/wicket.js"></script>
       <script src="bower_components/Wicket/wicket-arcgis.js"></script>
       <script src="bower_components/Wicket/wicket-gmap3.js"></script>
       <script src="bower_components/Wicket/wicket-leaflet.js"></script>
-      <script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.js"></script>
-      <script src="bower_components/jszip/dist/jszip.js"></script>
-      <script src="bower_components/pdfmake/build/pdfmake.js"></script>
-      <script src="bower_components/pdfmake/build/vfs_fonts.js"></script>
       <script src="bower_components/angular-bootstrap3-typeahead/angular-bootstrap3-typeahead.js"></script>
       <script src="bower_components/leaflet-plugins/control/Distance.js"></script>
       <script src="bower_components/leaflet-plugins/control/Layers.Load.js"></script>
@@ -148,6 +124,30 @@
       <script src="bower_components/leaflet-plugins/layer/tile/Yandex.js"></script>
       <script src="bower_components/ng-tags-input/ng-tags-input.js"></script>
       <script src="bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.js"></script>
+      <script src="bower_components/jszip/dist/jszip.js"></script>
+      <script src="bower_components/pdfmake/build/pdfmake.js"></script>
+      <script src="bower_components/pdfmake/build/vfs_fonts.js"></script>
+      <script src="bower_components/datatables/media/js/jquery.dataTables.js"></script>
+      <script src="bower_components/angular-datatables/dist/angular-datatables.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/bootstrap/angular-datatables.bootstrap.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/colreorder/angular-datatables.colreorder.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/columnfilter/angular-datatables.columnfilter.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/light-columnfilter/angular-datatables.light-columnfilter.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/colvis/angular-datatables.colvis.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/fixedcolumns/angular-datatables.fixedcolumns.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/fixedheader/angular-datatables.fixedheader.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/scroller/angular-datatables.scroller.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/tabletools/angular-datatables.tabletools.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/buttons/angular-datatables.buttons.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/select/angular-datatables.select.js"></script>
+      <script src="bower_components/datatables.net/js/jquery.dataTables.js"></script>
+      <script src="bower_components/datatables.net-buttons/js/dataTables.buttons.js"></script>
+      <script src="bower_components/datatables.net-buttons/js/buttons.colVis.js"></script>
+      <script src="bower_components/datatables.net-buttons/js/buttons.flash.js"></script>
+      <script src="bower_components/datatables.net-buttons/js/buttons.html5.js"></script>
+      <script src="bower_components/datatables.net-buttons/js/buttons.print.js"></script>
+      <script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.js"></script>
+      <script src="bower_components/datatables.net-select/js/dataTables.select.js"></script>
       <!-- endbower -->
       <script src="socket.io-client/socket.io.js"></script>
       <script src="https://code.angularjs.org/1.0.8/i18n/angular-locale_da-dk.js"></script>
@@ -167,7 +167,6 @@
           <script src="app/createuser/createuser.controller.js"></script>
           <script src="app/createuser/createuser.js"></script>
           <script src="app/directives/alleartertypeahead.js"></script>
-          <script src="app/directives/dnalivServices.js"></script>
           <script src="app/directives/geoHelper.js"></script>
           <script src="app/directives/institutionTypeahead.js"></script>
           <script src="app/directives/wetlandTypeahead.js"></script>
@@ -181,15 +180,16 @@
           <script src="app/proeveNr/proeveNr.modal.js"></script>
           <script src="app/projekt/projekt.controller.js"></script>
           <script src="app/projekt/projekt.js"></script>
+          <script src="app/services/Eksperiment/Eksperiment.service.js"></script>
           <script src="app/services/Login/Login.service.js"></script>
           <script src="app/services/MysqlUser/MysqlUser.service.js"></script>
           <script src="app/services/Projekt/Projekt.service.js"></script>
           <script src="app/services/Ticket/ticket.service.js"></script>
+          <script src="app/services/utils.service.js"></script>
+          <script src="app/tilmeld/glemt_password.controller.js"></script>
           <script src="app/tilmeld/tilmeld.controller.js"></script>
           <script src="app/tilmeld/tilmeld.js"></script>
           <script src="components/angular-hotkeys/hotkeys.js"></script>
-          <script src="components/auth/auth.service.js"></script>
-          <script src="components/auth/user.service.js"></script>
           <script src="components/bootstrap3typeahead/typeahead2.js"></script>
           <script src="components/navbar/navbar.controller.js"></script>
           <script src="components/orderObjectBy/orderObjectBy.filter.js"></script>

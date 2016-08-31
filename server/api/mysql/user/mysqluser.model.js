@@ -17,7 +17,7 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.BOOLEAN,
       allowNull: true
     },
-		name: {
+		brugernavn: {
 			type: DataTypes.STRING,
       allowNull: true
     },

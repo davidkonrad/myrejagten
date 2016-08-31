@@ -31,10 +31,26 @@ exports.create = function(req, res) {
   });
 };
 
+/*
+fffffffffffffffffffffffffffffffffffffffffffffffff
+// Updates an existing klasse in the DB.
+exports.update = function(req, res) {
+  models.Klasse.find({ where : { klasse_id: req.params.id }} ).then(function(klasse){
+    if(!klasse) { return res.send(404); }  
+	  return klasse.updateAttributes(req.body);	  	
+  }).then(function(klasse){
+  	return res.json(200, klasse);
+  }).catch(function(err){
+	  handleError(res, err);
+  });
+};
+*/
+
 // Updates an existing user in the DB.
 exports.update = function(req, res) {
-  models.User.find(req.params.id).then(function(user){
-      if(!user) { return res.send(404); }  
+  //models.User.find(req.params.id).then(function(user){
+  models.User.find({ where : { user_id: req.params.id }} ).then(function(user){
+		if(!user) { return res.send(404); }  
 	  return user.updateAttributes(req.body);	  	
   }).then(function(user){
   	return res.json(200, user);

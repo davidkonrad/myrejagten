@@ -2,34 +2,56 @@
 
 	<h3>Tilmeld dig Myrejagten</h3>
 
-	<div class="col-md-8">
+	<div class="col-md-12">
+		<!--
 		<div class="circle">T1</div>
+		-->
 	</div>
 
-  	<div class="col-md-6">
+	<div class="col-md-6">
     
-          <form class="form-horizontal" action="" method="POST">
-          <fieldset>
-            <div class="control-group">
-              <label class="control-label" for="username">Brugernavn</label>
+		<form class="form-horizontal">
+			<div class="control-group">
+				<label class="control-label required normal" for="email">E-mail adresse</label>
+ 				<div class="input-group">
+					<input type="text" id="email" ng-model="user.email" placeholder="" class="form-control input-lg">
+		      <span class="input-group-btn">
+		        <button class="btn btn-secondary btn-lg" type="button" bs-popover data-trigger="hover" data-content="En gyldig emailadresse der benyttes som login. Der vil blive sendt en bekræftelsesmail til adressen.">?</button>
+  		    </span>
+				</div>
+				<p class="help-block error" ng-show="emailInUse()">
+					Email-adressen <b>{{ user.email }}</b> er allerede i brug! Har du <a href="/glemt-password/?email={{ user.email }}">glemt password?</a>
+				</p>
+				<p class="help-block error" ng-show="!emailIsValid()">
+					Email-adresse er ikke gyldig!</a>
+				</p>
+	
+<!--
+		      <input type="text" class="form-control" placeholder="Search for...">
+      <span class="input-group-btn">
+        <button class="btn btn-secondary" type="button">Go!</button>
+      </span>
+    </div>
+-->
+			<div class="control-group">
+				<label class="control-label required normal" for="username">Brugernavn</label>
+ 				<div class="input-group">
+					<input type="text" ng-model="user.brugernavn" placeholder="" class="form-control input-lg">
+		      <span class="input-group-btn">
+		        <button class="btn btn-secondary btn-lg" type="button" bs-popover data-trigger="hover" data-content="Dit synlige navn på myrejagten. Kan indeholde bogstaver, tal, mellemrum mv.">?</button>
+  		    </span>
+				</div>
+
               <div class="controls">
-                <input type="text" id="username" name="username" placeholder="" class="form-control input-lg">
-                <p class="help-block">Dit navn på myrejagten. Kan indeholde bogstaver, tal og mellemrum.</p>
+                <input type="text" id="brugernavn" ng-model="user.brugernavn" placeholder="" class="form-control input-lg">
+                <p class="help-block"></p>
               </div>
             </div>
          
             <div class="control-group">
-              <label class="control-label" for="email">E-mail adresse</label>
+              <label class="control-label required normal" for="password">Password</label>
               <div class="controls">
-                <input type="email" id="email" name="email" placeholder="" class="form-control input-lg">
-                <p class="help-block">En gyldig emailadresse der benyttes som login. Der vil blive sendt en bekræftelsesmail til adressen.</p>
-              </div>
-            </div>
-         
-            <div class="control-group">
-              <label class="control-label" for="password">Password</label>
-              <div class="controls">
-                <input type="password" id="password" name="password" placeholder="" class="form-control input-lg">
+                <input type="text" id="password" ng-model="user.password" class="form-control input-lg">
 	               <p class="help-block">Password skal være mindst 3 karakterer lang, men ellers er der ingen regler</p>
               </div>
             </div>
@@ -37,11 +59,14 @@
             <div class="control-group">
               <div class="controls">
 								<div class="radio" style="margin-left:20px;">
-								  <label><input type="radio" name="brugertype">Offentlig</label>
+								  <label class="bold" bs-popover data-trigger="hover" data-content="Brugeren kan knyttes til en institution, og man kan dele eksperimenter op i overordnede projekter">
+										<input type="radio" name="brugertype" value="0" ng-model="user.role">Offentlig
+									</label>
 									&nbsp;&nbsp;
-								  <label><input type="radio" name="brugertype" checked>Privat</label>
+								  <label class="bold" bs-popover data-trigger="hover" data-content="Standardbruger, ingen ekstra indtastningsoplysninger">
+										<input type="radio" name="brugertype"  value="1" ng-model="user.role" checked>Privat
+									</label>
 								</div>
-                <p class="help-block">Forskellen handler alene om hvilken brugerinformationer der kan indtastes.</p>
               </div>
             </div>
          
@@ -49,7 +74,10 @@
               <!-- Button -->
               <div class="controls">
 								<hr>
-                <button class="btn btn-success">Tilmeldig dig Myrejagten!</button>
+                <button class="btn btn-success btn-lg" ng-disabled="!canCreateUser()" ng-click="createUser()">
+									<i class="fa fa-check" ng-show="canCreateUser()"></i>
+									Tilmeld dig Myrejagten!
+								</button>
               </div>
             </div>
           </fieldset>
@@ -58,7 +86,7 @@
     </div> 
 
  	<div class="col-md-6">
-		<div class="circle">T2</div>
+		<div class="circle">T1</div>
   </div>
 
 </div>

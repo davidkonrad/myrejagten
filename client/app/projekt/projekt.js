@@ -5,6 +5,7 @@ angular.module('myrejagtenApp')
     $routeProvider
       .when('/mine-eksperimenter', {
         templateUrl: 'app/projekt/projekt.html',
-        controller: 'ProjektCtrl'
+        controller: 'ProjektCtrl',
+				authenticate: true
       });
   });

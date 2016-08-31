@@ -1,39 +1,83 @@
 <div class="container">
 
-	<h3>Konto oplysninger</h3>
+	<h3>Konto</h3>
 
-	<form class="form-horizontal" role="form" action="" method="POST">
+	<br>
+		<div bs-tabs class="control-group col-md-7">
 
-		<div class="control-group col-md-7">
-			<label class="normal required">Institution</label>
-			<input type="text" class="form-control bold input-lg" ng-model="settings.institution" id="institution" />
+			<div bs-pane data-title="Private oplysninger">
 
-			<label class="normal required">Fulde navn</label>
-			<input type="text" class="form-control bold input-lg" ng-model="settings.fulde_navn"/>
+				<button role="button" 
+								class="btn btn-sm btn-save" 
+								ng-disabled="!formPersonligeChanged()"
+								ng-class="{ 'btn-success' : formPersonligeChanged() }"
+								ng-click="savePersonlige()"
+				>
+					<i class="fa fa-check"></i>
+					Gem ændringer
+				</button>
 
-			<label class="normal required">Addresse</label>
-			<input type="text" class="form-control bold input-lg" ng-model="settings.adresse"/>
 
-			<div class="control-group col-md-4" style="padding-left: 0px !important;">
-				<label class="normal required">Postnr</label>
-				<input type="text" class="form-control bold input-lg" ng-model="settings.postnr"/>
+				<form class="form-horizontal" role="form" id="form-personlige">
+
+					<span ng-show="user.role == 0">
+						<label class="normal required">Institution</label>
+						<input type="text" class="form-control bold input-lg" ng-model="user.institution" id="institution" />
+					</span>
+
+					<label class="normal required">Fulde navn</label>
+					<input type="text" class="form-control bold input-lg" ng-model="user.fulde_navn" />
+
+					<label class="normal required">Addresse</label>
+					<input type="text" class="form-control bold input-lg" ng-model="user.adresse" id="adresse"/>
+
+					<div class="control-group col-md-4" style="padding-left: 0px !important;">
+						<label class="normal required">Postnr</label>
+						<input type="text" class="form-control bold input-lg" ng-model="user.postnr"/>
+					</div>
+
+					<div class="control-group col-md-8" style="padding-right: 0px !important; padding-left:0px !important;">
+						<label class="normal required">By</label>
+						<input type="text" class="form-control bold input-lg" ng-model="user.by"/>
+					</div>
+
+					<div class="control-group col-md-6" style="padding-left: 0px !important;">
+						<label class="normal required">Kommune</label>
+						<input type="text" class="form-control bold input-lg" ng-model="user.kommune" id="kommune" />
+					</div>
+
+					<div class="control-group col-md-6" style="padding-right: 0px !important; padding-left:0px !important;">
+						<label class="normal required">Region</label>
+						<input type="text" class="form-control bold input-lg" ng-model="user.region"/>
+					</div>
+
+				</form>
 			</div>
+		
+			<div bs-pane data-title="Brugerkonto">
 
-			<div class="control-group col-md-8" style="padding-right: 0px !important; padding-left:0px !important;">
-				<label class="normal required">By</label>
-				<input type="text" class="form-control bold input-lg" ng-model="settings.by"/>
+				<button role="button" 
+								class="btn btn-sm btn-save" 
+								ng-disabled="!formStamdataChanged()"
+								ng-class="{ 'btn-success' : formStamdataChanged() }"
+								ng-click="saveStamdata()"
+				>
+					<i class="fa fa-check"></i>
+					Gem ændringer
+				</button>
+
+				<form class="form-horizontal" arole="form" id="form-stamdata" name="formStamdata" novalidate>
+
+					<label class="normal required">Email-adresse <span class="help-block display-inline">(dit login, kan ikke ændres)</span></label>
+					<input type="text" class="form-control bold input-lg" value="{{ user.email }}" id="email" disabled/>
+
+					<br>
+
+					<label class="normal required">Brugernavn</label>
+					<input type="text" class="form-control bold input-lg" ng-model="user.brugernavn" id="brugernavn" />
+
+				</form>
 			</div>
-
-			<div class="control-group col-md-6" style="padding-left: 0px !important;">
-				<label class="normal required">Kommune</label>
-				<input type="text" class="form-control bold input-lg" ng-model="settings.kommune"/>
-			</div>
-
-			<div class="control-group col-md-6" style="padding-right: 0px !important; padding-left:0px !important;">
-				<label class="normal required">Region</label>
-				<input type="text" class="form-control bold input-lg" ng-model="settings.region"/>
-			</div>
-
 
 		</div>
 

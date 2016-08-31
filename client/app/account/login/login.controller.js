@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .controller('LoginCtrl', function ($scope, Login /*Auth*/, $location, $window, $cookieStore) {
+  .controller('LoginCtrl', function ($scope, Login, $location, $window, $cookieStore) {
+
     $scope.user = {};
     $scope.errors = {};
 
@@ -23,16 +24,8 @@ angular.module('myrejagtenApp')
       $scope.submitted = true;
 
       if(form.$valid) {
-				/*
-        Auth.login({
-          email: $scope.user.email,
-          password: $scope.user.password
-        })
-				*/
         Login.login($scope.user.email, $scope.user.password)
         .then( function(response) {
-          // Logged in, redirect to home
-					console.log(response)
 					if (response && response.error) {
 						$scope.errors.other = response.error
 					} else {
@@ -44,11 +37,5 @@ angular.module('myrejagtenApp')
         });
       }
     };
-
-		/*
-    $scope.loginOauth = function(provider) {
-      $window.location.href = '/auth/' + provider;
-    };
-		*/
 
   });

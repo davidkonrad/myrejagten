@@ -9,10 +9,11 @@ angular.module('myrejagtenApp')
 
 		return {
 			
-			show: function($scope, title, message) {
+			show: function($scope, title, message, okOnly) {
 				$scope[name] = {
 					title: title,
-					message: message
+					message: message,
+					okOnly: okOnly
 				}
 				deferred = $q.defer()
 				modal = $modal({
@@ -25,12 +26,16 @@ angular.module('myrejagtenApp')
 				modal.$promise.then(modal.show).then(function() {
 					//
 				})
-		
+
 				$scope.alertModalClose = function(value) {
 					delete $scope[name] 
 					modal.hide()
 		      deferred.resolve(value)
 				}
+
+				angular.element('body').on('keydown keypress', function(e) {
+					if (e.charCode == 13) $scope.alertModalClose(true)
+				})
 
 	      return deferred.promise;
 			}

@@ -12,8 +12,9 @@
 			</div>
 
 			<div class="modal-footer">
-				<button type="button" class="btn btn-success" ng-click="alertModalClose(true)">Fortsæt</button> 
-				<button type="button" class="btn btn-default" ng-click="alertModalClose(false)">Fortryd</button> 
+				<button type="button" class="btn btn-success" ng-click="alertModalClose(true)" ng-show="alertParams.okOnly">OK</button> 
+				<button type="button" class="btn btn-success" ng-click="alertModalClose(true)" ng-show="!alertParams.okOnly">Fortsæt</button> 
+				<button type="button" class="btn btn-default" ng-click="alertModalClose(false)" ng-show="!alertParams.okOnly" >Fortryd</button> 
 			</div>
 
 		</div>

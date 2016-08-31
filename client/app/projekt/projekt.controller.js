@@ -1,51 +1,67 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .controller('ProjektCtrl', ['$scope', '$compile', '$timeout', '$modal', '$q', 'Projekt', 'Geo', 'TicketService', 'leafletData', 
-							'DTOptionsBuilder', 'DTColumnBuilder', 'DTColumnDefBuilder',
-	function($scope, $compile, $timeout, $modal, $q, Projekt, Geo, TicketService, leafletData,
-						DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder) {
-
-
+  .controller('ProjektCtrl', ['$scope', 'Login', 'Alert', '$timeout', '$modal', '$q', 'Projekt', 'Eksperiment', 'Geo', 'TicketService', 'Utils', 'leafletData', 
+							'DTOptionsBuilder', 'DTColumnBuilder', 'DTColumnDefBuilder', 'DTDefaultOptions',
+	function($scope, Login, Alert, $timeout, $modal, $q, Projekt, Eksperiment, Geo, TicketService, Utils, leafletData,
+						DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, DTDefaultOptions) {
 
 		var lokalitetPolygon;
 
-		/*
-		Projekt.query({ where: { projekt_id: 2 }}).$promise.then(function(projekt) {
-			console.log('PROJEJT', projekt)
-		})
-		*/
+		$scope.dtProjektInstance = {}
+		$scope.user = Login.currentUser()
 
-		$scope.reloadProjekts = function() {
-			Projekt.query({ where: { user_id: 0 }}).$promise.then(function(projekts) {
-				$scope.projects = projekts
-			})
-		}
-		$scope.reloadProjekts()
-
-		/*
-		$scope.projects = [{
-			projekt_id : 1,
-			created_timestamp: 'test',
-			titel: 'dette er en titel'
-		}]	
-		*/
-
-		$scope.dtOptions = DTOptionsBuilder.newOptions()
+		$scope.dtProjektOptions = DTOptionsBuilder
+			.fromFnPromise(function() {
+				var defer = $q.defer();
+				Projekt.query({ where: { user_id: $scope.user.user_id }}).$promise.then(function(projekts) {
+					$scope.projects = projekts
+					defer.resolve(projekts)
+				})
+				return defer.promise;
+	    })
 			.withDOM('t')
 			.withOption('scrollY', '200px')
 			.withOption('scrollCollapse', true)
+			.withSelect({
+				style: 'single'
+			})
+			.withOption('initComplete', function() {
+				angular.element('#dtProjekt').on('dblclick', 'tr', function(e) {
+					console.log($scope.dtProjektInstance.DataTable.row(this).data())
+					var $row =$scope.dtProjektInstance.DataTable.row(this)
+					if ($row) {
+						$row.select()
+						$scope.showProjekt($row.data().projekt_id)
+					}
+				})
+				angular.element('#dtProjekt').on('select.dt', function(e, dt, type, indexes) {
+					$scope.currentProjektId = $scope.dtProjektInstance.DataTable.row( indexes[0] ).data().projekt_id
+					$scope.$apply()
+					//console.log($scope.currentProjektId)
+				})
+				angular.element('#dtProjekt').on('deselect.dt', function(e, dt, type, indexes) {
+				})
 
+			})
 
-		$scope.dtColumns = [
-      DTColumnBuilder.newColumn(0).withTitle('#'),
-      DTColumnBuilder.newColumn(1).withTitle('Titel'),
-      DTColumnBuilder.newColumn(2).withTitle('Lokalitet'),
-      DTColumnBuilder.newColumn(3).withTitle('Oprettet')
+		$scope.projektLoaded = function() {
+			console.log('projektLoaded', $scope.currentProjektId)
+			return typeof $scope.currentProjektId == 'number'
+		}
+
+		DTDefaultOptions.setLoadingTemplate('<img src="assets/ajax-loader.gif">')
+
+		$scope.dtProjektColumns = [
+      DTColumnBuilder.newColumn('projekt_id').withTitle('#').notVisible(), // withOption('visible', false),
+      DTColumnBuilder.newColumn('titel').withTitle('Navn på projekt'),
+      DTColumnBuilder.newColumn('lokalitet').withTitle('Lokalitet'),
+      DTColumnBuilder.newColumn('created_timestamp').withTitle('Oprettet')
 		]
 
-		//$scope.createProjekt = function() {
-
+		/**
+			projekt modal
+		*/
 		$scope.showProjekt = function(projekt_id) {
 			$scope.marker = null
 			$scope.markers = {} //['marker'] = null
@@ -82,33 +98,10 @@ angular.module('myrejagtenApp')
 				showModal()
 			}
 		}
-
-		$scope.canCreateProjekt = function() {
-			return $scope.__projekt.titel &&
-						$scope.__projekt.lokalitet &&
-						$scope.__projekt.lat &&
-						$scope.__projekt.lng &&
-						$scope.__projekt.start_tid 
-		}
-
-		$scope.doCreateProjekt = function() { 
-			if ($scope.__projekt.projekt_id) {
-				Projekt.update({ id: $scope.__projekt.projekt_id }, $scope.__projekt).$promise.then(function() {	
-					$scope.reloadProjekts()
-				})
-			} else {
-				Projekt.save({ projekt_id: '' }, $scope.__projekt).$promise.then(function() {	
-					$scope.reloadProjekts()
-				})
-			}
-		}
-
-		/**
-			map related events and methods
-		*/
 		$scope.$on('modal.show', function(e, target) {
+			console.log(e, target)
 			$scope.initializeStednavne_v2($scope)
-			if ($scope.__projekt.projekt_id) {
+			if ($scope.__projekt && $scope.__projekt.projekt_id) {
 				$scope.updateMapElements($scope.__projekt)
 			}
 		})
@@ -132,6 +125,36 @@ angular.module('myrejagtenApp')
 			$scope.__projekt.lng = latLng.lng
 
 		}
+
+		$scope.canCreateProjekt = function() {
+			return $scope.__projekt.titel &&
+						$scope.__projekt.lokalitet &&
+						$scope.__projekt.lat &&
+						$scope.__projekt.lng &&
+						$scope.__projekt.start_tid 
+		}
+
+		$scope.doCreateProjekt = function() { 
+			if ($scope.__projekt.projekt_id) {
+				Projekt.update({ id: $scope.__projekt.projekt_id }, $scope.__projekt).$promise.then(function() {	
+					//$scope.dtProjektInstance.
+					$scope.dtProjektInstance.rerender()
+				})
+			} else {
+				Projekt.save({ projekt_id: '' }, $scope.__projekt).$promise.then(function() {	
+					$scope.dtProjektInstance.rerender()
+					//$scope.reloadProjekts()
+				})
+			}
+		}
+
+		/** projekt selection
+		
+		*/
+
+		/**
+			map related events and methods
+		*/
 		$scope.$on('leafletDirectiveMap.click', function(event, args){
 			$scope.setMarker(args.leafletEvent.latlng)
 		});
@@ -283,6 +306,7 @@ angular.module('myrejagtenApp')
 
 			leafletData.getMap().then(function(map) {
 				leafletData.getLayers().then(function(layers) {
+					/* why error after update ??
 					for (var layer in layers.baselayers) {
 						if (layer !== 'googleHybrid') {
 							map.removeLayer(layers.baselayers[layer])
@@ -290,6 +314,7 @@ angular.module('myrejagtenApp')
 							map.addLayer(layers.baselayers[layer])
 						}
 					}
+					*/
 				})
 
 				if (lokalitetPolygon) map.removeLayer(lokalitetPolygon)
@@ -300,7 +325,7 @@ angular.module('myrejagtenApp')
 					$scope.layers.baselayers.googleHybrid.visible = true
 
 					var center = lokalitetPolygon.__center
-					map.fitBounds(lokalitetPolygon.__bounds, { maxZoom: 18 } )
+					map.fitBounds(lokalitetPolygon.__bounds, { maxZoom: 15 } )
 					map.setView(center)
 					$scope.setMarker(center)
 					$timeout(function() {
@@ -387,5 +412,48 @@ angular.module('myrejagtenApp')
 		})
 
 
+		/**
+			ekspriment
+		*/
+		$scope.eksperimentMatrix = [
+			{ madding: 'Vand' },
+			{ madding: 'Saltvand' },
+			{ madding: 'Sukkervand' },
+			{ madding: 'Olie' },
+			{ madding: 'Protein' },
+			{ madding: 'Kammerjunker' }
+		]
+
+		$scope.showEksperiment = function(eksperiment_id) {
+			$scope.__eksperiment = {
+				eksperiment_id: eksperiment_id,
+				projekt_id: $scope.currentProjektId
+			}
+			var modal = $modal({
+					scope: $scope,
+					templateUrl: 'app/projekt/eksperiment.modal.html',
+					backdrop: 'static',
+					show: true,
+					//controller: 'EksperimentCtrl',
+					QWERTY: 'yksikalsi',
+					onShow: function() {
+						console.log('onShow', arguments)
+					}
+				})
+			}
+
+		$scope.createEksperiment = function() {
+			Alert.show($scope, 'Eksperiment', 'Opret nyt ekseriment?').then(function(ok) {
+				if (ok) Eksperiment.save({	eksperiment_id: '' }, { user_id: $scope.user.user_id }).$promise.then(function() {
+					$scope.reloadEksperimenter()
+				})
+			})
+		}
+
+		$scope.reloadEksperimenter = function(projekt_id) {
+			Eksperiment.query().$promise.then(function(eksperimenter) {
+				$scope.eksperimenter = eksperimenter
+			})
+		}
 
   }]);

@@ -6,5 +6,10 @@ angular.module('myrejagtenApp')
       .when('/tilmeld', {
         templateUrl: 'app/tilmeld/tilmeld.html',
         controller: 'TilmeldCtrl'
+      })
+      .when('/glemt-password', {
+        templateUrl: 'app/tilmeld/glemt_password.html',
+        controller: 'GlemtPasswordCtrl'
       });
+
   });

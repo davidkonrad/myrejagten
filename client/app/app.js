@@ -12,7 +12,9 @@ angular.module('myrejagtenApp', [
 	'leaflet-directive',
 	'datatables',
 	'datatables.buttons',
-	'datatables.bootstrap'
+	'datatables.bootstrap',
+	'datatables.select',
+	'datatables.options'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
@@ -50,10 +52,10 @@ angular.module('myrejagtenApp', [
     };
   })
 
-  .run(function ($rootScope, $location, Auth) {
+  .run(function ($rootScope, $location, Login) {
 	 
     $rootScope.$on('$routeChangeStart', function (event, next) {
-      Auth.isLoggedInAsync(function(loggedIn) {
+      //Auth.isLoggedInAsync(function(loggedIn) {
 				/*
 				var publicLocation = next.$$route.templateUrl || next.$$route.loadedTemplateUrl;
 				if (typeof publicLocation == 'string') {
@@ -65,12 +67,12 @@ angular.module('myrejagtenApp', [
           $location.path('/'); //redirect to frontpage
         }
 				*/
-
-        if (next.authenticate && !loggedIn) {
-          $location.path('/login');
+				//console.log(next)
+        if (next.authenticate && !Login.isLoggedIn()) {
+          $location.path('/');
         }
 
-      });
+      //});
     });
   });
   

@@ -5,6 +5,7 @@ angular.module('myrejagtenApp')
     $routeProvider
       .when('/min-konto', {
         templateUrl: 'app/brugerkonto/brugerkonto.html',
-        controller: 'BrugerkontoCtrl'
+        controller: 'BrugerkontoCtrl',
+				authenticate: true
       });
   });
