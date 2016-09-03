@@ -22,11 +22,12 @@ module.exports = {
             'mongodb://localhost/myrejagten',
 						database : 	'myrejagten'
   },
+
   mysql: {
 	  host: process.env.OPENSHIFT_MYSQL_DB_HOST,
 	  port: process.env.OPENSHIFT_MYSQL_DB_PORT,
-	  username: process.env.OPENSHIFT_MYSQL_DB_USERNAME,
-	  password: process.env.OPENSHIFT_MYSQL_DB_PASSWORD,
+	  username: 'root', //process.env.OPENSHIFT_MYSQL_DB_USERNAME,
+	  password: 'Kelager%666', //process.env.OPENSHIFT_MYSQL_DB_PASSWORD,
 	  database: 'myrejagten'
   }
 

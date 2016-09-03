@@ -10,6 +10,7 @@ angular.module('myrejagtenApp')
 
 		$scope.dtProjektInstance = {}
 		$scope.user = Login.currentUser()
+		$scope.user.showName =  $scope.user.brugernavn.charAt(0).toUpperCase() + $scope.user.brugernavn.slice(1) + 's'
 
 		$scope.dtProjektOptions = DTOptionsBuilder
 			.fromFnPromise(function() {
@@ -46,7 +47,7 @@ angular.module('myrejagtenApp')
 			})
 
 		$scope.projektLoaded = function() {
-			console.log('projektLoaded', $scope.currentProjektId)
+			//console.log('projektLoaded', $scope.currentProjektId)
 			return typeof $scope.currentProjektId == 'number'
 		}
 
@@ -156,7 +157,7 @@ angular.module('myrejagtenApp')
 			map related events and methods
 		*/
 		$scope.$on('leafletDirectiveMap.click', function(event, args){
-			$scope.setMarker(args.leafletEvent.latlng)
+			//$scope.setMarker(args.leafletEvent.latlng)
 		});
 		$scope.$on('leafletDirectiveMap.zoom', function(event, args){
 			if ($scope.marker) $scope.center = angular.copy($scope.marker)
@@ -413,7 +414,7 @@ angular.module('myrejagtenApp')
 
 
 		/**
-			ekspriment
+			eksperiment
 		*/
 		$scope.eksperimentMatrix = [
 			{ madding: 'Vand' },
@@ -450,10 +451,116 @@ angular.module('myrejagtenApp')
 			})
 		}
 
+		var mapDefaults = {
+			events: {
+				map: {
+					enable: ['zoomstart', 'drag', 'click', 'dblclick', 'mouseover'],
+					logic: 'emit'
+				}
+			},
+			markers: {},
+			center: {
+				lat: 56.126627523318206,
+				lng: 11.457741782069204,
+				zoom: 6
+			},
+			defaults: {
+				zoomAnimation: true,
+				markerZoomAnimation: true,
+				fadeAnimation: true
+			},
+			layers: {
+        baselayers: {
+					luftfoto: {
+						name: "Orto forår (luffoto)",
+						type: 'wms',
+						url: "http://kortforsyningen.kms.dk/topo_skaermkort",
+						visible: true,
+						layerOptions: {
+							layers: "orto_foraar",
+							servicename: "orto_foraar",
+							version: "1.1.1",
+							request: "GetMap",
+							format: "image/jpeg",
+							service: "WMS",
+							styles: "default",
+							exceptions: "application/vnd.ogc.se_inimage",
+							jpegquality: "80",
+							attribution: "Indeholder data fra GeoDatastyrelsen, WMS-tjeneste",
+							ticket: TicketService.get()
+						}
+					},
+					googleTerrain: {
+				    name: 'Google Terrain',
+				    layerType: 'TERRAIN',
+				    type: 'google',
+						visible: false
+				  },
+				  googleHybrid: {
+				    name: 'Google Hybrid',
+				    layerType: 'HYBRID',
+				    type: 'google',
+						visible: false
+				  }
+				}
+			}
+		}
+
+		$scope.$on('leafletDirectiveMap.click', function(event, target){
+			var latLng = target.leafletEvent.latlng
+			var id = target.leafletEvent.target._container.id
+
+			if (~id.indexOf('_lok')) {
+				id = parseInt( id.match(/\d/)[0] )
+				var e = $scope.eksperimentById(id)
+				if (!e.map.marker) {
+					e.map.marker = {
+						lat: latLng.lat,
+						lng: latLng.lng,
+						focus: true,
+						draggable: true
+					}
+					e.map.markers['marker'] = e.map.marker
+				} else {
+					e.map.marker.lat = latLng.lat
+					e.map.marker.lng = latLng.lng
+				}
+			}
+		});
+
+		$scope.refreshMaps = function() {
+			for (var i=0, l=$scope.eksperimenter.length; i<l; i++) {
+				leafletData.getMap($scope.eksperimenter[i].mapId).then(function(map) {
+					map.invalidateSize();
+				})
+				leafletData.getMap($scope.eksperimenter[i].mapId+'_lok').then(function(map) {
+					map.invalidateSize();
+				})
+			}
+		}
+
 		$scope.reloadEksperimenter = function(projekt_id) {
 			Eksperiment.query().$promise.then(function(eksperimenter) {
+				eksperimenter = eksperimenter.map(function(e) {
+					e.map = angular.copy(mapDefaults);
+					e.mapId = 'map' + e.eksperiment_id;
+					e.adresseType = 'adresser'
+					return e
+				})
 				$scope.eksperimenter = eksperimenter
+				$scope.refreshMaps()
 			})
+		}
+		$scope.reloadEksperimenter()
+
+		$scope.eksperimentById = function(eksperiment_id) {
+			for (var i=0, l=$scope.eksperimenter.length; i<l; i++) {
+				if ($scope.eksperimenter[i].eksperiment_id == eksperiment_id) return $scope.eksperimenter[i]
+			}
+			return false
 		}
 
   }]);
+
+
+

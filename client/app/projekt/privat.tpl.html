@@ -1,0 +1,147 @@
+<h3>
+	<button role="button" class="btn btn-success btn-md" ng-click="createEksperiment()" title="Opret nyt eksperiment">
+		<i class="fa fa-plus"></i>
+	</button>
+	{{ user.showName }}
+	eksperimenter
+</h3>
+
+<!------------------->
+<div ng-repeat="x in eksperimenter">
+
+	<div bs-tabs class="control-group col-md-12 eksperiment-block">
+
+		<div bs-pane data-title="Oversigt" style="padding-left:0px;">
+
+			<div class="col-md-6">
+				<label class="normal required">Navn på eksperiment</label>
+				<input type="text" class="form-control bold input-lg" ng-model="x.titel" />
+
+				<div class="col-md-6" style="padding-left: 0px !important;">
+					<label class="normal required">Start dato</label>
+					<input type="text" class="form-control bold input-lg" ng-model="x.start_tid" bs-datepicker data-date-format="dd-MM-yyyy" size="7" data-autoclose="true" />
+				</div>
+
+				<div class="col-md-6" style="padding-left: 0px !important;">
+					<label class="normal">Slut dato</label>
+					<input type="text" class="form-control bold input-lg" ng-model="x.slut_tid" bs-datepicker data-date-format="dd-MM-yyyy" size="7" data-autoclose="true" />
+				</div>
+
+				<button class="btn btn-success">Gem ændringer</button>	
+			</div>
+
+			<div class="col-md-6">
+				<leaflet id="{{ x.mapId }}" class="eksperiment-map" center="x.map.center" defaults="x.map.defaults" layers="x.map.layers" markers="x.map.markers" events="x.map.events" height="280px" style="border:1px solid #ccc;border-radius:5px;"></leaflet>
+			</div>
+
+			
+		</div>
+
+		<!-- lokalitet -->
+		<div bs-pane data-title="Lokalitet" style="padding-left:0px;">
+
+			<div class="control-group col-md-6">
+
+				<label class="normal required">Lokalitet. (Adresse og stednavneopslag)</label>
+				<input type="text" class="form-control bold input-md" adresse-opslag adresse-type="{{ x.adresseType }}" />
+						
+						<div class="col-sm-12">
+	            <label class="radio-inline"> <input type="radio" ng-model="x.adresseType" name="opslag" value="stednavne_v2" />Stednavne</label>
+	            <label class="radio-inline"> <input type="radio" ng-model="x.adresseType" name="opslag" value="adresser" checked />Adresser</label>
+	            <label class="radio-inline"> <input type="radio" ng-model="x.adresseType" name="opslag" value="" />Fritekst</label>
+		        </div>
+	
+						<div class="col-sm-12" style="min-height:10px;"></div>
+
+					<div
+
+					<div class="control-group col-md-3" style="padding-left: 0px !important;">
+						<label class="normal required">Postnr</label>
+						<input type="text" class="form-control bold input-md" ng-model="user.postnr"/>
+					</div>
+
+					<div class="control-group col-md-9" style="padding-right: 0px !important; padding-left:0px !important;">
+						<label class="normal required">By</label>
+						<input type="text" class="form-control bold input-md" ng-model="user.by"/>
+					</div>
+
+					<div class="control-group col-md-7" style="padding-left: 0px !important;">
+						<label class="normal required">Kommune</label>
+						<input type="text" class="form-control bold input-md" ng-model="user.kommune" id="kommune" />
+					</div>
+
+					<div class="control-group col-md-5" style="padding-right: 0px !important; padding-left:0px !important;">
+						<label class="normal required">Region</label>
+						<input type="text" class="form-control bold input-md" ng-model="user.region"/>
+					</div>
+
+
+					</div>
+
+					<div class="control-group col-md-6">
+						<!--
+						<label class="normal">Slå op i lokalitet eller klik på kortet for at markere et sted</label>
+						<leaflet id="map" center="center" defaults="defaults" layers="layers" markers="markers" events="events" height="300px" style="border:1px solid #ccc;border-radius:5px;"></leaflet>
+						-->
+							<leaflet id="{{ x.mapId }}_lok" class="eksperiment-map" in-view="refreshMaps()" center="x.map.center" defaults="x.map.defaults" layers="x.map.layers" markers="x.map.markers" events="x.map.events" height="280px" style="border:1px solid #ccc;border-radius:5px;"></leaflet>
+
+					</div>
+
+			</div>
+<!--// lokalitet -->			
+
+					<div bs-pane data-title="Miljødata" style="padding-left:0px;">
+
+						<table style="width:100%;">
+							<thead>
+								<tr>
+									<th></th>
+									<th>°C</th>
+									<th>Vejr</th>
+									<th>Sol/skygge</th>
+									<th>Blæst</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="e in eksperimentMatrix">
+									<td> {{ e.madding }} </td>
+									<td> <input type="number" class="form-control">  </td>
+									<td> <input type="text" class="form-control">  </td>
+									<td> <input type="text" class="form-control">  </td>
+									<td> <input type="text" class="form-control">  </td>
+								</tr>
+							</tbody>
+						</table>
+
+					</div>
+
+					<div bs-pane data-title="Resultat">
+
+						<table style="width:100%;">
+							<thead>
+								<tr>
+									<th></th>
+									<th>Myrer inden indsamling</th>
+									<th>Myrer efter frysning</th>
+									<th>Var maden stjålet?</th>
+									<th>Kommentar</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="e in eksperimentMatrix">
+									<td> {{ e.madding }} </td>
+									<td> <input type="number" class="form-control">  </td>
+									<td> <input type="text" class="form-control">  </td>
+									<td> <input type="text" class="form-control">  </td>
+									<td> <input type="text" class="form-control">  </td>
+								</tr>
+							</tbody>
+						</table>
+
+					</div>
+
+				</div>			
+			</div>
+	
+<!-------------------->
+

@@ -8,6 +8,7 @@
 		-->
 	</div>
 
+	<br>
 	<div class="col-md-6">
     
 		<form class="form-horizontal">
@@ -16,58 +17,63 @@
  				<div class="input-group">
 					<input type="text" id="email" ng-model="user.email" placeholder="" class="form-control input-lg">
 		      <span class="input-group-btn">
-		        <button class="btn btn-secondary btn-lg" type="button" bs-popover data-trigger="hover" data-content="En gyldig emailadresse der benyttes som login. Der vil blive sendt en bekræftelsesmail til adressen.">?</button>
+						<h2 class="info"><i class="fa fa-question text-primary" bs-popover data-container="body" data-trigger="hover" data-content="En gyldig emailadresse der benyttes som login. Der vil blive sendt en bekræftelsesmail til adressen."></i></h2>
+
   		    </span>
 				</div>
 				<p class="help-block error" ng-show="emailInUse()">
 					Email-adressen <b>{{ user.email }}</b> er allerede i brug! Har du <a href="/glemt-password/?email={{ user.email }}">glemt password?</a>
 				</p>
 				<p class="help-block error" ng-show="!emailIsValid()">
-					Email-adresse er ikke gyldig!</a>
+					Email-adresse er ikke gyldig!
 				</p>
 	
-<!--
-		      <input type="text" class="form-control" placeholder="Search for...">
-      <span class="input-group-btn">
-        <button class="btn btn-secondary" type="button">Go!</button>
-      </span>
-    </div>
--->
 			<div class="control-group">
 				<label class="control-label required normal" for="username">Brugernavn</label>
  				<div class="input-group">
 					<input type="text" ng-model="user.brugernavn" placeholder="" class="form-control input-lg">
 		      <span class="input-group-btn">
-		        <button class="btn btn-secondary btn-lg" type="button" bs-popover data-trigger="hover" data-content="Dit synlige navn på myrejagten. Kan indeholde bogstaver, tal, mellemrum mv.">?</button>
+						<h2 class="info"><i class="fa fa-question text-primary" bs-popover data-container="body" data-trigger="hover" data-content="Dit synlige navn på myrejagten. Kan indeholde bogstaver, tal, mellemrum mv."></i></h2>
   		    </span>
 				</div>
-
-              <div class="controls">
-                <input type="text" id="brugernavn" ng-model="user.brugernavn" placeholder="" class="form-control input-lg">
-                <p class="help-block"></p>
-              </div>
-            </div>
+			</div>
          
-            <div class="control-group">
-              <label class="control-label required normal" for="password">Password</label>
-              <div class="controls">
-                <input type="text" id="password" ng-model="user.password" class="form-control input-lg">
-	               <p class="help-block">Password skal være mindst 3 karakterer lang, men ellers er der ingen regler</p>
-              </div>
-            </div>
+		<div class="control-group">
+			<label class="control-label required normal" for="password">Password</label>
+			<div class="input-group">
+				<input type="text" id="password" ng-model="user.password" class="form-control input-lg">
+				<span class="input-group-btn">
+					<button class="btn btn-default btn-lg" style="top:-2px;left:-2px;" ng-click="generatePassword()" title="Generer et tilfældigt password med rimelig god sikkerhed"><i class="fa fa-gear"></i></button>
+				</span>
+				<span class="input-group-btn">
+					<h2 class="info"><i class="fa fa-question text-primary" bs-popover data-container="body" data-trigger="hover" data-content="Dit password skal være mindst 3 karakterer langt, men derudover er der ingen særlige  regler der skal overholdes."></i></h2>
+ 		    </span>
+			</div>
+		</div>
 
             <div class="control-group">
               <div class="controls">
 								<div class="radio" style="margin-left:20px;">
-								  <label class="bold" bs-popover data-trigger="hover" data-content="Brugeren kan knyttes til en institution, og man kan dele eksperimenter op i overordnede projekter">
+									<br>									
+								  <label class="bold" bs-popover data-trigger="hover" data-placement="top" data-content="Brugeren kan knyttes til en institution, og man kan dele eksperimenter op i overordnede projekter">
 										<input type="radio" name="brugertype" value="0" ng-model="user.role">Offentlig
 									</label>
 									&nbsp;&nbsp;
-								  <label class="bold" bs-popover data-trigger="hover" data-content="Standardbruger, ingen ekstra indtastningsoplysninger">
+								  <label class="bold" bs-popover data-trigger="hover" data-placement="top" data-content="Standardbruger, ingen ekstra indtastningsoplysninger">
 										<input type="radio" name="brugertype"  value="1" ng-model="user.role" checked>Privat
 									</label>
 								</div>
               </div>
+
+						<br>
+
+			        <div class="pull-right checkbox" style="position:relative;top:-14px;">
+							  <label class="normal" bs-popover data-trigger="hover"  data-container="body" data-content="Brugeren kan knyttes til en institution, og man kan dele eksperimenter op i overordnede projekter">
+									<input type="checkbox" ng-model="user.accepted">
+									Jeg accepterer 
+									<a target=_blank href="/betingelser-og-vilkår">betingelser og vilkår</a>.
+								</label>
+							</div>
             </div>
          
             <div class="control-group">
@@ -80,13 +86,14 @@
 								</button>
               </div>
             </div>
-          </fieldset>
         </form>
     
     </div> 
+	</div>
 
  	<div class="col-md-6">
 		<div class="circle">T1</div>
+
   </div>
 
 </div>

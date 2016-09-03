@@ -33,4 +33,9 @@ input:-webkit-autofill:active  {
 	color: maroon !important;
 }
 
-
+h2.info {
+	padding-top: 15%;
+	margin-top: 15%;
+	padding-left: 7px;
+	cursor: pointer;
+}

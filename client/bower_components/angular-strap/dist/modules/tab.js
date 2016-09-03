@@ -126,6 +126,9 @@ angular.module('mgcrea.ngStrap.tab', []).provider('$tab', function() {
       function render() {
         var index = bsTabsCtrl.$panes.indexOf(scope);
         $animate[bsTabsCtrl.$isActive(scope, index) ? 'addClass' : 'removeClass'](element, bsTabsCtrl.$options.activeClass);
+
+				//
+				console.log('XXXXXXXXXXXXX', scope)
       }
       bsTabsCtrl.$activePaneChangeListeners.push(function() {
         render();

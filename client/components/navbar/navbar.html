@@ -35,6 +35,10 @@
 					<a href="/tilmeld">Tilmeld dig Myrejagten</a>
 				</li>
 
+        <li ng-show="!isLoggedIn()">
+					<a href="/betingelser-og-vilkår">Betingelser og vilkår</a>
+				</li>
+
 			  <li ng-show="!isLoggedIn()">
 					<a href="/login">Login</a>
 				</li>

@@ -10,6 +10,11 @@ angular.module('myrejagtenApp')
       .when('/glemt-password', {
         templateUrl: 'app/tilmeld/glemt_password.html',
         controller: 'GlemtPasswordCtrl'
+      })
+      .when('/betingelser-og-vilkår', {
+        templateUrl: 'app/tilmeld/betingelser-og-vilkaar.html',
+        controller: 'TilmeldCtrl'
       });
+
 
   });

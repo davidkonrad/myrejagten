@@ -14,7 +14,8 @@ angular.module('myrejagtenApp', [
 	'datatables.buttons',
 	'datatables.bootstrap',
 	'datatables.select',
-	'datatables.options'
+	'datatables.options',
+	'angular-inview'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider

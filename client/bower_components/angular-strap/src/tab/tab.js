@@ -150,7 +150,13 @@ angular.module('mgcrea.ngStrap.tab', [])
 
     return {
       require: ['^?ngModel', '^bsTabs'],
-      scope: true,
+
+			//scope: true,
+			scope: {
+				onShow: 'nsPaneOnShow'
+			},
+			//dadk
+	
       link: function postLink(scope, element, attrs, controllers) {
 
         // var ngModelCtrl = controllers[0];
@@ -187,6 +193,9 @@ angular.module('mgcrea.ngStrap.tab', [])
         function render() {
           var index = bsTabsCtrl.$panes.indexOf(scope);
           $animate[bsTabsCtrl.$isActive(scope, index) ? 'addClass' : 'removeClass'](element, bsTabsCtrl.$options.activeClass);
+
+					//dadk 
+					console.log(scope)
         }
 
         bsTabsCtrl.$activePaneChangeListeners.push(function () {

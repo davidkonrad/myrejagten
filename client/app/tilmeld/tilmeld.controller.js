@@ -14,6 +14,17 @@ angular.module('myrejagtenApp')
 			role: 1
 		}
 
+		//from http://stackoverflow.com/questions/1497481/javascript-password-generator
+		$scope.generatePassword = function() {
+			var length = 10,
+					charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+					retVal = "";
+			for (var i = 0, n = charset.length; i < length; ++i) {
+				retVal += charset.charAt(Math.floor(Math.random() * n));
+			}
+			$scope.user.password = retVal
+		}
+
 		//from http://stackoverflow.com/questions/46155/validate-email-address-in-javascript
 		$scope.emailIsValid = function() {
 			if (!$scope.user.email) return true

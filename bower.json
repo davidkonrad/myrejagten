@@ -30,7 +30,8 @@
     "angular-datatables": "0.5.3",
     "datatables.net-buttons": "*",
     "datatables.net-bs": "*",
-    "datatables.net-select": "*"
+    "datatables.net-select": "*",
+		"angular-inview": "*"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",

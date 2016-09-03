@@ -22,3 +22,29 @@ label.required:before {
 #modal-eksperiment .tab-content {
 	padding:0px;
 }
+
+.eksperiment-block {
+	border:1px solid gray;
+	border-radius: 5px;
+	margin-bottom: 20px;
+	background-color: #fafafa;
+	height: 350px;
+}
+
+/* ensure transparent background in tbas on hover */
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover {
+	background-color: transparent;
+	font-weight: bold;
+}
+
+/* reset tab height */
+.bs-pane {
+	padding-top: 0px;
+}
+.tab-content {
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-left: 0px;
+}
+
+
