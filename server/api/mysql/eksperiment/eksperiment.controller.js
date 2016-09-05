@@ -29,32 +29,32 @@ exports.create = function(req, res) {
   });
 };
 
+
+
 // Updates an existing eksperiment in the DB.
 exports.update = function(req, res) {
-  models.Eksperiment.find(req.params.id).then(function(eksperiment){
-      if(!eksperiment) { return res.send(404); }  
+  models.Eksperiment.find({ where : { eksperiment_id: req.params.id }} ).then(function(eksperiment) {
+    if (!eksperiment) { 
+			return res.send(404); 
+		}  
 	  return eksperiment.updateAttributes(req.body);	  	
   }).then(function(eksperiment){
   	return res.json(200, eksperiment);
   }).catch(function(err){
 	  handleError(res, err);
   });
-  
 };
 
 // Deletes a eksperiment from the DB.
 exports.destroy = function(req, res) {
-	
-	models.Eksperiment.find(req.params.id).then(function(eksperiment){
-		if(!eksperiment) { return res.send(404); }
-		return eksperiment.destroy()
+  models.Eksperiment.destroy({ where : { eksperiment_id : req.params.id }} ).then(function(eksperiment){
 	}).then(function(){
-		return res.send(204);
+  	return res.json(200);
 	}).catch(function(err){
 	  handleError(res, err);
   });
-	
 };
+
 
 // Describe eksperiment
 exports.describe = function(req, res) {

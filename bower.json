@@ -31,7 +31,9 @@
     "datatables.net-buttons": "*",
     "datatables.net-bs": "*",
     "datatables.net-select": "*",
-		"angular-inview": "*"
+    "angular-inview": "*",
+    "angular-motion": "^0.4.4",
+    "angular-animate": "^1.5.8"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",

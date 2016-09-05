@@ -33,6 +33,13 @@ angular.module('myrejagtenApp')
 				}
 			},
 
+			//expects fixed date .i.e dd-mm-yyyy
+			systemDate : function(date) {
+				date = date.split('-')
+				if (date.length != 3) return ''
+				return date[1]+'/'+date[0]+'/'+date[2]
+			},
+
 			//insert value into array IF the value is unique and not null
 			arrayInsert: function(array, value) {
 				if (value && !~array.indexOf(value)) array.push(value)
@@ -59,6 +66,25 @@ angular.module('myrejagtenApp')
 				}
 			},
 
+			formToObj: function(id) {
+				console.log(this)
+				var form = document.querySelector(id), obj = {}
+				if (form) {
+					var e, name, isDatePicker, inputs = form.querySelectorAll('input');
+					for (var i=0, l=inputs.length; i<l; i++) {
+						e = inputs[i];
+						name = e.getAttribute('name');
+						isDatePicker = e.getAttribute('bs-datepicker') != '';
+
+						console.log('isDatePicker', isDatePicker)
+						if (name) {
+							obj[name] = isDatePicker ? e.value : this.systemDate(e.value)
+						}
+					}
+				}
+				return obj
+			},
+			
 			dataTables_daDk: {
 		    "sEmptyTable":     "Ingen tilgængelige data (prøv en anden søgning)",
 		    "sInfo":           "Viser _START_ til _END_ af _TOTAL_ rækker",
@@ -81,21 +107,7 @@ angular.module('myrejagtenApp')
 	        "sSortAscending":  ": activate to sort column ascending",
 	        "sSortDescending": ": activate to sort column descending"
 		    }
-			},
-
-			dtNormalizeButtons: function() {
-				$('.dt-button').each(function(btn) {
-					$(this).removeClass('dt-button').removeClass('buttons-collection').removeClass('buttons-colvis') 
-				})
-			},
-
-			dtPerformSearch: function(term) {
-				var input = document.querySelector('.dataTables_filter input')
-				input.value = term
-				$(input).trigger('keyup')
-			},
-
-			aePass: "&login=davidkonrad&password=nhmdzm",
+			}
 
 		}
 	});
@@ -109,29 +121,4 @@ angular.module('myrejagtenApp')
 	});
 
 
-angular.module('myrejagtenApp').
-	directive('onlyDigits', function () {
-    return {
-      require: 'ngModel',
-      restrict: 'A',
-      link: function (scope, element, attr, ctrl) {
-        function inputValue(val) {
-          if (val) {
-            var digits = val.replace(/[^0-9.]/g, '');
 
-            if (digits.split('.').length > 2) {
-              digits = digits.substring(0, digits.length - 1);
-            }
-
-            if (digits !== val) {
-              ctrl.$setViewValue(digits);
-              ctrl.$render();
-            }
-            return parseFloat(digits);
-          }
-          return undefined;
-        }            
-        ctrl.$parsers.push(inputValue);
-      }
-    };
- });

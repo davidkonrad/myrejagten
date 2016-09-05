@@ -28,13 +28,13 @@
       <link rel="stylesheet" href="bower_components/datatables/media/css/jquery.dataTables.css" />
       <link rel="stylesheet" href="bower_components/angular-datatables/dist/plugins/bootstrap/datatables.bootstrap.css" />
       <link rel="stylesheet" href="bower_components/datatables.net-bs/css/dataTables.bootstrap.css" />
+      <link rel="stylesheet" href="bower_components/angular-motion/dist/angular-motion.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
     <link rel="stylesheet" href="app/app.css">
       <!-- injector:css -->
       <link rel="stylesheet" href="app/account/login/login.css">
-      <link rel="stylesheet" href="app/admin/admin.css">
       <link rel="stylesheet" href="app/alert/alert.modal.css">
       <link rel="stylesheet" href="app/base.css">
       <link rel="stylesheet" href="app/brugerkonto/brugerkonto.css">
@@ -148,6 +148,7 @@
       <script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.js"></script>
       <script src="bower_components/datatables.net-select/js/dataTables.select.js"></script>
       <script src="bower_components/angular-inview/angular-inview.js"></script>
+      <script src="bower_components/angular-animate/angular-animate.js"></script>
       <!-- endbower -->
       <script src="socket.io-client/socket.io.js"></script>
       <script src="https://code.angularjs.org/1.0.8/i18n/angular-locale_da-dk.js"></script>
@@ -159,17 +160,16 @@
           <script src="app/account/account.js"></script>
           <script src="app/account/login/login.controller.js"></script>
           <script src="app/account/settings/settings.controller.js"></script>
-          <script src="app/admin/admin.controller.js"></script>
-          <script src="app/admin/admin.js"></script>
           <script src="app/alert/alert.modal.js"></script>
           <script src="app/brugerkonto/brugerkonto.controller.js"></script>
           <script src="app/brugerkonto/brugerkonto.js"></script>
           <script src="app/createuser/createuser.controller.js"></script>
           <script src="app/createuser/createuser.js"></script>
           <script src="app/directives/adresseOpslag.directive.js"></script>
-          <script src="app/directives/alleartertypeahead.js"></script>
           <script src="app/directives/geoHelper.js"></script>
           <script src="app/directives/institutionTypeahead.js"></script>
+          <script src="app/directives/onlyDigits.directive.js"></script>
+          <script src="app/directives/selectOnClick.directive.js"></script>
           <script src="app/forsoeg/forsoeg.controller.js"></script>
           <script src="app/forsoeg/forsoeg.js"></script>
           <script src="app/forsoegModal/forsoegModal.modal.js"></script>
@@ -180,6 +180,7 @@
           <script src="app/projekt/projekt.controller.js"></script>
           <script src="app/projekt/projekt.js"></script>
           <script src="app/services/Eksperiment/Eksperiment.service.js"></script>
+          <script src="app/services/Kommuner.service.js"></script>
           <script src="app/services/Login/Login.service.js"></script>
           <script src="app/services/MysqlUser/MysqlUser.service.js"></script>
           <script src="app/services/Projekt/Projekt.service.js"></script>

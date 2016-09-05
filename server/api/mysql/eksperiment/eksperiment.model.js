@@ -10,12 +10,28 @@ module.exports = function(sequelize, DataTypes) {
 			autoIncrement: true,
 			allowNull: false
 		},
+    created_timestamp: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
     projekt_id: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
     user_id: {
       type: DataTypes.INTEGER,
+      allowNull: true
+    },
+		dato :  {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
+		start_tid :  {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+		slut_tid :  {
+      type: DataTypes.STRING,
       allowNull: true
     },
     titel: {
@@ -33,7 +49,32 @@ module.exports = function(sequelize, DataTypes) {
     lng: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    geometryWkt: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    adresse: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    postnr: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    by: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    kommune: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    region: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
+
 	
 	}, {
 		tableName: 'eksperiment',

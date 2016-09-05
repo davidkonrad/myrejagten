@@ -510,6 +510,7 @@ angular.module('myrejagtenApp')
 			var latLng = target.leafletEvent.latlng
 			var id = target.leafletEvent.target._container.id
 
+			//click on lokalitet->map
 			if (~id.indexOf('_lok')) {
 				id = parseInt( id.match(/\d/)[0] )
 				var e = $scope.eksperimentById(id)
@@ -525,10 +526,35 @@ angular.module('myrejagtenApp')
 					e.map.marker.lat = latLng.lat
 					e.map.marker.lng = latLng.lng
 				}
+			} else {
+				//find "Lokalitet" tab and click()
+				$timeout(function() {
+					$('#'+ id)
+						.closest('.eksperiment-block')
+						.find('a[role="tab"]:contains("Lokalitet")')
+						.click()
+				})
 			}
 		});
 
+		/**
+			refresh maps if any	when clicking on eksperiment tabs #1 and #2
+		*/
+		$('body').on('click', '.eksperiment-block a[role="tab"]', function() {
+			var index = parseInt($(this).attr('data-index'))
+			if (index <= 1) {
+				$(this).closest('.eksperiment-block').find('.eksperiment-map').each(function() {
+					leafletData.getMap($(this).attr('id')).then(function(map) {
+						$timeout(function() {
+							map.invalidateSize();
+						}, 100)
+					})
+				})
+			}
+		})
+
 		$scope.refreshMaps = function() {
+			console.log('refrershMaps')
 			for (var i=0, l=$scope.eksperimenter.length; i<l; i++) {
 				leafletData.getMap($scope.eksperimenter[i].mapId).then(function(map) {
 					map.invalidateSize();
@@ -545,9 +571,11 @@ angular.module('myrejagtenApp')
 					e.map = angular.copy(mapDefaults);
 					e.mapId = 'map' + e.eksperiment_id;
 					e.adresseType = 'adresser'
+					e.start_td = '11:59'
 					return e
 				})
 				$scope.eksperimenter = eksperimenter
+				console.log(eksperimenter)
 				$scope.refreshMaps()
 			})
 		}
@@ -558,6 +586,44 @@ angular.module('myrejagtenApp')
 				if ($scope.eksperimenter[i].eksperiment_id == eksperiment_id) return $scope.eksperimenter[i]
 			}
 			return false
+		}
+
+		$scope.updateEksperiment = function(formId) {
+			var data = Utils.formToObj('#' + formId)
+			console.log(data)
+			if (data && data.eksperiment_id) {
+				Eksperiment.update({ id: data.eksperiment_id }, data).$promise.then(function() {
+					Utils.formReset('#' + formId)
+				})
+			}
+		}
+
+		$scope.eksperimentFormChanged = function(formId) {
+			//console.log(formId, Utils.formIsEdited('#'+formId))
+			return Utils.formIsEdited('#' + formId)
+		}
+
+		$scope.deleteEksperiment = function(eksperiment_id) {
+			Alert.show($scope, '', 'Slet  eksperiment?').then(function(ok) {
+				if (ok) Eksperiment.delete({	id: eksperiment_id }).$promise.then(function() {
+					$scope.reloadEksperimenter()
+				})
+			})
+		}
+
+		$scope.eksperimentAdresseSelect = function(eksperiment_id, adresseType, item) {
+			var form = angular.element('#formLokalitet'+eksperiment_id)
+			switch (adresseType) {
+				case 'adresser': 
+					form.find('input[name="postnr"]').val( item.postCodeIdentifier )
+					form.find('input[name="by"]').val( item.districtName )
+					console.log('XYZ', item)
+					break;
+
+				default:
+					break;
+			}
+			//console.log('eksperimentAdresseSelect', arguments)
 		}
 
   }]);

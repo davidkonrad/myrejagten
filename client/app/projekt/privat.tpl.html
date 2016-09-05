@@ -11,84 +11,118 @@
 
 	<div bs-tabs class="control-group col-md-12 eksperiment-block">
 
+ 		<button class="btn btn-default btn-xs btn-eksperiment-delete" title="Slet eksperiment / myrejagt" ng-click="deleteEksperiment(x.eksperiment_id)">
+			Slet
+		</button>
+
 		<div bs-pane data-title="Oversigt" style="padding-left:0px;">
 
-			<div class="col-md-6">
+			<form novalidate id="formOversigt{{ x.eksperiment_id }}">
+
+			<input type="hidden" name="eksperiment_id" value="{{ x.eksperiment_id }}" />
+
+			<div class="col-md-6" style="min-height:300px !important;">
 				<label class="normal required">Navn på eksperiment</label>
-				<input type="text" class="form-control bold input-lg" ng-model="x.titel" />
+				<input type="text" class="form-control bold input-lg" ng-model="x.titel" name="titel" />
 
-				<div class="col-md-6" style="padding-left: 0px !important;">
-					<label class="normal required">Start dato</label>
-					<input type="text" class="form-control bold input-lg" ng-model="x.start_tid" bs-datepicker data-date-format="dd-MM-yyyy" size="7" data-autoclose="true" />
+				<div class="col-md-4" style="padding-left: 0px !important;">
+					<label class="normal required">Dato</label>
+					<input type="text" class="form-control bold input-lg" ng-model="x.dato" name="dato" bs-datepicker data-date-format="dd-MM-yyyy" size="7" data-autoclose="true" data-container="body" />
 				</div>
 
-				<div class="col-md-6" style="padding-left: 0px !important;">
-					<label class="normal">Slut dato</label>
-					<input type="text" class="form-control bold input-lg" ng-model="x.slut_tid" bs-datepicker data-date-format="dd-MM-yyyy" size="7" data-autoclose="true" />
+				<div class="col-md-4" style="padding-left: 0px !important;">
+					<label class="normal required">Start tid</label>
+					<input type="text" class="form-control bold input-lg" ng-model="x.start_tid" name="start_tid" bs-timepicker data-time-format="HH:mm" data-time-type="string" data-length="1" data-minute-step="1" data-arrow-behavior="picker" data-autoclose="true" data-container="body" />
 				</div>
 
-				<button class="btn btn-success">Gem ændringer</button>	
+				<div class="col-md-4" style="padding-left: 0px !important;">
+					<label class="normal required">Slut tid</label>
+					<input type="text" class="form-control bold input-lg" ng-model="x.slut_tid" name="slut_tid" bs-timepicker data-time-format="HH:mm" data-length="1" data-minute-step="1" data-arrow-behavior="picker" data-autoclose="true" data-container="body" />
+				</div>
+
+				<!--
+				<label class="normal">Eksperiment-id :</label>
+				<input type="text" class="form-control bold input-lg" ng-model="" name="" />
+				-->
+
 			</div>
 
 			<div class="col-md-6">
 				<leaflet id="{{ x.mapId }}" class="eksperiment-map" center="x.map.center" defaults="x.map.defaults" layers="x.map.layers" markers="x.map.markers" events="x.map.events" height="280px" style="border:1px solid #ccc;border-radius:5px;"></leaflet>
 			</div>
 
-			
+			<button class="btn btn-default btn-eksperiment-save" 
+							ng-class="{ 'btn-success' : eksperimentFormChanged('formOversigt{{ x.eksperiment_id }}') }"
+							ng-click="updateEksperiment('formOversigt'+x.eksperiment_id)" 
+							ng-disabled="!eksperimentFormChanged('formOversigt{{ x.eksperiment_id }}')">
+				<i class="fa fa-check"></i>
+				Gem ændringer
+			</button>	
+
+			<!--
+			<input type="submit" class="btn btn-success btn-eksperiment-save" value="Gem ændringer" ng-click="updateEksperiment(data)"/>
+			-->
+
+			</form>
 		</div>
 
-		<!-- lokalitet -->
+<!-------------------- lokalitet ---------------------->
 		<div bs-pane data-title="Lokalitet" style="padding-left:0px;">
 
-			<div class="control-group col-md-6">
+			<form novalidate id="formLokalitet{{ x.eksperiment_id }}">
 
-				<label class="normal required">Lokalitet. (Adresse og stednavneopslag)</label>
-				<input type="text" class="form-control bold input-md" adresse-opslag adresse-type="{{ x.adresseType }}" />
+				<input type="hidden" name="eksperiment_id" value="{{ x.eksperiment_id }}" />
+
+				<div class="control-group col-md-6">
+
+					<label class="normal required">Lokalitet. (Adresse og stednavneopslag)</label>
+					<input type="text" class="form-control bold input-md" select-on-click adresse-opslag adresse-type="{{ x.adresseType }}" on-select="eksperimentAdresseSelect" eksperiment-id="{{ x.eksperiment_id }}" name="adresse" />
 						
-						<div class="col-sm-12">
-	            <label class="radio-inline"> <input type="radio" ng-model="x.adresseType" name="opslag" value="stednavne_v2" />Stednavne</label>
-	            <label class="radio-inline"> <input type="radio" ng-model="x.adresseType" name="opslag" value="adresser" checked />Adresser</label>
-	            <label class="radio-inline"> <input type="radio" ng-model="x.adresseType" name="opslag" value="" />Fritekst</label>
-		        </div>
+					<div class="col-sm-12">
+						<label class="radio-inline"> <input type="radio" ng-model="x.adresseType" name="opslag" value="stednavne_v2" />Stednavne</label>
+						<label class="radio-inline"> <input type="radio" ng-model="x.adresseType" name="opslag" value="adresser" checked />Adresser</label>
+						<label class="radio-inline"> <input type="radio" ng-model="x.adresseType" name="opslag" value="" />Fritekst</label>
+					</div>
 	
-						<div class="col-sm-12" style="min-height:10px;"></div>
+					<div class="col-sm-12" style="min-height:10px;"></div>
 
-					<div
-
-					<div class="control-group col-md-3" style="padding-left: 0px !important;">
-						<label class="normal required">Postnr</label>
-						<input type="text" class="form-control bold input-md" ng-model="user.postnr"/>
-					</div>
-
-					<div class="control-group col-md-9" style="padding-right: 0px !important; padding-left:0px !important;">
-						<label class="normal required">By</label>
-						<input type="text" class="form-control bold input-md" ng-model="user.by"/>
-					</div>
-
-					<div class="control-group col-md-7" style="padding-left: 0px !important;">
-						<label class="normal required">Kommune</label>
-						<input type="text" class="form-control bold input-md" ng-model="user.kommune" id="kommune" />
-					</div>
-
-					<div class="control-group col-md-5" style="padding-right: 0px !important; padding-left:0px !important;">
-						<label class="normal required">Region</label>
-						<input type="text" class="form-control bold input-md" ng-model="user.region"/>
-					</div>
-
-
-					</div>
-
-					<div class="control-group col-md-6">
-						<!--
-						<label class="normal">Slå op i lokalitet eller klik på kortet for at markere et sted</label>
-						<leaflet id="map" center="center" defaults="defaults" layers="layers" markers="markers" events="events" height="300px" style="border:1px solid #ccc;border-radius:5px;"></leaflet>
-						-->
-							<leaflet id="{{ x.mapId }}_lok" class="eksperiment-map" in-view="refreshMaps()" center="x.map.center" defaults="x.map.defaults" layers="x.map.layers" markers="x.map.markers" events="x.map.events" height="280px" style="border:1px solid #ccc;border-radius:5px;"></leaflet>
-
-					</div>
-
+			<div class="control-group col-md-3" style="padding-left: 0px !important;">
+				<label class="normal required">Postnr</label>
+				<input type="text" class="form-control bold input-md" ng-model="x.postnr" name="postnr"/>
 			</div>
-<!--// lokalitet -->			
+
+			<div class="control-group col-md-9" style="padding-right: 0px !important; padding-left:0px !important;">
+				<label class="normal required">By</label>
+				<input type="text" class="form-control bold input-md" ng-model="x.by" name="by"/>
+			</div>
+
+			<div class="control-group col-md-7" style="padding-left: 0px !important;">
+				<label class="normal required">Kommune</label>
+				<input type="text" class="form-control bold input-md" ng-model="x.kommune" id="kommune" name="kommune" />
+			</div>
+
+			<div class="control-group col-md-5" style="padding-right: 0px !important; padding-left:0px !important;">
+				<label class="normal required">Region</label>
+				<input type="text" class="form-control bold input-md" ng-model="x.region" name="region"/>
+			</div>
+
+		</div>
+
+		<div class="control-group col-md-6">
+			<leaflet id="{{ x.mapId }}_lok" class="eksperiment-map" XXXin-view="refreshMaps()" center="x.map.center" defaults="x.map.defaults" layers="x.map.layers" markers="x.map.markers" events="x.map.events" height="280px" style="border:1px solid #ccc;border-radius:5px;"></leaflet>
+		</div>
+
+				<button class="btn btn-default btn-eksperiment-save" 
+							ng-class="{ 'btn-success' : eksperimentFormChanged('formLokalitet{{ x.eksperiment_id }}') }"
+							ng-click="updateEksperiment('formLokalitet'+x.eksperiment_id)" 
+							ng-disabled="!eksperimentFormChanged('formLokalitet{{ x.eksperiment_id }}')">
+				<i class="fa fa-check"></i>
+				Gem ændringer
+			</button>	
+			</div>
+
+<!---////////////////-- lokalitet ---------------------->
+
 
 					<div bs-pane data-title="Miljødata" style="padding-left:0px;">
 
@@ -113,7 +147,10 @@
 							</tbody>
 						</table>
 
+						<button class="btn btn-success btn-eksperiment-save">Gem ændringer</button>	
+
 					</div>
+
 
 					<div bs-pane data-title="Resultat">
 
@@ -137,6 +174,7 @@
 								</tr>
 							</tbody>
 						</table>
+						<button class="btn btn-success btn-eksperiment-save">Gem ændringer</button>	
 
 					</div>
 

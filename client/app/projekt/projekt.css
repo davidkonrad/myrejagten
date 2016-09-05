@@ -27,7 +27,7 @@ label.required:before {
 	border:1px solid gray;
 	border-radius: 5px;
 	margin-bottom: 20px;
-	background-color: #fafafa;
+	background-color: #fafafa; /*#fafafa;*/
 	height: 350px;
 }
 
@@ -47,4 +47,15 @@ label.required:before {
 	padding-left: 0px;
 }
 
+.btn-eksperiment-save {
+	position: absolute;
+	bottom: 20px;
+	left: 20px;
+}
+
+.btn-eksperiment-delete {
+	position: absolute;
+	top: 6px;
+	right: 5px;
+}
 

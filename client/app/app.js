@@ -5,6 +5,7 @@ angular.module('myrejagtenApp', [
   'ngResource',
   'ngSanitize',
   'ngRoute',
+	'ngAnimate',
   'btford.socket-io',
 	'mgcrea.ngStrap', 
 	'cfp.hotkeys',

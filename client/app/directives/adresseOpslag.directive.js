@@ -4,16 +4,18 @@ angular.module('myrejagtenApp')
   .directive('adresseOpslag', function($parse, TicketService) {
     return {
       restrict: 'A',
-			scope : {
-				adresseType : '@',
-			},
 			link: function(scope, element, attrs) {
+
+        var eksperiment_id = attrs['eksperimentId'],
+						adresseType = attrs['adresseType'],
+						value = attrs['onSelect'], 
+						onSelect = scope[value] ? scope[value] : null;
 
 				function initialize() {
 					$(element).typeahead('destroy')
+
 					$(element).typeahead({
 						displayText: function(item) {
-							console.log(item)
 							switch (attrs.adresseType) {
 								case 'stednavne_v2' : 
 									return item.presentationString
@@ -26,10 +28,7 @@ angular.module('myrejagtenApp')
 							}
 						},
 						afterSelect: function(item) {
-							console.log(item)
-							scope.taxon.Videnskabeligt_navn = item.Videnskabeligt_navn;
-							scope.taxon.Dansk_navn = item.Dansk_navn;
-							scope.$apply()
+							if (onSelect) onSelect(eksperiment_id, adresseType, item)
 						}, 
 						items : 20,
 						source: function(query, process) {
@@ -48,6 +47,7 @@ angular.module('myrejagtenApp')
 				}
 
 				attrs.$observe('adresseType', function(value) {
+					adresseType = value
 					initialize()
 				})
 
