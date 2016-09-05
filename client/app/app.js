@@ -8,7 +8,6 @@ angular.module('myrejagtenApp', [
 	'ngAnimate',
   'btford.socket-io',
 	'mgcrea.ngStrap', 
-	'cfp.hotkeys',
 	'LocalStorageModule',
 	'leaflet-directive',
 	'datatables',
