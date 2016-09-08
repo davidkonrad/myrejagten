@@ -48,10 +48,17 @@ angular.module('myrejagtenApp')
 			formIsEdited : function(id) {
 				var form = document.querySelector(id)
 				if (form) {
-					var i=0, inputs = form.querySelectorAll('input');
+					var i=0, 
+							inputs = form.querySelectorAll('input'),
+							selects = form.querySelectorAll('button[bs-select]');
+
 					for (i; i<inputs.length; i++) {
 						if (angular.element(inputs[i]).hasClass('ng-dirty')) return true
 					}
+					for (i; i<selects.length; i++) {
+						if (angular.element(selects[i]).hasClass('ng-dirty')) return true
+					}
+
 				}
 				return false
 			},
@@ -59,9 +66,25 @@ angular.module('myrejagtenApp')
 			formReset: function(id) {
 				var form = document.querySelector(id)
 				if (form) {
-					var i=0, inputs = form.querySelectorAll('input');
+					var i=0, 
+							inputs = form.querySelectorAll('input'),
+							selects = form.querySelectorAll('button[bs-select]');
+
 					for (i; i<inputs.length; i++) {
 						angular.element(inputs[i]).removeClass('ng-dirty')
+					}
+					for (i; i<selects.length; i++) {
+						angular.element(selects[i]).removeClass('ng-dirty')
+					}
+				}
+			},
+
+			formSetDirty: function(id) {
+				var form = document.querySelector(id)
+				if (form) {
+					var i=0, inputs = form.querySelectorAll('input');
+					for (i; i<inputs.length; i++) {
+						angular.element(inputs[i]).addClass('ng-dirty')
 					}
 				}
 			},

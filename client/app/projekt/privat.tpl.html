@@ -12,6 +12,7 @@
 	<div bs-tabs class="control-group col-md-12 eksperiment-block">
 
  		<button class="btn btn-default btn-xs btn-eksperiment-delete" title="Slet eksperiment / myrejagt" ng-click="deleteEksperiment(x.eksperiment_id)">
+			<i class="fa fa-remove"></i>
 			Slet
 		</button>
 
@@ -23,7 +24,7 @@
 
 			<div class="col-md-6" style="min-height:300px !important;">
 				<label class="normal required">Navn på eksperiment</label>
-				<input type="text" class="form-control bold input-lg" ng-model="x.titel" name="titel" />
+				<input type="text" class="form-control bold input-lg" select-on-click ng-model="x.titel" name="titel" />
 
 				<div class="col-md-4" style="padding-left: 0px !important;">
 					<label class="normal required">Dato</label>
@@ -31,19 +32,18 @@
 				</div>
 
 				<div class="col-md-4" style="padding-left: 0px !important;">
-					<label class="normal required">Start tid</label>
+					<label class="normal required">Start tidspunkt</label>
 					<input type="text" class="form-control bold input-lg" ng-model="x.start_tid" name="start_tid" bs-timepicker data-time-format="HH:mm" data-time-type="string" data-length="1" data-minute-step="1" data-arrow-behavior="picker" data-autoclose="true" data-container="body" />
 				</div>
 
 				<div class="col-md-4" style="padding-left: 0px !important;">
-					<label class="normal required">Slut tid</label>
+					<label class="normal required">Slut tidspunkt</label>
 					<input type="text" class="form-control bold input-lg" ng-model="x.slut_tid" name="slut_tid" bs-timepicker data-time-format="HH:mm" data-length="1" data-minute-step="1" data-arrow-behavior="picker" data-autoclose="true" data-container="body" />
 				</div>
 
-				<!--
-				<label class="normal">Eksperiment-id :</label>
-				<input type="text" class="form-control bold input-lg" ng-model="" name="" />
-				-->
+
+				<label class="normal">Myrejagt-id :</label>
+				<input type="text" class="form-control bold input-lg" select-on-click value="{{ x.myrejagt_id }}" readonly />
 
 			</div>
 
@@ -59,10 +59,6 @@
 				Gem ændringer
 			</button>	
 
-			<!--
-			<input type="submit" class="btn btn-success btn-eksperiment-save" value="Gem ændringer" ng-click="updateEksperiment(data)"/>
-			-->
-
 			</form>
 		</div>
 
@@ -72,11 +68,14 @@
 			<form novalidate id="formLokalitet{{ x.eksperiment_id }}">
 
 				<input type="hidden" name="eksperiment_id" value="{{ x.eksperiment_id }}" />
+				<input type="hidden" name="geometryWkt" value="{{ x.geometryWkt }}" />
+				<input type="hidden" name="lat" value="{{ x.lat }}" />
+				<input type="hidden" name="lng" value="{{ x.lng }}" />
 
 				<div class="control-group col-md-6">
 
-					<label class="normal required">Lokalitet. (Adresse og stednavneopslag)</label>
-					<input type="text" class="form-control bold input-md" select-on-click adresse-opslag adresse-type="{{ x.adresseType }}" on-select="eksperimentAdresseSelect" eksperiment-id="{{ x.eksperiment_id }}" name="adresse" />
+					<label class="normal required">Lokalitet</label>
+					<input type="text" class="form-control bold input-md" ng-model="x.adresse" select-on-click adresse-opslag adresse-type="{{ x.adresseType }}" on-select="eksperimentAdresseSelect" eksperiment-id="{{ x.eksperiment_id }}" name="adresse" />
 						
 					<div class="col-sm-12">
 						<label class="radio-inline"> <input type="radio" ng-model="x.adresseType" name="opslag" value="stednavne_v2" />Stednavne</label>
@@ -112,6 +111,7 @@
 			<leaflet id="{{ x.mapId }}_lok" class="eksperiment-map" XXXin-view="refreshMaps()" center="x.map.center" defaults="x.map.defaults" layers="x.map.layers" markers="x.map.markers" events="x.map.events" height="280px" style="border:1px solid #ccc;border-radius:5px;"></leaflet>
 		</div>
 
+		</form>		
 				<button class="btn btn-default btn-eksperiment-save" 
 							ng-class="{ 'btn-success' : eksperimentFormChanged('formLokalitet{{ x.eksperiment_id }}') }"
 							ng-click="updateEksperiment('formLokalitet'+x.eksperiment_id)" 
@@ -126,29 +126,84 @@
 
 					<div bs-pane data-title="Miljødata" style="padding-left:0px;">
 
-						<table style="width:100%;">
+						<form novalidate id="formMiljo{{ x.eksperiment_id }}">
+
+
+						<table xxstyle="width:100%;" style="border-papding:5px;">
 							<thead>
 								<tr>
 									<th></th>
-									<th>°C</th>
-									<th>Vejr</th>
-									<th>Sol/skygge</th>
-									<th>Blæst</th>
+									<th style="width:100px !important;">°C</th>
+									<th style="width:200px !important;">Vejr</th>
+									<th style="width:150px !important;">Sol</th>
+									<th style="width:200px !important;">Vind</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="e in eksperimentMatrix">
-									<td> {{ e.madding }} </td>
-									<td> <input type="number" class="form-control">  </td>
-									<td> <input type="text" class="form-control">  </td>
-									<td> <input type="text" class="form-control">  </td>
-									<td> <input type="text" class="form-control">  </td>
+								<tr ng-repeat="d in x.Data">
+									<td> {{ d.madding }} &nbsp;&nbsp;</td>
+									<td> 
+										<input type="number" 
+														placeholder="0" 
+														class="form-control" 
+														ng-model="d.temp" 
+														ng-class="{ 'has-value' : d.temp != '' }"
+														style="width:100px !important;">  
+									</td>
+
+									<td> 
+										<button data-placeholder="Indstil"
+														style="width: 99% !important;text-align:left;"
+													  type="button" 
+														class="btn btn-default select" 
+														ng-model="d.vejr" 
+														data-toggle="true" 
+														ng-class="{ 'has-value' : d.vejr != '' }"
+														bs-options="i.value as i.label for i in items.vejr" 
+														bs-select>
+											<span class="caret"></span>
+										</button>
+									</td>
+
+									<td> 
+										<button data-placeholder="Indstil"
+														style="width: 99% !important;text-align:left;"
+													  type="button" 
+														class="btn btn-default select" 
+														ng-model="d.sol" 
+														data-toggle="true" 
+														ng-class="{ 'has-value' : d.sol != '' }"
+														bs-options="i.value as i.label for i in items.sol" 
+														bs-select>
+											<span class="caret"></span>
+										</button>
+									</td>
+
+									<td> 
+										<button data-placeholder="Indstil"
+														style="width: 99% !important;text-align:left;"
+													  type="button" 
+														class="btn btn-default select" 
+														ng-model="d.vind" 
+														data-toggle="true" 
+														ng-class="{ 'has-value' : d.vind != '' }"
+														bs-options="i.value as i.label for i in items.vind" 
+														bs-select>
+											<span class="caret"></span>
+										</button>
+									</td>
 								</tr>
 							</tbody>
 						</table>
-
-						<button class="btn btn-success btn-eksperiment-save">Gem ændringer</button>	
-
+				</form>
+			<button class="btn btn-default btn-eksperiment-save" 
+							ng-class="{ 'btn-success' : eksperimentFormChanged('formMiljo{{ x.eksperiment_id }}') }"
+							ng-click="updateEksperimentData(x.eksperiment_id)" 
+							ng-disabled="!eksperimentFormChanged('formMiljo{{ x.eksperiment_id }}')">
+				<i class="fa fa-check"></i>
+				Gem ændringer
+			</button>	
+				
 					</div>
 
 
@@ -165,11 +220,35 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="e in eksperimentMatrix">
-									<td> {{ e.madding }} </td>
-									<td> <input type="number" class="form-control">  </td>
-									<td> <input type="text" class="form-control">  </td>
-									<td> <input type="text" class="form-control">  </td>
+								<tr ng-repeat="d in x.Data">
+									<td> {{ d.madding }} &nbsp;&nbsp;</td>
+									<td> 
+										<input type="text" 
+													only-digits
+													class="form-control"  
+													ng-model="d.myrer_indsamlet"
+													ng-class="{ 'has-value' : d.myrer_indsamlet != '' }">
+
+									</td>
+									<td> 
+										<input type="text" 
+													only-numbers
+													class="form-control"  
+													ng-model="d.myrer_indsamlet"
+													ng-class="{ 'has-value' : d.myrer_indsamlet != '' }">
+									</td>
+									<td> 
+										<button data-placeholder="Hvad var der sket"
+														style="width: 99% !important;text-align:left;"
+													  type="button" 
+														class="btn btn-default select" 
+														ng-model="selectedIcon" 
+														data-toggle="true" 
+														bs-options="i.value as i.label for i in items.jaNej" 
+														bs-select>
+											<span class="caret"></span>
+										</button>
+									</td>
 									<td> <input type="text" class="form-control">  </td>
 								</tr>
 							</tbody>

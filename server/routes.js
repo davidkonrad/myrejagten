@@ -10,6 +10,7 @@ module.exports = function(app) {
 
 	app.use('/api/projekt', require('./api/mysql/projekt'));
 	app.use('/api/eksperiment', require('./api/mysql/eksperiment'));
+	app.use('/api/data', require('./api/mysql/data'));
 	app.use('/api/mysqluser', require('./api/mysql/user'));
 
   app.use('/api/email', require('./api/email'));

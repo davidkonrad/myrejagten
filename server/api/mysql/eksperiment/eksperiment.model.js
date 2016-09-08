@@ -22,6 +22,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true
     },
+    myrejagt_id: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
 		dato :  {
       type: DataTypes.DATE,
       allowNull: true
@@ -79,7 +83,12 @@ module.exports = function(sequelize, DataTypes) {
 	}, {
 		tableName: 'eksperiment',
 		timestamps: false,
-		freezeTableName: true
+		freezeTableName: true,
+		classMethods: {
+      associate: function(models) {
+        models.Eksperiment.hasMany(models.Data, { foreignKey : 'eksperiment_id', as : 'Data' })
+			}
+		}
 
 	});
 

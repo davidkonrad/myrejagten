@@ -24,7 +24,8 @@ label.required:before {
 }
 
 .eksperiment-block {
-	border:1px solid gray;
+	border:1px solid silver;
+	box-shadow: 2px 2px 3px #dadada; /*#888888;*/
 	border-radius: 5px;
 	margin-bottom: 20px;
 	background-color: #fafafa; /*#fafafa;*/
@@ -59,3 +60,16 @@ label.required:before {
 	right: 5px;
 }
 
+.test {
+	color: red;
+}
+
+.select span.caret {
+	position: relative;
+	float: right;
+	top: 7px;
+}
+
+.has-value {
+	background-color: #ccffcc !important;
+}

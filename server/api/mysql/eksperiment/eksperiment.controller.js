@@ -1,10 +1,15 @@
 'use strict';
 var models = require('../');
-
+var qp = require('../nestedQueryParser');
 
 // Get list of eksperiments
 exports.index = function(req, res) {
-  models.Eksperiment.findAll().then(function(eksperiment){
+	var query = (req.query) ? qp.parseQueryString(req.query) : undefined;
+	query.include = [{ 
+		model: models.Data,
+		as: 'Data'
+	}]
+  models.Eksperiment.findAll(query).then(function(eksperiment) {
   	return res.json(200, eksperiment);	
   }).catch(function(err){
 	  handleError(res, err);

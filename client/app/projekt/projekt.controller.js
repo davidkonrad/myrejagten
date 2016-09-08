@@ -1,12 +1,15 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .controller('ProjektCtrl', ['$scope', 'Login', 'Alert', '$timeout', '$modal', '$q', 'Projekt', 'Eksperiment', 'Geo', 'TicketService', 'Utils', 'leafletData', 
+  .controller('ProjektCtrl', ['$scope', 'Login', 'Alert', 'KR', '$timeout', '$modal', '$q', 'Projekt', 'Eksperiment', 'Data', 'Geo', 'TicketService', 'Utils', 'leafletData', 
 							'DTOptionsBuilder', 'DTColumnBuilder', 'DTColumnDefBuilder', 'DTDefaultOptions',
-	function($scope, Login, Alert, $timeout, $modal, $q, Projekt, Eksperiment, Geo, TicketService, Utils, leafletData,
+	function($scope, Login, Alert, KR, $timeout, $modal, $q, Projekt, Eksperiment, Data, Geo, TicketService, Utils, leafletData,
 						DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, DTDefaultOptions) {
 
 		var lokalitetPolygon;
+
+		//active projekt
+		$scope.projekt_id = 0;
 
 		$scope.dtProjektInstance = {}
 		$scope.user = Login.currentUser()
@@ -224,29 +227,10 @@ angular.module('myrejagtenApp')
 							ticket: TicketService.get()
 						}
 					},
-					/* 
-					matrikel: {
-						name: 'Matrikel',
-						type: 'wms',
-						url: "http://{s}.services.kortforsyningen.dk/service",
-						layerOptions: {
-					    service: 'WMS',
-					    transparent: true,
-					    servicename: 'mat',
-					    layers: 'Centroide,MatrikelSkel,OptagetVej',
-					    version: '1.1.0',
-					    ticket: TicketService.get(),
-					    styles: 'sorte_centroider,sorte_skel,default',
-					    format: 'image/png',
-					    attribution: "Geodatastyrelsen",
-					    continuousWorld: true,
-					    minZoom: 9
-						}
-					}
-					*/
 				}
 			}
 		})
+
 
 		/**
 			for some reason EPSG:4326 is not supported by Kortforsyningen, 
@@ -355,44 +339,9 @@ angular.module('myrejagtenApp')
 					$('#stednavne_v2').attr('title', item.presentationString)
 					$scope.__projekt.geometryWkt = item.geometryWkt
 					$scope.updateMapElements(item)
-					/*
-					leafletData.getMap().then(function(map) {
-
-						leafletData.getLayers().then(function (layers) {
-							for (var layer in layers.baselayers) {
-								if (layer !== 'googleHybrid') {
-									map.removeLayer(layers.baselayers[layer])
-								} else {
-									map.addLayer(layers.baselayers[layer])
-								}
-							}
-						})
-
-						$scope.__projekt.geometryWkt = item.geometryWkt
-
-						if (lokalitetPolygon) map.removeLayer(lokalitetPolygon)
-						lokalitetPolygon = geometryWktPolygon(item.geometryWkt, map)
-
-						$timeout(function() {
-							//set to hybrid map
-							$scope.layers.baselayers.googleHybrid.visible = true
-
-							var center = lokalitetPolygon.__center
-							map.fitBounds(lokalitetPolygon.__bounds, { maxZoom: 20 } )
-							map.setView(center)
-							$scope.setMarker(center)
-							$timeout(function() {
-								map.invalidateSize()
-							})
-						}, 100)
-						*/
-
-					//})
 				}, 
 				items : 20,
 			  source: function(query, process) {
-					//var url = 'https://services.kortforsyningen.dk/Geosearch?search='+query+'*&resources=stednavne_v2&limit=100'+Utils.aePass;
-					//var url = 'https://services.kortforsyningen.dk/Geosearch?search='+query+'*&resources=stednavne_v2&limit=100&geometry=true&outgeoref=EPSG:4326&ticket='+TicketService.get()
 					var method = $scope.__projekt.lokalitetMethod
 					if (!method) return
 					var url = 'https://services.kortforsyningen.dk/Geosearch?search='+query+'*&resources='+method+'&limit=100&ticket='+TicketService.get()
@@ -416,7 +365,41 @@ angular.module('myrejagtenApp')
 		/**
 			eksperiment
 		*/
-		$scope.eksperimentMatrix = [
+		$scope.items = {}
+		$scope.items.jaNej = [
+			{ value: 0, label: 'Nej' },
+			{ value: 1, label: 'Ja' }
+		];
+		$scope.items.vejr = [
+			{ value: 'solskin', label: 'Solskin' },
+			{ value: 'Let overskyet', label: 'Let overskyet' },
+			{ value: 'Halvt overskuet', label: 'Halvt overskuet' },
+			{ value: 'Fuldt overskyet', label: 'Fuldt overskyet' },
+			{ value: 'Regnvejr', label: 'Regnvejr' },
+			{ value: 'Andet', label: 'Andet' }
+		];
+		$scope.items.sol = [
+			{ value: 'Sol', label: 'Sol' },
+			{ value: 'Delvis skygge', label: 'Delvis skygge' },
+			{ value: 'Skygge', label: 'Skygge' },
+			{ value: 'Andet', label: 'Andet' }
+		];
+		$scope.items.vind = [
+			{ value: 'Stille', label: 'Stille ' },
+			{ value: 'Næsten stille', label: 'Næsten stille' },
+			{ value: 'Svag vind', label: 'Svag vind' },
+			{ value: 'Let vind', label: 'Let vind' },
+			{ value: 'Jævn vind', label: 'Jævn vind' },
+			{ value: 'Frisk vind', label: 'Frisk vind' },
+			{ value: 'Hård vind', label: 'Hård vind' },
+			{ value: 'Stiv kuling', label: 'Stiv kuling' },
+			{ value: 'Hård kuling', label: 'Hård kuling' },
+			{ value: 'Stormende kuling', label: 'Stormende kuling' },
+			{ value: 'Storm', label: 'Storm ' },
+			{ value: 'Stærk storm', label: 'Stærk storm' },
+			{ value: 'Orkan', label: 'Orkan' }
+		];
+		$scope.items.madding = [
 			{ madding: 'Vand' },
 			{ madding: 'Saltvand' },
 			{ madding: 'Sukkervand' },
@@ -443,9 +426,23 @@ angular.module('myrejagtenApp')
 				})
 			}
 
+		function getMyrejagtId(user_id, projekt_id, eksperiment_id) {
+			function zeroPad(num, places) {
+			  var zero = places - num.toString().length + 1;
+			  return Array(+(zero > 0 && zero)).join("0") + num;
+			}
+			return 'MJ' + '-' + zeroPad(user_id, 3)	+ '-' + zeroPad(projekt_id, 3) + '-' + zeroPad(eksperiment_id, 4)	
+		}
+
 		$scope.createEksperiment = function() {
 			Alert.show($scope, 'Eksperiment', 'Opret nyt ekseriment?').then(function(ok) {
-				if (ok) Eksperiment.save({	eksperiment_id: '' }, { user_id: $scope.user.user_id }).$promise.then(function() {
+				if (ok) Eksperiment.save({	eksperiment_id: '' }, { user_id: $scope.user.user_id, projekt_id: $scope.projekt_id }).$promise.then(function(e) {
+					var myrejagt_id = getMyrejagtId($scope.user.user_id, $scope.projekt_id, e.eksperiment_id);
+					var titel = 'Myrejagt #' + ($scope.eksperimenter.length+1);
+					Eksperiment.update({ id: e.eksperiment_id }, { myrejagt_id: myrejagt_id, titel: titel })
+					$scope.items.madding.forEach(function(m) {
+						Data.save({ data_id: ''}, { eksperiment_id: e.eksperiment_id, madding: m.madding })
+					})
 					$scope.reloadEksperimenter()
 				})
 			})
@@ -566,17 +563,45 @@ angular.module('myrejagtenApp')
 		}
 
 		$scope.reloadEksperimenter = function(projekt_id) {
-			Eksperiment.query().$promise.then(function(eksperimenter) {
+
+			function createTime(time) {
+				var d = new Date()
+				if (time) {
+					time = time.split(':')
+					d.setHours( time[0] ? time[0] : 12, time[1] ? time[1] : 0  )
+				}
+				return d
+			}
+
+			Eksperiment.query({ where: { user_id: $scope.user.user_id, projekt_id: $scope.projekt_id} }).$promise.then(function(eksperimenter) {
 				eksperimenter = eksperimenter.map(function(e) {
 					e.map = angular.copy(mapDefaults);
+
+					//create marker if lat ln is set
+					if (e.lat && e.lng) {
+						e.map.markers.marker = {
+							lat: parseFloat(e.lat),
+							lng: parseFloat(e.lng),
+							focus: true,
+							draggable: true
+						}
+						e.map.center = {
+							lat: parseFloat(e.lat),
+							lng: parseFloat(e.lng),
+							zoom: 15
+						}
+					}
+
 					e.mapId = 'map' + e.eksperiment_id;
 					e.adresseType = 'adresser'
-					e.start_td = '11:59'
+					e.start_tid = createTime( e.start_tid )
+					e.slut_tid = createTime( e.slut_tid )
+					
 					return e
 				})
 				$scope.eksperimenter = eksperimenter
-				console.log(eksperimenter)
 				$scope.refreshMaps()
+				console.log(eksperimenter)
 			})
 		}
 		$scope.reloadEksperimenter()
@@ -590,34 +615,129 @@ angular.module('myrejagtenApp')
 
 		$scope.updateEksperiment = function(formId) {
 			var data = Utils.formToObj('#' + formId)
-			console.log(data)
 			if (data && data.eksperiment_id) {
 				Eksperiment.update({ id: data.eksperiment_id }, data).$promise.then(function() {
 					Utils.formReset('#' + formId)
 				})
 			}
 		}
+		$scope.updateEksperimentData = function(eksperiment_id) {
+			var e = $scope.eksperimentById(eksperiment_id)
+			e.Data.forEach(function(d) {
+				Data.update({ id: d.data_id }, d)
+			})
+			Utils.formReset('#formMiljo' + eksperiment_id)
+		}
 
 		$scope.eksperimentFormChanged = function(formId) {
-			//console.log(formId, Utils.formIsEdited('#'+formId))
 			return Utils.formIsEdited('#' + formId)
 		}
 
 		$scope.deleteEksperiment = function(eksperiment_id) {
 			Alert.show($scope, '', 'Slet  eksperiment?').then(function(ok) {
-				if (ok) Eksperiment.delete({	id: eksperiment_id }).$promise.then(function() {
-					$scope.reloadEksperimenter()
-				})
+				if (ok) {
+					var e = $scope.eksperimentById(eksperiment_id)
+					e.Data.forEach(function(d) {
+						Data.delete({ id: d.data_id })
+					})
+					Eksperiment.delete({	id: eksperiment_id }).$promise.then(function() {
+						$scope.reloadEksperimenter()
+					})
+				}
 			})
 		}
 
+		//we assume Wkt is loaded
+		var wkt = new Wkt.Wkt()
+
+		$scope.findNearestAddress = function(lat, lng) {
+			var	deferred = $q.defer();
+			var url='http://services.kortforsyningen.dk/?servicename=RestGeokeys_v2&method=nadresse&geop='+lat+','+lng+'&hits=1&ticket='+TicketService.get()			
+			$.getJSON(url, function(response) {
+				if (response.features && response.features.length) {
+		      deferred.resolve(angular.copy(response.features))
+				}
+			})
+			return deferred.promise;
+		}
+
 		$scope.eksperimentAdresseSelect = function(eksperiment_id, adresseType, item) {
+
+			function setLatLng(e, form, lat, lng) {
+				form.find('input[name="lat"]').val( lat )
+				form.find('input[name="lng"]').val( lng )
+				if (!e.map.marker) {
+					e.map.marker = {
+						lat: lat,
+						lng: lng,
+						focus: true,
+						draggable: true
+					}
+					e.map.markers['marker'] = e.map.marker
+				} else {
+					e.map.marker.lat = lat
+					e.map.marker.lng = lng
+				}
+
+				e.map.center = {
+					lat: lat,
+					lng: lng,
+					zoom: 16
+				}
+				$scope.$apply()							
+			}
+
 			var form = angular.element('#formLokalitet'+eksperiment_id)
+			var e = $scope.eksperimentById(eksperiment_id)
 			switch (adresseType) {
 				case 'adresser': 
+					wkt.read(item.geometryWkt);
+					var point = wkt.components[0] && !wkt.components[0].length 
+						? wkt.components[0]
+						: wkt.components[0][0];
+
+					if (point && !point.length) setLatLng(e, form, point.y, point.x)
+							
+					var kommuneNr = item.municipalityCode ? item.municipalityCode : item.municipalityCodes
+					var kommune = KR.kommuneByNr( kommuneNr )
+
+					var adresse = item.streetName;
+					adresse += item.streetBuildingIdentifier ? ' '+item.streetBuildingIdentifier : '';
+					form.find('input[name="adresse"]').val( adresse )
+
+					form.find('input[name="geometryWkt"]').val( item.geometryWkt )
 					form.find('input[name="postnr"]').val( item.postCodeIdentifier )
 					form.find('input[name="by"]').val( item.districtName )
-					console.log('XYZ', item)
+
+					if (kommune) {
+						form.find('input[name="kommune"]').val( kommune.navn )
+						form.find('input[name="region"]').val( kommune.region.navn.replace('Region', '').trim() )
+					}
+	
+					Utils.formSetDirty('#formLokalitet'+eksperiment_id)
+					break;
+
+				case 'stednavne_v2': 
+					wkt.read(item.geometryWkt);
+					var point = wkt.components[0] && !wkt.components[0].length 
+						? wkt.components[0]
+						: wkt.components[0][0]
+
+					var latLng = Geo.EPSG25832_to_WGS84(point.x, point.y)
+					setLatLng(e, form, latLng.lng, latLng.lat)
+					
+					$scope.findNearestAddress(point.x, point.y).then(function(adresse) {
+						var a = adresse[0].properties ? adresse[0].properties : null;
+						if (a) {
+							var kommune = KR.kommuneByNr( a.kommune_kode )
+							form.find('input[name="adresse"]').val( item.skrivemaade_officiel +', ' + a.vej_navn +' '+ a.husnr )
+							form.find('input[name="postnr"]').val( a.postdistrikt_kode )
+							form.find('input[name="by"]').val( a.postdistrikt_navn )
+							form.find('input[name="kommune"]').val( a.kommune_navn )
+							form.find('input[name="region"]').val( kommune ? kommune.region.navn.replace('Region', '').trim() : '' )
+						}
+					})
+
 					break;
 
 				default:
