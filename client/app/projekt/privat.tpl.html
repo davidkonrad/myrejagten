@@ -1,19 +1,32 @@
 <h3>
-	<button role="button" class="btn btn-success btn-md" ng-click="createEksperiment()" title="Opret nyt eksperiment">
+	<img src="assets/images/ajax-loader.gif" ng-show="!done" />
+	<button role="button" class="btn btn-success btn-md" ng-show="done" ng-click="createEksperiment()" title="Opret nyt eksperiment">
 		<i class="fa fa-plus"></i>
 	</button>
-	{{ user.showName }}
-	eksperimenter
+	{{ user.showName }}	eksperimenter
+
+
+	<button data-placeholder="Sortering"
+					id="sortering"
+					style="width: 100px !important;text-align:left; position:relative;top:20px;"
+				  type="button" 
+					class="btn btn-default select sortering btn-xs pull-right" 
+					ng-model="sortering.value" 
+					data-toggle="true" 
+					bs-options="i.value as i.label for i in items.sortering" 
+					bs-select>
+					<span class="caret"></span>
+	</button>
+	
 </h3>
 
 <!------------------->
-<div ng-repeat="x in eksperimenter">
+<div ng-repeat="x in eksperimenter | orderBy : sortering.value "  render-finished="renderFinished()">
 
-	<div bs-tabs class="control-group col-md-12 eksperiment-block">
+	<div bs-tabs class="control-group col-md-12 eksperiment-block" id="eksperiment-cnt-{{ $index+1 }}">
 
  		<button class="btn btn-default btn-xs btn-eksperiment-delete" title="Slet eksperiment / myrejagt" ng-click="deleteEksperiment(x.eksperiment_id)">
-			<i class="fa fa-remove"></i>
-			Slet
+			<i class="fa fa-remove text-danger"></i>
 		</button>
 
 		<div bs-pane data-title="Oversigt" style="padding-left:0px;">
@@ -78,9 +91,18 @@
 					<input type="text" class="form-control bold input-md" ng-model="x.adresse" select-on-click adresse-opslag adresse-type="{{ x.adresseType }}" on-select="eksperimentAdresseSelect" eksperiment-id="{{ x.eksperiment_id }}" name="adresse" />
 						
 					<div class="col-sm-12">
-						<label class="radio-inline"> <input type="radio" ng-model="x.adresseType" name="opslag" value="stednavne_v2" />Stednavne</label>
-						<label class="radio-inline"> <input type="radio" ng-model="x.adresseType" name="opslag" value="adresser" checked />Adresser</label>
-						<label class="radio-inline"> <input type="radio" ng-model="x.adresseType" name="opslag" value="" />Fritekst</label>
+						<label class="radio-inline"> 
+							<input type="radio" class="exclude-from-form" ng-model="x.adresseType" name="opslag" value="stednavne_v2" />
+							Stednavne
+						</label>
+						<label class="radio-inline"> 
+							<input type="radio" class="exclude-from-form" ng-model="x.adresseType" name="opslag" value="adresser" checked />
+							Adresser
+						</label>
+						<label class="radio-inline"> 
+							<input type="radio" class="exclude-from-form" ng-model="x.adresseType" name="opslag" value="" />
+							Fritekst
+						</label>
 					</div>
 	
 					<div class="col-sm-12" style="min-height:10px;"></div>

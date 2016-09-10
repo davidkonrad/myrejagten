@@ -49,9 +49,10 @@ angular.module('myrejagtenApp')
 				var form = document.querySelector(id)
 				if (form) {
 					var i=0, 
-							inputs = form.querySelectorAll('input'),
+							inputs = form.querySelectorAll('input:not(.exclude-from-form)'),
 							selects = form.querySelectorAll('button[bs-select]');
 
+	
 					for (i; i<inputs.length; i++) {
 						if (angular.element(inputs[i]).hasClass('ng-dirty')) return true
 					}
@@ -67,7 +68,7 @@ angular.module('myrejagtenApp')
 				var form = document.querySelector(id)
 				if (form) {
 					var i=0, 
-							inputs = form.querySelectorAll('input'),
+							inputs = form.querySelectorAll('input:not(.exclude-from-form)'),
 							selects = form.querySelectorAll('button[bs-select]');
 
 					for (i; i<inputs.length; i++) {

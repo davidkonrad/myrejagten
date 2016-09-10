@@ -14,7 +14,12 @@ angular.module('myrejagtenApp')
       .when('/betingelser-og-vilkår', {
         templateUrl: 'app/tilmeld/betingelser-og-vilkaar.html',
         controller: 'TilmeldCtrl'
+      })
+      .when('/confirm/', {
+        templateUrl: 'app/tilmeld/confirm.html',
+        controller: 'ConfirmCtrl'
       });
+
 
 
   });

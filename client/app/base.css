@@ -70,3 +70,16 @@ table.dataTable tbody tr.selected {
 	background-color: #fff !important;
 }
 
+/* prevent selects from appear below leaflet controls */
+.select.dropdown-menu {
+	z-index: 10999;
+}
+#sortering > select.dropdown-menu li a {
+	font-size: 8px;
+	color: red;
+}
+
+.alert {
+	margin-bottom: 10px;
+}
+

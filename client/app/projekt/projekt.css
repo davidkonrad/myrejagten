@@ -56,8 +56,12 @@ label.required:before {
 
 .btn-eksperiment-delete {
 	position: absolute;
-	top: 6px;
-	right: 5px;
+	bottom: -2px;
+	right: -22px;
+	xxz-index: 10999;
+	box-shadow: 2px 2px 3px #dadada; 
+	border-left: 1px solid #fff;
+	background-color: #fafafa; 
 }
 
 .test {

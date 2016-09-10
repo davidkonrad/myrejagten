@@ -3,7 +3,7 @@
 angular.module('myrejagtenApp')
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/mine-eksperimenter', {
+      .when('/eksperimenter', {
         templateUrl: 'app/projekt/projekt.html',
         controller: 'ProjektCtrl',
 				authenticate: true

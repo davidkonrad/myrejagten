@@ -1,10 +1,20 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .controller('ProjektCtrl', ['$scope', 'Login', 'Alert', 'KR', '$timeout', '$modal', '$q', 'Projekt', 'Eksperiment', 'Data', 'Geo', 'TicketService', 'Utils', 'leafletData', 
+  .controller('ProjektCtrl', ['$scope', '$location', 'Login', 'Alert', 'KR', '$timeout', '$modal', '$q', 'Projekt', 'Eksperiment', 'Data', 'Geo', 'TicketService', 'Utils', 'leafletData', 
 							'DTOptionsBuilder', 'DTColumnBuilder', 'DTColumnDefBuilder', 'DTDefaultOptions',
-	function($scope, Login, Alert, KR, $timeout, $modal, $q, Projekt, Eksperiment, Data, Geo, TicketService, Utils, leafletData,
+	function($scope, $location, Login, Alert, KR, $timeout, $modal, $q, Projekt, Eksperiment, Data, Geo, TicketService, Utils, leafletData,
 						DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, DTDefaultOptions) {
+
+		/*
+		if ($location.$$hash && $location.$$hash != '') {
+			$timeout(function() {
+				var $eks = angular.element('#eksperiment-cnt-'+$location.$$hash)
+				$("body").animate({scrollTop: $eks.offset().top}, "slow");
+				console.log($location.$$hash)
+			}, 1000)
+		}
+		*/
 
 		var lokalitetPolygon;
 
@@ -13,7 +23,10 @@ angular.module('myrejagtenApp')
 
 		$scope.dtProjektInstance = {}
 		$scope.user = Login.currentUser()
-		$scope.user.showName =  $scope.user.brugernavn.charAt(0).toUpperCase() + $scope.user.brugernavn.slice(1) + 's'
+
+		var showName = $scope.user.brugernavn
+		showName += showName.charAt( showName.length ).toLowerCase() != 's' ? '´s' : '´'
+		$scope.user.showName = showName;
 
 		$scope.dtProjektOptions = DTOptionsBuilder
 			.fromFnPromise(function() {
@@ -407,6 +420,12 @@ angular.module('myrejagtenApp')
 			{ madding: 'Protein' },
 			{ madding: 'Kammerjunker' }
 		]
+		$scope.items.sortering = [
+			{ value: '-eksperiment_id', label: 'Nyeste' },
+			{ value: 'eksperiment_id', label: 'Ældste' },
+			{ value: 'titel', label: 'Navn' }
+		]
+		$scope.sortering = { value: '-eksperiment_id' }
 
 		$scope.showEksperiment = function(eksperiment_id) {
 			$scope.__eksperiment = {
@@ -746,7 +765,42 @@ angular.module('myrejagtenApp')
 			//console.log('eksperimentAdresseSelect', arguments)
 		}
 
+		$scope.renderFinished = function() {
+			$scope.done = true
+		}
+
   }]);
+
+angular.module('myrejagtenApp')
+	.directive('renderFinished', ['$location', '$timeout', function ($location, $timeout) {
+  return function(scope, element, attrs) {
+
+    if (scope.$last){
+				$timeout(function() {
+				scope.$apply(attrs['renderFinished']); 
+			})
+				/*
+				var value = attrs['renderFinished'], scopeValue = scope[value]
+				console.log(value, scopeValue)
+				console.log('xxxx', arguments)
+				attrs['renderFinished']()
+			*/
+			if ($location.$$hash && $location.$$hash != '') {
+				/*
+				var s = getScope(scope)
+				console.log(s)
+				s.done = true
+				*/
+
+				$timeout(function() {
+					var $eks = angular.element('#eksperiment-cnt-'+$location.$$hash)
+					$("body").animate({scrollTop: $eks.offset().top}, 400);
+				})
+			}
+		}
+  };
+}]);
+
 
 
 

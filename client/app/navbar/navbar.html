@@ -17,14 +17,18 @@
 
       <ul class="nav navbar-nav navbar-right" style="margin-right:50px;">
 
+        <li ng-show="isLoggedIn()">
+					<a href="/phd">Phd. demo</a>
+				</li>
+
         <li ng-show="isLoggedIn()" >
-					<a href="/min-konto">
+					<a href="/konto" ng-class="{ 'active-page' : isActive('/konto') }">
 						<strong>{{ getCurrentUser().brugernavn }}</strong>
 					</a>
 				</li>
 
         <li ng-show="isLoggedIn()">
-					<a href="/mine-eksperimenter">Mine eksperimenter</a>
+					<a href="/eksperimenter" ng-class="{ 'active-page' : isActive('/eksperimenter') }">Mine eksperimenter</a>
 				</li>
 
         <li>

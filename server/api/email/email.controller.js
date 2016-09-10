@@ -1,5 +1,5 @@
 var nodemailer = require('nodemailer');
-var email   = require("emailjs");
+//var email   = require("emailjs");
 
 
 /*
@@ -34,9 +34,11 @@ transporter.verify(function(error, success) {
 });
 */
 
-exports.signupMail = function(req,res){
-	console.log('SignupMail SENDING')
+var server = 'a00592.science.ku.dk/'
 
+exports.signupMail = function(req, res){
+	console.log('SignupMail SENDING')
+	console.log(req.body)
 /*
 	var server  = email.server.connect({
 		user: (new Buffer("davidkonrad")).toString("base64"),
@@ -76,20 +78,27 @@ exports.signupMail = function(req,res){
   });
 */
 
-var transporter = nodemailer.createTransport({
-  service: 'localhost',
-  debug: true,
-  auth: false,
-  tls: {
-		rejectUnauthorized: false
-  }
-});
+	var transporter = nodemailer.createTransport({
+	  service: 'localhost',
+	  debug: true,
+	  auth: false,
+	  tls: {
+			rejectUnauthorized: false
+	  }
+	});
+
+	var msg = 'Hej ' + req.body.name + ', ' + "\n\n"
+	msg += 'Tak for din tilmelding til Myrejagten. For at verificere din emailadresse bedes du klikke på nedenstående link : ' + "\n\n"
+	msg += server + 'bekræft/' + req.body.code	+ "\n\n"
+	msg += 'Ved at klikke på linket afsluttes oprettelsesproceduren, og du videresendes til din startside. ' + "\n\n"
+	msg += 'Venlig hilsen Myrejagten og Statens Naturhistoriske Museum.' 
+
   var mailOptions = {
     to: 'migselv <davidkonrad@gmail.com>',
     subject: 'Tilmelding tli Myrejagten',
-    from: 'noreply <david.konrad@snm.ku.dk>', //req.data.from,
-		text: 'dette er en prøve',
-    html: 'hej med dig' //req.data.body
+    from: 'noreply <myrejagten@snm.ku.dk>', 
+		text: msg
+    //html: '<h2>Tilmelding til myrejagten</h2>' 
   };
   transporter.sendMail(mailOptions, function(err, info){
     if (err) {

@@ -56,6 +56,7 @@ angular.module('myrejagtenApp', [
   .run(function ($rootScope, $location, Login) {
 	 
     $rootScope.$on('$routeChangeStart', function (event, next) {
+			console.log(event, next)
       //Auth.isLoggedInAsync(function(loggedIn) {
 				/*
 				var publicLocation = next.$$route.templateUrl || next.$$route.loadedTemplateUrl;

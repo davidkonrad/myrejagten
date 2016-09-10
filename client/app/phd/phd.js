@@ -3,8 +3,8 @@
 angular.module('myrejagtenApp')
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/mine-forsøg', {
-        templateUrl: 'app/mypage/mypage.html',
-        controller: 'MyPageCtrl'
+      .when('/phd', {
+        templateUrl: 'app/phd/phd.html',
+        controller: 'PhdCtrl'
       });
   });

@@ -1,9 +1,22 @@
 <div class="container">
 
-	<h3>Konto</h3>
+	<h2>
+		{{ user.fulde_navn }}
+	</h2>
+
+		<div ng-repeat="a in alerts" class="alert alert-dismissible {{ a.type }}" role="alert" >
+			<button type="button" class="close alert-close" aria-label="Luk besked" title="Luk besked">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<span ng-bind-html="a.message"></span>
+		</div>
 
 	<br>
-		<div bs-tabs class="control-group col-md-7">
+
+
+	<div class="control-group col-md-7">
+
+		<div bs-tabs class="control-group col-md-12">
 
 			<div bs-pane data-title="Private oplysninger">
 
@@ -29,7 +42,7 @@
 					<input type="text" class="form-control bold input-lg" ng-model="user.fulde_navn" />
 
 					<label class="normal required">Addresse</label>
-					<input type="text" class="form-control bold input-lg" ng-model="user.adresse" id="adresse"/>
+					<input type="text" class="form-control bold input-lg" select-on-click adresse-opslag adresse-type="adresser" ng-model="user.adresse" id="adresse"/>
 
 					<div class="control-group col-md-4" style="padding-left: 0px !important;">
 						<label class="normal required">Postnr</label>
@@ -78,12 +91,14 @@
 
 				</form>
 			</div>
-
 		</div>
 
-		<div class="control-group col-md-5">
-			<div class="circle">K1</div>
-		</div>
+	</div>
+	
+	<div class="control-group col-md-5">
+		<h4>Brug af oplysninger</h4>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat</p>
+	</div>
 
 </div>
 
