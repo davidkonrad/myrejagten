@@ -77,8 +77,23 @@ module.exports = function(sequelize, DataTypes) {
     region: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    temp: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    vejr: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    sol: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    vind: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
-
 	
 	}, {
 		tableName: 'eksperiment',

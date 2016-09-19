@@ -18,22 +18,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: true
     },
-		temp :  {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-		vejr :  {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-		sol :  {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-		vind :  {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
 		myrer_indsamlet :  {
       type: DataTypes.STRING,
       allowNull: true
@@ -41,7 +25,12 @@ module.exports = function(sequelize, DataTypes) {
 		myrer_frysning :  {
       type: DataTypes.STRING,
       allowNull: true
+    },
+		maden_stjaalet :  {
+      type: DataTypes.BOOLEAN,
+      allowNull: true
     }
+
 	
 	}, {
 		tableName: 'data',

@@ -56,9 +56,8 @@ label.required:before {
 
 .btn-eksperiment-delete {
 	position: absolute;
-	bottom: -2px;
-	right: -22px;
-	xxz-index: 10999;
+	bottom: -1px;
+	right: -20px;
 	box-shadow: 2px 2px 3px #dadada; 
 	border-left: 1px solid #fff;
 	background-color: #fafafa; 
@@ -77,3 +76,37 @@ label.required:before {
 .has-value {
 	background-color: #ccffcc !important;
 }
+
+/** projekter **/
+.projekt-bar {
+	xxbackground-color: #fff;
+	border: 1px solid #dadada;
+	padding: 5px;
+	margin-bottom: 7px;
+	cursor: pointer;
+	font-size: 110%;
+}
+.projekt-bar:not(.bg-primary):hover {
+	background-color: #ebebeb !important;
+}	
+.projekt-bar.bg-primary {
+	font-weight: bold;
+}	
+
+.projekt-timestamp {
+	width: 100px;
+	max-width: 100px;
+}
+.projekt-titel {
+	padding-left: 10px;
+	width: 100px;
+	max-width: 100px;
+}
+.projekt-delimiter {
+	padding-right: 10px;
+	border-right: 2px groove white;
+}
+.projekt-selected {
+	background-color: #ebebeb;
+}
+

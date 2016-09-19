@@ -24,12 +24,11 @@ angular.module('myrejagtenApp')
       $scope.submitted = true;
 
       if(form.$valid) {
-        Login.login($scope.user.email, $scope.user.password)
-        .then( function(response) {
+        Login.login($scope.user.email, $scope.user.password).then(function(response) {
 					if (response && response.error) {
 						$scope.errors.other = response.error
 					} else {
-			      $location.path('/');
+			      $location.path('/konto');
 					}
         })
         .catch( function(err) {

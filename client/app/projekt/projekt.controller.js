@@ -2,9 +2,9 @@
 
 angular.module('myrejagtenApp')
   .controller('ProjektCtrl', ['$scope', '$location', 'Login', 'Alert', 'KR', '$timeout', '$modal', '$q', 'Projekt', 'Eksperiment', 'Data', 'Geo', 'TicketService', 'Utils', 'leafletData', 
-							'DTOptionsBuilder', 'DTColumnBuilder', 'DTColumnDefBuilder', 'DTDefaultOptions',
-	function($scope, $location, Login, Alert, KR, $timeout, $modal, $q, Projekt, Eksperiment, Data, Geo, TicketService, Utils, leafletData,
-						DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, DTDefaultOptions) {
+							/*'DTOptionsBuilder', 'DTColumnBuilder', 'DTColumnDefBuilder', 'DTDefaultOptions' */ 
+	function($scope, $location, Login, Alert, KR, $timeout, $modal, $q, Projekt, Eksperiment, Data, Geo, TicketService, Utils, leafletData
+						/*DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, DTDefaultOptions*/) {
 
 		/*
 		if ($location.$$hash && $location.$$hash != '') {
@@ -18,16 +18,22 @@ angular.module('myrejagtenApp')
 
 		var lokalitetPolygon;
 
-		//active projekt
-		$scope.projekt_id = 0;
-
-		$scope.dtProjektInstance = {}
+		//$scope.dtProjektInstance = {}
 		$scope.user = Login.currentUser()
+
+		Projekt.query({ where: { user_id: $scope.user.user_id }}).$promise.then(function(projekts) {
+			console.log(projekts)
+			$scope.projekts = projekts
+		})
+
+		//active projekt
+		$scope.projekt_id = 3;
 
 		var showName = $scope.user.brugernavn
 		showName += showName.charAt( showName.length ).toLowerCase() != 's' ? '´s' : '´'
 		$scope.user.showName = showName;
 
+/*
 		$scope.dtProjektOptions = DTOptionsBuilder
 			.fromFnPromise(function() {
 				var defer = $q.defer();
@@ -61,12 +67,19 @@ angular.module('myrejagtenApp')
 				})
 
 			})
-
+*/
 		$scope.projektLoaded = function() {
 			//console.log('projektLoaded', $scope.currentProjektId)
 			return typeof $scope.currentProjektId == 'number'
 		}
 
+		$scope.skoleProjektClick = function(projekt_id) {
+			$scope.done = false;
+			$scope.projekt_id = projekt_id
+			$scope.reloadEksperimenter(projekt_id)
+			console.log('clicked', projekt_id, $scope.user.user_id)
+		}
+/*
 		DTDefaultOptions.setLoadingTemplate('<img src="assets/ajax-loader.gif">')
 
 		$scope.dtProjektColumns = [
@@ -75,6 +88,7 @@ angular.module('myrejagtenApp')
       DTColumnBuilder.newColumn('lokalitet').withTitle('Lokalitet'),
       DTColumnBuilder.newColumn('created_timestamp').withTitle('Oprettet')
 		]
+	*/
 
 		/**
 			projekt modal
@@ -427,6 +441,7 @@ angular.module('myrejagtenApp')
 		]
 		$scope.sortering = { value: '-eksperiment_id' }
 
+		/*
 		$scope.showEksperiment = function(eksperiment_id) {
 			$scope.__eksperiment = {
 				eksperiment_id: eksperiment_id,
@@ -444,6 +459,7 @@ angular.module('myrejagtenApp')
 					}
 				})
 			}
+		*/
 
 		function getMyrejagtId(user_id, projekt_id, eksperiment_id) {
 			function zeroPad(num, places) {
@@ -619,8 +635,16 @@ angular.module('myrejagtenApp')
 					return e
 				})
 				$scope.eksperimenter = eksperimenter
+				//force 'done' if empty
+				if (eksperimenter.length <= 0) {
+					console.log('DONE')
+					$scope.done = true
+					$timeout(function() {
+						$scope.$apply() //ensure immedatiate update of the buttons
+					})
+				}
+
 				$scope.refreshMaps()
-				console.log(eksperimenter)
 			})
 		}
 		$scope.reloadEksperimenter()
@@ -645,7 +669,14 @@ angular.module('myrejagtenApp')
 			e.Data.forEach(function(d) {
 				Data.update({ id: d.data_id }, d)
 			})
-			Utils.formReset('#formMiljo' + eksperiment_id)
+			var miljo = {
+				temp: e.temp,
+				vejr: e.vejr,
+				sol: e.sol,
+				vind: e.vind
+			}
+			Eksperiment.update({ id: eksperiment_id }, miljo)
+			Utils.formReset('#formResultater' + eksperiment_id)
 		}
 
 		$scope.eksperimentFormChanged = function(formId) {
@@ -766,32 +797,30 @@ angular.module('myrejagtenApp')
 		}
 
 		$scope.renderFinished = function() {
-			$scope.done = true
+			$scope.done = true;
 		}
 
   }]);
+
+
+angular.module('myrejagtenApp')
+	.directive('renderFinished', function() {
+      return function(scope, element, attrs) {
+        element.bind('$destroy', function(event) {
+          if (scope.$last) {
+            scope.$eval(attrs.renderFinished);
+          }
+        });
+      }
+    });
+
 
 angular.module('myrejagtenApp')
 	.directive('renderFinished', ['$location', '$timeout', function ($location, $timeout) {
   return function(scope, element, attrs) {
 
     if (scope.$last){
-				$timeout(function() {
-				scope.$apply(attrs['renderFinished']); 
-			})
-				/*
-				var value = attrs['renderFinished'], scopeValue = scope[value]
-				console.log(value, scopeValue)
-				console.log('xxxx', arguments)
-				attrs['renderFinished']()
-			*/
 			if ($location.$$hash && $location.$$hash != '') {
-				/*
-				var s = getScope(scope)
-				console.log(s)
-				s.done = true
-				*/
-
 				$timeout(function() {
 					var $eks = angular.element('#eksperiment-cnt-'+$location.$$hash)
 					$("body").animate({scrollTop: $eks.offset().top}, 400);
@@ -800,7 +829,5 @@ angular.module('myrejagtenApp')
 		}
   };
 }]);
-
-
 
 

@@ -246,7 +246,8 @@ angular.module('myrejagtenApp')
 			}
 		Eksperiment.query({ where: { user_id: $scope.user.user_id }}).$promise.then(function(data) {
 				for (var i=0, l=data.length; i<l; i++) {
-					var name = '<strong><a href="/eksperimenter#' + (i+1) + '" title="Rediger eksperiment">' + getEksName(data[i], i) +'</a></strong>'
+					var myrejagtName = getEksName(data[i], i);
+					var name = '<strong><a href="/eksperimenter#' + (i+1) + '" title="Rediger ' + myrejagtName +'">' + myrejagtName +'</a></strong>'
 					var err = getEksDatoErr(data[i])
 					err += getEksLokalitetErr(data[i])
 					err += getEksAdresseErr(data[i])

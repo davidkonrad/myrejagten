@@ -9,11 +9,12 @@ angular.module('myrejagtenApp')
 
 		return {
 			
-			show: function($scope, title, message, okOnly) {
+			show: function($scope, title, message, okOnly, icon) {
 				$scope[name] = {
 					title: title,
 					message: message,
-					okOnly: okOnly
+					okOnly: okOnly,
+					icon: 'fa-warning'
 				}
 				deferred = $q.defer()
 				modal = $modal({

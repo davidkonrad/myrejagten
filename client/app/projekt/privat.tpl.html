@@ -1,26 +1,3 @@
-<h3>
-	<img src="assets/images/ajax-loader.gif" ng-show="!done" />
-	<button role="button" class="btn btn-success btn-md" ng-show="done" ng-click="createEksperiment()" title="Opret nyt eksperiment">
-		<i class="fa fa-plus"></i>
-	</button>
-	{{ user.showName }}	eksperimenter
-
-
-	<button data-placeholder="Sortering"
-					id="sortering"
-					style="width: 100px !important;text-align:left; position:relative;top:20px;"
-				  type="button" 
-					class="btn btn-default select sortering btn-xs pull-right" 
-					ng-model="sortering.value" 
-					data-toggle="true" 
-					bs-options="i.value as i.label for i in items.sortering" 
-					bs-select>
-					<span class="caret"></span>
-	</button>
-	
-</h3>
-
-<!------------------->
 <div ng-repeat="x in eksperimenter | orderBy : sortering.value "  render-finished="renderFinished()">
 
 	<div bs-tabs class="control-group col-md-12 eksperiment-block" id="eksperiment-cnt-{{ $index+1 }}">
@@ -29,53 +6,51 @@
 			<i class="fa fa-remove text-danger"></i>
 		</button>
 
+		<!--------- oversigt -------->
 		<div bs-pane data-title="Oversigt" style="padding-left:0px;">
-
 			<form novalidate id="formOversigt{{ x.eksperiment_id }}">
+				<input type="hidden" name="eksperiment_id" value="{{ x.eksperiment_id }}" />
 
-			<input type="hidden" name="eksperiment_id" value="{{ x.eksperiment_id }}" />
+				<div class="col-md-6" style="min-height:300px !important;">
+					<label class="normal required">Navn på eksperiment</label>
+					<input type="text" class="form-control bold input-lg" select-on-click ng-model="x.titel" name="titel" />
+	
+					<div class="col-md-4" style="padding-left: 0px !important;">
+						<label class="normal required">Dato</label>
+						<input type="text" class="form-control bold input-lg" ng-model="x.dato" name="dato" bs-datepicker data-date-format="dd-MM-yyyy" size="7" data-autoclose="true" data-container="body" />
+					</div>
 
-			<div class="col-md-6" style="min-height:300px !important;">
-				<label class="normal required">Navn på eksperiment</label>
-				<input type="text" class="form-control bold input-lg" select-on-click ng-model="x.titel" name="titel" />
+					<div class="col-md-4" style="padding-left: 0px !important;">
+						<label class="normal required">Start tidspunkt</label>
+						<input type="text" class="form-control bold input-lg" ng-model="x.start_tid" name="start_tid" bs-timepicker data-time-format="HH:mm" data-time-type="string" data-length="1" data-minute-step="1" data-arrow-behavior="picker" data-autoclose="true" data-container="body" />
+					</div>
 
-				<div class="col-md-4" style="padding-left: 0px !important;">
-					<label class="normal required">Dato</label>
-					<input type="text" class="form-control bold input-lg" ng-model="x.dato" name="dato" bs-datepicker data-date-format="dd-MM-yyyy" size="7" data-autoclose="true" data-container="body" />
+					<div class="col-md-4" style="padding-left: 0px !important;">
+						<label class="normal required">Slut tidspunkt</label>
+						<input type="text" class="form-control bold input-lg" ng-model="x.slut_tid" name="slut_tid" bs-timepicker data-time-format="HH:mm" data-length="1" data-minute-step="1" data-arrow-behavior="picker" data-autoclose="true" data-container="body" />
+					</div>
+
+					<label class="normal">Myrejagt-id :</label>
+					<input type="text" class="form-control bold input-lg" select-on-click value="{{ x.myrejagt_id }}" readonly />
+
 				</div>
 
-				<div class="col-md-4" style="padding-left: 0px !important;">
-					<label class="normal required">Start tidspunkt</label>
-					<input type="text" class="form-control bold input-lg" ng-model="x.start_tid" name="start_tid" bs-timepicker data-time-format="HH:mm" data-time-type="string" data-length="1" data-minute-step="1" data-arrow-behavior="picker" data-autoclose="true" data-container="body" />
+				<div class="col-md-6">
+					<leaflet id="{{ x.mapId }}" class="eksperiment-map" center="x.map.center" defaults="x.map.defaults" layers="x.map.layers" markers="x.map.markers" events="x.map.events" height="280px" style="border:1px solid #ccc;border-radius:5px;"></leaflet>
 				</div>
 
-				<div class="col-md-4" style="padding-left: 0px !important;">
-					<label class="normal required">Slut tidspunkt</label>
-					<input type="text" class="form-control bold input-lg" ng-model="x.slut_tid" name="slut_tid" bs-timepicker data-time-format="HH:mm" data-length="1" data-minute-step="1" data-arrow-behavior="picker" data-autoclose="true" data-container="body" />
-				</div>
-
-
-				<label class="normal">Myrejagt-id :</label>
-				<input type="text" class="form-control bold input-lg" select-on-click value="{{ x.myrejagt_id }}" readonly />
-
-			</div>
-
-			<div class="col-md-6">
-				<leaflet id="{{ x.mapId }}" class="eksperiment-map" center="x.map.center" defaults="x.map.defaults" layers="x.map.layers" markers="x.map.markers" events="x.map.events" height="280px" style="border:1px solid #ccc;border-radius:5px;"></leaflet>
-			</div>
-
-			<button class="btn btn-default btn-eksperiment-save" 
-							ng-class="{ 'btn-success' : eksperimentFormChanged('formOversigt{{ x.eksperiment_id }}') }"
-							ng-click="updateEksperiment('formOversigt'+x.eksperiment_id)" 
-							ng-disabled="!eksperimentFormChanged('formOversigt{{ x.eksperiment_id }}')">
-				<i class="fa fa-check"></i>
-				Gem ændringer
-			</button>	
+				<button class="btn btn-default btn-eksperiment-save" 
+								ng-class="{ 'btn-success' : eksperimentFormChanged('formOversigt{{ x.eksperiment_id }}') }"
+								ng-click="updateEksperiment('formOversigt'+x.eksperiment_id)" 
+								ng-disabled="!eksperimentFormChanged('formOversigt{{ x.eksperiment_id }}')">
+					<i class="fa fa-check"></i>
+					Gem ændringer
+				</button>	
 
 			</form>
 		</div>
 
-<!-------------------- lokalitet ---------------------->
+	<!---------- lokalitet ------------->
 		<div bs-pane data-title="Lokalitet" style="padding-left:0px;">
 
 			<form novalidate id="formLokalitet{{ x.eksperiment_id }}">
@@ -107,65 +82,63 @@
 	
 					<div class="col-sm-12" style="min-height:10px;"></div>
 
-			<div class="control-group col-md-3" style="padding-left: 0px !important;">
-				<label class="normal required">Postnr</label>
-				<input type="text" class="form-control bold input-md" ng-model="x.postnr" name="postnr"/>
-			</div>
+					<div class="control-group col-md-3" style="padding-left: 0px !important;">
+						<label class="normal required">Postnr</label>
+						<input type="text" class="form-control bold input-md" ng-model="x.postnr" name="postnr"/>
+					</div>
 
-			<div class="control-group col-md-9" style="padding-right: 0px !important; padding-left:0px !important;">
-				<label class="normal required">By</label>
-				<input type="text" class="form-control bold input-md" ng-model="x.by" name="by"/>
-			</div>
+					<div class="control-group col-md-9" style="padding-right: 0px !important; padding-left:0px !important;">
+						<label class="normal required">By</label>
+						<input type="text" class="form-control bold input-md" ng-model="x.by" name="by"/>
+					</div>
 
-			<div class="control-group col-md-7" style="padding-left: 0px !important;">
-				<label class="normal required">Kommune</label>
-				<input type="text" class="form-control bold input-md" ng-model="x.kommune" id="kommune" name="kommune" />
-			</div>
+					<div class="control-group col-md-7" style="padding-left: 0px !important;">
+						<label class="normal required">Kommune</label>
+						<input type="text" class="form-control bold input-md" ng-model="x.kommune" id="kommune" name="kommune" />
+					</div>
 
-			<div class="control-group col-md-5" style="padding-right: 0px !important; padding-left:0px !important;">
-				<label class="normal required">Region</label>
-				<input type="text" class="form-control bold input-md" ng-model="x.region" name="region"/>
-			</div>
+					<div class="control-group col-md-5" style="padding-right: 0px !important; padding-left:0px !important;">
+						<label class="normal required">Region</label>
+						<input type="text" class="form-control bold input-md" ng-model="x.region" name="region"/>
+					</div>
 
-		</div>
+				</div>
 
-		<div class="control-group col-md-6">
-			<leaflet id="{{ x.mapId }}_lok" class="eksperiment-map" XXXin-view="refreshMaps()" center="x.map.center" defaults="x.map.defaults" layers="x.map.layers" markers="x.map.markers" events="x.map.events" height="280px" style="border:1px solid #ccc;border-radius:5px;"></leaflet>
-		</div>
+				<div class="control-group col-md-6">
+					<leaflet id="{{ x.mapId }}_lok" class="eksperiment-map" XXXin-view="refreshMaps()" center="x.map.center" defaults="x.map.defaults" layers="x.map.layers" markers="x.map.markers" events="x.map.events" height="280px" style="border:1px solid #ccc;border-radius:5px;"></leaflet>
+				</div>
 
-		</form>		
-				<button class="btn btn-default btn-eksperiment-save" 
+			</form>		
+			<button class="btn btn-default btn-eksperiment-save" 
 							ng-class="{ 'btn-success' : eksperimentFormChanged('formLokalitet{{ x.eksperiment_id }}') }"
 							ng-click="updateEksperiment('formLokalitet'+x.eksperiment_id)" 
 							ng-disabled="!eksperimentFormChanged('formLokalitet{{ x.eksperiment_id }}')">
 				<i class="fa fa-check"></i>
 				Gem ændringer
 			</button>	
-			</div>
+		</div>
 
-<!---////////////////-- lokalitet ---------------------->
+	<!---------- miljødata ------------->
+<!--		
+		<div bs-pane data-title="Miljødata" style="padding-left:0px;">
 
+			<form novalidate id="formMiljo{{ x.eksperiment_id }}">
 
-					<div bs-pane data-title="Miljødata" style="padding-left:0px;">
-
-						<form novalidate id="formMiljo{{ x.eksperiment_id }}">
-
-
-						<table xxstyle="width:100%;" style="border-papding:5px;">
-							<thead>
-								<tr>
-									<th></th>
-									<th style="width:100px !important;">°C</th>
-									<th style="width:200px !important;">Vejr</th>
-									<th style="width:150px !important;">Sol</th>
-									<th style="width:200px !important;">Vind</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr ng-repeat="d in x.Data">
-									<td> {{ d.madding }} &nbsp;&nbsp;</td>
-									<td> 
-										<input type="number" 
+				<table xxstyle="width:100%;" style="border-papding:5px;">
+					<thead>
+						<tr>
+							<th></th>
+							<th style="width:100px !important;">°C</th>
+							<th style="width:200px !important;">Vejr</th>
+							<th style="width:150px !important;">Sol</th>
+							<th style="width:200px !important;">Vind</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="d in x.Data">
+							<td> {{ d.madding }} &nbsp;&nbsp;</td>
+							<td> 
+								<input type="number" 
 														placeholder="0" 
 														class="form-control" 
 														ng-model="d.temp" 
@@ -226,61 +199,149 @@
 				Gem ændringer
 			</button>	
 				
-					</div>
+		</div>
+-->
+
+	<!---------- resultat ------------->
 
 
-					<div bs-pane data-title="Resultat">
+<div bs-pane data-title="Miljødata og Resultater">
 
-						<table style="width:100%;">
-							<thead>
-								<tr>
-									<th></th>
-									<th>Myrer inden indsamling</th>
-									<th>Myrer efter frysning</th>
-									<th>Var maden stjålet?</th>
-									<th>Kommentar</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr ng-repeat="d in x.Data">
-									<td> {{ d.madding }} &nbsp;&nbsp;</td>
-									<td> 
-										<input type="text" 
-													only-digits
-													class="form-control"  
-													ng-model="d.myrer_indsamlet"
-													ng-class="{ 'has-value' : d.myrer_indsamlet != '' }">
+	<form novalidate id="formResultater{{ x.eksperiment_id }}">
 
-									</td>
-									<td> 
-										<input type="text" 
-													only-numbers
-													class="form-control"  
-													ng-model="d.myrer_indsamlet"
-													ng-class="{ 'has-value' : d.myrer_indsamlet != '' }">
-									</td>
-									<td> 
-										<button data-placeholder="Hvad var der sket"
+	<table style="float:left;clar:none;border-spacing:15px 1px;border-collapse: separate;">
+		<thead>
+				<tr>
+					<th>Miljødata</th>
+					<th style="width: 150px;"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Temp. °C</td>
+					<td>
+								<input type="number" 
+														placeholder="0" 
+														class="form-control" 
+														ng-model="x.temp" 
+														name="temp"
+														Xng-class="{ 'has-value' : d.temp != '' }"
+														style="width:100px !important;" />  
+
+					</td>
+				</tr>
+
+				<tr>
+					<td>Vejr</td>
+					<td>
+										<button data-placeholder="Indstil"
 														style="width: 99% !important;text-align:left;"
 													  type="button" 
 														class="btn btn-default select" 
-														ng-model="selectedIcon" 
+														ng-model="x.vejr" 
+														name="vejr"
 														data-toggle="true" 
-														bs-options="i.value as i.label for i in items.jaNej" 
+														Xng-class="{ 'has-value' : d.vejr != '' }"
+														bs-options="i.value as i.label for i in items.vejr" 
 														bs-select>
 											<span class="caret"></span>
 										</button>
-									</td>
-									<td> <input type="text" class="form-control">  </td>
-								</tr>
-							</tbody>
-						</table>
-						<button class="btn btn-success btn-eksperiment-save">Gem ændringer</button>	
 
-					</div>
+					</td>
+				</tr>
 
-				</div>			
-			</div>
+				<tr>
+					<td>Sol</td>
+					<td>
+										<button data-placeholder="Indstil"
+														style="width: 99% !important;text-align:left;"
+													  type="button" 
+														class="btn btn-default select" 
+														ng-model="x.sol" 
+														name="sol"
+														data-toggle="true" 
+														Xng-class="{ 'has-value' : d.sol != '' }"
+														bs-options="i.value as i.label for i in items.sol" 
+														bs-select>
+											<span class="caret"></span>
+										</button>
+
+					</td>
+				</tr>
+
+				<tr>
+					<td>Vind</td>
+					<td>
+										<button data-placeholder="Indstil"
+														style="width: 99% !important;text-align:left;"
+													  type="button" 
+														class="btn btn-default select" 
+														name="vind"
+														ng-model="x.vind" 
+														data-toggle="true" 
+														Xng-class="{ 'has-value' : d.vind != '' }"
+														bs-options="i.value as i.label for i in items.vind" 
+														bs-select>
+											<span class="caret"></span>
+										</button>
+
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+
+
+	<table style="border-spacing:15px 1px;border-collapse: separate;">
+		<thead>
+			<tr>
+				<th></th>
+				<th title="Antal myrer inden indsamling">#Indsamlet</th>
+				<th title="Antal myrer efter frysning">#Frysning</th>
+				<th>Maden væk?</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="d in x.Data">
+					<td> {{ d.madding }} &nbsp;&nbsp;</td>
+					<td> 
+						<input type="text" 
+									only-digits
+									style="width: 70px;"
+									name="myrer_indsamlet"
+									class="form-control"  
+									ng-model="d.myrer_indsamlet"
+									Xng-class="{ 'has-value' : d.myrer_indsamlet != '' }">
+					</td>
+					<td> 
+						<input type="text" 
+									style="width: 70px;"
+									only-numbers
+									name="myrer_frysning"
+									class="form-control"  
+									ng-model="d.myrer_frysning"
+									Xng-class="{ 'has-value' : d.myrer_frysning != '' }">
+					</td>
+					<td style="text-align:center;"> 
+						<checkbox ng-model="d.maden_stjaalet" name="maden_sjaalet"></checkbox>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+	</form>
+			<button class="btn btn-default btn-eksperiment-save" 
+							ng-class="{ 'btn-success' : eksperimentFormChanged('formResultater{{ x.eksperiment_id }}') }"
+							ng-click="updateEksperimentData(x.eksperiment_id)" 
+							ng-disabled="!eksperimentFormChanged('formResultater{{ x.eksperiment_id }}')">
+				<i class="fa fa-check"></i>
+				Gem ændringer
+			</button>	
+
+	</div>
+</div>			
+
+
+</div>
 	
-<!-------------------->
 
