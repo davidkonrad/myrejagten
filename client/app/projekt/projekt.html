@@ -9,7 +9,7 @@
 			<span style="color:gray;">{{ user.showName }}</span>	projekter
 		</h3>
 
-		<div ng-repeat="p in projekts" xxng-animate="'animate'" >
+		<div ng-repeat="p in projekts">
 
 			<div class="projekt-bar" ng-class="{ 'bg-primary' : projekt_id == p.projekt_id }"	ng-click="skoleProjektClick(p.projekt_id)">
 				<span class="projekt-delimiter projekt-timestamp"> {{ p.created_timestamp | date:'dd-MM-yyyy :HH:mm' }} </span>
@@ -17,7 +17,7 @@
 				<span> {{ p.lokalitet }} </span>
 			</div>
 
-			<div ng-if="projekt_id == p.projekt_id" XXXstyle="margin-left:20px;">
+			<div ng-if="projekt_id == p.projekt_id" style="border:0px !important;">
 				<button role="button" class="btn btn-success btn-sm" ng-click="createEksperiment()" title="Opret nyt eksperiment">
 					<i class="fa fa-plus"></i>
 				</button>
@@ -30,11 +30,13 @@
 					ng-model="sortering.value" 
 					data-toggle="true" 
 					bs-options="i.value as i.label for i in items.sortering" 
-					bs-select>
+					bs-select
+				>
 					<span class="caret"></span>
 				</button>
 
-				<div ng-include="'app/projekt/privat.tpl.html'"></div>
+				<span ng-include="'app/projekt/privat.tpl.html'"></span>
+				</div>
 
 			</div>
 		</div>
@@ -42,7 +44,7 @@
 <!--
 		<h3>
 			<button role="button" class="btn btn-success btn-md" ng-disabled="!projektLoaded()" ng-click="showEksperiment()" title="Opret nyt eksperiment">
-				<i class="fa fa-plus"></i>
+				<i cl	ass="fa fa-plus"></i>
 			</button>
 			&nbsp;Eksperimenter
 		</h3>
@@ -55,10 +57,10 @@
 <!------------------- privat user ----------------------->
 	<div ng-if="user.role == 1">
 		<h3>
-			<button role="button" class="btn btn-success btn-md" ng-show="done" ng-click="createEksperiment()" title="Opret nyt eksperiment">
+			<!-- {{ user.showName }}	eksperimenter<br> -->
+			<button role="button" class="btn btn-success btn-sm" ng-click="createEksperiment()" title="Opret nyt eksperiment">
 				<i class="fa fa-plus"></i> Nyt eksperiment
 			</button>
-			{{ user.showName }}	eksperimenter
 
 			<button data-placeholder="Sortering"
 					id="sortering"
@@ -73,6 +75,7 @@
 			</button>
 		</h3>
 		<div ng-include="'app/projekt/privat.tpl.html'"></div>
+
 	</div>
 <!--////////////////--privat user ----------------------->
 

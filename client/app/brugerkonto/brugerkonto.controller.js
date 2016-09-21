@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .controller('BrugerkontoCtrl', ['$scope', '$compile', '$timeout', '$modal', 'TicketService', 'Login', 'Utils', 'MysqlUser', 'Eksperiment',
-	function($scope, $compile, $timeout, $modal, TicketService, Login, Utils, MysqlUser, Eksperiment) {
+  .controller('BrugerkontoCtrl', ['$scope', '$compile', '$timeout', '$modal', 'Geo', 'TicketService', 'Login', 'Utils', 'MysqlUser', 'Eksperiment', 'Projekt',
+	function($scope, $compile, $timeout, $modal, Geo, TicketService, Login, Utils, MysqlUser, Eksperiment, Projekt) {
 
 		$scope.user = Login.currentUser()
 		$scope.alerts = []
@@ -40,12 +40,11 @@ angular.module('myrejagtenApp')
 			})
 		}
 
-
 		$timeout(function() {
 			$('#institution').typeahead({
 				afterSelect: function(item) {
+					this.$element[0].value = item.skrivemaade_officiel
 					$scope.findNearestAddress(item.geometryWkt)
-					return item.skrivemaade_officiel
 				}, 
 				items : 20,
 				displayText: function(item) {
@@ -107,27 +106,27 @@ angular.module('myrejagtenApp')
 			console.log('XY', xy)
 			*/
 
-			var p = wkt.toObject().getBounds().getCenter()
+			console.log(wkt.components[0])
+			var t = wkt.components[0]
+			while (t.length && t.length>0) t=t[0]
+			console.log('t', t)
+
+			//var p = wkt.toObject().getBounds().getCenter()
+			/*
+			console.log(p)
+			var latLng = Geo.EPSG25832_to_WGS84(p.lng, p.lat)
+			console.log(latLng)
 			//console.log(p)
-			var url = 'http://services.kortforsyningen.dk/?servicename=RestGeokeys_v2&method=nadresse&geop='+p.lat+','+p.lng+'&hits=1&geometry=false&ticket='+TicketService.get()
-			//console.log(url)
+			*/
+			//var	deferred = $q.defer();
+			var url='http://services.kortforsyningen.dk/?servicename=RestGeokeys_v2&method=nadresse&geop='+t.x+','+t.y+'&hits=1&ticket='+TicketService.get()			
+			console.log(url)
 			$.getJSON(url, function(response) {
 				if (response.features && response.features.length) {
-					var f = response.features[0].properties						
-					$scope.user.adresse = f.vej_navn +' '+ f.husnr
-					$scope.user.postnr = f.postdistrikt_kode
-					$scope.user.by = f.postdistrikt_navn
-					$scope.user.kommune = f.kommune_navn
-					setRegionByKommuneNr(f.kommune_kode)
-  			  $scope.$apply();
+		 				console.log(response.features)
+		      //deferred.resolve(angular.copy(response.features))
 				}
 			})
-
-			var url = 'http://services.kortforsyningen.dk/?servicename=RestGeokeys_v2&method=adresse&geop='+p.lng+','+p.lat+'&georad=100&ticket='+TicketService.get()
-			$.getJSON(url, function(response) {
-				//console.log('ØØØ', response)
-			})
-
 		}
 
 
@@ -143,61 +142,6 @@ angular.module('myrejagtenApp')
 			}
 		}
 
-/*
-		$.getJSON('assets/kommuner.json', function(kommuner) {
-			//console.log(kommuner)
-			$scope.kommuner = kommuner
-
-			$scope.regioner = []
-			kommuner.forEach(function(kommune) {
-				Utils.arrayInsert($scope.regioner, kommune.region.navn.replace('Region ', ''))
-			})
-
-			$timeout(function() {
-				$('#kommune').typeahead({
-					displayText: function(item) {
-						return item.navn
-					},
-					afterSelect: function(item) {
-						//console.log(item)
-						$scope.user.region = item.region.nanvn.replace('Region ', '')
-					}, 
-					items : 20,
-					source: $scope.kommuner
-				})
-			})
-		})
-*/
-
-		/**
-			adresse lookup
-		*/
-
-/*
-		$timeout(function() {
-			$('#adresse').typeahead({
-				displayText: function(item) {
-					return item.presentationString
-				},
-				afterSelect: function(item) {
-					$scope.user.adresse = item.streetName + (item.streetBuildingIdentifier ? (' '+item.streetBuildingIdentifier) : '')
-					$scope.user.postnr = item.postCodeIdentifier ? item.postCodeIdentifier : ''
-					$scope.user.kommune = item.municipalityName ? item.municipalityName : ''
-					$scope.user.by = item.districtName ? item.districtName : ''
-					setRegionByKommuneNr(item.municipalityCode)
-  			  $scope.$apply();
-				}, 
-				items : 20,
-			  source: function(query, process) {
-					var url = 'https://services.kortforsyningen.dk/Geosearch?search='+query+'*&resources=adresser&limit=100&ticket='+TicketService.get()
-			    return $.getJSON(url, function(resp) {
-						return process(resp.data);		
-			    })
-			  }
-			})
-		})
-*/
-	
 		$scope.updateAlerts = function() {
 			var err = '';
 
@@ -213,6 +157,7 @@ angular.module('myrejagtenApp')
 					$scope.alerts.push({ 
 						message: 'Brugeroplysninger : Du mangler at udfylde ' + err,
 						type: 'alert-danger',
+
 					})
 				}
 			})
@@ -244,19 +189,41 @@ angular.module('myrejagtenApp')
 				}
 				return ''
 			}
-		Eksperiment.query({ where: { user_id: $scope.user.user_id }}).$promise.then(function(data) {
-				for (var i=0, l=data.length; i<l; i++) {
-					var myrejagtName = getEksName(data[i], i);
-					var name = '<strong><a href="/eksperimenter#' + (i+1) + '" title="Rediger ' + myrejagtName +'">' + myrejagtName +'</a></strong>'
-					var err = getEksDatoErr(data[i])
-					err += getEksLokalitetErr(data[i])
-					err += getEksAdresseErr(data[i])
-					err += getEksDataErr(data[i])
-					if (err && err.trim() != '')	$scope.alerts.push({ 
-						message: name + '  : ' + err,
-						type: 'alert-warning'
-					})
+
+			Projekt.query().$promise.then(function(projekt) {	
+
+				function getProjektName(projekt_id) {
+					for (var i=0, l=projekt.length; i<l; i++) {
+						if (projekt[i].projekt_id == projekt_id) {
+							return projekt[i].titel.trim() || projekt[i].lokalitet.trim() || 'Projekt #'+projekt_id
+						}
+					}
 				}
+
+				Eksperiment.query({ where: { user_id: $scope.user.user_id }}).$promise.then(function(data) {
+					for (var i=0, l=data.length; i<l; i++) {
+
+						var myrejagtName = getEksName(data[i], i);
+						if (data[i].projekt_id > 0) {
+							myrejagtName = getProjektName(data[i].projekt_id) + ', ' + myrejagtName
+						}
+						myrejagtName = myrejagtName.charAt(0).toUpperCase() + myrejagtName.slice(1)
+
+						var hash = data[i].projekt_id > 0 
+							? data[i].projekt_id + '_' + data[i].eksperiment_id
+							: data[i].eksperiment_id
+
+						var name = '<strong><a href="/eksperimenter#' + hash + '" title="Rediger ' + myrejagtName +'">' + myrejagtName +'</a></strong>'
+						var err = getEksDatoErr(data[i])
+						err += getEksLokalitetErr(data[i])
+						err += getEksAdresseErr(data[i])
+						err += getEksDataErr(data[i])
+						if (err && err.trim() != '')	$scope.alerts.push({ 
+							message: name + '  : ' + err,
+							type: 'alert-warning'
+						})
+					}
+				})
 			})
 
 			$('body').on('click', '.alert-close', function() {

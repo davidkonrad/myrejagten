@@ -29,6 +29,8 @@
       <link rel="stylesheet" href="bower_components/angular-datatables/dist/plugins/bootstrap/datatables.bootstrap.css" />
       <link rel="stylesheet" href="bower_components/datatables.net-bs/css/dataTables.bootstrap.css" />
       <link rel="stylesheet" href="bower_components/angular-motion/dist/angular-motion.css" />
+      <link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css" />
+      <link rel="stylesheet" href="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -40,12 +42,12 @@
       <link rel="stylesheet" href="app/base.css">
       <link rel="stylesheet" href="app/brugerkonto/brugerkonto.css">
       <link rel="stylesheet" href="app/createuser/createuser.css">
-      <link rel="stylesheet" href="app/forsoegModal/forsoegModal.modal.css">
       <link rel="stylesheet" href="app/main/main.css">
       <link rel="stylesheet" href="app/navbar/navbar.css">
       <link rel="stylesheet" href="app/phd/phd.css">
       <link rel="stylesheet" href="app/projekt/projekt.css">
       <link rel="stylesheet" href="app/tilmeld/tilmeld.css">
+      <link rel="stylesheet" href="app/visualisering/visualisering.css">
       <link rel="stylesheet" href="app/xxx_app.css">
       <!-- endinjector -->
     <!-- endbuild -->
@@ -149,6 +151,10 @@
       <script src="bower_components/angular-inview/angular-inview.js"></script>
       <script src="bower_components/angular-animate/angular-animate.js"></script>
       <script src="bower_components/angular-bootstrap-checkbox/angular-bootstrap-checkbox.js"></script>
+      <script src="bower_components/d3/d3.js"></script>
+      <script src="bower_components/nvd3/build/nv.d3.js"></script>
+      <script src="bower_components/angular-nvd3/dist/angular-nvd3.js"></script>
+      <script src="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
       <!-- endbower -->
       <script src="socket.io-client/socket.io.js"></script>
       <script src="https://code.angularjs.org/1.0.8/i18n/angular-locale_da-dk.js"></script>
@@ -167,11 +173,11 @@
           <script src="app/createuser/createuser.js"></script>
           <script src="app/directives/adresseOpslag.directive.js"></script>
           <script src="app/directives/geoHelper.js"></script>
+          <script src="app/directives/infoPopover.directive.js"></script>
           <script src="app/directives/institutionTypeahead.js"></script>
           <script src="app/directives/onlyDigits.directive.js"></script>
           <script src="app/directives/onlyNumbers.directive.js"></script>
           <script src="app/directives/selectOnClick.directive.js"></script>
-          <script src="app/forsoegModal/forsoegModal.modal.js"></script>
           <script src="app/main/main.controller.js"></script>
           <script src="app/main/main.js"></script>
           <script src="app/navbar/navbar.controller.js"></script>
@@ -191,6 +197,8 @@
           <script src="app/tilmeld/glemt_password.controller.js"></script>
           <script src="app/tilmeld/tilmeld.controller.js"></script>
           <script src="app/tilmeld/tilmeld.js"></script>
+          <script src="app/visualisering/visualisering.controller.js"></script>
+          <script src="app/visualisering/visualisering.js"></script>
           <script src="components/bootstrap3typeahead/typeahead2.js"></script>
           <script src="components/orderObjectBy/orderObjectBy.filter.js"></script>
           <script src="components/socket/socket.service.js"></script>

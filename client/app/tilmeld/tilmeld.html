@@ -1,6 +1,6 @@
 <div class="container">
 
-	<h3>Tilmeld dig Myrejagten</h3>
+	<h3>Tilmelding til Myrejagten</h3>
 
 	<div class="col-md-12">
 		<!--
@@ -10,6 +10,28 @@
 
 	<br>
 	<div class="col-md-6">
+
+	<!--
+		<i info-xs info-popover="test."></i>
+		<i info-sm info-popover="test."></i>
+		<i info-md info-popover="test."></i>
+		<i info-lg info-popover="test."></i>
+	-->
+
+		<div class="control-group">
+			<div class="controls">
+				<div class="radio" xstyle="margin-left:20px;">
+					Hvilken slags bruger&nbsp;:&nbsp;&nbsp;
+					<label class="bold" bs-popover data-trigger="hover" data-placement="top" data-content="Brugeren kan knyttes til en skole, fritdshjem, bønehave o.lign. Eksperimenter inddeles i overordnede projekter, hvilket giver mulighed for t.ex inddeling i hold.">
+						<input type="radio" name="brugertype" value="0" ng-model="user.role">Skole
+					</label>
+					&nbsp;&nbsp;
+					<label class="bold" bs-popover data-trigger="hover" data-placement="top" data-content="Normal bruger med navn og adresse som kan oprette et vilkårlgt antal eksperimenter.">
+						<input type="radio" name="brugertype"  value="1" ng-model="user.role" checked>Privat
+					</label>
+				</div>
+			</div>
+		</div>
     
 		<form class="form-horizontal">
 			<div class="control-group">
@@ -17,8 +39,7 @@
  				<div class="input-group">
 					<input type="text" id="email" ng-model="user.email" placeholder="" class="form-control input-lg">
 		      <span class="input-group-btn">
-						<h2 class="info"><i class="fa fa-question text-primary" bs-popover data-container="body" data-trigger="hover" data-content="En gyldig emailadresse der benyttes som login. Der vil blive sendt en bekræftelsesmail til adressen."></i></h2>
-
+						<i style="margin-left:5px;" info-popover="En gyldig emailadresse der benyttes som login. Der vil blive sendt en bekræftelsesmail til adressen."></i>
   		    </span>
 				</div>
 				<p class="help-block error" ng-show="emailInUse()">
@@ -33,7 +54,7 @@
  				<div class="input-group">
 					<input type="text" ng-model="user.brugernavn" placeholder="" class="form-control input-lg">
 		      <span class="input-group-btn">
-						<h2 class="info"><i class="fa fa-question text-primary" bs-popover data-container="body" data-trigger="hover" data-content="Dit synlige navn på myrejagten. Kan indeholde bogstaver, tal, mellemrum mv."></i></h2>
+						<i style="margin-left:5px;" info-popover="Dit synlige navn på myrejagten. Kan indeholde bogstaver, tal, mellemrum mv."></i>
   		    </span>
 				</div>
 			</div>
@@ -43,43 +64,27 @@
 			<div class="input-group">
 				<input type="text" id="password" ng-model="user.password" class="form-control input-lg">
 				<span class="input-group-btn">
-					<button class="btn btn-default btn-lg" style="top:-2px;left:-2px;" ng-click="generatePassword()" title="Generer et tilfældigt password med rimelig god sikkerhed"><i class="fa fa-gear"></i></button>
+					<button class="btn btn-default btn-lg" style="postion:relative;top:0px;left:-1px;" ng-click="generatePassword()" title="Generer et tilfældigt password med rimelig god sikkerhed"><i class="fa fa-gear"></i></button>
 				</span>
 				<span class="input-group-btn">
-					<h2 class="info"><i class="fa fa-question text-primary" bs-popover data-container="body" data-trigger="hover" data-content="Dit password skal være mindst 3 karakterer langt, men derudover er der ingen særlige  regler der skal overholdes."></i></h2>
+					<i style="margin-left:5px;" info-popover-size="lg" info-popover="Dit password skal være mindst 3 karakterer langt, men derudover er der ingen særlige  regler der skal overholdes."></i>
  		    </span>
 			</div>
 		</div>
 
             <div class="control-group">
-              <div class="controls">
-								<div class="radio" style="margin-left:20px;">
-									<br>									
-								  <label class="bold" bs-popover data-trigger="hover" data-placement="top" data-content="Brugeren kan knyttes til en institution, og man kan dele eksperimenter op i overordnede projekter">
-										<input type="radio" name="brugertype" value="0" ng-model="user.role">Offentlig
-									</label>
-									&nbsp;&nbsp;
-								  <label class="bold" bs-popover data-trigger="hover" data-placement="top" data-content="Standardbruger, ingen ekstra indtastningsoplysninger">
-										<input type="radio" name="brugertype"  value="1" ng-model="user.role" checked>Privat
-									</label>
-								</div>
-              </div>
-
-						<br>
-
-			        <div class="pull-right checkbox" style="position:relative;top:-14px;">
-							  <label class="normal" bs-popover data-trigger="hover"  data-container="body" data-content="Brugeren kan knyttes til en institution, og man kan dele eksperimenter op i overordnede projekter">
+			        <div class="pull-right checkbox" style="position:relative;top:-14px;right:40px;">
+							  <label class="normal">
 									<input type="checkbox" ng-model="user.accepted">
 									Jeg accepterer 
-									<a target=_blank href="/betingelser-og-vilkår">betingelser og vilkår</a>.
+									<a XXtarget=_blank href="/betingelser-og-vilkår"><strong>betingelser og vilkår</strong></a>.
 								</label>
 							</div>
             </div>
          
             <div class="control-group">
-              <!-- Button -->
               <div class="controls">
-								<hr>
+								<br><br><br>
                 <button class="btn btn-success btn-lg" ng-disabled="!canCreateUser()" ng-click="createUser()">
 									<i class="fa fa-check" ng-show="canCreateUser()"></i>
 									Tilmeld dig Myrejagten!

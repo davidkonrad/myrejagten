@@ -137,8 +137,8 @@ angular.module('myrejagtenApp')
 
 
 	/**
-	defaults for jQuery dataTables
-	 **/	
+		defaults for jQuery dataTables
+	 */	
 	$.extend( true, $.fn.dataTable.defaults, {
 	  "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "Alle"] ]
 	});

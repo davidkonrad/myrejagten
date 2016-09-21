@@ -6,6 +6,15 @@ angular.module('myrejagtenApp')
 	function($scope, $location, Login, Alert, KR, $timeout, $modal, $q, Projekt, Eksperiment, Data, Geo, TicketService, Utils, leafletData
 						/*DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, DTDefaultOptions*/) {
 
+/** 
+		leflet dist icon path
+		https://github.com/Leaflet/Leaflet/issues/766
+	 */
+		console.log(L.Icon.Default.imagePath)
+ 
+	  L.Icon.Default.imagePath = 'XXXX../bower_components/leaflet/dist/images/'
+		
+	
 		/*
 		if ($location.$$hash && $location.$$hash != '') {
 			$timeout(function() {
@@ -21,53 +30,23 @@ angular.module('myrejagtenApp')
 		//$scope.dtProjektInstance = {}
 		$scope.user = Login.currentUser()
 
-		Projekt.query({ where: { user_id: $scope.user.user_id }}).$promise.then(function(projekts) {
-			console.log(projekts)
-			$scope.projekts = projekts
-		})
-
-		//active projekt
-		$scope.projekt_id = 3;
+		if ($scope.user.role == 0) {
+			if ($location.$$hash && $location.$$hash != '' && $location.$$hash.indexOf('_')) {
+				var hash = $location.$$hash.split('_')
+				$scope.projekt_id = parseInt(hash[0])
+			}
+			Projekt.query({ where: { user_id: $scope.user.user_id }}).$promise.then(function(projekts) {
+				$scope.projekts = projekts
+			})
+		} else {
+			$scope.projekt_id = 0;
+		}
 
 		var showName = $scope.user.brugernavn
 		showName += showName.charAt( showName.length ).toLowerCase() != 's' ? '´s' : '´'
 		$scope.user.showName = showName;
 
-/*
-		$scope.dtProjektOptions = DTOptionsBuilder
-			.fromFnPromise(function() {
-				var defer = $q.defer();
-				Projekt.query({ where: { user_id: $scope.user.user_id }}).$promise.then(function(projekts) {
-					$scope.projects = projekts
-					defer.resolve(projekts)
-				})
-				return defer.promise;
-	    })
-			.withDOM('t')
-			.withOption('scrollY', '200px')
-			.withOption('scrollCollapse', true)
-			.withSelect({
-				style: 'single'
-			})
-			.withOption('initComplete', function() {
-				angular.element('#dtProjekt').on('dblclick', 'tr', function(e) {
-					console.log($scope.dtProjektInstance.DataTable.row(this).data())
-					var $row =$scope.dtProjektInstance.DataTable.row(this)
-					if ($row) {
-						$row.select()
-						$scope.showProjekt($row.data().projekt_id)
-					}
-				})
-				angular.element('#dtProjekt').on('select.dt', function(e, dt, type, indexes) {
-					$scope.currentProjektId = $scope.dtProjektInstance.DataTable.row( indexes[0] ).data().projekt_id
-					$scope.$apply()
-					//console.log($scope.currentProjektId)
-				})
-				angular.element('#dtProjekt').on('deselect.dt', function(e, dt, type, indexes) {
-				})
 
-			})
-*/
 		$scope.projektLoaded = function() {
 			//console.log('projektLoaded', $scope.currentProjektId)
 			return typeof $scope.currentProjektId == 'number'
@@ -77,18 +56,7 @@ angular.module('myrejagtenApp')
 			$scope.done = false;
 			$scope.projekt_id = projekt_id
 			$scope.reloadEksperimenter(projekt_id)
-			console.log('clicked', projekt_id, $scope.user.user_id)
 		}
-/*
-		DTDefaultOptions.setLoadingTemplate('<img src="assets/ajax-loader.gif">')
-
-		$scope.dtProjektColumns = [
-      DTColumnBuilder.newColumn('projekt_id').withTitle('#').notVisible(), // withOption('visible', false),
-      DTColumnBuilder.newColumn('titel').withTitle('Navn på projekt'),
-      DTColumnBuilder.newColumn('lokalitet').withTitle('Lokalitet'),
-      DTColumnBuilder.newColumn('created_timestamp').withTitle('Oprettet')
-		]
-	*/
 
 		/**
 			projekt modal
@@ -168,20 +136,15 @@ angular.module('myrejagtenApp')
 		$scope.doCreateProjekt = function() { 
 			if ($scope.__projekt.projekt_id) {
 				Projekt.update({ id: $scope.__projekt.projekt_id }, $scope.__projekt).$promise.then(function() {	
-					//$scope.dtProjektInstance.
-					$scope.dtProjektInstance.rerender()
+					//$scope.dtProjektInstance.rerender()
 				})
 			} else {
 				Projekt.save({ projekt_id: '' }, $scope.__projekt).$promise.then(function() {	
-					$scope.dtProjektInstance.rerender()
+					//$scope.dtProjektInstance.rerender()
 					//$scope.reloadProjekts()
 				})
 			}
 		}
-
-		/** projekt selection
-		
-		*/
 
 		/**
 			map related events and methods
@@ -214,7 +177,7 @@ angular.module('myrejagtenApp')
 			center: {
 				lat: 56.126627523318206,
 				lng: 11.457741782069204,
-				zoom: 6
+				zoom: 4
 			},
 			defaults: {
 				zoomAnimation: true,
@@ -337,7 +300,7 @@ angular.module('myrejagtenApp')
 					$scope.layers.baselayers.googleHybrid.visible = true
 
 					var center = lokalitetPolygon.__center
-					map.fitBounds(lokalitetPolygon.__bounds, { maxZoom: 15 } )
+					map.fitBounds(lokalitetPolygon.__bounds, { maxZoom: 17 } )
 					map.setView(center)
 					$scope.setMarker(center)
 					$timeout(function() {
@@ -441,44 +404,41 @@ angular.module('myrejagtenApp')
 		]
 		$scope.sortering = { value: '-eksperiment_id' }
 
-		/*
-		$scope.showEksperiment = function(eksperiment_id) {
-			$scope.__eksperiment = {
-				eksperiment_id: eksperiment_id,
-				projekt_id: $scope.currentProjektId
-			}
-			var modal = $modal({
-					scope: $scope,
-					templateUrl: 'app/projekt/eksperiment.modal.html',
-					backdrop: 'static',
-					show: true,
-					//controller: 'EksperimentCtrl',
-					QWERTY: 'yksikalsi',
-					onShow: function() {
-						console.log('onShow', arguments)
-					}
-				})
-			}
-		*/
-
 		function getMyrejagtId(user_id, projekt_id, eksperiment_id) {
 			function zeroPad(num, places) {
 			  var zero = places - num.toString().length + 1;
 			  return Array(+(zero > 0 && zero)).join("0") + num;
 			}
-			return 'MJ' + '-' + zeroPad(user_id, 3)	+ '-' + zeroPad(projekt_id, 3) + '-' + zeroPad(eksperiment_id, 4)	
+			return 'MJ' + '-' + zeroPad(user_id, 4)	+ '-' + zeroPad(projekt_id, 2) + '-' + zeroPad(eksperiment_id, 2)	
 		}
 
 		$scope.createEksperiment = function() {
 			Alert.show($scope, 'Eksperiment', 'Opret nyt ekseriment?').then(function(ok) {
 				if (ok) Eksperiment.save({	eksperiment_id: '' }, { user_id: $scope.user.user_id, projekt_id: $scope.projekt_id }).$promise.then(function(e) {
-					var myrejagt_id = getMyrejagtId($scope.user.user_id, $scope.projekt_id, e.eksperiment_id);
-					var titel = 'Myrejagt #' + ($scope.eksperimenter.length+1);
-					Eksperiment.update({ id: e.eksperiment_id }, { myrejagt_id: myrejagt_id, titel: titel })
+
 					$scope.items.madding.forEach(function(m) {
 						Data.save({ data_id: ''}, { eksperiment_id: e.eksperiment_id, madding: m.madding })
 					})
-					$scope.reloadEksperimenter()
+					var now = new Date()
+
+					//get #eks for projekt_id
+					Eksperiment.query({ where: { projekt_id: $scope.projekt_id }}).$promise.then(function(p) {
+
+						var updateValues = { 
+							myrejagt_id: getMyrejagtId($scope.user.user_id, $scope.projekt_id, e.eksperiment_id),
+							titel: 'Myrejagt #' + p.length,
+							start_tid: now.getHours()+':00',
+							slut_tid: now.getHours()+5+':00',
+							dato: now.toString()
+						}
+
+						console.log(updateValues)
+						Eksperiment.update({ id: e.eksperiment_id }, updateValues).$promise.then(function(e) {
+							$scope.reloadEksperimenter()
+						})
+					})
+
+
 				})
 			})
 		}
@@ -537,6 +497,14 @@ angular.module('myrejagtenApp')
 				}
 			}
 		}
+		var iconRed = {
+			iconUrl: 'assets/images/red.png',
+			iconSize: [25, 41],
+			shadowSize: [50, 64], 
+			iconAnchor: [12, 41], 
+			shadowAnchor: [4, 62], 
+			popupAnchor: [-2, -46] 
+		}
 
 		$scope.$on('leafletDirectiveMap.click', function(event, target){
 			var latLng = target.leafletEvent.latlng
@@ -544,8 +512,9 @@ angular.module('myrejagtenApp')
 
 			//click on lokalitet->map
 			if (~id.indexOf('_lok')) {
-				id = parseInt( id.match(/\d/)[0] )
-				var e = $scope.eksperimentById(id)
+				var eksperiment_id = parseInt( id.match(/\d+/)[0] )
+				var e = $scope.eksperimentById(eksperiment_id)
+
 				if (!e.map.marker) {
 					e.map.marker = {
 						lat: latLng.lat,
@@ -555,6 +524,18 @@ angular.module('myrejagtenApp')
 					}
 					e.map.markers['marker'] = e.map.marker
 				} else {
+					//update lat,lng force save button to be enabled
+					var formId = '#formLokalitet'+eksperiment_id
+					var form = angular.element(formId)
+					form.find('input[name="lat"]').val( latLng.lat )
+					form.find('input[name="lng"]').val( latLng.lng )
+					Utils.formSetDirty(formId)
+
+					//remove red icon and message if present
+					if (e.map.marker.hasOwnProperty('icon')) {
+						delete e.map.marker.icon
+						delete e.map.marker.message
+					}
 					e.map.marker.lat = latLng.lat
 					e.map.marker.lng = latLng.lng
 				}
@@ -583,10 +564,12 @@ angular.module('myrejagtenApp')
 					})
 				})
 			}
+			if (index == 1)	$timeout(function() {
+				$('input[name="adresse"]').focus()
+			})
 		})
 
 		$scope.refreshMaps = function() {
-			console.log('refrershMaps')
 			for (var i=0, l=$scope.eksperimenter.length; i<l; i++) {
 				leafletData.getMap($scope.eksperimenter[i].mapId).then(function(map) {
 					map.invalidateSize();
@@ -623,7 +606,7 @@ angular.module('myrejagtenApp')
 						e.map.center = {
 							lat: parseFloat(e.lat),
 							lng: parseFloat(e.lng),
-							zoom: 15
+							zoom: 17
 						}
 					}
 
@@ -721,6 +704,8 @@ angular.module('myrejagtenApp')
 						lat: lat,
 						lng: lng,
 						focus: true,
+						icon: iconRed,
+						message: 'Zoom helt ind på kortet og klik for at angive den helt nøjagtige position.',
 						draggable: true
 					}
 					e.map.markers['marker'] = e.map.marker
@@ -804,26 +789,21 @@ angular.module('myrejagtenApp')
 
 
 angular.module('myrejagtenApp')
-	.directive('renderFinished', function() {
-      return function(scope, element, attrs) {
-        element.bind('$destroy', function(event) {
-          if (scope.$last) {
-            scope.$eval(attrs.renderFinished);
-          }
-        });
-      }
-    });
-
-
-angular.module('myrejagtenApp')
 	.directive('renderFinished', ['$location', '$timeout', function ($location, $timeout) {
   return function(scope, element, attrs) {
 
-    if (scope.$last){
+    if (scope.$last) {
 			if ($location.$$hash && $location.$$hash != '') {
+
+				var eksperiment_id = ~$location.$$hash.indexOf('_')
+					? $location.$$hash.split('_')[1]
+					: $location.$$hash
+
+				delete $location.$$hash
+
 				$timeout(function() {
-					var $eks = angular.element('#eksperiment-cnt-'+$location.$$hash)
-					$("body").animate({scrollTop: $eks.offset().top}, 400);
+					var $eks = angular.element('#eksperiment-cnt-' + eksperiment_id)
+					if ($eks.offset()) $("body").animate({scrollTop: $eks.offset().top-20 }, 400);
 				})
 			}
 		}

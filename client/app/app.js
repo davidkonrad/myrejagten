@@ -55,9 +55,10 @@ angular.module('myrejagtenApp', [
   })
 
   .run(function ($rootScope, $location, Login) {
-	 
-    $rootScope.$on('$routeChangeStart', function (event, next) {
-			console.log(event, next)
+	
+	  $rootScope.$on('$routeChangeStart', function (event, next) {
+			//console.log(event, next)
+
       //Auth.isLoggedInAsync(function(loggedIn) {
 				/*
 				var publicLocation = next.$$route.templateUrl || next.$$route.loadedTemplateUrl;
@@ -79,4 +80,6 @@ angular.module('myrejagtenApp', [
     });
   });
   
-  
+  L.Icon.Default.imagePath = '/sites/all/libraries/leaflet/dist/images';
+
+

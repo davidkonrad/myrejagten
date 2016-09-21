@@ -34,7 +34,9 @@
     "angular-inview": "*",
     "angular-motion": "^0.4.4",
     "angular-animate": "^1.5.8",
-    "angular-bootstrap-checkbox": "^0.5.0"
+    "angular-bootstrap-checkbox": "^0.5.0",
+    "angular-nvd3": "^1.0.9",
+    "Leaflet.awesome-markers": "leaflet-awesome-markers#^2.0.2"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",

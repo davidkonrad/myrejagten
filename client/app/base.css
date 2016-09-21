@@ -96,4 +96,24 @@ table.dataTable tbody tr.selected {
 	margin-right: 0px !important;
 
 }
+.normal {
+	font-weight: normal;
+}
+.bold {
+	font-weight: bold !important;
+}
+.pointer {
+	cursor: pointer;
+}
+.popover-title { display: none; }
+
+/*
+.info-icon:after {
+	color: navy;
+   font-family: FontAwesome;
+	font-size: 130%;
+   content: "\f129";
+}
+*/
+
 
