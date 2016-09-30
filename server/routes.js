@@ -14,7 +14,8 @@ module.exports = function(app) {
 	app.use('/api/mysqluser', require('./api/mysql/user'));
 
   app.use('/api/email', require('./api/email'));
-
+  app.use('/api/upload', require('./api/upload'));
+  app.use('/api/download', require('./api/download'));
 
 	// All undefined asset or api routes should return a 404
 	app.route('/:url(api|auth|components|app|bower_components|assets)/*')

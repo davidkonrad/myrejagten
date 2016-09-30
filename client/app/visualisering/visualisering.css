@@ -1,0 +1,27 @@
+
+#vis-map .leaflet-popup-content-wrapper {
+	border-radius: 0;
+}
+#vis-map .leaflet-popup-content {
+	color: black;
+	margin: 0px;
+	margin-bottom: 12px;
+	padding-left: 5px;
+}
+#vis-map .leaflet-popup-close-button {
+	color: gray;
+	z-index: 20000;
+}
+
+
+#vis-map .leaflet-popup-content h4 {
+	width: 300px;
+	margin-bottom:2px;
+	background-color: #ebebeb;
+	padding: 5px;
+	padding-left: 5px;
+	margin-top: 0px;
+	position: relative;
+	left: -5px;
+}
+

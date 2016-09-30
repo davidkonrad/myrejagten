@@ -9,5 +9,6 @@ npm-debug.log
 dist
 server/config/local.env.js
 server/config/environment/development.js
-130.225.99.91
-projektdata/02062016/
+uploads
+client/uploads
+

@@ -1,29 +1,48 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .controller('ProjektCtrl', ['$scope', '$location', 'Login', 'Alert', 'KR', '$timeout', '$modal', '$q', 'Projekt', 'Eksperiment', 'Data', 'Geo', 'TicketService', 'Utils', 'leafletData', 
-							/*'DTOptionsBuilder', 'DTColumnBuilder', 'DTColumnDefBuilder', 'DTDefaultOptions' */ 
-	function($scope, $location, Login, Alert, KR, $timeout, $modal, $q, Projekt, Eksperiment, Data, Geo, TicketService, Utils, leafletData
-						/*DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, DTDefaultOptions*/) {
+  .controller('ProjektCtrl', ['$scope', '$http', '$location', 'Login', 'Alert', 'KR', '$timeout', '$modal', '$q', 'Projekt', 'Eksperiment', 
+							'Data', 'Geo', 'TicketService', 'Utils', 'leafletData', 'video', 'UploadModal',
+	function($scope, $http, $location, Login, Alert, KR, $timeout, $modal, $q, Projekt, Eksperiment, 
+							Data, Geo, TicketService, Utils, leafletData, video, UploadModal) {
 
-/** 
-		leflet dist icon path
-		https://github.com/Leaflet/Leaflet/issues/766
-	 */
-		console.log(L.Icon.Default.imagePath)
- 
-	  L.Icon.Default.imagePath = 'XXXX../bower_components/leaflet/dist/images/'
-		
-	
-		/*
-		if ($location.$$hash && $location.$$hash != '') {
-			$timeout(function() {
-				var $eks = angular.element('#eksperiment-cnt-'+$location.$$hash)
-				$("body").animate({scrollTop: $eks.offset().top}, "slow");
-				console.log($location.$$hash)
-			}, 1000)
-		}
+
+			$scope.test = {};
+
+        $scope.$on('$videoReady', function videoReady() {
+            $scope.test.options.setAutoplay(true);
+            $scope.test.sources.add('http://www.w3schools.com/html/mov_bbb.mp4');
+        });
+
+		/**
+			sotrage for all lists and predfined types
 		*/
+		$scope.items = {}
+
+		/***************************/
+
+		/**
+			image / video 
+		*/			
+		$scope.uploadImage = function(eksperiment_id, currentImage) {
+			UploadModal.image($scope, eksperiment_id, currentImage).then(function(fileName) {	
+				if (typeof fileName == 'string') {
+					var e = $scope.eksperimentById(eksperiment_id);
+					e.upload_billede = fileName
+				}
+			})
+		}
+		
+		/**
+			Projekt
+		*/
+		$scope.items.projektSortering = [
+			{ value: '-projekt_id', label: 'Nyeste' },
+			{ value: 'projekt_id', label: 'Ældste' },
+			{ value: 'titel', label: 'Navn' },
+			{ value: 'eksperiment_count.$$state.value', label: 'Eksperimenter' },
+		]
+		$scope.projektSortering = { value: '-projekt_id' }
 
 		var lokalitetPolygon;
 
@@ -36,7 +55,21 @@ angular.module('myrejagtenApp')
 				$scope.projekt_id = parseInt(hash[0])
 			}
 			Projekt.query({ where: { user_id: $scope.user.user_id }}).$promise.then(function(projekts) {
+				function getCount(projekt_id) {
+					//var	deferred = $q.defer();
+					return Eksperiment.query({ where: { projekt_id: projekt_id }}).$promise.then(function(e) {
+						console.log('ooo', e.length)
+						//deferred.resolve(e.length)
+						return e.length
+					})
+					//return deferred.promise;
+				}
 				$scope.projekts = projekts
+				$scope.projekts.forEach(function(projekt) {
+					projekt.eksperiment_count = getCount(projekt.projekt_id)
+					//console.log(projekt.eksperiment_count)
+					//console.log(projekt.eksperiment_count.$State)
+				})
 			})
 		} else {
 			$scope.projekt_id = 0;
@@ -98,7 +131,7 @@ angular.module('myrejagtenApp')
 			}
 		}
 		$scope.$on('modal.show', function(e, target) {
-			console.log(e, target)
+			//console.log(e, target)
 			$scope.initializeStednavne_v2($scope)
 			if ($scope.__projekt && $scope.__projekt.projekt_id) {
 				$scope.updateMapElements($scope.__projekt)
@@ -355,7 +388,6 @@ angular.module('myrejagtenApp')
 		/**
 			eksperiment
 		*/
-		$scope.items = {}
 		$scope.items.jaNej = [
 			{ value: 0, label: 'Nej' },
 			{ value: 1, label: 'Ja' }
@@ -432,7 +464,6 @@ angular.module('myrejagtenApp')
 							dato: now.toString()
 						}
 
-						console.log(updateValues)
 						Eksperiment.update({ id: e.eksperiment_id }, updateValues).$promise.then(function(e) {
 							$scope.reloadEksperimenter()
 						})
@@ -620,7 +651,7 @@ angular.module('myrejagtenApp')
 				$scope.eksperimenter = eksperimenter
 				//force 'done' if empty
 				if (eksperimenter.length <= 0) {
-					console.log('DONE')
+					//console.log('DONE')
 					$scope.done = true
 					$timeout(function() {
 						$scope.$apply() //ensure immedatiate update of the buttons
@@ -778,7 +809,6 @@ angular.module('myrejagtenApp')
 				default:
 					break;
 			}
-			//console.log('eksperimentAdresseSelect', arguments)
 		}
 
 		$scope.renderFinished = function() {

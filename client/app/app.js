@@ -16,7 +16,9 @@ angular.module('myrejagtenApp', [
 	'datatables.select',
 	'datatables.options',
 	'angular-inview',
-	'ui.checkbox'
+	'ui.checkbox',
+	'ngFileUpload',
+	'ngVideo'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider

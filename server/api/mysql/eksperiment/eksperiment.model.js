@@ -78,6 +78,14 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: true
     },
+    upload_billede: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    upload_video: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     temp: {
       type: DataTypes.INTEGER,
       allowNull: true

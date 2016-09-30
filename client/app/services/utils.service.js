@@ -90,7 +90,7 @@ angular.module('myrejagtenApp')
 			},
 
 			formToObj: function(id) {
-				console.log(this)
+				//console.log(this)
 				var form = document.querySelector(id), obj = {}
 				if (form) {
 					var e, name, isDatePicker, inputs = form.querySelectorAll('input');
@@ -99,7 +99,7 @@ angular.module('myrejagtenApp')
 						name = e.getAttribute('name');
 						isDatePicker = e.getAttribute('bs-datepicker') != '';
 
-						console.log('isDatePicker', isDatePicker)
+						//console.log('isDatePicker', isDatePicker)
 						if (name) {
 							obj[name] = isDatePicker ? e.value : this.systemDate(e.value)
 						}

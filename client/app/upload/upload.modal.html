@@ -1,0 +1,47 @@
+<div class="modal ng-scope top am-fade-and-slide-top center" tabindex="-1" role="dialog" style="display: block;" id="modal-upload">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			
+			<div class="modal-header">
+				<h4 class="modal-title"> Upload billede</h4>
+			</div>
+
+			<div class="modal-body">
+					<div class="control-group col-md-12">
+
+					<form xxng-app="fileUpload" name="form">
+					  <div class="btn btn-primary" ngf-select="registerFile($file, $invalidFiles)" ng-model="file" name="file" ngf-pattern="'image/*'"
+					    ngf-accept="'image/*'" ngf-max-size="10MB" ngf-min-height="100">Vælg billede fra computer
+						</div>
+
+						<br><br>
+						<div style="border:2px dotted gray; clear:both; float: left; padding:10px; display: block; min-width: 99%; min-height: 300px; text-align: center; vertical-align: middle;">
+<!--
+							<span style="z-index:20000;position:relative; vertical-align: middle;
+">Intet billede valgt</span>
+
+							  ngf-src="selectedFile || '{{currentImage}}' "
+-->
+							<img id="upload-image-modal"
+								width="450"
+								style="display:inline-block !important; max-height:250px !important;"
+							  ngf-src="selectedFile || '{{ currentImage }}' "
+							  ngf-background="selectedFile" 
+							  ngf-resize="{width: 400, height: 250, quality: 0.9}" 
+							  ngf-no-object-url="false" 
+							>
+						</div>
+					</form>			
+				</div>
+			</div>
+
+			<div class="modal-footer">
+			  <button type="submit" class="btn btn-success" ng-click="uploadFile()">
+					Upload billede
+				</button>
+				<button type="button" class="btn btn-default" ng-click="modalClose(false)" >Fortryd</button> 
+			</div>
+
+		</div>
+	</div>
+</div>

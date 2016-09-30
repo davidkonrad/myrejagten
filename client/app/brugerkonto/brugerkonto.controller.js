@@ -180,12 +180,12 @@ angular.module('myrejagtenApp')
 			}
 			function getEksDataErr(e) {
 				for (var i=0, l=e.Data.length; i<l; i++) {
-					if (!e.Data[i].sol ||
-							!e.Data[i].temp ||
-							!e.Data[i].vind ||
-							!e.Data[i].vejr ||
-							e.Data[i].myrer_frysning <= 0 ||
-							e.Data[i].myrer_indsamlet <= 0) return 'Indtastning af eksperiment-oplysninger ikke komplet. ' 
+					if (!e.sol ||
+							!e.temp ||
+							!e.vind ||
+							!e.vejr ||
+							!e.Data[i].myrer_frysning ||
+							!e.Data[i].myrer_indsamlet) return 'Indtastning af eksperiment-oplysninger ikke komplet. ' 
 				}
 				return ''
 			}
