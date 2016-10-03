@@ -109,13 +109,4 @@ table.dataTable tbody tr.selected {
 }
 .popover-title { display: none; }
 
-/*
-.info-icon:after {
-	color: navy;
-   font-family: FontAwesome;
-	font-size: 130%;
-   content: "\f129";
-}
-*/
-
 

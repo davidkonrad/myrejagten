@@ -6,6 +6,10 @@ angular.module('myrejagtenApp')
 	function($scope, $http, $location, Login, Alert, KR, $timeout, $modal, $q, Projekt, Eksperiment, 
 							Data, Geo, TicketService, Utils, leafletData, video, UploadModal) {
 
+		console.dir(Data)
+		Data.joinResultat().$promise.then(function(x) {
+			console.log(x)
+		})
 
 			$scope.test = {};
 

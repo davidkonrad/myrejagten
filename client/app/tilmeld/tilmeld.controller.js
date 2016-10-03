@@ -4,11 +4,7 @@ angular.module('myrejagtenApp')
   .controller('TilmeldCtrl', ['$scope', '$http', '$location', 'MysqlUser', 'Login', '$modal', 
 	function($scope, $http, $location, MysqlUser, Login, $modal) {
 
-  	$http.get('/api/download/gbif/').then(function(test) {
-			console.log(test)
-		})
-
-    //$http.post('/api/email/signup/', { name: 'userName', code: 'qwerty' });
+      //$http.post('/api/email/signup/', { name: 'userName', code: 'qwerty' });
 
 		MysqlUser.query().$promise.then(function(users) {
 			$scope.users = users

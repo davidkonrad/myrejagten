@@ -1,8 +1,15 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .controller('BrugerkontoCtrl', ['$scope', '$compile', '$timeout', '$modal', 'Geo', 'TicketService', 'Login', 'Utils', 'MysqlUser', 'Eksperiment', 'Projekt',
-	function($scope, $compile, $timeout, $modal, Geo, TicketService, Login, Utils, MysqlUser, Eksperiment, Projekt) {
+  .controller('BrugerkontoCtrl', ['$scope', '$http', '$timeout', '$modal', 'Geo', 'TicketService', 'Login', 'Utils', 'MysqlUser', 'Eksperiment', 'Projekt',
+	function($scope, $http, $timeout, $modal, Geo, TicketService, Login, Utils, MysqlUser, Eksperiment, Projekt) {
+
+		/*
+		$http.get('/api/download/data/3').then(function(res) {
+			console.log(res.data)
+			//$scope.test(res.data)
+		})
+		*/
 
 		$scope.user = Login.currentUser()
 		$scope.alerts = []
@@ -156,8 +163,7 @@ angular.module('myrejagtenApp')
 					if (err.match(/,/g).length > 1) err = err.replace(/,(?=[^,]*$)/, ' og ') 
 					$scope.alerts.push({ 
 						message: 'Brugeroplysninger : Du mangler at udfylde ' + err,
-						type: 'alert-danger',
-
+						type: 'alert-danger alert-brugeroplysninger',
 					})
 				}
 			})
@@ -179,13 +185,14 @@ angular.module('myrejagtenApp')
 							!e.region ? 'Adresseoplysninger mangler. ' : ''
 			}
 			function getEksDataErr(e) {
+				if (!e.sol) return 'Angivelse af sol / skygge mangler. '
+				if (!e.vind) return 'Angivelse af vindstyrke mangler. ' 
+				if (!e.vejr) return 'Angivelse af vejrlig mangler. '
+				if (typeof e.temp != 'number') return 'Angivelse af temperatur mangler. '  
 				for (var i=0, l=e.Data.length; i<l; i++) {
-					if (!e.sol ||
-							!e.temp ||
-							!e.vind ||
-							!e.vejr ||
-							!e.Data[i].myrer_frysning ||
-							!e.Data[i].myrer_indsamlet) return 'Indtastning af eksperiment-oplysninger ikke komplet. ' 
+					if (typeof e.Data[i].myrer_frysning != 'number' || typeof e.Data[i].myrer_indsamlet != 'number') {
+						return 'En eller flere myre-optællinger manlger. '
+					}
 				}
 				return ''
 			}
@@ -219,7 +226,7 @@ angular.module('myrejagtenApp')
 						err += getEksAdresseErr(data[i])
 						err += getEksDataErr(data[i])
 						if (err && err.trim() != '')	$scope.alerts.push({ 
-							message: name + '  : ' + err,
+							message: name + '  : ' + '<span class="text-danger">' + err + '</span>',
 							type: 'alert-warning'
 						})
 					}
@@ -230,8 +237,22 @@ angular.module('myrejagtenApp')
 				var $alert = $(this).closest('.alert')
 				$alert.slideUp(400)
 			})
+			$('body').on('click', '.alert-brugeroplysninger', function() {
+				$scope.scrollToForm()
+			})
 		}
 		$scope.updateAlerts()
+
+		$scope.scrollToForm = function() {
+			var $form = angular.element('#form-cnt')
+			if ($form.offset()) $("body").animate({scrollTop: $form.offset().top-20 }, 400);
+
+			//set tab to brugeroplysninger
+			$timeout(function() {
+				$form.find('a[role="tab"]:contains("Private oplysninger")').click()
+			})
+
+		}
 
 
   }]);

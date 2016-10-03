@@ -11,6 +11,25 @@ exports.index = function(req, res) {
   });
 };
 
+// Return data joined with results
+exports.joinResultat = function(req, res) {
+	var sql = `
+		select data.*,
+		eksperiment.myrejagt_id,
+		date_format(eksperiment.dato, '%d/%m/%Y') as 'eksperiment_dato',
+		resultat.resultat_id, resultat.analyse_antal
+
+		from data
+		left join eksperiment on data.eksperiment_id = eksperiment.eksperiment_id 
+		left join resultat on data.data_id = resultat.data_id 
+	`
+	models.sequelize.query(sql,	{ bind: ['active'], type: models.sequelize.QueryTypes.SELECT }).then(function(data) {
+		return res.json(200, data);
+	}).catch(function(err){
+	  handleError(res, err);
+  });
+};
+
 // Get a single data
 exports.show = function(req, res) {
   models.Data.find(req.params.id).then(function(data){

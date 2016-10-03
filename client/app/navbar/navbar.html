@@ -18,7 +18,9 @@
       <ul class="nav navbar-nav navbar-right" style="margin-right:50px;">
 
         <li ng-show="isLoggedIn()">
-					<a href="/phd">Phd. demo</a>
+					<a href="/admin" ng-class="{ 'active-page' : isActive('/admin') }">
+						Admin
+					</a>
 				</li>
 
         <li ng-show="isLoggedIn()" >
@@ -28,30 +30,36 @@
 				</li>
 
         <li ng-show="isLoggedIn()">
-					<a href="/eksperimenter" ng-class="{ 'active-page' : isActive('/eksperimenter') }">Mine eksperimenter</a>
+					<a href="/eksperimenter" ng-class="{ 'active-page' : isActive('/eksperimenter') }">
+						Mine eksperimenter
+					</a>
 				</li>
 
         <li>
-					<a href="/forside">Forside</a>
+					<a href="/forside" ng-class="{ 'active-page' : isActive('/') }">
+						Forside
+					</a>
 				</li>
 
         <li>
-					<a href="/data-visualisering">Indkomne data</a>
+					<a href="/data-visualisering" ng-class="{ 'active-page' : isActive('//data-visualisering') }">
+						Indkomne data
+					</a>
 				</li>
 
-        <li ng-show="!isLoggedIn()">
+        <li ng-show="!isLoggedIn()" ng-class="{ 'active-page' : isActive('/tilmeld') }">
 					<a href="/tilmeld">Tilmeld dig Myrejagten</a>
 				</li>
 
-        <li ng-show="!isLoggedIn()">
+        <li ng-show="!isLoggedIn()" ng-class="{ 'active-page' : isActive('/betingelser-og-vilkår') }">
 					<a href="/betingelser-og-vilkår">Betingelser og vilkår</a>
 				</li>
 
-			  <li ng-show="!isLoggedIn()">
+			  <li ng-show="!isLoggedIn()" ng-class="{ 'active-page' : isActive('/login')}">
 					<a href="/login">Login</a>
 				</li>
 
-        <li ng-show="isLoggedIn()" ng-class="{active: isActive('/logout')}">
+        <li ng-show="isLoggedIn()">
 					<a href="" ng-click="logout()">Log af</a>
 				</li>
 

@@ -145,8 +145,8 @@
 							class="form-control" 
 							ng-model="x.temp" 
 							name="temp"
-							ng-class="{ 'has-value' : d.temp != undefined }"
-							style="width:100px !important;" 
+							ng-class="{ 'has-value' : x.temp != undefined }"
+							style="width:80px !important;" 
 							min="-50"
 							max="50"
 						/>  
@@ -164,7 +164,7 @@
 														ng-model="x.vejr" 
 														name="vejr"
 														data-toggle="true" 
-														ng-class="{ 'has-value' : d.vejr != undefined }"
+														ng-class="{ 'has-value' : x.vejr != undefined }"
 														bs-options="i.value as i.label for i in items.vejr" 
 														bs-select>
 											<span class="caret"></span>
@@ -183,7 +183,7 @@
 														ng-model="x.sol" 
 														name="sol"
 														data-toggle="true" 
-														ng-class="{ 'has-value' : d.sol != undefined }"
+														ng-class="{ 'has-value' : x.sol != undefined }"
 														bs-options="i.value as i.label for i in items.sol" 
 														bs-select>
 											<span class="caret"></span>
@@ -202,7 +202,7 @@
 														name="vind"
 														ng-model="x.vind" 
 														data-toggle="true" 
-														ng-class="{ 'has-value' : d.vind != undefined }"
+														ng-class="{ 'has-value' : x.vind != undefined }"
 														bs-options="i.value as i.label for i in items.vind" 
 														bs-select>
 											<span class="caret"></span>
@@ -243,21 +243,21 @@
 					<td> 
 						<input type="text" 
 									only-digits
-									style="width: 70px;"
+									style="width: 90px;"
 									name="myrer_indsamlet"
-									class="form-control"  
+									class="form-control"
 									select-on-click
 									ng-model="d.myrer_indsamlet"
 									ng-class="{ 'has-value' : d.myrer_indsamlet != undefined }">
 					</td>
 					<td> 
 						<input type="text" 
-									style="width: 70px;"
+									style="width: 90px;"
 									only-numbers
 									name="myrer_frysning"
 									class="form-control"  
-									ng-model="d.myrer_frysning"
 									select-on-click
+									ng-model="d.myrer_frysning"
 									ng-class="{ 'has-value' : d.myrer_frysning != undefined }">
 					</td>
 				</tr>

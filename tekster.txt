@@ -2,6 +2,8 @@
 Forside_1				generelt om myrejagten, links, billeder osv
 Forside_2				højre kolonne af forside, tekst, links til andre projekter? Layoutet er arbitrært, det kan være een kolonne, 3 kolonner osv
 Login_1					tekst på login, layoutet kan ændres. Det kan være et inspirerende billede, vilkår (evt link), minikort ...
+Brugerkonto_1		evt noget om brug af oplysninger, download etc
+
 
 Betingelser og vilkår
 

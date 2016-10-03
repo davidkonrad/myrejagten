@@ -2,6 +2,10 @@
 	float:right;
 	clear:none;
 	position:relative;
-	top:-33px;
-	right:-15px;
+	top:-13px;
+	right: 0px;
+}
+
+.alert-brugeroplysninger {
+	cursor: pointer;
 }

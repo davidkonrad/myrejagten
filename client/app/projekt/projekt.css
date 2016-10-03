@@ -25,10 +25,10 @@ label.required:before {
 
 .eksperiment-block {
 	border:1px solid silver;
-	box-shadow: 2px 2px 3px #dadada; /*#888888;*/
+	box-shadow: 2px 2px 3px #dadada;
 	border-radius: 5px;
 	margin-bottom: 20px;
-	background-color: #fafafa; /*#fafafa;*/
+	background-color: #fafafa; 
 	height: 350px;
 }
 
