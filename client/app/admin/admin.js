@@ -5,6 +5,7 @@ angular.module('myrejagtenApp')
     $routeProvider
       .when('/admin', {
         templateUrl: 'app/admin/admin.html',
-        controller: 'AdminCtrl'
+        controller: 'AdminCtrl',
+				authenticate: true
       });
   });

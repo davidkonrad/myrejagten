@@ -6,13 +6,6 @@ angular.module('myrejagtenApp')
 	function($scope, $http, $location, Login, Alert, KR, $timeout, $modal, $q, Projekt, Eksperiment, 
 							Data, Geo, TicketService, Utils, leafletData, video, UploadModal) {
 
-		console.dir(Data)
-		Data.joinResultat().$promise.then(function(x) {
-			console.log(x)
-		})
-
-			$scope.test = {};
-
         $scope.$on('$videoReady', function videoReady() {
             $scope.test.options.setAutoplay(true);
             $scope.test.sources.add('http://www.w3schools.com/html/mov_bbb.mp4');
@@ -22,8 +15,6 @@ angular.module('myrejagtenApp')
 			sotrage for all lists and predfined types
 		*/
 		$scope.items = {}
-
-		/***************************/
 
 		/**
 			image / video 

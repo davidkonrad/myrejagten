@@ -1,0 +1,102 @@
+<div class="modal ng-scope top am-fade-and-slide-top center" tabindex="-1" role="dialog" style="display: block;" id="modal-ResultatDlg">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			
+			<div class="modal-header">
+				<h4 class="modal-title"> Analyse &rsaquo; {{ resDlg.data.myrejagt_id }}</h4>
+			</div>
+
+			<div class="modal-body">
+
+				<dl class="dl-horizontal">
+					<dt>Dato</dt>
+					<dd> 
+						{{ resDlg.data.eksperiment_dato }}
+					</dd>
+					<dt>Vejrlig</dt>
+					<dd> 
+						{{ resDlg.eksperiment.sol || resDlg.empty }},
+						{{ resDlg.eksperiment.vind || resDlg.empty }},
+						{{ resDlg.eksperiment.vejr || resDlg.empty }},  
+						{{ resDlg.eksperiment.temp || resDlg.empty }}&deg;
+					</dd>
+					<dt>Sted</dt>
+					<dd> 
+						{{ resDlg.eksperiment.adresse || resDlg.empty }},
+						{{ resDlg.eksperiment.postnr || resDlg.empty }}
+						{{ resDlg.eksperiment.by || resDlg.empty }}
+					</dd>
+					<dt>Madding</dt>
+					<dd>
+						{{ resDlg.data.madding}}
+					</dd>
+					<dt>Antal myrer</dt>
+					<dd>
+						{{ resDlg.data.myrer_indsamlet || resDlg.empty }} /
+						{{ resDlg.data.myrer_frysning || resDlg.empty }}
+					</dd>
+
+				</dl>
+
+				<button class="btn btn-success btn-sm" id="btn-create" title="Tilføj resultat / myretælling / artsidentifikation"><i class="fa fa-plus"></i></button>
+
+				<hr style="margin-top:0px;margin-bottom:5px;">
+				
+				<div ng-repeat="r in resDlg.resultater">
+
+						<span class="col-md-1 resultat-element" style="clear:left;display:inline-block;">
+							<input type="text" 
+										only-numbers
+										placeholder="0"
+										min="0"
+										class="form-control" 
+										ng-change="r.edited = true" 
+										ng-model="r.antal" >
+						</span>
+
+						<span class="col-md-3 resultat-element">
+							<input type="text" 
+										placeholder="Videnskabeligt navn"
+										class="form-control aa-vid" 
+										ng-change="r.edited = true" 
+										ng-model="r.navn_videnskabeligt">
+						</span>
+
+						<span class="col-md-3 resultat-element">
+							<input type="text" 
+										placeholder="Dansk navn"
+										class="form-control aa-dk" 
+										ng-change="r.edited = true" 
+										ng-model="r.navn_dk">
+						</span>
+
+						<span class="col-md-4 resultat-element">
+							<input type="text" 
+										placeholder="Bemærk."
+										class="form-control" 
+										ng-change="r.edited = true" 
+										ng-model="r.kommentar">
+						</span>
+
+						<span class="col-md-1 resultat-element">
+							<button class="btn btn-sm" 
+										ng-class="{ 'btn-success' : r.edited }"
+										ng-click="resDlg.saveResultat(r)" 
+										title="Gem ændringer" 
+										ng-disabled="!r.edited">
+								<i class="glyphicon glyphicon-ok"></i>
+							</button>
+							<button class="btn btn-danger btn-xs btn-delete" ng-click="resDlg.deleteResultat(r.resultat_id)" title="Slet analyseresultat"  resultat_id="{{ r.resultat_id }}"><i class="fa fa-remove"></i></button>
+						</span>
+					
+						<br>
+				</div>			
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" ng-click="modalClose(true)">Luk Vindue</button> 
+			</div>
+
+		</div>
+	</div>
+</div>

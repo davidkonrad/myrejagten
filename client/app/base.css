@@ -58,6 +58,24 @@ table.dataTable tbody tr.selected {
 	-ms-user-select: none;
 	user-select: none;
 }
+/* reset double arrows duw to bootstrap.css usage */
+.dataTable > thead > tr > th[class*="sort"]:after { 
+	content: "" !important;
+}
+/* prevent black wholes between pagination buttons */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+	padding-left: 1px;
+	padding-right: 0px;
+	background-color: white;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+	background: white !important;
+	border: 1px solid white;
+}
+/* remove ugly black bottom border */
+table.dataTable.no-footer {
+	border: 1px solid #ebebeb;
+}
 
 
 /*********** #4285F4  **/

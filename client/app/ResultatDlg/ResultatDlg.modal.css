@@ -1,0 +1,20 @@
+
+.dl-horizontal dt {
+	width: 100px;
+}
+.dl-horizontal dd {
+	margin-left: 120px;
+}
+
+#modal-ResultatDlg .modal-dialog {
+	min-width: 1000px !important;
+	width: 1000px !important;
+	max-width: 90% !important;
+}
+.resultat-element {
+	padding-left: 0px !important;
+	padding-right: 0px !important;
+	margin-left: 0px !important;
+	margin-right: 0px !important;
+	margin-bottom: 3px;
+}

@@ -2,12 +2,6 @@ var models = require('../mysql');
 
 exports.data = function(req, res) {
 	var user_id = req.params && req.params.id ? req.params.id : undefined;
-	console.log('OK', user_id)
-
-/*
-		//DATE_FORMAT(eksperiment.dato, '%e %b %Y') AS 'date_formatted',
-		//DATE_FORMAT(eksperiment.dato, '%D %c %Y') AS 'date_formatted',
-*/
 	var sql = `
 		select 
 		eksperiment.myrejagt_id as 'Myrejagt ID',

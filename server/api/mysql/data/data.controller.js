@@ -17,11 +17,13 @@ exports.joinResultat = function(req, res) {
 		select data.*,
 		eksperiment.myrejagt_id,
 		date_format(eksperiment.dato, '%d/%m/%Y') as 'eksperiment_dato',
-		resultat.resultat_id, resultat.analyse_antal
+		resultat.resultat_id, 
+		resultat.antal
 
 		from data
 		left join eksperiment on data.eksperiment_id = eksperiment.eksperiment_id 
 		left join resultat on data.data_id = resultat.data_id 
+		group by data.data_id
 	`
 	models.sequelize.query(sql,	{ bind: ['active'], type: models.sequelize.QueryTypes.SELECT }).then(function(data) {
 		return res.json(200, data);
@@ -47,7 +49,6 @@ exports.create = function(req, res) {
 	  handleError(res, err);
   });
 };
-
 
 
 // Updates an existing data in the DB.

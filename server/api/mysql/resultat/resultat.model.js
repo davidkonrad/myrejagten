@@ -13,6 +13,14 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER(11),
       allowNull: true
     },
+		navn_videnskabeligt: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+		navn_dk: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
 		genus: {
       type: DataTypes.STRING,
       allowNull: true
@@ -21,7 +29,11 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: true
     },
-		count: {
+		antal: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+		kommentar: {
       type: DataTypes.STRING,
       allowNull: true
     }

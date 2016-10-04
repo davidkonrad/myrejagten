@@ -4,13 +4,6 @@ angular.module('myrejagtenApp')
   .controller('BrugerkontoCtrl', ['$scope', '$http', '$timeout', '$modal', 'Geo', 'TicketService', 'Login', 'Utils', 'MysqlUser', 'Eksperiment', 'Projekt',
 	function($scope, $http, $timeout, $modal, Geo, TicketService, Login, Utils, MysqlUser, Eksperiment, Projekt) {
 
-		/*
-		$http.get('/api/download/data/3').then(function(res) {
-			console.log(res.data)
-			//$scope.test(res.data)
-		})
-		*/
-
 		$scope.user = Login.currentUser()
 		$scope.alerts = []
 

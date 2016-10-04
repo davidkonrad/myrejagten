@@ -1,12 +1,22 @@
 <div class="container">
 
+	<h2>Admin</h2>
+
 	<div bs-tabs class="control-group col-md-12">
 
-		<div bs-pane data-title="GBIF" style="padding-left:0px;">
+		<div bs-pane data-title="Download" style="padding-left:0px;">
+			<div class="circle">Download_1</div>
+
+			<br><br>
+			<button class="btn btn-primary"  ng-click="downloadGBIF()">Download til GBIF</button>
+
+			<button class="btn btn-primary">Download alle data i regnearksformat</button>
+
 		</div>
 
-		<div bs-pane data-title="Phd. resultater" style="padding-left:0px;">
-			<table datatable="" class="table table-striped" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" id="dtPhd"></table>
+		<div bs-pane data-title="Analyse" style="padding-left:0px;">
+			<table id="table-resultat" datatable="" class="table table-condensed" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstanceCallback">
+			</table>
 		</div>
 
 		<div bs-pane data-title="Brugere" style="padding-left:0px;">

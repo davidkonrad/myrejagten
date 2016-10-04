@@ -19,11 +19,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
 		myrer_indsamlet :  {
-      type: DataTypes.STRING,
+      type: DataTypes.FLOAT(5,2),
       allowNull: true
     },
 		myrer_frysning :  {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER(5),
       allowNull: true
     },
 		maden_stjaalet :  {

@@ -57,31 +57,11 @@ angular.module('myrejagtenApp', [
   })
 
   .run(function ($rootScope, $location, Login) {
-	
-	  $rootScope.$on('$routeChangeStart', function (event, next) {
-			//console.log(event, next)
-
-      //Auth.isLoggedInAsync(function(loggedIn) {
-				/*
-				var publicLocation = next.$$route.templateUrl || next.$$route.loadedTemplateUrl;
-				if (typeof publicLocation == 'string') {
-					publicLocation = ['main.html','login.html'].indexOf(publicLocation.split('/').splice(-1,1)[0])>0
-				} else {
-					publicLocation = false
-				}
-        if (!publicLocation && !loggedIn) {
-          $location.path('/'); //redirect to frontpage
-        }
-				*/
-				//console.log(next)
-        if (next.authenticate && !Login.isLoggedIn()) {
-          $location.path('/');
-        }
-
-      //});
+		$rootScope.$on('$routeChangeStart', function (event, next) {
+			if (next.authenticate && !Login.isLoggedIn()) {
+				$location.path('/');
+			}
     });
   });
   
-  L.Icon.Default.imagePath = '/sites/all/libraries/leaflet/dist/images';
-
 
