@@ -76,6 +76,10 @@ table.dataTable tbody tr.selected {
 table.dataTable.no-footer {
 	border: 1px solid #ebebeb;
 }
+/* centered column */
+table.dataTable tbody td.center {
+	text-align: center;
+}
 
 
 /*********** #4285F4  **/
@@ -126,5 +130,6 @@ table.dataTable.no-footer {
 	cursor: pointer;
 }
 .popover-title { display: none; }
+
 
 

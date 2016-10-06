@@ -1,41 +1,37 @@
-<br>
 <div class="container">
+  <div class="col-md-12">
 
-  <div class="col-sm-12">
-
-	  <div class="col-md-9 no-float" style="min-height:100% !important;height:100%;font-size:18px;">
+	  <div class="col-md-9" style="">
+			<br>
 			<div class="circle">Forside_1</div>
-
-<!--
-			public/assets/faelles.svg
-			<img src="/public/assets/faelles.svg" height="100" >
-			<br>
-
-			assets/faelles.svg
-			<img src="/assets/faelles.svg" height=100">
-			<br>
--->
 		</div>
 
-	  <div class="col-md-3 no-float">
-		  <div class="form-group">
-				<input type="text" ng-model="login.brugernavn" class="form-control input-sm bold xno-padding" placeholder="Brugernavn"  />
-				<input type="password" ng-model="login.password" class="form-control input-sm bold xno-padding" placeholder="Password" style="margin-top:7px;"  />
-				<button class="btn btn-xs" style="float:left;margin-top:4px;">Login</button>
-				<div class="checkbox" style="float:right;margin-top:1px;"">
+	  <div class="col-md-3">
+
+{{ remeberMe | json }}
+
+		  <div class="form-group" ng-if="!isLoggedIn">
+				<input type="text" ng-model="rememberMe.m" class="form-control input-sm bold" placeholder="Email"  />
+				<input type="password" ng-model="rememberMe.p" class="form-control input-sm bold" placeholder="Password" style="margin-top:7px;"  />
+				<button class="btn btn-xs" style="float:left;margin-top:4px;" ng-click="login()">Login</button>
+				<div class="checkbox" style="float:right;margin-top:1px;" ng-checked="rememberMe.rememberMe == true">
 				  <label>
 						<span style="padding-right:30px;">Husk mig</span>
-						<input type="checkbox" value="">
+						<input type="checkbox" ng-model="rememberMe.rememberMe" ng-checked="rememberMe.rememberMe == true">
 					</label>
 				</div>
 			</div>
-			<br><br>
-			<h4>Tilmeld dig Myrejagten</h4>
+		  <div class="form-group" ng-show="!isLoggedIn">
+				<br>
+			  <hr ng-show="!isLoggedIn">
+				<h4>Tilmeld dig Myrejagten</h4>
+			</div>
+
 			<div class="circle">Forside_2</div>
 		</div>
+	</div>	
 
-	</div>
-
+</div>
 
 </div>
 

@@ -143,4 +143,29 @@ angular.module('myrejagtenApp')
 	  "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "Alle"] ]
 	});
 
+/* sorting plugins */
+jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+    "dkdato-pre": function ( a ) {
+      if (a == null || a == "") {
+         return 0;
+      }
+      var date = a.split('/');
+			return Date.parse(date[1] + '-' + date[0] + '-' + date[2])
+    }
+} );
+
+jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+	"dk-pre": function ( a ) {
+		return a.localeCompare(a, 'dk')
+	}
+} );
+
+jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+  "locale-compare-asc": function ( a, b ) {
+		return a.localeCompare(b, 'da', { sensitivity: 'accent' })
+  },
+  "locale-compare-desc": function ( a, b ) {
+		return b.localeCompare(a, 'da', { sensitivity: 'accent' })
+  }
+});
 

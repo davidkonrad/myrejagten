@@ -2,7 +2,7 @@
 angular.module('myrejagtenApp')
   .factory('TicketService', ['$cookies', function($cookies) {
 
-		var cookieName = 'dnalivTicket',
+		var cookieName = 'myrejagtenTicket',
 				pass = 	"&login=davidkonrad&password=nhmdzm";
 
 		return {

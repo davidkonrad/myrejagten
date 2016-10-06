@@ -54,11 +54,12 @@ exports.destroy = function(req, res) {
   });
 };
 
-// Describe resultat
-exports.describe = function(req, res) {
-  models.Resultat.describe().then(function(resultat){
-  	return res.json(200, resultat);	
-  }).catch(function(err){
+// get distincts taxons inserted so far
+exports.getTaxonNames = function(req, res) {
+	var sql = 'select distinct navn_videnskabeligt, navn_dk from resultat where navn_videnskabeligt is not null ';
+	models.sequelize.query(sql,	{ bind: ['active'], type: models.sequelize.QueryTypes.SELECT }).then(function(data) {
+		return res.json(200, data);
+	}).catch(function(err){
 	  handleError(res, err);
   });
 };

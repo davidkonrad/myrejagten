@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .factory('Login', ['$cookies', '$q', 'MysqlUser', function($cookies, $q, MysqlUser) {
+  .factory('Login', ['$cookies', '$q', 'MysqlUser', 'RememberMe', function($cookies, $q, MysqlUser, RememberMe) {
     
 	var cookieName = 'myrejagten', 
 			currentUser = null;
@@ -24,6 +24,7 @@ angular.module('myrejagtenApp')
 				if (response[0] && response[0].user_id) {
 					currentUser = response[0]
 					setCookie(currentUser) //...
+					RememberMe.put(email, password, rememberMe);
 		      deferred.resolve(response[0])
 				} else {
 					deferred.resolve({ error : 'Email eller password ikke korrekt.' })
@@ -52,7 +53,7 @@ angular.module('myrejagtenApp')
 		},
 
 		updateCookie: function() {
-			if (typeof currentUser.user_id == 'numner') return
+			if (typeof currentUser.user_id == 'number') return
 			MysqlUser.query({ where : { user_id: currentUser.user_id }}).$promise.then(function(response) {
 				currentUser = response[0]
 				setCookie(currentUser) //...

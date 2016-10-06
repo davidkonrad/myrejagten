@@ -1,0 +1,450 @@
+[
+  {
+    "Videnskabeligt_navn": "Camponotus herculeanus",
+    "Autor": "(Linnaeus, 1758)",
+    "Dansk_navn": "Herkulesmyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Camponotus ligniperda",
+    "Autor": "(Latreille, 1802)",
+    "Dansk_navn": "Kæmpemyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Formica aquilonia",
+    "Autor": "Yarrow, 1955",
+    "Dansk_navn": "Nordlig skovmyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Formica cinerea",
+    "Autor": "Mayr, 1853",
+    "Dansk_navn": "Grå klitmyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Formica cunicularia",
+    "Autor": "Latreille, 1798",
+    "Dansk_navn": "Brun slavemyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Formica exsecta",
+    "Autor": "Nylander, 1846",
+    "Dansk_navn": "Rød hedemyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Formica foreli",
+    "Autor": "Bondroit, 1918",
+    "Dansk_navn": "",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Formica forsslundi",
+    "Autor": "Lohmander, 1949",
+    "Dansk_navn": "",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Formica fusca",
+    "Autor": "Linnaeus, 1758",
+    "Dansk_navn": "Sort slavemyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Formica picea",
+    "Autor": "Nylander, 1846",
+    "Dansk_navn": "Mosemyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Formica polyctena",
+    "Autor": "Förster, 1850",
+    "Dansk_navn": "Lille skovmyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Formica pratensis",
+    "Autor": "Retzius, 1783",
+    "Dansk_navn": "Hedeskovmyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Formica pressilabris",
+    "Autor": "Nylander, 1846",
+    "Dansk_navn": "",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Formica rufa",
+    "Autor": "Linnaeus, 1761",
+    "Dansk_navn": "Rød skovmyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Formica rufibarbis",
+    "Autor": "Fabricius, 1793",
+    "Dansk_navn": "Rød slavemyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Formica sanguinea",
+    "Autor": "Latreille, 1798",
+    "Dansk_navn": "Blodrød rovmyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Formica truncorum",
+    "Autor": "Fabricius, 1804",
+    "Dansk_navn": "Stubmyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Formica uralensis",
+    "Autor": "Ruzsky, 1895",
+    "Dansk_navn": "Uralmyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Formicoxenus nitidulus",
+    "Autor": "(Nylander, 1846)",
+    "Dansk_navn": "Blank gæstemyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Harpagoxenus sublaevis",
+    "Autor": "(Nylander, 1849)",
+    "Dansk_navn": "Røvermyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Hypoponera punctatissima",
+    "Autor": "(Roger, 1859)",
+    "Dansk_navn": "Kompostmyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Lasius alienus",
+    "Autor": "(Förster, 1850)",
+    "Dansk_navn": "Hedemyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Lasius brunneus",
+    "Autor": "(Latreille, 1798)",
+    "Dansk_navn": "Brun træmyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Lasius flavus",
+    "Autor": "(Fabricius, 1782)",
+    "Dansk_navn": "Gul engmyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Lasius fuliginosus",
+    "Autor": "(Latreille, 1798)",
+    "Dansk_navn": "Orangemyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Lasius meridionalis",
+    "Autor": "(Bondroit, 1920)",
+    "Dansk_navn": "",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Lasius mixtus",
+    "Autor": "(Nylander, 1846)",
+    "Dansk_navn": "",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Lasius niger",
+    "Autor": "(Linnaeus, 1758)",
+    "Dansk_navn": "Sort havemyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Lasius platythorax",
+    "Autor": "Seifert, 1991",
+    "Dansk_navn": "",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Lasius psammophilus",
+    "Autor": "Seifert, 1992",
+    "Dansk_navn": "Sandjordsmyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Lasius umbratus",
+    "Autor": "(Nylander, 1846)",
+    "Dansk_navn": "Gul jordmyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Leptothorax acervorum",
+    "Autor": "(Fabricius, 1793)",
+    "Dansk_navn": "Barkmyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Leptothorax goesswaldi",
+    "Autor": "Kutter, 1967",
+    "Dansk_navn": "Parasitbarkmyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Leptothorax kutteri",
+    "Autor": "Buschinger, 1966",
+    "Dansk_navn": "Snyltebarkmyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Leptothorax muscorum",
+    "Autor": "(Nylander, 1846)",
+    "Dansk_navn": "",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Monomorium pharaonis",
+    "Autor": "(Linnaeus, 1758)",
+    "Dansk_navn": "Faraomyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Myrmecina graminicola",
+    "Autor": "(Latreille, 1802)",
+    "Dansk_navn": "",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Myrmica gallienii",
+    "Autor": "Bondroit, 1920",
+    "Dansk_navn": "",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Myrmica hirsuta",
+    "Autor": "Elmes, 1978",
+    "Dansk_navn": "",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Myrmica lobicornis",
+    "Autor": "Nylander, 1846",
+    "Dansk_navn": "Mørk stikmyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Myrmica rubra",
+    "Autor": "(Linnaeus, 1758)",
+    "Dansk_navn": "Korttornet stikmyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Myrmica ruginodis",
+    "Autor": "Nylander, 1846",
+    "Dansk_navn": "Almindelig stikmyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Myrmica rugulosa",
+    "Autor": "Nylander, 1849",
+    "Dansk_navn": "Sandstikmyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Myrmica sabuleti",
+    "Autor": "Meinert, 1861",
+    "Dansk_navn": "Hedestikmyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Myrmica scabrinodis",
+    "Autor": "Nylander, 1846",
+    "Dansk_navn": "Engstikmyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Myrmica schencki",
+    "Autor": "Emery, 1895",
+    "Dansk_navn": "Tragtstikmyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Myrmica specioides",
+    "Autor": "Bondroit, 1918",
+    "Dansk_navn": "",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Myrmica sulcinodis",
+    "Autor": "Nylander, 1846",
+    "Dansk_navn": "Stor stikmyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Myrmica vandeli",
+    "Autor": "(Bondroit, 1920)",
+    "Dansk_navn": "",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Solenopsis fugax",
+    "Autor": "(Latreille, 1798)",
+    "Dansk_navn": "Tyvemyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Stenamma debile",
+    "Autor": "(Förster, 1850)",
+    "Dansk_navn": "Skyggemyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Temnothorax interruptus",
+    "Autor": "(Schenck, 1852)",
+    "Dansk_navn": "",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Temnothorax nylanderi",
+    "Autor": "(Förster, 1850)",
+    "Dansk_navn": "",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Temnothorax tuberum",
+    "Autor": "(Fabricius, 1775)",
+    "Dansk_navn": "",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Tetramorium atratulum",
+    "Autor": "(Schenck, 1852)",
+    "Dansk_navn": "",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  },
+  {
+    "Videnskabeligt_navn": "Tetramorium caespitum",
+    "Autor": "(Linnaeus, 1758)",
+    "Dansk_navn": "Græstørvmyre",
+    "Familie": "Formicidae",
+    "Orden": "Hymenoptera",
+    "Artsgruppe (dk)": "Årevinger"
+  }
+]

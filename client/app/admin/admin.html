@@ -8,18 +8,19 @@
 			<div class="circle">Download_1</div>
 
 			<br><br>
-			<button class="btn btn-primary"  ng-click="downloadGBIF()">Download til GBIF</button>
-
-			<button class="btn btn-primary">Download alle data i regnearksformat</button>
+			<button class="btn btn-primary" ng-click="downloadGBIF()">Download til GBIF</button>
+			<button class="btn btn-primary" ng-click="downloadData()">Download alle data i regnearksformat</button>
 
 		</div>
 
 		<div bs-pane data-title="Analyse" style="padding-left:0px;">
-			<table id="table-resultat" datatable="" class="table table-condensed" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstanceCallback">
+			<table id="table-resultat" datatable="" class="table" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstanceCallback">
 			</table>
 		</div>
 
 		<div bs-pane data-title="Brugere" style="padding-left:0px;">
+			<table id="table-user" datatable="" class="table table-striped" dt-options="dtUserOptions" dt-columns="dtUserColumns">
+			</table>
 		</div>
 
 	</div>	

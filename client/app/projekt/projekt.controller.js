@@ -16,6 +16,7 @@ angular.module('myrejagtenApp')
 		*/
 		$scope.items = {}
 
+		
 		/**
 			image / video 
 		*/			

@@ -1,10 +1,12 @@
 'use strict';
 var models = require('../');
+var qp = require('../nestedQueryParser');
 
 
 // Get list of datas
 exports.index = function(req, res) {
-  models.Data.findAll().then(function(data){
+	var query = (req.query) ? qp.parseQueryString(req.query) : undefined;
+  models.Data.findAll(query).then(function(data){
   	return res.json(200, data);	
   }).catch(function(err){
 	  handleError(res, err);
@@ -13,18 +15,27 @@ exports.index = function(req, res) {
 
 // Return data joined with results
 exports.joinResultat = function(req, res) {
-	var sql = `
-		select data.*,
-		eksperiment.myrejagt_id,
-		date_format(eksperiment.dato, '%d/%m/%Y') as 'eksperiment_dato',
-		resultat.resultat_id, 
-		resultat.antal
+	var sql = ''
+		+'select '
+		+'data.data_id, '
+		+'data.eksperiment_id, '
+		+'data.madding, '
+		+'data.madding_stjaalet, '
+		+'data.myrer_indsamlet, '
+		+'data.myrer_frysning, '
+		+'date_format(data.proeve_modtaget, "%d/%m/%Y") as proeve_modtaget, '
+		+'data.proeve_analyseret, '
 
-		from data
-		left join eksperiment on data.eksperiment_id = eksperiment.eksperiment_id 
-		left join resultat on data.data_id = resultat.data_id 
-		group by data.data_id
-	`
+		+'eksperiment.myrejagt_id, '
+		+'date_format(eksperiment.dato, "%d/%m/%Y") as "eksperiment_dato", '
+		+'resultat.resultat_id, '
+		+'resultat.antal '
+
+		+'from data '
+		+'left join eksperiment on data.eksperiment_id = eksperiment.eksperiment_id '
+		+'left join resultat on data.data_id = resultat.data_id '
+		+'group by data.data_id ';
+	
 	models.sequelize.query(sql,	{ bind: ['active'], type: models.sequelize.QueryTypes.SELECT }).then(function(data) {
 		return res.json(200, data);
 	}).catch(function(err){

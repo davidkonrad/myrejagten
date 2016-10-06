@@ -34,8 +34,6 @@ exports.create = function(req, res) {
   });
 };
 
-
-
 // Updates an existing eksperiment in the DB.
 exports.update = function(req, res) {
   models.Eksperiment.find({ where : { eksperiment_id: req.params.id }} ).then(function(eksperiment) {

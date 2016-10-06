@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .controller('BrugerkontoCtrl', ['$scope', '$http', '$timeout', '$modal', 'Geo', 'TicketService', 'Login', 'Utils', 'MysqlUser', 'Eksperiment', 'Projekt',
-	function($scope, $http, $timeout, $modal, Geo, TicketService, Login, Utils, MysqlUser, Eksperiment, Projekt) {
+  .controller('BrugerkontoCtrl', ['$scope', '$http', '$timeout', '$modal', 'Geo', 'TicketService', 'Login', 'Utils', 'MysqlUser', 'Eksperiment', 'Projekt', 'CSV',
+	function($scope, $http, $timeout, $modal, Geo, TicketService, Login, Utils, MysqlUser, Eksperiment, Projekt, CSV) {
 
 		$scope.user = Login.currentUser()
 		$scope.alerts = []
@@ -245,6 +245,15 @@ angular.module('myrejagtenApp')
 				$form.find('a[role="tab"]:contains("Private oplysninger")').click()
 			})
 
+		}
+
+/***********************
+	download
+***********************/
+		$scope.downloadData = function() {
+			$http.get('/api/download/data/'+$scope.user.user_id).then(function(res) {
+				CSV.download(res.data, 'myrejagten.csv')
+			})
 		}
 
 

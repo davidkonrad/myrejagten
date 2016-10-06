@@ -26,11 +26,18 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER(5),
       allowNull: true
     },
-		maden_stjaalet :  {
+		madding_stjaalet :  {
+      type: DataTypes.BOOLEAN,
+      allowNull: true
+    },
+		proeve_modtaget :  {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
+		proeve_analyseret :  {
       type: DataTypes.BOOLEAN,
       allowNull: true
     }
-
 	
 	}, {
 		tableName: 'data',
