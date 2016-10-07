@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .controller('BrugerkontoCtrl', ['$scope', '$http', '$timeout', '$modal', 'Geo', 'TicketService', 'Login', 'Utils', 'MysqlUser', 'Eksperiment', 'Projekt', 'CSV',
-	function($scope, $http, $timeout, $modal, Geo, TicketService, Login, Utils, MysqlUser, Eksperiment, Projekt, CSV) {
+  .controller('BrugerkontoCtrl', ['$scope', '$http', '$timeout', 'PostNr', 'Geo', 'TicketService', 'Login', 'Utils', 'MysqlUser', 'Eksperiment', 'Projekt', 'CSV',
+	function($scope, $http, $timeout, PostNr, Geo, TicketService, Login, Utils, MysqlUser, Eksperiment, Projekt, CSV) {
 
 		$scope.user = Login.currentUser()
 		$scope.alerts = []
@@ -140,6 +140,15 @@ angular.module('myrejagtenApp')
 					return
 				}
 			}
+		}
+		$scope.postnrAfterSelect = function(item) {
+			$scope.user.postnr = item.nr;
+			$scope.user.by = item.navn;
+			PostNr.getRemoteInfo(item.nr).then(function(info) {
+				$scope.user.kommune = info.kommune;
+				$scope.user.region = info.region;
+			})
+			$scope.$apply()
 		}
 
 		$scope.updateAlerts = function() {

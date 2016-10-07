@@ -112,6 +112,12 @@ table.dataTable tbody td.center {
 	margin-bottom: 10px;
 }
 
+/* required red star */
+label.required:before {
+  content: "* ";
+  color: red;
+}
+
 /* */
 .no-padding {
 	padding-left: 0px !important;

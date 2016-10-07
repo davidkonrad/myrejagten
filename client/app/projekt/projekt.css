@@ -8,11 +8,6 @@
 		clear: both;
 }
 
-label.required:before {
-  content: "* ";
-  color: red;
-}
-
 #modal-eksperiment .modal-dialog {
 	max-width: 90% !important;
 	width: 80% !important;
@@ -79,7 +74,6 @@ label.required:before {
 
 /** projekter **/
 .projekt-bar {
-	xxbackground-color: #fff;
 	border: 1px solid #dadada;
 	padding: 5px;
 	margin-bottom: 7px;
