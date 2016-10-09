@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .controller('BrugerkontoCtrl', ['$scope', '$http', '$timeout', 'PostNr', 'Geo', 'TicketService', 'Login', 'Utils', 'MysqlUser', 'Eksperiment', 'Projekt', 'CSV',
-	function($scope, $http, $timeout, PostNr, Geo, TicketService, Login, Utils, MysqlUser, Eksperiment, Projekt, CSV) {
+  .controller('BrugerkontoCtrl', ['$scope', '$http', '$popover', '$timeout', 'PostNr', 'Geo', 'TicketService', 'Login', 'Utils', 'MysqlUser', 'Eksperiment', 'Projekt', 'CSV',
+	function($scope, $http, $popover, $timeout, PostNr, Geo, TicketService, Login, Utils, MysqlUser, Eksperiment, Projekt, CSV) {
 
 		$scope.user = Login.currentUser()
 		$scope.alerts = []
@@ -39,6 +39,26 @@ angular.module('myrejagtenApp')
 				//Utils.formReset('#form-stamdata')
 			})
 		}
+
+		/*
+		var postnrPopover = null;
+		$timeout(function() {
+			postnrPopover = $popover(angular.element('#postnr'), {
+				content: 'Klik på kortet for at oprette et nyt indsamlingssted', 
+				container: 'html',
+				trigger: 'manual',
+				show: true,
+				className: 'popover-danger',
+				placement: 'top',
+				viewport: '#postnr',
+				onBeforeShow: function() {
+					console.dir(postnrPopover)
+					postnrPopover.$element['0'].addClass('popover-danger');
+				}
+			}).then(function(r) {
+				})
+		}, 2000)
+		*/
 
 		$timeout(function() {
 			$('#institution').typeahead({

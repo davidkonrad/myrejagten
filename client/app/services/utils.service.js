@@ -34,10 +34,20 @@ angular.module('myrejagtenApp')
 			},
 
 			//expects fixed date .i.e dd-mm-yyyy
-			systemDate : function(date) {
+			systemDate: function(date) {
 				date = date.split('-')
 				if (date.length != 3) return ''
 				return date[1]+'/'+date[0]+'/'+date[2]
+			},
+
+			generateHash: function(length) {
+				length = length || 10;
+				var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+				var retVal = "";
+				for (var i=0, n=charset.length; i<length; ++i) {
+					retVal += charset.charAt(Math.floor(Math.random() * n));
+				}
+				return retVal
 			},
 
 			//insert value into array IF the value is unique and not null
@@ -45,7 +55,7 @@ angular.module('myrejagtenApp')
 				if (value && !~array.indexOf(value)) array.push(value)
 			},
 			
-			formIsEdited : function(id) {
+			formIsEdited: function(id) {
 				var form = document.querySelector(id)
 				if (form) {
 					var i, 

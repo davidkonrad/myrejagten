@@ -1,16 +1,34 @@
 <div class="container">
 
-	<h2>Tilmelding til Myrejagten færdig.</h2>
+	<h2>Tilmelding til Myrejagten afsluttet.</h2>
 
 	<br>
 
-	<h4>
-		<i class="fa fa-check" style="color:green;"></i> email@adresse.dk
+	<h4 ng-if="!error">
+		<i class="fa fa-check" style="color:green;"></i> 
+		{{ user.email }}
+	</h4>
+
+	<h4 class="text-danger" ng-if="error">
+		<i class="fa fa-close" style="color:maroon;"></i> 
+		Dan angivne tilmeldingskode eksisterer ikke!
 	</h4>
 
 	<br>
 
 	<p>
+		<strong ng-if="!error">
+		<em class="text-success" ng-if="!user.confirmed">
+			Email-adresse bekræftet!
+		</em>
+
+		<em class="text-danger" ng-if="user.confirmed">
+			Email-adressen er allerede bekræftet.
+		</em>
+		</strong>
+
+		<br><br>
+
 		<em>Du vil blive videresendt til forsiden om få sekunder ..</em>
 	</p>
 

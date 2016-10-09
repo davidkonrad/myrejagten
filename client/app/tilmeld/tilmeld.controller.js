@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .controller('TilmeldCtrl', ['$scope', '$http', '$location', 'MysqlUser', 'Login', '$modal', 
-	function($scope, $http, $location, MysqlUser, Login, $modal) {
+  .controller('TilmeldCtrl', ['$scope', '$http', '$location', 'MysqlUser', 'Login', 'Utils',
+	function($scope, $http, $location, MysqlUser, Login, Utils) {
 
   	MysqlUser.query().$promise.then(function(users) {
 			$scope.users = users
@@ -12,6 +12,7 @@ angular.module('myrejagtenApp')
 			role: 1
 		}
 
+		/*
 		//from http://stackoverflow.com/questions/1497481/javascript-password-generator
 		$scope.generatePassword = function() {
 			var length = 10,
@@ -22,6 +23,10 @@ angular.module('myrejagtenApp')
 			}
 			$scope.user.password = retVal
 		}
+		*/
+		$scope.generatePassword = function() {
+			$scope.user.password = Utils.generateHash(10)
+		}			
 
 		//from http://stackoverflow.com/questions/46155/validate-email-address-in-javascript
 		$scope.emailIsValid = function() {
@@ -48,6 +53,7 @@ angular.module('myrejagtenApp')
 		}
 
 		$scope.createUser = function() {
+			$scope.user.hash = Utils.generateHash(20);
 			MysqlUser.save({ user_id: ''}, $scope.user).$promise.then(function(user) {
         Login.login(user.email, user.password).then(function(response) {
 		      $location.path('/min-konto');

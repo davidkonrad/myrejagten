@@ -9,6 +9,10 @@ module.exports = function(sequelize, DataTypes) {
 			autoIncrement: true,
 			allowNull: true
 		},
+		hash: {
+			type: DataTypes.STRING,
+      allowNull: true
+    },
 		email: {
 			type: DataTypes.STRING,
       allowNull: true

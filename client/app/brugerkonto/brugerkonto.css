@@ -9,3 +9,22 @@
 .alert-brugeroplysninger {
 	cursor: pointer;
 }
+
+
+
+
+.popover-danger {
+    background-color: #d9534f;
+    border-color: #d43f3a;
+    color: white;
+}
+
+.popover.right .arrow:after {
+  border-right-color: rgb(255, 179, 179);
+}
+
+.popover-content {
+  border-color: rgb(255, 179, 179);
+	background-color: rgb(255, 179, 179);
+}
+

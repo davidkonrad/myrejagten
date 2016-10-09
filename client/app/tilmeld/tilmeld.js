@@ -15,7 +15,7 @@ angular.module('myrejagtenApp')
         templateUrl: 'app/tilmeld/betingelser-og-vilkaar.html',
         controller: 'TilmeldCtrl'
       })
-      .when('/confirm/', {
+      .when('/bekræft-email/', {
         templateUrl: 'app/tilmeld/confirm.html',
         controller: 'ConfirmCtrl'
       });

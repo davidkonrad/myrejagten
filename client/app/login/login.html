@@ -9,12 +9,12 @@
         <div class="form-group">
           <label>Email</label>
 
-          <input type="email" name="email" class="form-control" ng-model="user.m" required autofocus>
+          <input type="email" name="email" class="form-control input-lg" ng-model="user.m" required autofocus>
         </div>
 
         <div class="form-group">
           <label>Password</label>
-          <input type="password" name="password" class="form-control" ng-model="user.p" required>
+          <input type="password" name="password" class="form-control input-lg" ng-model="user.p" required>
 
 					<span class="pull-right small">
 						<input type="checkbox" id="rememberMe" ng-checked="user.rememberMe == true" ng-model="user.rememberMe">
@@ -40,6 +40,8 @@
         </div>
 
       </form>
+			<br><br>
+			<a href="/glemt-password">Glemt password?</a> 
     </div>
 
     <div class="col-sm-6">
