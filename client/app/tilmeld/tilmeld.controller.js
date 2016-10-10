@@ -12,18 +12,6 @@ angular.module('myrejagtenApp')
 			role: 1
 		}
 
-		/*
-		//from http://stackoverflow.com/questions/1497481/javascript-password-generator
-		$scope.generatePassword = function() {
-			var length = 10,
-					charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-					retVal = "";
-			for (var i = 0, n = charset.length; i < length; ++i) {
-				retVal += charset.charAt(Math.floor(Math.random() * n));
-			}
-			$scope.user.password = retVal
-		}
-		*/
 		$scope.generatePassword = function() {
 			$scope.user.password = Utils.generateHash(10)
 		}			
@@ -47,17 +35,24 @@ angular.module('myrejagtenApp')
 		}
 		
 		$scope.canCreateUser = function() {
-			return $scope.user.brugernavn && $scope.user.brugernavn.length>2 &&
-						 $scope.user.email && $scope.user.email.length>2 &&	 	
-						 $scope.user.password && $scope.user.password.length>2 
+			return $scope.user.brugernavn && $scope.user.brugernavn.length>2 
+						 && $scope.user.email && $scope.user.email.length>2 &&	$scope.emailIsValid($scope.user.email) 	
+						 && $scope.user.password && $scope.user.password.length>2 
+						 && $scope.user.termsAccepted
+
 		}
 
 		$scope.createUser = function() {
 			$scope.user.hash = Utils.generateHash(20);
 			MysqlUser.save({ user_id: ''}, $scope.user).$promise.then(function(user) {
-        Login.login(user.email, user.password).then(function(response) {
-		      $location.path('/min-konto');
-        })
+
+				console.log(user)
+				$http.post('api/email/signup/', { id: user.user_id }).then(function(response) {
+					$scope.processed = response.data ? response.data : ''
+					console.log(response)
+				})	
+
+
 			})
 		}
 

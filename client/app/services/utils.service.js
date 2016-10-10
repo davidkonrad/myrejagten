@@ -50,6 +50,14 @@ angular.module('myrejagtenApp')
 				return retVal
 			},
 
+			//from http://stackoverflow.com/questions/46155/validate-email-address-in-javascript
+			emailIsValid: function(email) {
+				console.log(email)
+				if (!email) return true
+		    var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		    return regex.test(email)
+			},
+
 			//insert value into array IF the value is unique and not null
 			arrayInsert: function(array, value) {
 				if (value && !~array.indexOf(value)) array.push(value)

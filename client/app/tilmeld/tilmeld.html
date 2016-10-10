@@ -2,31 +2,26 @@
 
 	<h3>Tilmelding til Myrejagten</h3>
 
-	<div class="col-md-12">
-		<!--
-		<div class="circle">T1</div>
-		-->
+	<div class="col-md-6" ng-if="processed">
+		<em class="text-warning" ng-if="processed.error">
+			{{ processed.error }}
+		</em>
+		<em class="text-success" ng-if="processed.ok">
+			{{ processed.ok }}
+		</em>
 	</div>
 
-	<br>
-	<div class="col-md-6">
-
-	<!--
-		<i info-xs info-popover="test."></i>
-		<i info-sm info-popover="test."></i>
-		<i info-md info-popover="test."></i>
-		<i info-lg info-popover="test."></i>
-	-->
+	<div class="col-md-6" ng-if="!processed">
 
 		<div class="control-group">
 			<div class="controls">
 				<div class="radio" xstyle="margin-left:20px;">
 					Hvilken slags bruger&nbsp;:&nbsp;&nbsp;
-					<label class="bold" bs-popover data-trigger="hover" data-placement="top" data-content="Brugeren kan knyttes til en skole, fritdshjem, bønehave o.lign. Eksperimenter inddeles i overordnede projekter, hvilket giver mulighed for t.ex inddeling i hold.">
+					<label class="xbold" style="font-size:125%;" bs-popover data-trigger="hover" data-placement="top" data-content="Brugeren kan knyttes til en skole, fritdshjem, bønehave o.lign. Eksperimenter inddeles i overordnede projekter, hvilket giver mulighed for t.ex inddeling i hold.">
 						<input type="radio" name="brugertype" value="0" ng-model="user.role">Skole
 					</label>
 					&nbsp;&nbsp;
-					<label class="bold" bs-popover data-trigger="hover" data-placement="top" data-content="Normal bruger med navn og adresse som kan oprette et vilkårlgt antal eksperimenter.">
+					<label class="xbold" style="font-size:125%;" bs-popover data-trigger="hover" data-placement="top" data-content="Normal bruger med navn og adresse som kan oprette et vilkårlgt antal eksperimenter.">
 						<input type="radio" name="brugertype"  value="1" ng-model="user.role" checked>Privat
 					</label>
 				</div>
@@ -75,7 +70,7 @@
             <div class="control-group">
 			        <div class="pull-right checkbox" style="position:relative;top:-14px;right:40px;">
 							  <label class="normal">
-									<input type="checkbox" ng-model="user.accepted">
+									<input type="checkbox" ng-model="user.termsAccepted" ng-checked="user.termsAccepted">
 									Jeg accepterer 
 									<a target=_blank href="/betingelser-og-vilkår"><strong>betingelser og vilkår</strong></a>.
 								</label>

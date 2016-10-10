@@ -5,8 +5,7 @@ angular.module('myrejagtenApp')
 	function($scope, $timeout, $location, MysqlUser, RememberMe) {
 
 /*
-http://localhost:9000/bekræft-email/#sdfsdfsdfsdf
-http://localhost:9000/bekræft-email/#qwerty
+http://localhost:9000/bekræft-email/#vGts5s9HhUYF6VuZUirY
 */
 
 		var hash = $location.$$hash;

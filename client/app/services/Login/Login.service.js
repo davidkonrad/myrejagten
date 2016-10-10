@@ -20,7 +20,7 @@ angular.module('myrejagtenApp')
 		login: function(email, password, rememberMe) {
 			var deferred = $q.defer()
 			deleteCookie()
-			MysqlUser.query({ where : { email: email, password: password }}).$promise.then(function(response) {
+			MysqlUser.query({ where : { email: email, password: password, confirmed: true }}).$promise.then(function(response) {
 				if (response[0] && response[0].user_id) {
 					currentUser = response[0]
 					setCookie(currentUser) //...

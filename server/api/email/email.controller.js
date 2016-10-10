@@ -1,84 +1,11 @@
 var nodemailer = require('nodemailer');
-//var email   = require("emailjs");
+var models = require('../mysql');
+var server = 'http://myrejagten.snm.ku.dk/';
 
+var signature = 'Med venlig hilsen' + "\n" + 'Myrejagten og Statens Naturhistoriske Museum.';
 
-/*
-var transporter = nodemailer.createTransport({
-  service: 'localhost',
-  debug: true,
-  auth: false,
-  tls: {
-		rejectUnauthorized: false
-  }
-});
-*/
-
-/*
-var transporter = nodemailer.createTransport({
-	service: "Gmail",
-	secureConnection: true,
-	auth: {
-		user: "davidkonrad@gmail.com",
-		pass: "3chol%0Ma"
-	}
-});
-*/
-
-/*
-transporter.verify(function(error, success) {
-   if (error) {
-        console.log('XXX', error);
-   } else {
-        console.log('Server is ready to take our messages');
-   }
-});
-*/
-
-var server = 'a00592.science.ku.dk/'
-
-exports.signupMail = function(req, res){
-	console.log('SignupMail SENDING')
-	console.log(req.body)
-/*
-	var server  = email.server.connect({
-		user: (new Buffer("davidkonrad")).toString("base64"),
-		password: (new Buffer("dadk")).toString("base64"),
-		host: "localhost", 
-		//ssl: false,
-		port : 25,
-		//tls : false
-	});
-
-	server.send({
-		text:  'qwerty', 
-		from:   'test@test.dk', 
-		to:   'david.konrad@snm.ku.dk',
-		subject: 'TEST'
-	 }, function(err, message) {
-		console.log(err)
-		console.log(message)
-		//callback(err);
-	});
-*/
-
-/*
-  var mailOptions = {
-    to: 'david.konrad@snm.ku.dk',
-    subject: 'Tilmelding tli Myrejagten',
-    from: 'davidkonrad@gmail.com', //req.data.from,
-		text: 'QWERTYYYYYYYYYYY',
-    html: 'hello' //req.data.body
-  };
-  transporter.sendMail(mailOptions, function(err, info){
-    if (err) {
-      console.log(err);
-    }else{
-      console.log('Message sent: ' + info.response);
-    }
-  });
-*/
-
-	var transporter = nodemailer.createTransport({
+function getTransporter() {
+	return transporter = nodemailer.createTransport({
 	  service: 'localhost',
 	  debug: true,
 	  auth: false,
@@ -86,45 +13,93 @@ exports.signupMail = function(req, res){
 			rejectUnauthorized: false
 	  }
 	});
-
-	var msg = 'Hej ' + req.body.name + ', ' + "\n\n"
-	msg += 'Tak for din tilmelding til Myrejagten. For at verificere din emailadresse bedes du klikke på nedenstående link : ' + "\n\n"
-	msg += server + 'bekræft/' + req.body.code	+ "\n\n"
-	msg += 'Ved at klikke på linket afsluttes oprettelsesproceduren, og du videresendes til din startside. ' + "\n\n"
-	msg += 'Venlig hilsen Myrejagten og Statens Naturhistoriske Museum.' 
-
-  var mailOptions = {
-    to: 'migselv <davidkonrad@gmail.com>',
-    subject: 'Tilmelding tli Myrejagten',
-    from: 'noreply <myrejagten@snm.ku.dk>', 
-		text: msg
-    //html: '<h2>Tilmelding til myrejagten</h2>' 
-  };
-  transporter.sendMail(mailOptions, function(err, info){
-    if (err) {
-      console.log(err);
-    }else{
-      console.log('Message sent: ' + info.response);
-    }
-  });
-
-
-
 }
 
-exports.send = function(req,res){
-	console.log('SENDING')
-  var mailOptions = {
-    to: 'qwerty',
-    subject: 'New request on lumbajack from ',
-    from: req.data.from,
-    html: req.data.body
-  };
-  transporter.sendMail(mailOptions, function(err, info){
-    if (err) {
-      console.log(err);
-    }else{
-      console.log('Message sent: ' + info.response);
-    }
-  });
+exports.signupMail = function(req, res){
+	var user_id = req.body.id ? req.body.id : null;
+	var transporter = getTransporter();
+
+	if (user_id) {
+		var sql = 'select * from user where user_id='+user_id;
+		models.sequelize.query(sql,	{ bind: ['active'], type: models.sequelize.QueryTypes.SELECT }).then(function(user) {
+			user = user[0] ? user[0] : null;
+			if (!user) {
+				return res.json(200, { error: 'Bruger eksisterer ikke.' });
+			}
+
+			var msg = 'Hej ' + user.brugernavn + ', ' + "\n\n\n";
+			msg += 'Tak for din tilmelding til Myrejagten. For at verificere din emailadresse bedes du klikke på nedenstående link : ' + "\n\n";
+			msg += server + 'bekræft-email/#' + user.hash + "\n\n";
+			msg += 'Ved at klikke på linket afsluttes oprettelsesproceduren, og du videresendes til myrejagtens forside. ' + "\n\n";
+			msg += signature;
+
+			console.log(msg)
+
+		  var mailOptions = {
+		    to: user.brugernavn + '<' + user.email + '>',
+		    subject: 'Tilmelding tli Myrejagten',
+		    from: 'Tilmelding <myrejagten@snm.ku.dk>', 
+				text: msg
+		    //html: '<h2>Tilmelding til myrejagten</h2>' 
+		  };
+
+		  return transporter.sendMail(mailOptions, function(err, info) {
+		    if (err) {
+		      console.log(err);
+					return res.json(200, { error: err });
+		    } else {
+					var msg = 'Der er sendt en bekræftelses-mail til ' + user.email + '. ';
+					msg += 'I denne mail er der et link du skal klikke på for at få emailadressen bekræftet. ';
+					msg += 'Når dette er gjort kan du logge ind på myrejagten med email-adressen og det valgte password. ';
+					return res.json(200, { ok: msg });
+		      console.log('Message sent: ' + info.response);
+		    }
+		  });
+		})
+	}
 }
+
+
+exports.glemtPassword = function(req,res){
+	var email = req.body.email ? req.body.email : null;
+	var transporter = getTransporter();
+
+	if (email) {
+		var sql = 'select * from user where email="'+email+'"';
+		models.sequelize.query(sql,	{ bind: ['active'], type: models.sequelize.QueryTypes.SELECT }).then(function(user) {
+			user = user[0] ? user[0] : null;
+			if (!user) {
+				return res.json(200, email+' er ikke tilknyttet nogen konto på Myrejagten.');
+			}
+
+			var msg = 'Hej ' + user.brugernavn + ', ' + "\n\n\n";
+			msg += 'Du har anmodet om at få gensendt dit password. ';
+			msg += 'Dine login-oplysninger på myrejagten er : '+ "\n\n";
+			msg += 'email: '+user.email + "\n";
+			msg += 'password: '+user.password + "\n";
+			msg += "\n\n";
+			msg += signature;
+
+			console.log(msg)
+
+		  var mailOptions = {
+		    to: user.brugernavn + '<' + user.email + '>',
+		    subject: 'Myrejagten, glemt password',
+		    from: 'noreply <myrejagten@snm.ku.dk>', 
+				text: msg
+		  };
+
+		  return transporter.sendMail(mailOptions, function(err, info) {
+		    if (err) {
+		      console.log(err);
+					return res.json(200, 'Fejl ved afsendelse af mail :'+ err +'.');
+		    } else {
+		      console.log('Message sent: ' + info.response);
+					return res.json(200, 'Mail sendt til'+ email +'.');
+		    }
+		  });
+		})
+	}
+}
+
+
