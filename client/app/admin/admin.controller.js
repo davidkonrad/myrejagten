@@ -1,10 +1,12 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .controller('AdminCtrl', ['$scope', '$http', '$q', '$timeout', 'Resultat', 'Data', 'Utils', 'ResultatDlg', 'CSV', 'MysqlUser',
+  .controller('AdminCtrl', ['$scope', '$http', '$q', '$timeout', 'Login', 'Alert', 'Resultat', 'Data', 'Utils', 'ResultatDlg', 'CSV', 'MysqlUser',
 		'DTOptionsBuilder', 'DTColumnBuilder', 'DTDefaultOptions',
-	function($scope, $http, $q, $timeout, Resultat, Data, Utils, ResultatDlg, CSV, MysqlUser,
+	function($scope, $http, $q, $timeout, Login, Alert, Resultat, Data, Utils, ResultatDlg, CSV, MysqlUser,
 		DTOptionsBuilder, DTColumnBuilder, DTDefaultOptions) {
+
+		$scope.user = Login.currentUser()
 
 		$scope.dataById = function(data_id) {
 			for (var i=0, l=$scope.data.length; i<l; i++) {
@@ -32,7 +34,6 @@ angular.module('myrejagtenApp')
 			})
 			.withOption('drawCallback', function() {
 				$('#table-resultat tbody tr').off('click').on('click', function() {
-					console.log('click')
 					var data_id = $(this).attr('data_id')
 					ResultatDlg.show($scope.dataById(data_id), $scope).then(function(changes) {
 						if (changes) $scope.dtInstance.reloadData()
@@ -89,6 +90,13 @@ angular.module('myrejagtenApp')
 /*************
 	users
 **************/
+		$scope.userById = function(user_id) {
+			if (!$scope.users) return {}
+			for (var i=0, l=$scope.users.length; i<l; i++) {
+				if ($scope.users[i].user_id == user_id) return $scope.users[i];
+			}
+		}
+
 		$scope.dtUserOptions = DTOptionsBuilder
 			.fromFnPromise(function() {
 				var defer = $q.defer();
@@ -99,17 +107,65 @@ angular.module('myrejagtenApp')
 				return defer.promise;
 	    })
 			.withOption('stateSave', true)
+			.withOption('displayLength', 50)
 			.withOption('rowCallback', function( row, data, index ) {
 			})
 			.withOption('autoWidth', false)
 			.withOption('initComplete', function() {
+			})
+			.withOption('drawCallback', function() {
+				$('.is-admin').off('click').on('click', function(e) {
+					var $this = $(this);
+					var user_id = $this.attr('user_id');
+					var user = $scope.userById(user_id)
+					var checked = $this.is(':checked');
+
+					function revert() {
+						if (checked) {
+							$this.prop('checked', false);
+						} else {
+							$this.prop('checked', true);
+						}
+					}
+
+					if (user_id == $scope.user.user_id) {
+						revert()
+						return Alert.sorry($scope, 'Du kan ikke fratage dig selv admin-rettigheder').then(function() {
+							return false
+						})
+					}
+
+					var q = checked 
+						? 'Tildel <em>'+ user.brugernavn + '</em> admin-rettigheder?'
+						: 'Fratag <em>'+ user.brugernavn + '</em> admin-rettigheder?';
+							
+					Alert.confirm($scope, q).then(function(a) {
+						if (!a) {
+							revert()
+						} else {
+							MysqlUser.update({ id: user_id }, { is_admin: checked }).$promise.then(function() {
+							})
+						}
+					})
+				})
 			})
 			.withLanguage(Utils.dataTables_daDk)
 
 		$scope.dtUserColumns = [
       DTColumnBuilder.newColumn('brugernavn').withOption('width', '100px').withTitle('Brugernavn'),
       DTColumnBuilder.newColumn('email').withOption('width', '200px').withTitle('Email'),
-      DTColumnBuilder.newColumn('fulde_navn').withOption('width', '200px').withTitle('Navn'),
+      DTColumnBuilder.newColumn('fulde_navn').withOption('width', '200px').withTitle('Fulde navn'),
+      DTColumnBuilder.newColumn('is_admin')
+				.withOption('width', '50px')
+				.withTitle('Admin')
+				.renderWith(function(data, type, full) {
+					if (type == 'display') {
+						return '<input type="checkbox" class="is-admin" user_id="'+ full.user_id +'" ' + (data ? 'checked' : '') +'/>' 
+					} else {
+						return data
+					}
+				})
+
 		]
 
 

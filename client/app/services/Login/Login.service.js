@@ -60,6 +60,11 @@ angular.module('myrejagtenApp')
 			})	
 		},
 
+		isAdmin : function() {
+			if (!currentUser) return false;
+			return currentUser.is_admin ? currentUser.is_admin : false
+		},
+
 		currentUser: function() {
 			return currentUser
 		}

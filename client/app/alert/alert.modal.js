@@ -39,7 +39,55 @@ angular.module('myrejagtenApp')
 				})
 
 	      return deferred.promise;
-			}
+			},
+
+			confirm: function($scope, question) {
+				$scope[name] = {
+					question: question
+				}
+				deferred = $q.defer()
+				modal = $modal({
+					scope: $scope,
+					templateUrl: 'app/alert/confirm.modal.html',
+					backdrop: 'static',
+					show: true
+				})
+
+				$scope.alertModalClose = function(value) {
+					delete $scope[name] 
+					modal.hide()
+		      deferred.resolve(value)
+				}
+
+				angular.element('body').on('keydown keypress', function(e) {
+					if (e.charCode == 13) $scope.alertModalClose(true)
+				})
+
+	      return deferred.promise;
+			},
+
+			sorry: function($scope, message) {
+				$scope[name] = {
+					message: message
+				}
+				deferred = $q.defer()
+				modal = $modal({
+					scope: $scope,
+					templateUrl: 'app/alert/sorry.modal.html',
+					backdrop: 'static',
+					show: true
+				})
+
+				$scope.alertModalClose = function(value) {
+					delete $scope[name] 
+					modal.hide()
+		      deferred.resolve(value)
+				}
+
+	      return deferred.promise;
+			}			
+
+
 		}
 
 	}]);

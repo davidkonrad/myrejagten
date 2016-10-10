@@ -9,6 +9,10 @@ module.exports = function(sequelize, DataTypes) {
 			autoIncrement: true,
 			allowNull: true
 		},
+		is_admin: {
+			type: DataTypes.BOOLEAN,
+      allowNull: true
+    },
 		hash: {
 			type: DataTypes.STRING,
       allowNull: true

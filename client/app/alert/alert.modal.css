@@ -20,5 +20,8 @@
 	color: darkred;
 }
 
+#modal-alert .modal-body {
+	padding-bottom: 5px !important;	
+}
 
 	

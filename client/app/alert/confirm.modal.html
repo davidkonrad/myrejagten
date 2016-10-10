@@ -1,0 +1,21 @@
+<div class="modal ng-scope top am-fade-and-slide-top center" tabindex="-1" role="dialog" style="display: block;" id="modal-alert">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			
+			<div class="modal-header">
+				<h4 class="modal-title"> Bekræft </h4>
+			</div>
+
+			<div class="modal-body">
+				<i class="fa fa-question" style="font-size:300%; color:#286090;"></i>
+				<span class="text" ng-bind-html="alertParams.question"></span>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" ng-click="alertModalClose(true)">Ja</button> 
+				<button type="button" class="btn btn-default" ng-click="alertModalClose(false)">Nej</button> 
+			</div>
+
+		</div>
+	</div>
+</div>

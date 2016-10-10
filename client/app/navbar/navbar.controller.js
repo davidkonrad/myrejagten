@@ -6,6 +6,7 @@ angular.module('myrejagtenApp')
 		$scope.isCollapsed = true;
 		$scope.isLoggedIn = Login.isLoggedIn;
 		$scope.getCurrentUser = Login.currentUser;
+		$scope.isAdmin = Login.isAdmin;
 		$scope.user;
 
 		$scope.logout = function() {
