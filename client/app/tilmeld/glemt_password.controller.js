@@ -12,7 +12,7 @@ angular.module('myrejagtenApp')
 				$scope.emailSent = response.data ? response.data : '...'
 
 				$timeout(function() {
-					$location.url($location.path());
+		        $location.path('/');
 				}, 5000)
 
 			})

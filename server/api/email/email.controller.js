@@ -1,10 +1,13 @@
 var nodemailer = require('nodemailer');
+var smtpTransport = require('nodemailer-smtp-transport');
 var models = require('../mysql');
 var server = 'http://myrejagten.snm.ku.dk/';
 
 var signature = 'Med venlig hilsen' + "\n" + 'Myrejagten og Statens Naturhistoriske Museum.';
 
+
 function getTransporter() {
+	/*
 	return transporter = nodemailer.createTransport({
 	  service: 'localhost',
 	  debug: true,
@@ -13,7 +16,31 @@ function getTransporter() {
 			rejectUnauthorized: false
 	  }
 	});
+	*/
+
+	/*
+	return transporter = nodemailer.createTransport({
+		host: "SMTP.P0KITCASARRAY01.UNICPH.DOMAIN",
+		port: 25,
+	  auth: 
+		{
+			user : 'myrejagten@snm.ku.dk'
+		},
+	  tls: {
+			rejectUnauthorized: false
+	  }
+	});
+	*/
+
+	return transporter = nodemailer.createTransport({
+		service: "Gmail",
+		auth: {
+       user: "myrejagten@gmail.com",
+       pass: "Kelager%666"
+		}
+	})
 }
+
 
 exports.signupMail = function(req, res){
 	var user_id = req.body.id ? req.body.id : null;
@@ -36,11 +63,15 @@ exports.signupMail = function(req, res){
 			console.log(msg)
 
 		  var mailOptions = {
-		    to: user.brugernavn + '<' + user.email + '>',
-		    subject: 'Tilmelding tli Myrejagten',
-		    from: 'Tilmelding <myrejagten@snm.ku.dk>', 
+		    to: '"'+user.brugernavn+'"' + '<' + user.email + '>',
+		    subject: 'Tilmelding til Myrejagten',
+				replyTo: '"Tilmelding" <myrejagten@snm.ku.dk>',
+		    from: 'myrejagten@snm.ku.dk', 
+				priority: 'high',
+				headers: {
+					'X-Mailer': 'nodemailer' 
+				},
 				text: msg
-		    //html: '<h2>Tilmelding til myrejagten</h2>' 
 		  };
 
 		  return transporter.sendMail(mailOptions, function(err, info) {
@@ -95,7 +126,7 @@ exports.glemtPassword = function(req,res){
 					return res.json(200, 'Fejl ved afsendelse af mail :'+ err +'.');
 		    } else {
 		      console.log('Message sent: ' + info.response);
-					return res.json(200, 'Mail sendt til'+ email +'.');
+					return res.json(200, 'Mail sendt til '+ email +'.');
 		    }
 		  });
 		})

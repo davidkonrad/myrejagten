@@ -4,6 +4,15 @@ angular.module('myrejagtenApp')
   .controller('TilmeldCtrl', ['$scope', '$http', '$location', 'MysqlUser', 'Login', 'Utils',
 	function($scope, $http, $location, MysqlUser, Login, Utils) {
 
+
+/*
+				$http.post('api/email/signup/', { id: 4 }).then(function(response) {
+					$scope.processed = response.data ? response.data : ''
+					console.log(response)
+				})	
+*/
+
+
   	MysqlUser.query().$promise.then(function(users) {
 			$scope.users = users
 		})

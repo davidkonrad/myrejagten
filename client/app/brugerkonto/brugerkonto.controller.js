@@ -40,7 +40,7 @@ angular.module('myrejagtenApp')
 			})
 		}
 
-		/*
+/*
 		var postnrPopover = null;
 		$timeout(function() {
 			postnrPopover = $popover(angular.element('#postnr'), {
@@ -58,7 +58,7 @@ angular.module('myrejagtenApp')
 			}).then(function(r) {
 				})
 		}, 2000)
-		*/
+*/
 
 		$timeout(function() {
 			$('#institution').typeahead({
