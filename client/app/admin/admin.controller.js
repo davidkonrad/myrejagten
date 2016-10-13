@@ -153,8 +153,10 @@ angular.module('myrejagtenApp')
 
 		$scope.dtUserColumns = [
       DTColumnBuilder.newColumn('brugernavn').withOption('width', '100px').withTitle('Brugernavn'),
-      DTColumnBuilder.newColumn('email').withOption('width', '200px').withTitle('Email'),
+	    DTColumnBuilder.newColumn('email').withOption('width', '200px').withTitle('Email'),
       DTColumnBuilder.newColumn('fulde_navn').withOption('width', '200px').withTitle('Fulde navn'),
+	    DTColumnBuilder.newColumn('postnr').withOption('width', '100px').withTitle('Postnr.'),
+	    DTColumnBuilder.newColumn('kommune').withOption('width', '200px').withTitle('Kommune'),
       DTColumnBuilder.newColumn('is_admin')
 				.withOption('width', '50px')
 				.withTitle('Admin')

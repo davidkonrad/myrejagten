@@ -16,139 +16,99 @@ angular.module('myrejagtenApp')
 				institution: $scope.user.institution,
 				fulde_navn: $scope.user.fulde_navn,
 				adresse: $scope.user.adresse,
-				postnr: $scope.user.postnr,
+				postnr: ($scope.user.postnr ? $scope.user.postnr : ''),
 				by: ($scope.user.by),
 				kommune: $scope.user.kommune,
 				region: $scope.user.region
 			}
-			MysqlUser.update({ user_id: $scope.user.user_id }, updateObj).$promise.then(function() {	
-				Utils.formReset('#form-personlige')
+			console.log($scope.user.postnr)
+			MysqlUser.update({ user_id: $scope.user.user_id }, updateObj).$promise.then(function(user) {	
+				Login.updateCookie();	
+				Utils.formReset('#form-personlige');
 			})
 		}
 
-		$scope.formStamdataChanged = function() {
-			return Utils.formIsEdited('#form-stamdata')
-		}
-		$scope.saveStamdata = function() {
-			var updateObj = {
-				user_id: $scope.user.user_id,
-				brugernavn: $scope.user.brugernavn
-			}
-			MysqlUser.update({ user_id: $scope.user.user_id }, updateObj).$promise.then(function() {	
-				Login.updateCookie()
-				//Utils.formReset('#form-stamdata')
-			})
-		}
 
-/*
+		/**
+			remind user about lacking user information
+		*/
+		var pt = '<div class="popover popover-danger" tabindex="-1" > '
+							+  '<div class="arrow"></div>'
+							+	   '<h3 class="popover-title" ng-bind="title" ng-show="title"></h3>'
+							+  '<div class="popover-content" ng-bind="content"></div>'
+							+'</div>';
+		
+		var $pt = $('<div>').append(pt);
+		var post_pt = $pt.clone().find('.popover').addClass('postnr-popover').end().html();
+		var fuldenavn_pt = $pt.clone().find('.popover').addClass('fuldenavn-popover').end().html();
+
 		var postnrPopover = null;
+		var fuldenavnPopover = null;
 		$timeout(function() {
-			postnrPopover = $popover(angular.element('#postnr'), {
-				content: 'Klik på kortet for at oprette et nyt indsamlingssted', 
+			if (!$scope.user.postnr) postnrPopover = $popover(angular.element('#postnr'), {
+				content: 'Vi ønsker ikke at vide hvor du bor, men vi kunne meget godt tænke os at vide hvilket postnummer du bor i ... ', 
 				container: 'html',
 				trigger: 'manual',
 				show: true,
-				className: 'popover-danger',
+				template: post_pt,
+				templateUrl: false,
+				placement: 'right',
+				animation: 'am-fade',
+				viewport: '#postnr'
+			});
+			if (!$scope.user.fulde_navn) fuldenavnPopover = $popover(angular.element('#fulde_navn'), {
+				content: 'Det fulde navn kan være dit rigtige navn, men også et sigende navn. Feltet benyttes som "Finder"-identifikator i datasindamlingen.', 
+				container: 'html',
+				trigger: 'manual',
+				show: true,
+				template: fuldenavn_pt,
+				templateUrl: false,
 				placement: 'top',
-				viewport: '#postnr',
-				onBeforeShow: function() {
-					console.dir(postnrPopover)
-					postnrPopover.$element['0'].addClass('popover-danger');
-				}
-			}).then(function(r) {
-				})
-		}, 2000)
-*/
-
-		$timeout(function() {
-			$('#institution').typeahead({
-				afterSelect: function(item) {
-					this.$element[0].value = item.skrivemaade_officiel
-					$scope.findNearestAddress(item.geometryWkt)
-				}, 
-				items : 20,
-				displayText: function(item) {
-					return item.presentationString
-				},
-			source: function(query, process) {
-				//TODO: run service with tickets instead of hardcoded username / password
-				var login = "davidkonrad", 
-						password = "nhmdzm",
-						url = 'https://services.kortforsyningen.dk/Geosearch?search=*'+query+'*&resources=stednavne_v2&limit=300&ticket='+TicketService.get()
-
-					//	console.log(url)
-					//Børnehuset Fasangården
-						// Herstedøster Skole
-
-				return $.getJSON(url, function(resp) {
-					var newData = [],
-							types = ['gymnasium', 'uddannelsescenter', 'privatskoleFriskole', 'folkeskole', 'universitet', 
-											'specialskole', 'daginstitution', 'fagskole']
-					for (var i in resp.data) {
-						//console.log(resp.data[i]);
-						//console.log(resp.data[i].type, resp.data[i].subtype);
-						if (~types.indexOf(resp.data[i].type) || ~types.indexOf(resp.data[i].subtype)) {
-									//console.log(resp.data[i]);
-									//newData.push(resp.data[i].presentationString);
-									newData.push(resp.data[i]);
-								} else {
-									//console.log(resp.data[i].type)
-								}
-							}			
-							return process(newData);		
-				    })
-				  }
-				})
-		})		 
+				animation: 'am-fade',
+				viewport: '#fulde_navn'
+			});
+			$timeout(function() {
+				$scope.$watch('user.postnr', function(newVal, oldVal) {
+					if (newVal != oldVal) closePostnrPopover();
+				});
+				$('.postnr-popover').on('click', function() {
+					closePostnrPopover();
+				});
+				$('.fuldenavn-popover').on('click', function() {
+					closeFuldenavnPopover();
+				});
+				$('a[role="tab"]').on('click', function() {
+					closePostnrPopover();
+					closeFuldenavnPopover();
+				});
+				$scope.$on('$routeChangeStart', function(next, current) { 
+					closePostnrPopover();
+					closeFuldenavnPopover();
+				});
+			})
+		}, 2000);
+		var closePostnrPopover = function() {
+			if (postnrPopover) {
+				postnrPopover.hide();
+				postnrPopover.destroy();
+			}
+		};
+		var closeFuldenavnPopover = function() {
+			if (fuldenavnPopover) {
+				fuldenavnPopover.hide();
+				fuldenavnPopover.destroy();
+			}
+		};
 
 		/**
-			reverse address lookup
+			institution
 		*/
-		var wkt = new Wkt.Wkt()
-		$scope.findNearestAddress = function(geometryWkt) {
-			wkt.read(geometryWkt);
-
-			if (!wkt.components[0].length) return
-
-			/*
-			console.log(wkt.toObject());
-			var x = wkt.toObject()
-			console.log(x.getBounds().getCenter())
-			console.log(x.getBounds())
-			*/
-
-			/*
-			console.log(wkt)
-			console.log(wkt.components[0])
-
-			var xy = wkt.components[0][0]			
-			while (xy.length>0) { xy = xy[0] }
-			console.log('XY', xy)
-			*/
-
-			console.log(wkt.components[0])
-			var t = wkt.components[0]
-			while (t.length && t.length>0) t=t[0]
-			console.log('t', t)
-
-			//var p = wkt.toObject().getBounds().getCenter()
-			/*
-			console.log(p)
-			var latLng = Geo.EPSG25832_to_WGS84(p.lng, p.lat)
-			console.log(latLng)
-			//console.log(p)
-			*/
-			//var	deferred = $q.defer();
-			var url='http://services.kortforsyningen.dk/?servicename=RestGeokeys_v2&method=nadresse&geop='+t.x+','+t.y+'&hits=1&ticket='+TicketService.get()			
-			console.log(url)
-			$.getJSON(url, function(response) {
-				if (response.features && response.features.length) {
-		 				console.log(response.features)
-		      //deferred.resolve(angular.copy(response.features))
-				}
+		$scope.institutionSelect = function(item) {
+			$scope.user.institution = item.skrivemaade_officiel ? item.skrivemaade_officiel : 'Ukendt';
+			$timeout(function() {
+				$scope.$apply()
 			})
 		}
-
 
 		/**
 			kommune lookup
@@ -162,6 +122,7 @@ angular.module('myrejagtenApp')
 			}
 		}
 		$scope.postnrAfterSelect = function(item) {
+			console.log('select', item);
 			$scope.user.postnr = item.nr;
 			$scope.user.by = item.navn;
 			PostNr.getRemoteInfo(item.nr).then(function(info) {
@@ -182,7 +143,8 @@ angular.module('myrejagtenApp')
 				if (field == 'region' && err != '') {
 					err += '.'
 					//replace last , with og if number of , > 1
-					if (err.match(/,/g).length > 1) err = err.replace(/,(?=[^,]*$)/, ' og ') 
+					//if (err.match(/,/g).length > 1) err = err.replace(/,(?=[^,]*$)/, ' og ') 
+					if (err.match(/,/g) && err.match(/,/g).length > 1) err = err.replace(/,(?=[^,]*$)/, ' og ') 
 					$scope.alerts.push({ 
 						message: 'Brugeroplysninger : Du mangler at udfylde ' + err,
 						type: 'alert-danger alert-brugeroplysninger',

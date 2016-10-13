@@ -10,21 +10,16 @@
 	cursor: pointer;
 }
 
-
-
-
+/* red popover */
 .popover-danger {
-    background-color: #d9534f;
-    border-color: #d43f3a;
-    color: white;
+	background-color: #d9534f;
+	border-color: #d43f3a;
+	color: white;
+	cursor: pointer;
 }
-
-.popover.right .arrow:after {
-  border-right-color: rgb(255, 179, 179);
+.popover-danger.right .arrow:after {
+	border-right-color: #d9534f;
 }
-
-.popover-content {
-  border-color: rgb(255, 179, 179);
-	background-color: rgb(255, 179, 179);
+.popover-danger.top .arrow:after {
+	border-top-color: #d9534f;
 }
-

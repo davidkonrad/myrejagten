@@ -8,12 +8,18 @@
 
 	  <div class="col-md-3">
 
-{{ remeberMe | json }}
-
 		  <div class="form-group" ng-if="!isLoggedIn">
+				<h5 class="text-uppercase">Login</h5>
 				<input type="text" ng-model="rememberMe.m" class="form-control input-sm bold" placeholder="Email"  />
 				<input type="password" ng-model="rememberMe.p" class="form-control input-sm bold" placeholder="Password" style="margin-top:7px;"  />
-				<button class="btn btn-xs" style="float:left;margin-top:4px;" ng-click="login()">Login</button>
+
+				<button 
+					class="btn btn-xs" 
+					style="float:left;margin-top:4px;" 
+					ng-click="login()"
+					ng-class="{ 'btn-success' : canLogin() }"
+				>Login</button>
+
 				<div class="checkbox" style="float:right;margin-top:1px;" ng-checked="rememberMe.rememberMe == true">
 				  <label>
 						<span style="padding-right:30px;">Husk mig</span>
@@ -24,11 +30,24 @@
 		  <div class="form-group" ng-show="!isLoggedIn">
 				<br>
 			  <hr ng-show="!isLoggedIn">
-				<h4>Tilmeld dig Myrejagten</h4>
+				<h5 class="text-uppercase">Opret bruger</h5>
+				<p>
+					Er du endnu ikke bruger, så opret dig ved at klikke 
+					<strong>
+						<a href="/tilmeld" title="Tilmeld dig myrejagten ...">
+							<u>her</u>
+						</a>
+					</strong> &raquo;
+				</p>
 			</div>
 
-			<div class="circle">Forside_2</div>
+			<!-- textabout myrejagten? -->
+		  <div class="form-group" ng-if="isLoggedIn">
+				<div class="circle">Forside_1</div>	
+			</div>
+
 		</div>
+
 	</div>	
 
 </div>

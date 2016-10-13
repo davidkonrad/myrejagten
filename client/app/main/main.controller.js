@@ -20,4 +20,8 @@ angular.module('myrejagtenApp')
 			});
 		}
 
+		$scope.canLogin = function() {
+			return $scope.rememberMe.m && $scope.rememberMe.p
+		}
+
   }]);

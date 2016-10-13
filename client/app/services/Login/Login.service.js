@@ -53,10 +53,10 @@ angular.module('myrejagtenApp')
 		},
 
 		updateCookie: function() {
-			if (typeof currentUser.user_id == 'number') return
+			if (typeof currentUser.user_id != 'number') return
 			MysqlUser.query({ where : { user_id: currentUser.user_id }}).$promise.then(function(response) {
-				currentUser = response[0]
-				setCookie(currentUser) //...
+				currentUser = response[0];
+				setCookie(currentUser); //...
 			})	
 		},
 

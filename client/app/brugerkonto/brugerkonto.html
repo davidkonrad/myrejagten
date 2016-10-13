@@ -30,18 +30,48 @@
 
 				<form class="form-horizontal" role="form" id="form-personlige">
 
-					<span ng-show="user.role == 0">
+					<div class="control-group col-md-12">
+						<label class="normal required">Email-adresse <span class="help-block small display-inline">(dit login, kan ikke ændres)</span></label>
+						<input type="text" 
+									class="form-control bold input-sm" 
+									value="{{ user.email }}" id="email" 
+									style="color: gray;"
+									select-on-click
+						readonly/>
+					</div>
+
+					<div class="control-group col-md-12" ng-if="user.role == 0">
 						<label class="normal required">Institution</label>
-						<input type="text" class="form-control bold input-lg" ng-model="user.institution" id="institution" />
-					</span>
+						<input type="text" 
+									institution-opslag="institutionSelect"
+									select-on-click
+									class="form-control bold input-lg" 
+									ng-model="user.institution" 
+									id="institution" 
+						/>
+					</div>
 
-					<label class="normal required">Fulde navn</label>
-					<input type="text" class="form-control bold input-lg" ng-model="user.fulde_navn" />
+					<div class="control-group col-md-6">
+						<label class="normal required">Brugernavn</label>
+						<input type="text" class="form-control bold input-lg" ng-model="user.brugernavn" id="brugernavn" />
+					</div>
 
+					<div class="control-group col-md-6 no-padding-left">
+						<label class="normal required">Password</label>
+						<input type="text" class="form-control bold input-lg" ng-model="user.password" id="password" />
+					</div>
+
+
+					<div class="control-group col-md-9">
+						<label class="normal required">Fulde navn</label>
+						<input type="text" class="form-control bold input-lg" ng-model="user.fulde_navn" id="fulde_navn" />
+					</div>
+<!--
 					<label class="normal">Addresse</label>
 					<input type="text" class="form-control bold input-lg" select-on-click adresse-opslag adresse-type="adresser" ng-model="user.adresse" name="adresse"/>
+-->
 
-					<div class="control-group col-md-4" style="padding-left: 0px !important;">
+					<div class="control-group col-md-3 no-padding-left">
 						<label class="normal required">Postnr</label>
 						<input type="text" 
 							id="postnr"
@@ -54,6 +84,7 @@
 						/>
 					</div>
 
+<!--
 					<div class="control-group col-md-8" style="padding-right: 0px !important; padding-left:0px !important;">
 						<label class="normal">By</label>
 						<input type="text" class="form-control bold input-lg" ng-model="user.by"/>
@@ -68,13 +99,15 @@
 						<label class="normal">Region</label>
 						<input type="text" class="form-control bold input-lg" ng-model="user.region"/>
 					</div>
-
+-->
 				</form>
 			</div>
 <!---/// private oplysninger ----->
 
 
 <!------ brugerkonto ----->
+
+<!--
 			<div bs-pane data-title="Brugerkonto">
 
 				<button role="button" 
@@ -99,6 +132,7 @@
 
 				</form>
 			</div>
+-->
 <!---/// brugerkonto ----->
 
 <!------ download ----->

@@ -16,6 +16,8 @@ angular.module('myrejagtenApp').
 					afterSelect: function(item) {
 						if (afterSelect) afterSelect(item)
 					}, 
+					autoSelect: false,
+					showHintOnFocus: true,
 					items : 20,
 					source: postnr
 				})
