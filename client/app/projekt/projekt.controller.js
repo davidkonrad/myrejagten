@@ -28,7 +28,16 @@ angular.module('myrejagtenApp')
 				}
 			})
 		}
-		
+		$scope.uploadVideo = function(eksperiment_id, currentVideo) {
+			UploadModal.video($scope, eksperiment_id, currentVideo).then(function(fileName) {	
+				if (typeof fileName == 'string') {
+					var e = $scope.eksperimentById(eksperiment_id);
+					e.upload_video = fileName
+				}
+			})
+		}
+
+
 		/**
 			Projekt
 		*/
@@ -464,8 +473,6 @@ angular.module('myrejagtenApp')
 							$scope.reloadEksperimenter()
 						})
 					})
-
-
 				})
 			})
 		}
@@ -490,6 +497,23 @@ angular.module('myrejagtenApp')
 			},
 			layers: {
         baselayers: {
+					googleTerrain: {
+				    name: 'Google Terrain',
+				    layerType: 'TERRAIN',
+				    type: 'google',
+						visible: false,
+						layerOptions: {
+							mapOptions: {
+								styles: DefaultGoogleStyles
+						  }
+						}
+				  },
+				  googleHybrid: {
+				    name: 'Google Hybrid',
+				    layerType: 'HYBRID',
+				    type: 'google',
+						visible: false
+				  },
 					luftfoto: {
 						name: "Orto forår (luffoto)",
 						type: 'wms',
@@ -508,19 +532,7 @@ angular.module('myrejagtenApp')
 							attribution: "Indeholder data fra GeoDatastyrelsen, WMS-tjeneste",
 							ticket: TicketService.get()
 						}
-					},
-					googleTerrain: {
-				    name: 'Google Terrain',
-				    layerType: 'TERRAIN',
-				    type: 'google',
-						visible: false
-				  },
-				  googleHybrid: {
-				    name: 'Google Hybrid',
-				    layerType: 'HYBRID',
-				    type: 'google',
-						visible: false
-				  }
+					}
 				}
 			}
 		}

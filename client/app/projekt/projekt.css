@@ -145,13 +145,13 @@ section.ng-video-container {
 
 section.video {
     text-align: left;
-    padding: 5px;
+    XXXpadding: 5px;
     position: relative;
     background-color: white;
     width: 100%;
     height: 100%;
-    box-shadow: 0 0 15px rgba(0, 0, 0, .25);
-    border: 1px solid lightgray;
+    XXXbox-shadow: 0 0 15px rgba(0, 0, 0, .25);
+    XXXborder: 1px solid lightgray;
 }
 
 section.video section.loading {
@@ -183,7 +183,7 @@ section.video section.controls {
     width: 48px;
     z-index: 5;
     text-align: center;
-    color: white;
+    color: steelblue;
 }
 
 section.video section.controls span {

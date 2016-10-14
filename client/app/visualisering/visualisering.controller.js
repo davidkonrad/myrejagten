@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .controller('VisualiseringCtrl', ['$scope', '$timeout', 'TicketService', 'Eksperiment',
-	 function($scope, $timeout, TicketService, Eksperiment) {
+  .controller('VisualiseringCtrl', ['$scope', '$timeout', 'TicketService', 'Eksperiment', 'Utils',
+	 function($scope, $timeout, TicketService, Eksperiment, Utils) {
 
 		var eksperimentIcon = {
 			iconUrl: 'assets/images/Circle_Yellow.png',
@@ -37,9 +37,14 @@ angular.module('myrejagtenApp')
 				    name: 'Google Terrain',
 				    layerType: 'TERRAIN',
 				    type: 'google',
-						visible: true
-				  },
-				  googleHybrid: {
+						visible: true,
+						layerOptions: {
+							mapOptions: {
+								styles: DefaultGoogleStyles
+						  }
+						}
+					},
+					googleHybrid: {
 				    name: 'Google Hybrid',
 				    layerType: 'HYBRID',
 				    type: 'google',

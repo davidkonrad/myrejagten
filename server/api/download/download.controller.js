@@ -9,7 +9,7 @@ exports.data = function(req, res) {
 
 		+'data.eksperiment_id, '
 		+'data.madding, '
-		+'data.maden_stjaalet, '
+		+'data.madding_stjaalet, '
 		+'data.myrer_indsamlet, '
 		+'data.myrer_frysning, '
 

@@ -149,7 +149,6 @@ angular.module('myrejagtenApp')
 	        "sSortDescending": ": activate to sort column descending"
 		    }
 			}
-
 		}
 	});
 
@@ -186,4 +185,50 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
 		return b.localeCompare(a, 'da', { sensitivity: 'accent' })
   }
 });
+
+
+/** 
+	default google stylers 
+*/
+var DefaultGoogleStyles = [
+	//remove unwanted transport lines, færgeruter osv	
+	{
+    featureType: "transit.line",
+    elementType: "geometry",
+    stylers: [{ 
+			visibility: "off" 
+		}]
+	},
+	//fancy colorize
+	/*
+	{
+    featureType: 'all',
+    stylers: [{
+      hue: '#FFFF00'
+    }]
+  },
+	*/
+	{
+   //remove "Danmark / Denmark"
+   featureType: "administrative.country",
+   elementType: 'labels',
+   stylers: [{
+     visibility: 'off'
+   }]
+  }, {
+   //remove points of interest
+   featureType: "poi",
+   elementType: 'all',
+   stylers: [{
+     visibility: 'off'
+   }]
+	}, {
+		//remove road labels
+	  featureType: "road",
+		elementType: "labels",
+		stylers: [{
+			visibility: "off"
+		}]
+}];
+
 
