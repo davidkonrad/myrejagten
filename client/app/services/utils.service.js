@@ -200,14 +200,14 @@ var DefaultGoogleStyles = [
 		}]
 	},
 	//fancy colorize
-	/*
+/*
 	{
     featureType: 'all',
     stylers: [{
-      hue: '#FFFF00'
+      hue: '#0cccc0'
     }]
   },
-	*/
+*/
 	{
    //remove "Danmark / Denmark"
    featureType: "administrative.country",

@@ -48,29 +48,53 @@ exports.gbif = function(req, res) {
 		+'select '
 		+'data.data_id, '
 		+'data.eksperiment_id, '
-		+'data.madding, '
-		+'data.maden_stjaalet, '
-		+'data.myrer_indsamlet, '
-		+'data.myrer_frysning, '
+		+'data.madding as samplingProtocol  , '
 
 		+'eksperiment.myrejagt_id as datasetName, '
-		+'eksperiment.sol, '
-		+'eksperiment.vind, '
-		+'eksperiment.vejr, '
-		+'eksperiment.temp, '
+		+'concat_ws(", ", eksperiment.sol, eksperiment.vind, eksperiment.vejr, eksperiment.temp) as locationRemarks, '
+
+		+'"DK" as countryCode , '
 		+'eksperiment.lat as decimalLatitude, '
 		+'eksperiment.lng as decimalLongitude, '
-		+'eksperiment.dato, '
-
+		+'eksperiment.dato as eventDate , '
+		
 		+'projekt.titel as projekt_navn, '
 
-		+'user.brugernavn, '
+		+'resultat.antal as individualCount  , '
+		+'resultat.navn_videnskabeligt as scientificName  , '
+		+'resultat.navn_dk as vernacularName , '
+
+		+'user.fulde_navn as individualCount, '
 		+'user.institution '
 
 		+'from data '
 		+'left join eksperiment on data.eksperiment_id = eksperiment.eksperiment_id '
 		+'left join projekt on eksperiment.projekt_id = projekt.projekt_id '
 		+'left join user on eksperiment.user_id = user.user_id '
+		+'left join resultat on data.data_id = resultat.data_id '
+
+	models.sequelize.query(sql,	{ bind: ['active'], type: models.sequelize.QueryTypes.SELECT }).then(function(data) {
+			return res.json(200, data);
+	}).catch(function(err){
+	  handleError(res, err);
+  });
+};
+
+exports.all = function(req, res) {
+	var sql = ''
+		+'select ' 
+		+'user.*,  '
+		+'eksperiment.*, '
+		+'projekt.*,  '
+		+'data.*,  '
+		+'resultat.* '
+
+		+'from user  '
+
+		+'left join eksperiment on user.user_id = eksperiment.user_id  '
+		+'left join projekt on eksperiment.projekt_id = projekt.projekt_id  '
+		+'left join data on data.eksperiment_id = eksperiment.eksperiment_id ' 
+		+'left join resultat on data.data_id = resultat.data_id ';
 
 	models.sequelize.query(sql,	{ bind: ['active'], type: models.sequelize.QueryTypes.SELECT }).then(function(data) {
 			return res.json(200, data);

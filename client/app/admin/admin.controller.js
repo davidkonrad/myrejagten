@@ -180,7 +180,7 @@ angular.module('myrejagtenApp')
 			})
 		}
 		$scope.downloadData = function() {
-			$http.get('/api/download/data/0').then(function(res) {
+			$http.get('/api/download/all').then(function(res) {
 				CSV.download(res.data, 'myrejagten.csv')
 			})
 		}

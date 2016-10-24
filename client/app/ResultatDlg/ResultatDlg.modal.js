@@ -4,9 +4,13 @@ angular.module('myrejagtenApp')
   .factory('ResultatDlg', ['$modal', '$q', '$http', '$timeout', 'Resultat', 'Eksperiment', 'Data', 'Utils',
 	function($modal, $q, $http, $timeout, Resultat, Eksperiment, Data, Utils) {
 
-		var lookup = []
+		var lookup = [];
+		var lookup_dk = [];
 		$.getJSON('assets/formicidae.json', function(json) {
-			lookup = json
+			lookup = json;
+			lookup_dk = json.filter(function(taxon) {
+				if (taxon.Dansk_navn != '') return taxon
+			});
 			function exists(n) {
 				for (var i=0, l=json.length; i<l; i++) {
 					if (json[i].videnskabeligt_navn == n) return true
@@ -89,7 +93,7 @@ angular.module('myrejagtenApp')
 							}, 
 							showHintOnFocus: true,
 							items : 20,
-							source: lookup
+							source: lookup_dk
 						})
 					})
 				}

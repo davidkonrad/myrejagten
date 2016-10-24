@@ -8,7 +8,7 @@ angular.module('myrejagtenApp')
 			function values(x) {
 				var r = [];
 				for (var prop in x) {
-					if (x.hasOwnProperty(prop)) r.push(x[prop])
+					if (x.hasOwnProperty(prop)) r.push('"'+ x[prop] +'"')
 				}
 				return r
 			}
