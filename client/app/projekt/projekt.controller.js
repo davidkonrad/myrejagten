@@ -27,7 +27,19 @@ angular.module('myrejagtenApp')
 					e.upload_billede = fileName
 				}
 			})
-		}
+		};
+		$scope.deleteImage = function(eksperiment_id, currentImage) {
+			Alert.show($scope, 'Uploads', 'Er du sikker på du vil fjerne billedet?').then(function(ok) {
+				if (ok) {
+					$http.get('/api/upload/remove/'+encodeURIComponent(currentImage)).then(function(res) {
+						Eksperiment.update({ id: eksperiment_id }, { upload_billede: null }).$promise.then(function(e) {
+							var e = $scope.eksperimentById(eksperiment_id);
+							e.upload_billede = undefined;
+						})				
+					})
+				}
+			})
+		};
 		$scope.uploadVideo = function(eksperiment_id, currentVideo) {
 			UploadModal.video($scope, eksperiment_id, currentVideo).then(function(fileName) {	
 				if (typeof fileName == 'string') {
@@ -35,7 +47,19 @@ angular.module('myrejagtenApp')
 					e.upload_video = fileName
 				}
 			})
-		}
+		};
+		$scope.deleteVideo = function(eksperiment_id, currentVideo) {
+			Alert.show($scope, 'Uploads', 'Er du sikker på du vil fjerne videoen?').then(function(ok) {
+				if (ok) {
+					$http.get('/api/upload/remove/'+encodeURIComponent(currentVideo)).then(function(res) {
+						Eksperiment.update({ id: eksperiment_id }, { upload_video: null }).$promise.then(function(e) {
+							var e = $scope.eksperimentById(eksperiment_id);
+							e.upload_video = undefined;
+						})				
+					})
+				}
+			})
+		};
 
 
 		/**
@@ -450,7 +474,7 @@ angular.module('myrejagtenApp')
 		}
 
 		$scope.createEksperiment = function() {
-			Alert.show($scope, 'Eksperiment', 'Opret nyt ekseriment?').then(function(ok) {
+			Alert.show($scope, 'Eksperiment', 'Opret nyt eksperiment?').then(function(ok) {
 				if (ok) Eksperiment.save({	eksperiment_id: '' }, { user_id: $scope.user.user_id, projekt_id: $scope.projekt_id }).$promise.then(function(e) {
 
 					$scope.items.madding.forEach(function(m) {

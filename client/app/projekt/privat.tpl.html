@@ -281,7 +281,19 @@
 
 		<div class="control-group col-md-6">
 			Billede
-			<button class="btn btn-success btn-xs pull-right" ng-click="uploadImage(x.eksperiment_id, x.upload_billede)">Upload billede / belæg</button>
+
+			<button class="btn btn-default btn-xs pull-right" 
+				title="Fjern billede (billedet bliver slettet fra serveren)"
+				ng-disabled="x.upload_billede == undefined"
+				ng-class="{ 'btn-danger' : x.upload_billede != undefined }"
+				ng-click="deleteImage(x.eksperiment_id, x.upload_billede)">
+				<i class="fa fa-remove"></i>
+			</button>
+
+			<button class="btn btn-success btn-xs pull-right" 
+				style="margin-right: 5px;"
+				ng-click="uploadImage(x.eksperiment_id, x.upload_billede)">Upload billede / belæg
+			</button>
 			<div class="upload-cnt">
 				<img class="upload" ng-click="uploadImage(x.eksperiment_id, x.upload_billede)" src="{{ x.upload_billede }}" />
 			</div>
@@ -289,9 +301,21 @@
 
 		<div class="control-group col-md-6">
 			Video
-			<button class="btn btn-success btn-xs pull-right" ng-click="uploadVideo(x.eksperiment_id, x.upload_video)">Upload Video</button>
-			<div class="upload-cnt">
 
+			<button class="btn btn-default btn-xs pull-right" 
+				title="Fjern video (filen bliver slettet fra serveren)"
+				ng-disabled="x.upload_video == undefined"
+				ng-class="{ 'btn-danger' : x.upload_video != undefined }"
+				ng-click="deleteVideo(x.eksperiment_id, x.upload_video)">
+				<i class="fa fa-remove"></i>
+			</button>
+
+			<button class="btn btn-success btn-xs pull-right" 
+				style="margin-right: 5px;"
+				ng-click="uploadVideo(x.eksperiment_id, x.upload_video)">Upload Video
+			</button>
+
+			<div class="upload-cnt">
         <section class="video" ng-video VVng-model="test">
 					<video autoplay="" vi-screen ng-src="{{ x.upload_video }}" src="{{ x.upload_video }}"></video>
 						<section vi-controls="" class="controls">
