@@ -2,22 +2,12 @@
 
 <!------------------- skole user ----------------------->
 	<div ng-if="user.role == 0">
-		<!--
-		<h3>
-			<button role="button" class="btn btn-success btn-sm pull-right" ng-click="showProjekt()" title="Opret nyt projekt">
-				<i class="fa fa-plus"></i>&nbsp;Nyt projekt
-			</button>
-			<span style="color:gray;">{{ user.showName }}</span>	projekter
-		</h3>
-		-->
-
 		<h4>
 			<button role="button" class="btn btn-success btn-sm" ng-click="showProjekt()" title="Opret nyt projekt">
 				<i class="fa fa-plus"></i>&nbsp;Nyt projekt
 			</button>
 
 			<button data-placeholder="Sortering"
-				id="sortering"
 				style="width: 100px !important;text-align:left; position:relative;top:10px;"
 			  type="button" 
 				class="btn btn-default select sortering btn-xs pull-right" 
@@ -29,26 +19,30 @@
 			>
 				<span class="caret"></span>
 			</button>
-
 		</h4>
 
 		<div ng-repeat="p in projekts | orderBy : projektSortering.value ">
 
-			<div class="projekt-bar" ng-class="{ 'bg-primary' : projekt_id == p.projekt_id }"	ng-click="skoleProjektClick(p.projekt_id)">
+			<div class="projekt-bar" 
+				ng-class="{ 'bg-primary' : projekt_id == p.projekt_id }"
+				ng-click="skoleProjektClick(p.projekt_id)"
+				style="margin-bottom: 0px;"
+			>
 				<span class="projekt-item projekt-delimiter projekt-timestamp"> {{ p.created_timestamp | date:'dd-MM-yyyy :HH:mm' }} </span>
 				<span class="projekt-item projekt-delimiter projekt-titel"> {{ p.titel }} </span>
 				<span class="projekt-item projekt-lokalitet"> {{ p.lokalitet }} </span>
-				<span class="projekt-item projekt-count" style="border:1px solid #dadada;width:26px;border-radius:50%;padding-left:7px;"> {{ p.eksperiment_count.$$state.value }} </span>
+				<span class="projekt-item projekt-count" bs-tooltip data-title="{{ p.eksperiment_count.$$state.value }} {{ p.eksperiment_count.$$state.value == 1 ? 'eksperiment' : 'eksperimenter' }} "> 
+					{{ p.eksperiment_count.$$state.value }} 
+				</span>
 			</div>
 
 			<div ng-if="projekt_id == p.projekt_id" style="border:0px !important;">
 				<button role="button" class="btn btn-success btn-sm" ng-click="createEksperiment()" title="Opret nyt eksperiment">
 					<i class="fa fa-plus"></i>
+					Nyt eksperiment	
 				</button>
 
-				<button data-placeholder="Sortering"
-					id="sortering"
-					style="width: 100px !important;text-align:left; position:relative;top:0px;"
+				<button style="width: 100px !important;text-align:left; position:relative;top:0px;"
 				  type="button" 
 					class="btn btn-default select sortering btn-xs pull-right" 
 					ng-model="sortering.value" 
@@ -58,22 +52,12 @@
 				>
 					<span class="caret"></span>
 				</button>
-
+				<br><br>
 				<span ng-include="'app/projekt/privat.tpl.html'"></span>
 				</div>
 
 			</div>
 		</div>
-
-<!--
-		<h3>
-			<button role="button" class="btn btn-success btn-md" ng-disabled="!projektLoaded()" ng-click="showEksperiment()" title="Opret nyt eksperiment">
-				<i cl	ass="fa fa-plus"></i>
-			</button>
-			&nbsp;Eksperimenter
-		</h3>
--->
-
 
 <!--////////////////--skole user ----------------------->
 

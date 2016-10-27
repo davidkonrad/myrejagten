@@ -6,6 +6,39 @@ var server = 'http://myrejagten.snm.ku.dk/';
 var signature = 'Med venlig hilsen' + "\n" + 'Myrejagten og Statens Naturhistoriske Museum.';
 
 
+exports.test = function(req, res){
+	var transporter = nodemailer.createTransport({
+		host: "exchange.ku.dk", // hostname
+		secureConnection: false,
+    secure: false,
+		requireTLS: false,
+    port: 465, 
+    auth: {
+			//user: "FUNK-SCI-SNM-myrejagten@ku.dk"
+			user: "myrejagten@snm.ku.dk",
+			password: "dadkKU16sep"
+    }
+	})
+
+		  var mailOptions = {
+		    to: 'migslv <david.konrad @snm.ku.dk>',
+		    subject: 'Myrejagten, test',
+		    from: 'noreply <myrejagten@snm.ku.dk>', 
+				text: 'hello'
+		  };
+
+		 transporter.sendMail(mailOptions, function(err, info) {
+		    if (err) {
+		      console.log(err);
+					return res.json(200, 'Fejl ved afsendelse af mail :'+ err +'.');
+		    } else {
+		      console.log('Message sent: ' + info.response);
+					return res.json(200, 'Mail sendt til '+ email +'.');
+		    }
+
+		})
+}
+
 function getTransporter() {
 	/*
 	return transporter = nodemailer.createTransport({
@@ -30,6 +63,7 @@ function getTransporter() {
 			rejectUnauthorized: false
 	  }
 	});
+------------------------------------------------------
 	*/
 
 	return transporter = nodemailer.createTransport({
@@ -40,7 +74,6 @@ function getTransporter() {
 		}
 	})
 }
-
 
 exports.signupMail = function(req, res){
 	var user_id = req.body.id ? req.body.id : null;

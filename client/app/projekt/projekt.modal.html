@@ -24,11 +24,31 @@
 	            <label class="radio-inline"> <input type="radio" ng-model="__projekt.lokalitetMethod" name="opslag" value="" />Ingen opslag</label>
 		        </div>
 	
-						<label class="normal required">Start dato</label>
-						<input type="text" class="form-control bold input-lg" ng-model="__projekt.start_tid" bs-datepicker data-date-format="dd-MM-yyyy" size="7" data-autoclose="true" />
+						<div class="col-sm-6 no-padding">
+							<label class="normal required">Start dato</label>
+							<input type="text" 
+									class="form-control bold input-lg" 
+									ng-model="__projekt.start_tid" 
+									bs-datepicker 
+									data-date-format="dd-MM-yyyy" 
+									size="7" 
+									data-container="#modal-projekt" 
+									data-autoclose="true" 
+							/>
+						</div>
 
-						<label class="normal">Slut dato</label>
-						<input type="text" class="form-control bold input-lg" ng-model="__projekt.slut_tid" bs-datepicker data-date-format="dd-MM-yyyy" size="7" data-autoclose="true" />
+						<div class="col-sm-6  no-padding">
+							<label class="normal">Slut dato</label>
+							<input type="text" 
+									class="form-control bold input-lg" 
+									ng-model="__projekt.slut_tid" 
+									bs-datepicker 
+									data-date-format="dd-MM-yyyy" 
+									size="7" 
+									data-container="#modal-projekt" 
+									data-autoclose="true" 
+							/>
+						</div>
 	
 						<br><br>
 					</div>
@@ -48,7 +68,7 @@
 						Slet Projekt
 					</button> 
 				</span>
-				<button type="button" class="btn btn-success" ng-click="doCreateProjekt();hide()" id="closeBtn" ng-disabled="!canCreateProjekt()">
+				<button type="button" class="btn btn-success" ng-click="doCreateProjekt();$hide()" id="closeBtn" ng-disabled="!canCreateProjekt()">
 					{{ __projekt.btnCaption }}
 				</button> 
 				<button type="button" class="btn btn-primary" ng-click="$hide()" >

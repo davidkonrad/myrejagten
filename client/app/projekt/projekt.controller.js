@@ -3,63 +3,14 @@
 angular.module('myrejagtenApp')
   .controller('ProjektCtrl', ['$scope', '$http', '$location', 'Login', 'Alert', 'KR', '$timeout', '$modal', '$q', 'Projekt', 'Eksperiment', 
 							'Data', 'Geo', 'TicketService', 'Utils', 'leafletData', 'video', 'UploadModal',
+
 	function($scope, $http, $location, Login, Alert, KR, $timeout, $modal, $q, Projekt, Eksperiment, 
 							Data, Geo, TicketService, Utils, leafletData, video, UploadModal) {
-
-        $scope.$on('$videoReady', function videoReady() {
-            $scope.test.options.setAutoplay(true);
-            $scope.test.sources.add('http://www.w3schools.com/html/mov_bbb.mp4');
-        });
 
 		/**
 			sotrage for all lists and predfined types
 		*/
 		$scope.items = {}
-
-		
-		/**
-			image / video 
-		*/			
-		$scope.uploadImage = function(eksperiment_id, currentImage) {
-			UploadModal.image($scope, eksperiment_id, currentImage).then(function(fileName) {	
-				if (typeof fileName == 'string') {
-					var e = $scope.eksperimentById(eksperiment_id);
-					e.upload_billede = fileName
-				}
-			})
-		};
-		$scope.deleteImage = function(eksperiment_id, currentImage) {
-			Alert.show($scope, 'Uploads', 'Er du sikker på du vil fjerne billedet?').then(function(ok) {
-				if (ok) {
-					$http.get('/api/upload/remove/'+encodeURIComponent(currentImage)).then(function(res) {
-						Eksperiment.update({ id: eksperiment_id }, { upload_billede: null }).$promise.then(function(e) {
-							var e = $scope.eksperimentById(eksperiment_id);
-							e.upload_billede = undefined;
-						})				
-					})
-				}
-			})
-		};
-		$scope.uploadVideo = function(eksperiment_id, currentVideo) {
-			UploadModal.video($scope, eksperiment_id, currentVideo).then(function(fileName) {	
-				if (typeof fileName == 'string') {
-					var e = $scope.eksperimentById(eksperiment_id);
-					e.upload_video = fileName
-				}
-			})
-		};
-		$scope.deleteVideo = function(eksperiment_id, currentVideo) {
-			Alert.show($scope, 'Uploads', 'Er du sikker på du vil fjerne videoen?').then(function(ok) {
-				if (ok) {
-					$http.get('/api/upload/remove/'+encodeURIComponent(currentVideo)).then(function(res) {
-						Eksperiment.update({ id: eksperiment_id }, { upload_video: null }).$promise.then(function(e) {
-							var e = $scope.eksperimentById(eksperiment_id);
-							e.upload_video = undefined;
-						})				
-					})
-				}
-			})
-		};
 
 
 		/**
@@ -75,9 +26,9 @@ angular.module('myrejagtenApp')
 
 		var lokalitetPolygon;
 
-		//$scope.dtProjektInstance = {}
 		$scope.user = Login.currentUser()
 
+		//update projekt_id and 
 		if ($scope.user.role == 0) {
 			if ($location.$$hash && $location.$$hash != '' && $location.$$hash.indexOf('_')) {
 				var hash = $location.$$hash.split('_')
@@ -85,19 +36,13 @@ angular.module('myrejagtenApp')
 			}
 			Projekt.query({ where: { user_id: $scope.user.user_id }}).$promise.then(function(projekts) {
 				function getCount(projekt_id) {
-					//var	deferred = $q.defer();
 					return Eksperiment.query({ where: { projekt_id: projekt_id }}).$promise.then(function(e) {
-						console.log('ooo', e.length)
-						//deferred.resolve(e.length)
 						return e.length
 					})
-					//return deferred.promise;
 				}
 				$scope.projekts = projekts
 				$scope.projekts.forEach(function(projekt) {
 					projekt.eksperiment_count = getCount(projekt.projekt_id)
-					//console.log(projekt.eksperiment_count)
-					//console.log(projekt.eksperiment_count.$State)
 				})
 			})
 		} else {
@@ -197,13 +142,14 @@ angular.module('myrejagtenApp')
 
 		$scope.doCreateProjekt = function() { 
 			if ($scope.__projekt.projekt_id) {
-				Projekt.update({ id: $scope.__projekt.projekt_id }, $scope.__projekt).$promise.then(function() {	
-					//$scope.dtProjektInstance.rerender()
+				Projekt.update({ id: $scope.__projekt.projekt_id }, $scope.__projekt).$promise.then(function(res) {	
+					console.log(res)
 				})
 			} else {
-				Projekt.save({ projekt_id: '' }, $scope.__projekt).$promise.then(function() {	
-					//$scope.dtProjektInstance.rerender()
-					//$scope.reloadProjekts()
+				$scope.__projekt.user_id = $scope.user.user_id;
+				Projekt.save({ projekt_id: '' }, $scope.__projekt).$promise.then(function(res) {	
+					console.log(res)
+					$scope.reloadProjekts()
 				})
 			}
 		}
@@ -239,7 +185,7 @@ angular.module('myrejagtenApp')
 			center: {
 				lat: 56.126627523318206,
 				lng: 11.457741782069204,
-				zoom: 4
+				zoom: 6
 			},
 			defaults: {
 				zoomAnimation: true,
@@ -252,13 +198,23 @@ angular.module('myrejagtenApp')
 				    name: 'Google Terrain',
 				    layerType: 'TERRAIN',
 				    type: 'google',
-						visible: true
+						visible: true,
+						layerOptions: {
+							mapOptions: {
+								styles: DefaultGoogleStyles
+						  }
+						}
 				  },
 				  googleHybrid: {
 				    name: 'Google Hybrid',
 				    layerType: 'HYBRID',
 				    type: 'google',
-						visible: false
+						visible: false,
+						layerOptions: {
+							mapOptions: {
+								styles: DefaultGoogleStyles
+						  }
+						}
 				  },
 					luftfoto: {
 						name: "Orto forår (luffoto)",
@@ -283,6 +239,7 @@ angular.module('myrejagtenApp')
 			}
 		})
 
+		console.log($scope.layers)
 
 		/**
 			for some reason EPSG:4326 is not supported by Kortforsyningen, 
@@ -417,6 +374,50 @@ angular.module('myrejagtenApp')
 		/**
 			eksperiment
 		*/
+		/**
+			image / video 
+		*/			
+		$scope.uploadImage = function(eksperiment_id, currentImage) {
+			UploadModal.image($scope, eksperiment_id, currentImage).then(function(fileName) {	
+				if (typeof fileName == 'string') {
+					var e = $scope.eksperimentById(eksperiment_id);
+					e.upload_billede = fileName
+				}
+			})
+		};
+		$scope.deleteImage = function(eksperiment_id, currentImage) {
+			Alert.show($scope, 'Uploads', 'Er du sikker på du vil fjerne billedet?').then(function(ok) {
+				if (ok) {
+					$http.get('/api/upload/remove/'+encodeURIComponent(currentImage)).then(function(res) {
+						Eksperiment.update({ id: eksperiment_id }, { upload_billede: null }).$promise.then(function(e) {
+							var e = $scope.eksperimentById(eksperiment_id);
+							e.upload_billede = undefined;
+						})				
+					})
+				}
+			})
+		};
+		$scope.uploadVideo = function(eksperiment_id, currentVideo) {
+			UploadModal.video($scope, eksperiment_id, currentVideo).then(function(fileName) {	
+				if (typeof fileName == 'string') {
+					var e = $scope.eksperimentById(eksperiment_id);
+					e.upload_video = fileName
+				}
+			})
+		};
+		$scope.deleteVideo = function(eksperiment_id, currentVideo) {
+			Alert.show($scope, 'Uploads', 'Er du sikker på du vil fjerne videoen?').then(function(ok) {
+				if (ok) {
+					$http.get('/api/upload/remove/'+encodeURIComponent(currentVideo)).then(function(res) {
+						Eksperiment.update({ id: eksperiment_id }, { upload_video: null }).$promise.then(function(e) {
+							var e = $scope.eksperimentById(eksperiment_id);
+							e.upload_video = undefined;
+						})				
+					})
+				}
+			})
+		};
+
 		$scope.items.jaNej = [
 			{ value: 0, label: 'Nej' },
 			{ value: 1, label: 'Ja' }

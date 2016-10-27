@@ -106,6 +106,10 @@
 }
 .projekt-count {
 	float: right;
+	border: 1px solid #dadada;
+	width: 26px;
+	border-radius: 50%;
+	padding-left: 7px;
 }
 .projekt-item {
 	white-space: nowrap;
@@ -120,6 +124,15 @@
 }
 .projekt-selected {
 	background-color: #ebebeb;
+}
+
+
+/* tooltip */
+div.tooltip-inner {
+    text-align: center;
+    margin-bottom: 6px;
+    background-color: #505050;
+    font-size: 16px;
 }
 
 /* upload */
