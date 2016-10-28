@@ -13,6 +13,7 @@ module.exports = function(app) {
 	app.use('/api/data', require('./api/mysql/data'));
 	app.use('/api/resultat', require('./api/mysql/resultat'));
 	app.use('/api/mysqluser', require('./api/mysql/user'));
+	app.use('/api/content', require('./api/mysql/content'));
 
   app.use('/api/email', require('./api/email'));
   app.use('/api/upload', require('./api/upload'));

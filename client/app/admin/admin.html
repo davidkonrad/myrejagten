@@ -23,6 +23,34 @@
 			</table>
 		</div>
 
+		<div bs-pane data-title="Indhold" style="padding-left:0px;">
+			<button data-placeholder="Vælg element"
+				class="btn btn-default select" 
+				ng-model="content.name" 
+				bs-options="o as o for o in content.items" 
+				bs-select>
+				<span class="caret"></span>
+			</button>			
+
+			<button class="btn btn-default btn-sm pull-right" 
+				ng-class="{ 'btn-success' : content.changed }"	
+				ng-click="saveContent()"
+				ng-disabled="!content.changed"
+			>
+				Gem ændringer
+			</button>
+
+			<br><br>
+			<div class="control-group col-md-12">
+				<textarea class="form-control" 
+					ng-model="content.content" 
+					rows="20"
+					ng-disabled="!content.name"
+				></textarea>
+			</div>
+
+		</div>
+
 	</div>	
 
 </div>

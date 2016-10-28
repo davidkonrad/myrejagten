@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .controller('AdminCtrl', ['$scope', '$http', '$q', '$timeout', 'Login', 'Alert', 'Resultat', 'Data', 'Utils', 'ResultatDlg', 'CSV', 'MysqlUser',
+  .controller('AdminCtrl', ['$scope', '$http', '$q', '$timeout', 'Login', 'Alert', 'Resultat', 'Data', 'Utils', 'ResultatDlg', 'CSV', 'MysqlUser', 'Cnt', 
 		'DTOptionsBuilder', 'DTColumnBuilder', 'DTDefaultOptions',
-	function($scope, $http, $q, $timeout, Login, Alert, Resultat, Data, Utils, ResultatDlg, CSV, MysqlUser,
+	function($scope, $http, $q, $timeout, Login, Alert, Resultat, Data, Utils, ResultatDlg, CSV, MysqlUser, Cnt,
 		DTOptionsBuilder, DTColumnBuilder, DTDefaultOptions) {
 
 		$scope.user = Login.currentUser()
@@ -170,6 +170,33 @@ angular.module('myrejagtenApp')
 
 		]
 
+/*************
+	content
+**************/
+		$scope.content = {
+			name: undefined,
+			content: undefined,
+			items: Cnt.getNames()
+		}
+		
+		$scope.$watch('content.name', function(newVal, oldVal) {
+			if (newVal != oldVal) {
+				$scope.content.content = Cnt.contentByName(newVal);
+				$timeout(function() {
+					delete $scope.content.changed;
+				})
+			}
+		}, true)
+		$scope.$watch('content.content', function(newVal, oldVal) {
+			if (oldVal && newVal != oldVal) {
+				$scope.content.changed = true
+			}
+		}, true)
+
+		$scope.saveContent = function() {
+			Cnt.saveContent($scope.content.name, $scope.content.content);
+			delete $scope.content.changed;
+		}
 
 /*************
 	download
