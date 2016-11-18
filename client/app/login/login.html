@@ -34,7 +34,9 @@
         </div>
 
         <div>
-          <button class="btn btn-inverse btn-lg btn-login" type="submit">
+          <button class="btn btn-lg btn-login" 
+						type="submit"
+						ng-class="{ 'btn-ku' : user.p!=null && user.m!=null }">
             Login
           </button>
         </div>

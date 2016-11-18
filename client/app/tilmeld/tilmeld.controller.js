@@ -10,7 +10,6 @@ angular.module('myrejagtenApp')
 					console.log(response)
 				})	
 
-
   	MysqlUser.query().$promise.then(function(users) {
 			$scope.users = users
 		})

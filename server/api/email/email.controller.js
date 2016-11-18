@@ -5,25 +5,55 @@ var server = 'http://myrejagten.snm.ku.dk/';
 
 var signature = 'Med venlig hilsen' + "\n" + 'Myrejagten og Statens Naturhistoriske Museum.';
 
+function getTransporter() {
+	/* gmail test
+	return nodemailer.createTransport({
+		service: "Gmail",
+		auth: {
+       user: "myrejagten@gmail.com",
+       pass: "Kelager%666"
+		}
+	})
+	*/
 
-exports.test = function(req, res){
-	var transporter = nodemailer.createTransport({
-		host: "exchange.ku.dk", // hostname
+	return nodemailer.createTransport({
+		host: 'Exchange.ku.dk',
 		secureConnection: false,
     secure: false,
-		requireTLS: false,
+		requireTLS: true,
     port: 465, 
     auth: {
-			//user: "FUNK-SCI-SNM-myrejagten@ku.dk"
-			user: "myrejagten@snm.ku.dk",
-			password: "dadkKU16sep"
-    }
+			user: 'FUNK-SCI-SNM-myrejagten@ku.dk',
+			pass: 'Alexander26_20'
+		}
+	})
+}
+
+exports.test = function(req, res){
+}
+
+/*
+exports.test = function(req, res){
+	var transporter = nodemailer.createTransport({
+		host: 'Exchange.ku.dk',
+		secureConnection: false,
+    secure: false,
+		requireTLS: true,
+    port: 465, 
+    auth: {
+			user: "FUNK-SCI-SNM-myrejagten@ku.dk",
+			pass: 'Alexander26_20'
+		}
 	})
 
+		var email = 'davidkonrad@gmail.com';
+
 		  var mailOptions = {
-		    to: 'migslv <david.konrad @snm.ku.dk>',
+		    //to: '<david.konrad@snm.ku.dk>',
+				//to: 'davidkonrad <davidkonrad@gmail.com>',
+				to: 'David Konrad <david.konrad@snm.ku.dk>',
 		    subject: 'Myrejagten, test',
-		    from: 'noreply <myrejagten@snm.ku.dk>', 
+		    from: 'Myrejagten <myrejagten@snm.ku.dk>', 
 				text: 'hello'
 		  };
 
@@ -38,42 +68,8 @@ exports.test = function(req, res){
 
 		})
 }
+*/
 
-function getTransporter() {
-	/*
-	return transporter = nodemailer.createTransport({
-	  service: 'localhost',
-	  debug: true,
-	  auth: false,
-	  tls: {
-			rejectUnauthorized: false
-	  }
-	});
-	*/
-
-	/*
-	return transporter = nodemailer.createTransport({
-		host: "SMTP.P0KITCASARRAY01.UNICPH.DOMAIN",
-		port: 25,
-	  auth: 
-		{
-			user : 'myrejagten@snm.ku.dk'
-		},
-	  tls: {
-			rejectUnauthorized: false
-	  }
-	});
-------------------------------------------------------
-	*/
-
-	return transporter = nodemailer.createTransport({
-		service: "Gmail",
-		auth: {
-       user: "myrejagten@gmail.com",
-       pass: "Kelager%666"
-		}
-	})
-}
 
 exports.signupMail = function(req, res){
 	var user_id = req.body.id ? req.body.id : null;
@@ -93,8 +89,6 @@ exports.signupMail = function(req, res){
 			msg += 'Ved at klikke på linket afsluttes oprettelsesproceduren, og du videresendes til myrejagtens forside. ' + "\n\n";
 			msg += signature;
 
-			console.log(msg)
-
 		  var mailOptions = {
 		    to: '"'+user.brugernavn+'"' + '<' + user.email + '>',
 		    subject: 'Tilmelding til Myrejagten',
@@ -109,14 +103,12 @@ exports.signupMail = function(req, res){
 
 		  return transporter.sendMail(mailOptions, function(err, info) {
 		    if (err) {
-		      console.log(err);
 					return res.json(200, { error: err });
 		    } else {
 					var msg = 'Der er sendt en bekræftelses-mail til ' + user.email + '. ';
 					msg += 'I denne mail er der et link du skal klikke på for at få emailadressen bekræftet. ';
 					msg += 'Når dette er gjort kan du logge ind på myrejagten med email-adressen og det valgte password. ';
 					return res.json(200, { ok: msg });
-		      console.log('Message sent: ' + info.response);
 		    }
 		  });
 		})
@@ -144,8 +136,6 @@ exports.glemtPassword = function(req,res){
 			msg += "\n\n";
 			msg += signature;
 
-			console.log(msg)
-
 		  var mailOptions = {
 		    to: user.brugernavn + '<' + user.email + '>',
 		    subject: 'Myrejagten, glemt password',
@@ -155,10 +145,8 @@ exports.glemtPassword = function(req,res){
 
 		  return transporter.sendMail(mailOptions, function(err, info) {
 		    if (err) {
-		      console.log(err);
 					return res.json(200, 'Fejl ved afsendelse af mail :'+ err +'.');
 		    } else {
-		      console.log('Message sent: ' + info.response);
 					return res.json(200, 'Mail sendt til '+ email +'.');
 		    }
 		  });

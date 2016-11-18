@@ -2,7 +2,7 @@
 // - Author: [Nicola Peduzzi](https://github.com/thenikso)
 // - Repository: https://github.com/thenikso/angular-inview
 // - Install with: `npm install angular-inview@beta`
-// - Version: **2.0.0**
+// - Version: **2.2.0**
 (function() {
 'use strict';
 
@@ -45,8 +45,8 @@ function inViewDirective ($parse) {
       //     be included in `$inviewInfo` (default false).
       //   - `generateParts`: Indicate if the `parts` information should
       //     be included in `$inviewInfo` (default false).
-      //   - `throttle`: Spcify a number of milliseconds by which filter the number
-      //     of incoming events.
+      //   - `throttle`: Specify a number of milliseconds by which to limit the
+      //     number of incoming events.
       var options = {};
       if (attrs.inViewOptions) {
         options = scope.$eval(attrs.inViewOptions);
@@ -93,8 +93,9 @@ function inViewDirective ($parse) {
         }
         viewportRect = offsetRect(viewportRect, options.viewportOffset);
         var elementRect = offsetRect(element[0].getBoundingClientRect(), options.offset);
+        var isVisible = !!(element[0].offsetWidth || element[0].offsetHeight || element[0].getClientRects().length);
         var info = {
-          inView: intersectRect(elementRect, viewportRect),
+          inView: isVisible && intersectRect(elementRect, viewportRect),
           event: event,
           element: element,
           elementRect: elementRect,
@@ -367,7 +368,7 @@ function signalFromEvent (target, event) {
 
 function signalSingle (value) {
   return new QuickSignal(function (subscriber) {
-    subscriber(value);
+    setTimeout(function() { subscriber(value); });
   });
 }
 

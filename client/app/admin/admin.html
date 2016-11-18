@@ -33,7 +33,7 @@
 			</button>			
 
 			<button class="btn btn-default btn-sm pull-right" 
-				ng-class="{ 'btn-success' : content.changed }"	
+				ng-class="{ 'btn-ku' : content.changed }"	
 				ng-click="saveContent()"
 				ng-disabled="!content.changed"
 			>
@@ -42,11 +42,7 @@
 
 			<br><br>
 			<div class="control-group col-md-12">
-				<textarea class="form-control" 
-					ng-model="content.content" 
-					rows="20"
-					ng-disabled="!content.name"
-				></textarea>
+				<text-angular ng-model="content.content"> </text-angular>
 			</div>
 
 		</div>

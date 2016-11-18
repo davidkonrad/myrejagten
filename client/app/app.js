@@ -18,9 +18,18 @@ angular.module('myrejagtenApp', [
 	'angular-inview',
 	'ui.checkbox',
 	'ngFileUpload',
-	'ngVideo'
+	'ngVideo',
+	'textAngular',
+	'textAngularSetup'
 ])
-  .config(function ($routeProvider, $locationProvider, $httpProvider) {
+  .config(function ($routeProvider, $locationProvider, $httpProvider, $logProvider) {
+
+		L.Icon.Default.imagePath = '../assets/';
+		// your other Leaflet code
+
+		//turn logs off, primarily due to heavy leaflet logging
+		$logProvider.debugEnabled(false);
+
     $routeProvider
       .otherwise({
         redirectTo: '/'

@@ -3,8 +3,13 @@
 angular.module('myrejagtenApp')
   .controller('AdminCtrl', ['$scope', '$http', '$q', '$timeout', 'Login', 'Alert', 'Resultat', 'Data', 'Utils', 'ResultatDlg', 'CSV', 'MysqlUser', 'Cnt', 
 		'DTOptionsBuilder', 'DTColumnBuilder', 'DTDefaultOptions',
-	function($scope, $http, $q, $timeout, Login, Alert, Resultat, Data, Utils, ResultatDlg, CSV, MysqlUser, Cnt,
+	function($scope, $http, $q, $timeout, Login, Alert, Resultat, Data, Utils, ResultatDlg, CSV, MysqlUser, Cnt, 
 		DTOptionsBuilder, DTColumnBuilder, DTDefaultOptions) {
+
+		//set danish strings for textAngular tooltips
+		if (window.taTools) {
+			//window.taTools.html.tooltiptext = 'test';
+		}
 
 		$scope.user = Login.currentUser()
 
@@ -181,10 +186,17 @@ angular.module('myrejagtenApp')
 		
 		$scope.$watch('content.name', function(newVal, oldVal) {
 			if (newVal != oldVal) {
+				Cnt.contentByName(newVal).then(function(value) {
+					$scope.content.content = value;
+					$scope.content.changed = false;
+				})
+				/*
 				$scope.content.content = Cnt.contentByName(newVal);
+				console.log('xxx', $scope.content.content)
 				$timeout(function() {
 					delete $scope.content.changed;
 				})
+				*/
 			}
 		}, true)
 		$scope.$watch('content.content', function(newVal, oldVal) {
@@ -201,14 +213,21 @@ angular.module('myrejagtenApp')
 /*************
 	download
 **************/
+		function getDateStr() {
+			var d = new Date();
+			return Utils.strPad(d.getDate(), 2) + '-' + Utils.strPad(d.getMonth(), 2) + '-' + d.getFullYear()
+		}
+			
 		$scope.downloadGBIF = function() {
 			$http.get('/api/download/gbif/').then(function(res) {
-				CSV.download(res.data, 'gbif.csv')
+				var fileName = 'gbif_myrejagten_' + getDateStr() + '.csv';
+				CSV.download(res.data, fileName)
 			})
 		}
 		$scope.downloadData = function() {
 			$http.get('/api/download/all').then(function(res) {
-				CSV.download(res.data, 'myrejagten.csv')
+				var fileName = 'myrejagten_' + getDateStr() + '.csv';
+				CSV.download(res.data, fileName)
 			})
 		}
 

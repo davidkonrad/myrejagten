@@ -4,8 +4,9 @@ angular.module('myrejagtenApp')
   .controller('BrugerkontoCtrl', ['$scope', '$http', '$popover', '$timeout', 'PostNr', 'Geo', 'TicketService', 'Login', 'Utils', 'MysqlUser', 'Eksperiment', 'Projekt', 'CSV',
 	function($scope, $http, $popover, $timeout, PostNr, Geo, TicketService, Login, Utils, MysqlUser, Eksperiment, Projekt, CSV) {
 
-		$scope.user = Login.currentUser()
-		$scope.alerts = []
+		$scope.user = Login.currentUser();
+		$scope.alerts = [];
+		$scope.form = {};
 
 		$scope.formPersonligeChanged = function() {
 			return Utils.formIsEdited('#form-personlige')
@@ -21,10 +22,17 @@ angular.module('myrejagtenApp')
 				kommune: $scope.user.kommune,
 				region: $scope.user.region
 			}
-			console.log($scope.user.postnr)
+			//console.log($scope.user.postnr)
 			MysqlUser.update({ user_id: $scope.user.user_id }, updateObj).$promise.then(function(user) {	
 				Login.updateCookie();	
-				Utils.formReset('#form-personlige');
+				//Utils.formReset('#form-personlige');
+
+		    $scope.form.formPersonlige.$setPristine();
+				$timeout(function() {
+					$scope.$apply();
+				})
+
+				$scope.userHaveUpdated = true;
 			})
 		}
 
@@ -44,49 +52,61 @@ angular.module('myrejagtenApp')
 
 		var postnrPopover = null;
 		var fuldenavnPopover = null;
+
+		$scope.$watch('userHaveUpdated', function(newVal, oldVal) {
+			if ($scope.userHaveUpdated && !$scope.user.postnr) {
+				postnrPopover = $popover(angular.element('#postnr'), {
+					content: 'Vi vil gerne bede om dit postnummer i forhold til vores evaluering af Myrejagten. Dit postnummer er ift. til din egen bopæl, ikke i forhold til hvor du udfører dine Myrejagten eksperimenter.',
+					container: 'html',
+					trigger: 'manual',
+					show: true,
+					template: post_pt,
+					templateUrl: false,
+					placement: 'right',
+					animation: 'am-fade',
+					viewport: '#postnr'
+				});
+			} else {
+				closePostnrPopover();
+			}
+
+			if ($scope.userHaveUpdated && !$scope.user.fulde_navn) {
+				fuldenavnPopover = $popover(angular.element('#fulde_navn'), {
+					content: 'Det fulde navn kan være dit rigtige navn, men også et sigende navn. Feltet benyttes som "Finder"-identifikator i datasindamlingen.', 
+					container: 'html',
+					trigger: 'manual',
+					show: true,
+					template: fuldenavn_pt,
+					templateUrl: false,
+					placement: 'top',
+					animation: 'am-fade',
+					viewport: '#fulde_navn'
+				});
+			} else {
+				closeFuldenavnPopover();
+			}
+		})
+
 		$timeout(function() {
-			if (!$scope.user.postnr) postnrPopover = $popover(angular.element('#postnr'), {
-				content: 'Vi ønsker ikke at vide hvor du bor, men vi kunne meget godt tænke os at vide hvilket postnummer du bor i ... ', 
-				container: 'html',
-				trigger: 'manual',
-				show: true,
-				template: post_pt,
-				templateUrl: false,
-				placement: 'right',
-				animation: 'am-fade',
-				viewport: '#postnr'
+			$scope.$watch('user.postnr', function(newVal, oldVal) {
+				if (newVal != oldVal) closePostnrPopover();
 			});
-			if (!$scope.user.fulde_navn) fuldenavnPopover = $popover(angular.element('#fulde_navn'), {
-				content: 'Det fulde navn kan være dit rigtige navn, men også et sigende navn. Feltet benyttes som "Finder"-identifikator i datasindamlingen.', 
-				container: 'html',
-				trigger: 'manual',
-				show: true,
-				template: fuldenavn_pt,
-				templateUrl: false,
-				placement: 'top',
-				animation: 'am-fade',
-				viewport: '#fulde_navn'
+			$('.postnr-popover').on('click', function() {
+				closePostnrPopover();
 			});
-			$timeout(function() {
-				$scope.$watch('user.postnr', function(newVal, oldVal) {
-					if (newVal != oldVal) closePostnrPopover();
-				});
-				$('.postnr-popover').on('click', function() {
-					closePostnrPopover();
-				});
-				$('.fuldenavn-popover').on('click', function() {
-					closeFuldenavnPopover();
-				});
-				$('a[role="tab"]').on('click', function() {
-					closePostnrPopover();
-					closeFuldenavnPopover();
-				});
-				$scope.$on('$routeChangeStart', function(next, current) { 
-					closePostnrPopover();
-					closeFuldenavnPopover();
-				});
-			})
+			$('.fuldenavn-popover').on('click', function() {
+				closeFuldenavnPopover();
+			});
+			$('a[role="tab"]').on('click', function() {
+				closePostnrPopover();
+				closeFuldenavnPopover();
+			});
+			$scope.$on('$routeChangeStart', function(next, current) { 
+				closePostnrPopover();
+				closeFuldenavnPopover();
+			});
 		}, 2000);
+
 		var closePostnrPopover = function() {
 			if (postnrPopover) {
 				postnrPopover.hide();
@@ -122,7 +142,6 @@ angular.module('myrejagtenApp')
 			}
 		}
 		$scope.postnrAfterSelect = function(item) {
-			console.log('select', item);
 			$scope.user.postnr = item.nr;
 			$scope.user.by = item.navn;
 			PostNr.getRemoteInfo(item.nr).then(function(info) {
@@ -135,16 +154,16 @@ angular.module('myrejagtenApp')
 		$scope.updateAlerts = function() {
 			var err = '';
 
-			['fulde_navn', 'adresse', 'postnr', 'by', 'kommune', 'region' ].forEach(function(field) {
+			['fulde_navn', 'postnr' /*'adresse', 'by', 'kommune', 'region' */ ].forEach(function(field) {
 				if (!$scope.user[field] || $scope.user[field].trim() == '') {
 					if (err) err += ', ';
-					err += field == 'fulde_navn' ? '<strong>navn</strong>' : '<strong>'+field+'</strong>'
+					err += field == 'fulde_navn' ? '<strong>fulde navn</strong>' : '<strong>'+field+'</strong>'
 				}
-				if (field == 'region' && err != '') {
+				if (field == 'postnr' /*'region'*/ && err != '') {
 					err += '.'
 					//replace last , with og if number of , > 1
 					//if (err.match(/,/g).length > 1) err = err.replace(/,(?=[^,]*$)/, ' og ') 
-					if (err.match(/,/g) && err.match(/,/g).length > 1) err = err.replace(/,(?=[^,]*$)/, ' og ') 
+					if (err.match(/,/g) && err.match(/,/g).length > 0) err = err.replace(/,(?=[^,]*$)/, ' og ') 
 					$scope.alerts.push({ 
 						message: 'Brugeroplysninger : Du mangler at udfylde ' + err,
 						type: 'alert-danger alert-brugeroplysninger',
@@ -191,7 +210,11 @@ angular.module('myrejagtenApp')
 					}
 				}
 
-				Eksperiment.query({ where: { user_id: $scope.user.user_id }}).$promise.then(function(data) {
+				//query eksperiments for user
+				var query = { user_id: $scope.user.user_id };
+				if ($scope.user.role == 0) query.projekt_id = { '$gt': 0 };
+
+				Eksperiment.query({ where: query }).$promise.then(function(data) {
 					for (var i=0, l=data.length; i<l; i++) {
 
 						var myrejagtName = getEksName(data[i], i);

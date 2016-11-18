@@ -7,11 +7,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <base href="/">
-    <title></title>
-    <meta name="description" content="">
+		<link rel="shortcut icon" href="http://cms.ku.dk/grafik/images/favicons/favicon_fa.ico">
+    <title>Myrejagten</title>
+    <meta name="description" content="Myrejagten er et Citizen Science projekt som din skole eller familie kan hjælpe Statens Naturhistoriske Museum med.">
     <meta name="viewport" content="width=device-width">
 
-	    <script src="http://maps.google.com/maps/api/js?v=3.24&key=AIzaSyAOj0_u0DRE2dK8X9YptdCXtxt89UCqfoo"></script>
+	    <script src="http://maps.google.com/maps/api/js?v=3.25&key=AIzaSyAOj0_u0DRE2dK8X9YptdCXtxt89UCqfoo"></script>
 			<! -- google maps -->
 
 			<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css" />
@@ -21,7 +22,6 @@
     <!-- build:css(client) app/vendor.css -->
       <!-- bower:css -->
       <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-      <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
       <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
       <link rel="stylesheet" href="bower_components/ng-tags-input/ng-tags-input.css" />
       <link rel="stylesheet" href="bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" />
@@ -31,6 +31,7 @@
       <link rel="stylesheet" href="bower_components/angular-motion/dist/angular-motion.css" />
       <link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css" />
       <link rel="stylesheet" href="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css" />
+      <link rel="stylesheet" href="bower_components/textAngular/dist/textAngular.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -45,6 +46,7 @@
       <link rel="stylesheet" href="app/login/login.css">
       <link rel="stylesheet" href="app/main/main.css">
       <link rel="stylesheet" href="app/navbar/navbar.css">
+      <link rel="stylesheet" href="app/projekt/eksperiment.inc.css">
       <link rel="stylesheet" href="app/projekt/projekt.css">
       <link rel="stylesheet" href="app/tilmeld/tilmeld.css">
       <link rel="stylesheet" href="app/upload/upload.modal.css">
@@ -52,9 +54,17 @@
       <link rel="stylesheet" href="app/xxx_app.css">
       <!-- endinjector -->
     <!-- endbuild -->
+
+		<!-- inject "APS" stylesheet served from KU obvious system in order to facilitate remote style changes --->
+		<link rel="stylesheet" href="http://cms.ku.dk/nat-sites/snm-sites/css/myrejagten.css/">
+		<!-- end inject "APS" stylesheet -->
+
   </head>
  
   <body ng-app="myrejagtenApp">
+
+   <div id="main"> <!-- "APS" wrapper" -->
+
 	   <div ng-include="'app/navbar/navbar.html'"></div>
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -62,7 +72,10 @@
 
     <!-- Add your site or application content here -->
     <div ng-view=""></div>
- <div ng-include="'app/footer/footer.html'"></div>
+    <div ng-include="'app/footer/footer.html'"></div>
+ 
+    </div> <!-- end "APS" wrapper" -->
+
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -160,6 +173,15 @@
       <script src="bower_components/angular-mocks/angular-mocks.js"></script>
       <script src="bower_components/ngvideo/dist/ng-video.js"></script>
       <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
+      <script src="bower_components/rangy/rangy-core.js"></script>
+      <script src="bower_components/rangy/rangy-classapplier.js"></script>
+      <script src="bower_components/rangy/rangy-highlighter.js"></script>
+      <script src="bower_components/rangy/rangy-selectionsaverestore.js"></script>
+      <script src="bower_components/rangy/rangy-serializer.js"></script>
+      <script src="bower_components/rangy/rangy-textrange.js"></script>
+      <script src="bower_components/textAngular/dist/textAngular.js"></script>
+      <script src="bower_components/textAngular/dist/textAngular-sanitize.js"></script>
+      <script src="bower_components/textAngular/dist/textAngularSetup.js"></script>
       <!-- endbower -->
       <script src="socket.io-client/socket.io.js"></script>
       <script src="https://code.angularjs.org/1.0.8/i18n/angular-locale_da-dk.js"></script>

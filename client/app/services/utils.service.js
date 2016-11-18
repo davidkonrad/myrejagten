@@ -52,7 +52,6 @@ angular.module('myrejagtenApp')
 
 			//from http://stackoverflow.com/questions/46155/validate-email-address-in-javascript
 			emailIsValid: function(email) {
-				console.log(email)
 				if (!email) return true
 		    var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		    return regex.test(email)
@@ -63,6 +62,13 @@ angular.module('myrejagtenApp')
 				if (value && !~array.indexOf(value)) array.push(value)
 			},
 			
+			strPad: function(s, len, padChar) {
+				padChar = padChar || '0';
+				s = s.toString();
+				while (s.length < len) s = padChar + s;
+				return s;
+			},
+
 			formIsEdited: function(id) {
 				var form = document.querySelector(id)
 				if (form) {
@@ -90,6 +96,8 @@ angular.module('myrejagtenApp')
 
 					for (i=0; i<inputs.length; i++) {
 						angular.element(inputs[i]).removeClass('ng-dirty')
+						angular.element(inputs[i]).removeClass('ng-touched')
+						angular.element(inputs[i]).addClass('ng-pristine')
 					}
 					for (i=0; i<selects.length; i++) {
 						angular.element(selects[i]).removeClass('ng-dirty')
@@ -222,13 +230,17 @@ var DefaultGoogleStyles = [
    stylers: [{
      visibility: 'off'
    }]
-	}, {
+	}, 
+	/*
+	{
 		//remove road labels
 	  featureType: "road",
 		elementType: "labels",
 		stylers: [{
 			visibility: "off"
 		}]
-}];
+	}
+	*/
+];
 
 

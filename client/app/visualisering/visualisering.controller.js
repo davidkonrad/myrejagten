@@ -4,6 +4,14 @@ angular.module('myrejagtenApp')
   .controller('VisualiseringCtrl', ['$scope', '$timeout', 'TicketService', 'Eksperiment', 'Utils',
 	 function($scope, $timeout, TicketService, Eksperiment, Utils) {
 
+		/**
+		leaflet path
+		**/
+		console.log(L.Icon.Default.imagePath)
+		L.Icon.Default.imagePath = '../assets/';
+		console.log(L)
+		L.Icon.Default.imagePath = '../assets/';
+
 		var eksperimentIcon = {
 			iconUrl: 'assets/images/Circle_Yellow.png',
 			iconSize: [25, 41],
@@ -29,7 +37,11 @@ angular.module('myrejagtenApp')
 			defaults: {
 				zoomAnimation: true,
 				markerZoomAnimation: true,
-				fadeAnimation: true
+				fadeAnimation: true,
+				tileLayerOptions: {
+					detectRetina: true,
+					reuseTiles: true
+				}
 			},
 			layers: {
         baselayers: {

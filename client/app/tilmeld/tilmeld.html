@@ -1,101 +1,111 @@
 <div class="container">
 
-	<h3>Tilmelding til Myrejagten</h3>
+  <h3>Tilmelding til Myrejagten</h3>
 
-	<div class="col-md-6" ng-if="processed">
-		<em class="text-warning" ng-if="processed.error">
+  <div class="col-md-6" ng-if="processed">
+    <em class="text-warning" ng-if="processed.error">
 			{{ processed.error }}
 		</em>
-		<em class="text-success" ng-if="processed.ok">
+    <em class="text-success" ng-if="processed.ok">
 			{{ processed.ok }}
 		</em>
-	</div>
+  </div>
 
-	<div class="col-md-6" ng-if="!processed">
+  <div class="col-md-6" ng-if="!processed">
 
 		<div class="control-group">
-			<div class="controls">
-				<div class="radio" xstyle="margin-left:20px;">
-					Hvilken slags bruger&nbsp;:&nbsp;&nbsp;
-					<label class="xbold" style="font-size:125%;" bs-popover data-trigger="hover" data-placement="top" data-content="Brugeren kan knyttes til en skole, fritdshjem, bønehave o.lign. Eksperimenter inddeles i overordnede projekter, hvilket giver mulighed for t.ex inddeling i hold.">
-						<input type="radio" name="brugertype" value="0" ng-model="user.role">Skole
-					</label>
-					&nbsp;&nbsp;
-					<label class="xbold" style="font-size:125%;" bs-popover data-trigger="hover" data-placement="top" data-content="Normal bruger med navn og adresse som kan oprette et vilkårlgt antal eksperimenter.">
-						<input type="radio" name="brugertype"  value="1" ng-model="user.role" checked>Privat
-					</label>
-				</div>
-			</div>
-		</div>
-    
-		<form class="form-horizontal">
-			<div class="control-group">
-				<label class="control-label required normal" for="email">E-mail adresse</label>
- 				<div class="input-group">
-					<input type="text" id="email" ng-model="user.email" placeholder="" class="form-control input-lg">
-		      <span class="input-group-btn">
-						<i style="margin-left:5px;" info-popover="En gyldig emailadresse der benyttes som login. Der vil blive sendt en bekræftelsesmail til adressen."></i>
+      <div class="controls">
+        <div class="radio" xstyle="margin-left:20px;">
+          Vælg brugertype&nbsp;:&nbsp;&nbsp;
+          <label style="font-size:125%;" 
+						bs-popover 
+						data-trigger="hover" 
+						data-placement="bottom" 
+						data-content="Vælg denne brugertype hvis du laver Myrejagten i tilknytning til en skole, et fritidshjem, en børnehave, en spejdergruppe el. lign. Denne brugertype inddeler eksperimenter i overordnede projekter, hvilket giver mulighed for inddeling i hold."
+					>
+            <input type="radio" name="brugertype" value="0" ng-model="user.role">Institution
+          </label>
+          &nbsp;&nbsp;
+          <label style="font-size:125%;" 
+						bs-popover 
+						data-trigger="hover" 
+						data-placement="bottom" 
+						data-content="Vælg denne brugertype hvis du laver Myrejagten i privat regi, f.eks. med familie, venner eller andet."
+					>
+            <input type="radio" name="brugertype" value="1" ng-model="user.role" checked>Privat
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <form class="form-horizontal">
+      <div class="control-group">
+        <label class="control-label required normal" for="email">E-mail adresse</label>
+        <div class="input-group">
+          <input type="text" id="email" ng-model="user.email" placeholder="" class="form-control input-lg">
+          <span class="input-group-btn">
+						<i style="margin-left:5px;" info-popover="Din email-adresse skal være gyldig da den benyttes som login. Der sendes en bekræftelsesmail til email-adressen."></i>
   		    </span>
-				</div>
-				<p class="help-block error" ng-show="emailInUse()">
-					Email-adressen <b>{{ user.email }}</b> er allerede i brug! Har du <a href="/glemt-password/?email={{ user.email }}">glemt password?</a>
-				</p>
-				<p class="help-block error" ng-show="!emailIsValid()">
-					Email-adresse er ikke gyldig!
-				</p>
-	
-			<div class="control-group">
-				<label class="control-label required normal" for="username">Brugernavn</label>
- 				<div class="input-group">
-					<input type="text" ng-model="user.brugernavn" placeholder="" class="form-control input-lg">
-		      <span class="input-group-btn">
-						<i style="margin-left:5px;" info-popover="Dit synlige navn på myrejagten. Kan indeholde bogstaver, tal, mellemrum mv."></i>
+        </div>
+        <p class="help-block error" ng-show="emailInUse()">
+          Email-adressen <b>{{ user.email }}</b> er allerede i brug! Har du <a href="/glemt-password/?email={{ user.email }}">glemt password?</a>
+        </p>
+        <p class="help-block error" ng-show="!emailIsValid()">
+          Email-adresse er ikke gyldig!
+        </p>
+
+        <div class="control-group">
+          <label class="control-label required normal" for="username">Brugernavn</label>
+          <div class="input-group">
+            <input type="text" ng-model="user.brugernavn" placeholder="" class="form-control input-lg">
+            <span class="input-group-btn">
+						<i style="margin-left:5px;" info-popover="Dit brugernavn vil blive anvendt som dit synlige navn på Myrejagten. Brugernavnet kan indeholde bogstaver, tal, mellemrum mv."></i>
   		    </span>
-				</div>
-			</div>
-         
-		<div class="control-group">
-			<label class="control-label required normal" for="password">Password</label>
-			<div class="input-group">
-				<input type="text" id="password" ng-model="user.password" class="form-control input-lg">
-				<span class="input-group-btn">
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label required normal" for="password">Password</label>
+          <div class="input-group">
+            <input type="text" id="password" ng-model="user.password" class="form-control input-lg">
+            <span class="input-group-btn">
 					<button class="btn btn-default btn-lg" style="postion:relative;top:0px;left:-1px;" ng-click="generatePassword()" title="Generer et tilfældigt password med rimelig god sikkerhed"><i class="fa fa-gear"></i></button>
 				</span>
-				<span class="input-group-btn">
-					<i style="margin-left:5px;" info-popover-size="lg" info-popover="Dit password skal være mindst 3 karakterer langt, men derudover er der ingen særlige  regler der skal overholdes."></i>
+            <span class="input-group-btn">
+					<i style="margin-left:5px;" info-popover-size="lg" info-popover="Dit password er valgfrit og skal blot være mindst 3 karakterer langt. Ved tryk på tandhjulet genereres et tilfældigt password med god sikkerhed."></i>
  		    </span>
-			</div>
-		</div>
+          </div>
+        </div>
 
-            <div class="control-group">
-			        <div class="pull-right checkbox" style="position:relative;top:-14px;right:40px;">
-							  <label class="normal">
-									<input type="checkbox" ng-model="user.termsAccepted" ng-checked="user.termsAccepted">
-									Jeg accepterer 
-									<a target=_blank href="/betingelser-og-vilkår"><strong>betingelser og vilkår</strong></a>.
-								</label>
-							</div>
-            </div>
-         
-            <div class="control-group">
-              <div class="controls">
-								<br><br><br>
-                <button class="btn btn-success btn-lg" ng-disabled="!canCreateUser()" ng-click="createUser()">
-									<i class="fa fa-check" ng-show="canCreateUser()"></i>
-									Tilmeld dig Myrejagten!
-								</button>
-              </div>
-            </div>
-        </form>
-    
-    </div> 
-	</div>
+        <div class="control-group">
+          <div class="pull-right checkbox" style="position:relative;top:-14px;right:40px;">
+            <label class="normal">
+              <input type="checkbox" ng-model="user.termsAccepted" ng-checked="user.termsAccepted"> Jeg accepterer
+              <a target=_blank href="/betingelser-og-vilkår"><strong>betingelser og vilkår</strong></a>.
+            </label>
+          </div>
+        </div>
 
- 	<div class="col-md-6">
-		<div mj-content="Tilmeld_1"></div>
+        <div class="control-group">
+          <div class="controls">
+            <br>
+            <br>
+            <br>
+            <button class="btn btn-lg" 
+							ng-disabled="!canCreateUser()" 
+							ng-click="createUser()"
+							ng-class="{ 'btn-ku': canCreateUser() }">
+              <i class="fa fa-check" ng-show="canCreateUser()"></i> Tilmeld
+            </button>
+          </div>
+        </div>
+	    </div>
+    </form>
+  </div>
 
+  <div class="col-md-6">
+    <div mj-content="Tilmeld_1"></div>
   </div>
 
 </div>
-
 

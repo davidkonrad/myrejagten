@@ -28,12 +28,8 @@ angular.module('myrejagtenApp')
 
 		$scope.user = Login.currentUser()
 
-		//update projekt_id and 
-		if ($scope.user.role == 0) {
-			if ($location.$$hash && $location.$$hash != '' && $location.$$hash.indexOf('_')) {
-				var hash = $location.$$hash.split('_')
-				$scope.projekt_id = parseInt(hash[0])
-			}
+		//reload projekts, only called if user == "skole"
+		$scope.reloadProjekts = function() {
 			Projekt.query({ where: { user_id: $scope.user.user_id }}).$promise.then(function(projekts) {
 				function getCount(projekt_id) {
 					return Eksperiment.query({ where: { projekt_id: projekt_id }}).$promise.then(function(e) {
@@ -45,6 +41,15 @@ angular.module('myrejagtenApp')
 					projekt.eksperiment_count = getCount(projekt.projekt_id)
 				})
 			})
+		}
+
+		//check role, set projekt_id or reloadProjekts()
+		if ($scope.user.role == 0) {
+			if ($location.$$hash && $location.$$hash != '' && $location.$$hash.indexOf('_')) {
+				var hash = $location.$$hash.split('_')
+				$scope.projekt_id = parseInt(hash[0])
+			}
+			$scope.reloadProjekts()
 		} else {
 			$scope.projekt_id = 0;
 		}
@@ -93,7 +98,7 @@ angular.module('myrejagtenApp')
 			} else {
 				$scope.__projekt = { 
 					header: 'Opret projekt',
-					titel: '',
+					titel: 'Projekt #' + parseInt($scope.projekts.length+1),
 					lokalitetMethod: 'stednavne_v2',
 					btnCaption: 'Opret og Luk',
 					lokalitet: null,
@@ -143,12 +148,12 @@ angular.module('myrejagtenApp')
 		$scope.doCreateProjekt = function() { 
 			if ($scope.__projekt.projekt_id) {
 				Projekt.update({ id: $scope.__projekt.projekt_id }, $scope.__projekt).$promise.then(function(res) {	
-					console.log(res)
+					//console.log(res)
 				})
 			} else {
 				$scope.__projekt.user_id = $scope.user.user_id;
 				Projekt.save({ projekt_id: '' }, $scope.__projekt).$promise.then(function(res) {	
-					console.log(res)
+					//console.log(res)
 					$scope.reloadProjekts()
 				})
 			}
@@ -239,7 +244,7 @@ angular.module('myrejagtenApp')
 			}
 		})
 
-		console.log($scope.layers)
+		//console.log($scope.layers)
 
 		/**
 			for some reason EPSG:4326 is not supported by Kortforsyningen, 
@@ -374,6 +379,21 @@ angular.module('myrejagtenApp')
 		/**
 			eksperiment
 		*/
+		$('body').on('show.bs.collapse', '.panel', function() {
+			//$scope.projekt_id = 
+			$scope.projekt_id = $(this).attr('projekt-id');
+			$timeout(function() {
+				console.log($scope.projekt_id)
+				$scope.$apply()
+			})
+			/*
+			console.log($scope.projekt_id)
+			console.log(this)
+			console.log('OK')
+			*/
+		})
+		
+
 		/**
 			image / video 
 		*/			

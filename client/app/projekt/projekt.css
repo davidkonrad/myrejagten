@@ -24,7 +24,7 @@
 	border-radius: 5px;
 	margin-bottom: 20px;
 	background-color: #fafafa; 
-	height: 350px;
+	height: 380px;
 }
 
 /* ensure transparent background in tbas on hover */
@@ -38,9 +38,10 @@
 	padding-top: 0px;
 }
 .tab-content {
-	padding-top: 0px;
+	padding-top: 0px !important;
 	padding-right: 0px;
 	padding-left: 0px;
+	padding-bottom: 10px;
 }
 
 .btn-eksperiment-save {
@@ -81,7 +82,7 @@
 	font-size: 110%;
 }
 .projekt-bar:not(.bg-primary):hover {
-	background-color: #ebebeb !important;
+	background-color: #999 !important;
 }	
 .projekt-bar.bg-primary {
 	font-weight: bold;
@@ -110,6 +111,10 @@
 	width: 26px;
 	border-radius: 50%;
 	padding-left: 7px;
+	margin-right: 5px;
+}
+.projekt-edit {
+	float: right;	
 }
 .projekt-item {
 	white-space: nowrap;

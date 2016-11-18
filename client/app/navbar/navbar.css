@@ -2,7 +2,66 @@
   background-color: transparent !important;
   border-color: transparent !important;
 }
-.active-page {
-	background-color: #eee;
+.nav > li > a:hover, .nav > li > a:focus {
+	background-color: #fff;
 }
+
+.active-page {
+	background-color: #fff;
+	color: #901a1e !important;
+	border-bottom: 1px solid #901a1e;
+}
+.user-account-link {
+	margin-right: 30px;
+}
+
+
+#ku-logo {
+	height: 87px;
+	width: 61px;
+	position: absolute;
+	left: 20px;
+	top: 20px;
+	z-index: 1; /* needed so the <a> tag around the image works */
+}
+
+#ku-title {
+	padding-left: 135px;
+	color: #252525;
+	position: absolute;
+	top: 60px;
+}
+#ku-title h1 {
+	margin-bottom: 4px;
+	font-size: 22px;
+	color: #252525;
+}
+#ku-title h2 {
+	margin-top: 8px;
+	font-size: 18px;
+	color: #252525;
+}
+
+#ku-logo-line {
+	position: absolute;
+	top: 98px;
+	border-top: 1px solid maroon;
+	min-width: 100%;
+}
+
+#ku-navbar {
+	margin-right: 0px;
+	position: relative;
+	right: -50px;
+	top: 30px;
+}
+
+#ku-navbar li a {
+	color: #252525;
+}
+
+a.no-styling {
+	text-decoration: none;
+}
+
 

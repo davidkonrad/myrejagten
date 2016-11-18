@@ -6,24 +6,35 @@
 */
 
 angular.module('myrejagtenApp')
-  .factory('Cnt', function($timeout, Content) {
+  .factory('Cnt', function($timeout, $q, Content) {
 
 		var content = null;
 		var contentNames = [];
 
+		function loadContent() {
+			var	deferred = $q.defer();
+			Content.query().$promise.then(function(cnt) {
+				content = cnt;
+				contentNames = [];
+
+				//populate contentNames (used by dropdown menu)
+				cnt.forEach(function(item) {
+					contentNames.push(item.name)
+				})
+
+				//alpha sort content
+				$timeout(function() {
+					contentNames.sort()
+				})
+
+	      deferred.resolve(true)
+			})
+      return deferred.promise;
+		}
+
 		return {
 			init: function() {
-				Content.query().$promise.then(function(cnt) {
-					content = cnt;
-
-					contentNames = [];
-					cnt.forEach(function(item) {
-						contentNames.push(item.name)
-					})
-					$timeout(function() {
-						contentNames.sort()
-					})
-				})
+				loadContent()
 			},
 
 			getNames: function() {
@@ -41,10 +52,25 @@ angular.module('myrejagtenApp')
 			},
 				
 			contentByName: function(name) {
-				for (var i=0, l=content.length; i<l; i++) {
-					if (content[i].name == name ) return content[i].content
+
+				function getValue() {
+					for (var i=0, l=content.length; i<l; i++) {
+						if (content[i].name == name ) {
+							return content[i].content
+						}
+					}
 				}
-				return false
+
+				var	deferred = $q.defer();
+				if (!content) {
+					loadContent().then(function() {
+			      deferred.resolve(getValue())
+					})
+				} else {
+		      deferred.resolve(getValue())
+				}
+
+	      return deferred.promise;
 			}
 				
 		}

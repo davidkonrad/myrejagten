@@ -21,14 +21,14 @@
 				<button role="button" 
 								class="btn btn-sm btn-save" 
 								ng-disabled="!formPersonligeChanged()"
-								ng-class="{ 'btn-success' : formPersonligeChanged() }"
+								ng-class="{ 'btn-ku' : formPersonligeChanged() }"
 								ng-click="savePersonlige()"
 				>
 					<i class="fa fa-check"></i>
 					Gem ændringer
 				</button>
 
-				<form class="form-horizontal" role="form" id="form-personlige">
+				<form class="form-horizontal" role="form" id="form-personlige" name="form.formPersonlige">
 
 					<div class="control-group col-md-12">
 						<label class="normal required">Email-adresse <span class="help-block small display-inline">(dit login, kan ikke ændres)</span></label>
@@ -105,39 +105,9 @@
 <!---/// private oplysninger ----->
 
 
-<!------ brugerkonto ----->
-
-<!--
-			<div bs-pane data-title="Brugerkonto">
-
-				<button role="button" 
-								class="btn btn-sm btn-save" 
-								ng-disabled="!formStamdataChanged()"
-								ng-class="{ 'btn-success' : formStamdataChanged() }"
-								ng-click="saveStamdata()"
-				>
-					<i class="fa fa-check"></i>
-					Gem ændringer
-				</button>
-
-				<form class="form-horizontal" arole="form" id="form-stamdata" name="formStamdata" novalidate>
-
-					<label class="normal required">Email-adresse <span class="help-block display-inline">(dit login, kan ikke ændres)</span></label>
-					<input type="text" class="form-control bold input-lg" value="{{ user.email }}" id="email" disabled/>
-
-					<br>
-
-					<label class="normal required">Brugernavn</label>
-					<input type="text" class="form-control bold input-lg" ng-model="user.brugernavn" id="brugernavn" />
-
-				</form>
-			</div>
--->
-<!---/// brugerkonto ----->
-
 <!------ download ----->
 			<div bs-pane data-title="Download data">
-				<div class="circle">Download_beskrivelse_1</div>
+				<div mj-content="Download_beskrivelse_1"></div>
 				<br>
 				<button class="btn btn-primary" ng-click="downloadData()">Download dine egne data i regnearksformat</button>
 			</div>			

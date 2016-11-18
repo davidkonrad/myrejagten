@@ -12,10 +12,21 @@
 				<input type="hidden" name="eksperiment_id" value="{{ x.eksperiment_id }}" />
 
 				<div class="col-md-6" style="min-height:300px !important;">
+
+					<!-- different popovers depending on skole / privat -->
 					<label class="normal required">
 						Navn på eksperiment
-							<i info-sm info-popover="Giv myrejagten en beskrivende titel eller navn. Det kan t.ex være &quot;Ved bustoppestedet&quot;, &quot;5B&quot;, &quot;Gunnar, Lise og Thor&quot; osv. Feltet er ikke obligatorisk."></i>
+						<i ng-if="projekt_id == 0"
+							info-sm 
+							info-popover="Her kan du navngive dit eksperiment. F.eks. I forhold til hvor du udførte eksperimentet – ”ved sommerhuset”, ”under æbletræet” el. lign. Eller f.eks. I forhold til hvem du udførte eksperimentet sammen med – ”Mormor & Morfar”, ”5.b”, ”Gunnar, Lise og Thor” el. lign. Feltet er ikke obligatorisk.">
+						</i>
+						<i ng-if="projekt_id != 0"
+							info-sm 
+							info-popover="Her kan du navngive dit eksperiment. F.eks. I forhold til hvor du udførte eksperimentet – ”ved boldbanen”, ”under æbletræet på legepladsen” el. lign. Eller f.eks. I forhold til hvem du udførte eksperimentet sammen med –”5.b”, ”Hold 4”, ”Gunnar, Lise og Thor” el. lign. Feltet er ikke obligatorisk.">
+						</i>
 					</label>
+
+
 					<input type="text" class="form-control bold input-lg" select-on-click ng-model="x.titel" name="titel" />
 	
 					<div class="col-md-4" style="padding-left: 0px !important;">
@@ -69,11 +80,21 @@
 					<input type="text" class="form-control bold input-md" ng-model="x.adresse" select-on-click adresse-opslag adresse-type="{{ x.adresseType }}" on-select="eksperimentAdresseSelect" eksperiment-id="{{ x.eksperiment_id }}" name="adresse" />
 						
 					<div class="col-sm-12">
-						<label class="radio-inline" bs-popover data-container="html" data-trigger="hover" data-placement="top" data-content="Opslag op i Geodatastyrelsens stednavne-register. Rummer stort set alle bygninger, naturområder, seværdigheder etc. med opslag på populærnavne." > 
+						<label class="radio-inline" 
+							bs-popover 
+							data-container="html" 
+							data-trigger="hover" 
+							data-placement="top" 
+							data-content="Opslag i Geodatastyrelsens stednavne-register. Her kan du søge på bygninger, naturområder, seværdigheder etc. med opslag på populærnavne."> 
 							<input type="radio" class="exclude-from-form" ng-model="x.adresseType" name="opslag" value="stednavne_v2" />
 							Stednavne
 						</label>
-						<label class="radio-inline" bs-popover data-container="html" data-trigger="hover" data-placement="top" data-content="Opslag op i Geodatastyrelsens adresse-register. Som i t.ex Rejseplanen kan du skrive husnr. efter vejnavn"> 
+						<label class="radio-inline" 
+							bs-popover 
+							data-container="html" 
+							data-trigger="hover" 
+							data-placement="top" 
+							data-content="Opslag i Geodatastyrelsens adresse-register. Her kan du søge på vejnavn og husnr. "> 
 							<input type="radio" class="exclude-from-form" ng-model="x.adresseType" name="opslag" value="adresser" checked  />
 							Adresser
 						</label>
@@ -131,7 +152,7 @@
 				<tr>
 					<th class="normal">
 						Miljødata
-						<i info-sm info-popover="Hjælpetekst omkring miljødata"></i>
+						<i info-sm info-popover="Her skal du taste oplysninger omkring vind og vejr under dit eksperiment. Dine miljødata hjælper forskerne med at lære myrerne og deres levevis bedre at kende. "></i>
 					</th>
 					<th style="width: 150px;"></th>
 				</tr>
@@ -218,19 +239,25 @@
 	<table style="border-spacing:15px 3px;border-collapse: separate; float:left;margin-left:50px;">
 		<thead>
 			<tr>
-				<th>
+				<th></th>
+				<th></th>
+				<th colspan="2" class="normal text-center">
+					Antal myrer indsamlet
+				</th>
+			</tr>
+			<tr>
+				<th></th>
+				<th class="normal">
+					Madding væk?
+					<i info-sm info-popover="Var maden væk da eksperimentet blev afsluttet? Maden kan være blæst væk, være taget af fugle eller andet. – Detaljer kan noteres under ‘Bemærkninger’"></i>
 				</th>
 				<th class="normal">
-					Maden væk
-					<i info-sm info-popover="Var maden væk da eksperimentet blev afsluttet?"></i>
+					Optælling
+					<i info-sm info-popover="Antal myrer inden indsamling. Her skriver du det antal myrer du noterede på det pågældende fødeemne ved optælling før indsamling af myrerne. Da det kan være svært at tælle myrerne kan du have fået et gennemsnit med decimaler efter dine optællinger."></i>
 				</th>
 				<th class="normal">
-					Indsamlet
-					<i info-sm info-popover="Antal myrer inden indsamling. Tæl eller foretag et overslag over antallet af myrer mindst to gange. Angiv tværsummen af myreoptællingen i dette felt."></i>
-				</th>
-				<th class="normal">
-					Eft. frys.
-					<i info-sm info-popover="Hvor mange myrer er der efter frysning? Angive det nøjagtige antal i denne kolonne."></i>
+					Efter frys
+					<i info-sm info-popover="Antal myrer efter frysning. Her skriver du det antal myrer du noterede på det pågældende fødeemne ved optælling efter indsamling og frysning af myrerne. "></i>
 				</th>
 				</tr>
 			</thead>
@@ -317,7 +344,7 @@
 
 			<div class="upload-cnt">
         <section class="video" ng-video VVng-model="test">
-					<video autoplay="" vi-screen ng-src="{{ x.upload_video }}" src="{{ x.upload_video }}"></video>
+					<video XXXautoplay="false" vi-screen ng-src="{{ x.upload_video }}" src="{{ x.upload_video }}"></video>
 						<section vi-controls="" class="controls">
                 <span ng-click="interface.controls.play()" title="Afspil" class="glyphicon glyphicon-play"></span>
                 <span ng-click="interface.controls.pause()" title="Pause" class="glyphicon glyphicon-pause"></span>
