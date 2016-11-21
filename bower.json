@@ -1,5 +1,5 @@
 {
-  "name": "myrejagtenApp",
+  "name": "myrejagtenapp",
   "version": "0.0.1",
   "dependencies": {
     "angular": "~1.3",
@@ -11,14 +11,11 @@
     "angular-cookies": ">=1.2.*",
     "angular-sanitize": ">=1.2.*",
     "angular-route": ">=1.2.*",
-    "font-awesome": ">=4.1.0",
-    "lodash": "~2.4.1",
-    "angular-socket-io": "~0.6.0",
+    "font-awesome": "~4.1.0",
     "angular-strap": "2.3.7",
-    "angular-local-storage": "0.1.5",
     "moment": "~2.9.0",
-		"leaflet": "~1.0.0",
-    "angular-leaflet-directive": "~0.10.0",
+    "leaflet": "~0.7.7",
+    "angular-leaflet-directive": "~0.8.8",
     "leaflet-providers": "~1.1.7",
     "proj4leaflet": "0.7.2",
     "Wicket": "*",
@@ -36,12 +33,13 @@
     "angular-motion": "^0.4.4",
     "angular-animate": "^1.5.8",
     "angular-bootstrap-checkbox": "^0.5.0",
-    "angular-nvd3": "^1.0.9",
     "Leaflet.awesome-markers": "leaflet-awesome-markers#^2.0.2",
     "angular-file-upload": "^2.3.4",
     "ngvideo": "^1.0.2",
     "ng-file-upload": "^12.2.12",
-    "textAngular": "^1.5.12"
+    "textAngular": "^1.5.12",
+    "chart.js": "^2.4.0",
+    "angular-chart.js": "^1.0.3"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",

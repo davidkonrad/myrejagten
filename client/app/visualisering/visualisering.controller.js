@@ -1,26 +1,42 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .controller('VisualiseringCtrl', ['$scope', '$timeout', 'TicketService', 'Eksperiment', 'Utils',
-	 function($scope, $timeout, TicketService, Eksperiment, Utils) {
+  .controller('VisualiseringCtrl', ['$scope', '$http', '$timeout', 'Login', 'TicketService', 'Eksperiment', 'Utils',
+	 function($scope, $http, $timeout, Login, TicketService, Eksperiment, Utils) {
 
-		/**
-		leaflet path
-		**/
-		console.log(L.Icon.Default.imagePath)
-		L.Icon.Default.imagePath = '../assets/';
-		console.log(L)
-		L.Icon.Default.imagePath = '../assets/';
+		$scope.charts = [];
+		$scope.user = Login.currentUser();
 
-		var eksperimentIcon = {
-			iconUrl: 'assets/images/Circle_Yellow.png',
-			iconSize: [25, 41],
-			shadowSize: [50, 64], 
-			iconAnchor: [12, 41], 
-			shadowAnchor: [4, 62], 
-			popupAnchor: [-2, -46] 
+		$http.get('api/stats/topSpeciesByOccurrence').then(function(result) {
+			var chart = {
+				name: 'Hyppigst fundne myrearter',
+				labels: [],
+				data: []
+			}
+			result.data.forEach(function(r) {
+				chart.labels.push(r.navn_videnskabeligt);
+				chart.data.push(r.count);
+			})
+			$scope.charts.push(chart)
+		})
+	
+		if ($scope.user) {
+			$http.get('api/stats/topSpeciesByUser', { user_id: $scope.user.user_id }).then(function(result) {
+				var chart = {
+					name: 'Dine top-myrearter',
+					labels: [],
+					data: []
+				}
+				result.data.forEach(function(r) {
+					chart.labels.push(r.navn_videnskabeligt);
+					chart.data.push(r.count);
+				})
+				$scope.charts.push(chart)
+			})
 		}
 
+
+/*****************************************/
 		$scope.map = {
 			events: {
 				map: {
@@ -127,12 +143,14 @@ angular.module('myrejagtenApp')
 					lat: parseFloat(e.lat),
 					lng: parseFloat(e.lng),
 					message: getMessage(e),
+					/*	
 					icon: {
 						type: "awesomeMarker",
 						prefix: 'fa',
   		      icon: "trophy",
   		      markerColor: "blue"
   			  }
+					*/
 				})
 			})
 		})

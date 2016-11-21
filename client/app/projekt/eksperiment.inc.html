@@ -6,7 +6,7 @@
 			<i class="fa fa-remove text-danger"></i>
 		</button>
 
-		<!--------- oversigt -------->
+		<!--------- oversigt -------->	
 		<div bs-pane data-title="Oversigt" style="padding-left:0px;">
 			<form novalidate id="formOversigt{{ x.eksperiment_id }}">
 				<input type="hidden" name="eksperiment_id" value="{{ x.eksperiment_id }}" />
@@ -16,14 +16,16 @@
 					<!-- different popovers depending on skole / privat -->
 					<label class="normal required">
 						Navn på eksperiment
-						<i ng-if="projekt_id == 0"
-							info-sm 
-							info-popover="Her kan du navngive dit eksperiment. F.eks. I forhold til hvor du udførte eksperimentet – ”ved sommerhuset”, ”under æbletræet” el. lign. Eller f.eks. I forhold til hvem du udførte eksperimentet sammen med – ”Mormor & Morfar”, ”5.b”, ”Gunnar, Lise og Thor” el. lign. Feltet er ikke obligatorisk.">
-						</i>
-						<i ng-if="projekt_id != 0"
-							info-sm 
-							info-popover="Her kan du navngive dit eksperiment. F.eks. I forhold til hvor du udførte eksperimentet – ”ved boldbanen”, ”under æbletræet på legepladsen” el. lign. Eller f.eks. I forhold til hvem du udførte eksperimentet sammen med –”5.b”, ”Hold 4”, ”Gunnar, Lise og Thor” el. lign. Feltet er ikke obligatorisk.">
-						</i>
+						<span ng-if="user.role == 1">
+							<i info-sm 
+								info-popover="Her kan du navngive dit eksperiment. F.eks. I forhold til hvor du udførte eksperimentet – ”ved sommerhuset”, ”under æbletræet” el. lign. Eller f.eks. I forhold til hvem du udførte eksperimentet sammen med – ”Mormor & Morfar”, ”5.b”, ”Gunnar, Lise og Thor” el. lign. Feltet er ikke obligatorisk.">
+							</i>
+						</span>
+						<span ng-if="user.role == 0">
+							<i info-sm 
+								info-popover="Her kan du navngive dit eksperiment. F.eks. I forhold til hvor du udførte eksperimentet – ”ved boldbanen”, ”under æbletræet på legepladsen” el. lign. Eller f.eks. I forhold til hvem du udførte eksperimentet sammen med –”5.b”, ”Hold 4”, ”Gunnar, Lise og Thor” el. lign. Feltet er ikke obligatorisk.">
+							</i>
+						</span>
 					</label>
 
 
@@ -50,16 +52,18 @@
 				</div>
 
 				<div class="col-md-6">
-					<leaflet id="{{ x.mapId }}" class="eksperiment-map" center="x.map.center" defaults="x.map.defaults" layers="x.map.layers" markers="x.map.markers" events="x.map.events" height="280px" style="border:1px solid #ccc;border-radius:5px;"></leaflet>
+					<leaflet id="{{ x.mapId }}" mapId="{{ x.mapId }}" class="eksperiment-map" center="x.map.center" defaults="x.map.defaults" layers="x.map.layers" markers="x.map.markers" events="x.map.events" height="280px" style="border:1px solid #ccc;border-radius:5px;"></leaflet>
 				</div>
 
+				<!--
 				<button class="btn btn-default btn-eksperiment-save" 
-								ng-class="{ 'btn-success' : eksperimentFormChanged('formOversigt{{ x.eksperiment_id }}') }"
+								ng-class="{ 'btn-ku' : eksperimentFormChanged('formOversigt{{ x.eksperiment_id }}') }"
 								ng-click="updateEksperiment('formOversigt'+x.eksperiment_id)" 
 								ng-disabled="!eksperimentFormChanged('formOversigt{{ x.eksperiment_id }}')">
 					<i class="fa fa-check"></i>
 					Gem ændringer
 				</button>	
+				-->
 
 			</form>
 		</div>
@@ -79,7 +83,7 @@
 					<label class="normal required">Lokalitet</label>
 					<input type="text" class="form-control bold input-md" ng-model="x.adresse" select-on-click adresse-opslag adresse-type="{{ x.adresseType }}" on-select="eksperimentAdresseSelect" eksperiment-id="{{ x.eksperiment_id }}" name="adresse" />
 						
-					<div class="col-sm-12">
+					<div class="col-sm-12 text-right">
 						<label class="radio-inline" 
 							bs-popover 
 							data-container="html" 
@@ -98,10 +102,12 @@
 							<input type="radio" class="exclude-from-form" ng-model="x.adresseType" name="opslag" value="adresser" checked  />
 							Adresser
 						</label>
+						<!--
 						<label class="radio-inline"> 
 							<input type="radio" class="exclude-from-form" ng-model="x.adresseType" name="opslag" value="" />
 							Fritekst
 						</label>
+						-->
 					</div>
 	
 					<div class="col-sm-12" style="min-height:10px;"></div>
@@ -134,7 +140,7 @@
 
 			</form>		
 			<button class="btn btn-default btn-eksperiment-save" 
-							ng-class="{ 'btn-success' : eksperimentFormChanged('formLokalitet{{ x.eksperiment_id }}') }"
+							ng-class="{ 'btn-ku' : eksperimentFormChanged('formLokalitet{{ x.eksperiment_id }}') }"
 							ng-click="updateEksperiment('formLokalitet'+x.eksperiment_id)" 
 							ng-disabled="!eksperimentFormChanged('formLokalitet{{ x.eksperiment_id }}')">
 				<i class="fa fa-check"></i>
@@ -295,7 +301,7 @@
 
 	</form>
 			<button class="btn btn-default btn-eksperiment-save" 
-							ng-class="{ 'btn-success' : eksperimentFormChanged('formResultater{{ x.eksperiment_id }}') }"
+							ng-class="{ 'btn-ku' : eksperimentFormChanged('formResultater{{ x.eksperiment_id }}') }"
 							ng-click="updateEksperimentData(x.eksperiment_id)" 
 							ng-disabled="!eksperimentFormChanged('formResultater{{ x.eksperiment_id }}')">
 				<i class="fa fa-check"></i>
@@ -317,7 +323,7 @@
 				<i class="fa fa-remove"></i>
 			</button>
 
-			<button class="btn btn-success btn-xs pull-right" 
+			<button class="btn btn-ku btn-xs pull-right" 
 				style="margin-right: 5px;"
 				ng-click="uploadImage(x.eksperiment_id, x.upload_billede)">Upload billede / belæg
 			</button>
@@ -337,7 +343,7 @@
 				<i class="fa fa-remove"></i>
 			</button>
 
-			<button class="btn btn-success btn-xs pull-right" 
+			<button class="btn btn-ku btn-xs pull-right" 
 				style="margin-right: 5px;"
 				ng-click="uploadVideo(x.eksperiment_id, x.upload_video)">Upload Video
 			</button>

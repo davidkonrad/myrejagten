@@ -6,9 +6,7 @@ angular.module('myrejagtenApp', [
   'ngSanitize',
   'ngRoute',
 	'ngAnimate',
-  'btford.socket-io',
 	'mgcrea.ngStrap', 
-	'LocalStorageModule',
 	'leaflet-directive',
 	'datatables',
 	'datatables.buttons',
@@ -20,23 +18,23 @@ angular.module('myrejagtenApp', [
 	'ngFileUpload',
 	'ngVideo',
 	'textAngular',
-	'textAngularSetup'
+	'textAngularSetup',
+	'chart.js'
 ])
-  .config(function ($routeProvider, $locationProvider, $httpProvider, $logProvider) {
-
+  .config(function ($routeProvider, $locationProvider, $httpProvider, $logProvider, ChartJsProvider) {
 		L.Icon.Default.imagePath = '../assets/';
-		// your other Leaflet code
 
 		//turn logs off, primarily due to heavy leaflet logging
 		$logProvider.debugEnabled(false);
 
-    $routeProvider
-      .otherwise({
-        redirectTo: '/'
-      });
-
+    $routeProvider.otherwise({ redirectTo: '/' });
     $locationProvider.html5Mode(true);
     $httpProvider.interceptors.push('authInterceptor');
+
+		//
+		ChartJsProvider.setOptions({
+      colors: ['#97BBCD', '#DCDCDC', '#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360']
+    });
   })
 
   .factory('authInterceptor', function ($rootScope, $q, $cookieStore, $location) {

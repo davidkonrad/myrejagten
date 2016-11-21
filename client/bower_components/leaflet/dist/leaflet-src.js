@@ -1877,8 +1877,6 @@ L.Map = L.Class.extend({
 	},
 
 	getSize: function () {
-		//console.log(this, arguments)
-
 		if (!this._size || this._sizeChanged) {
 			this._size = new L.Point(
 				this._container.clientWidth,
@@ -3421,7 +3419,6 @@ L.Icon.Default = L.Icon.extend({
 	}
 });
 
-/*
 L.Icon.Default.imagePath = (function () {
 	var scripts = document.getElementsByTagName('script'),
 	    leafletRe = /[\/^]leaflet[\-\._]?([\w\-\._]*)\.js\??/;
@@ -3438,7 +3435,7 @@ L.Icon.Default.imagePath = (function () {
 		}
 	}
 }());
-*/
+
 
 /*
  * L.Marker is used to display clickable/draggable icons on the map.

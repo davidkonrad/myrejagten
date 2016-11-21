@@ -8,7 +8,7 @@ angular.module('myrejagtenApp')
 							Data, Geo, TicketService, Utils, leafletData, video, UploadModal) {
 
 		/**
-			sotrage for all lists and predfined types
+			storage for all lists and predefined types
 		*/
 		$scope.items = {}
 
@@ -20,7 +20,7 @@ angular.module('myrejagtenApp')
 			{ value: '-projekt_id', label: 'Nyeste' },
 			{ value: 'projekt_id', label: 'Ældste' },
 			{ value: 'titel', label: 'Navn' },
-			{ value: 'eksperiment_count.$$state.value', label: 'Eksperimenter' },
+			{ value: '!eksperiment_count.$$state.value', label: 'Eksperimenter' },
 		]
 		$scope.projektSortering = { value: '-projekt_id' }
 
@@ -162,13 +162,22 @@ angular.module('myrejagtenApp')
 		/**
 			map related events and methods
 		*/
-		$scope.$on('leafletDirectiveMap.click', function(event, args){
+		$scope.$on('leafletDirectiveMap.*', function(event, args) {
+			console.log('STAR');
 			//$scope.setMarker(args.leafletEvent.latlng)
 		});
-		$scope.$on('leafletDirectiveMap.zoom', function(event, args){
+
+		$scope.$on('leafletDirectiveMap.click', function(event, args) {
+			console.log(arguments)
+			console.log('ok 1111');
+			//$scope.setMarker(args.leafletEvent.latlng)
+		});
+		$scope.$on('leafletDirectiveMap.zoom', function(event, args) {
+			console.log('zoom');
 			if ($scope.marker) $scope.center = angular.copy($scope.marker)
 		})
 		$scope.$on('leafletDirectiveMarker.dblclick', function(e, marker) {
+			console.log('dblclick');
 			$scope.center = {
 				lat: $scope.marker.lat,
 				lng: $scope.marker.lng,
@@ -394,6 +403,10 @@ angular.module('myrejagtenApp')
 		})
 		
 
+		$scope.$watch('eksperimenter', function(newVal, oldVal) {
+			console.log('watch', arguments)
+		}, true)
+
 		/**
 			image / video 
 		*/			
@@ -590,9 +603,16 @@ angular.module('myrejagtenApp')
 			popupAnchor: [-2, -46] 
 		}
 
+		$scope.$on('leafletDirectiveMap.*', function(event, target){
+			console.log('QWERTY')
+		})
+
+
 		$scope.$on('leafletDirectiveMap.click', function(event, target){
 			var latLng = target.leafletEvent.latlng
 			var id = target.leafletEvent.target._container.id
+			//var id = target.leafletEvent.target._container.getAttribute('mapId');
+			console.log(id);
 
 			//click on lokalitet->map
 			if (~id.indexOf('_lok')) {
@@ -626,6 +646,7 @@ angular.module('myrejagtenApp')
 			} else {
 				//find "Lokalitet" tab and click()
 				$timeout(function() {
+					//alert('ok')
 					$('#'+ id)
 						.closest('.eksperiment-block')
 						.find('a[role="tab"]:contains("Lokalitet")')

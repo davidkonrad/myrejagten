@@ -153,7 +153,16 @@ label.required:before {
 	color: white;
 }
 	
+.no-underline,
+.no-underline:hover,
+.no-underline:active,
+.no-underline:focus {
+	text-decoration: none;
+}
 
+.panel-heading:has(.no-underline:focus) {
+	background-color: red;
+}
 
 
 
