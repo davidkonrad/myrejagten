@@ -101,7 +101,12 @@ module.exports = function(sequelize, DataTypes) {
     vind: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    kommentar: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
+
 	
 	}, {
 		tableName: 'eksperiment',

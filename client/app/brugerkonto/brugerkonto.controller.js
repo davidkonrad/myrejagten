@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .controller('BrugerkontoCtrl', ['$scope', '$http', '$popover', '$timeout', 'PostNr', 'Geo', 'TicketService', 'Login', 'Utils', 'MysqlUser', 'Eksperiment', 'Projekt', 'CSV',
-	function($scope, $http, $popover, $timeout, PostNr, Geo, TicketService, Login, Utils, MysqlUser, Eksperiment, Projekt, CSV) {
+  .controller('BrugerkontoCtrl', ['$scope', '$http', '$popover', '$timeout', 'PostNr', 'Geo', 'TicketService', 'ToDo',
+																	'Login', 'Utils', 'MysqlUser', 'Eksperiment', 'Projekt', 'CSV',
+	function($scope, $http, $popover, $timeout, PostNr, Geo, TicketService, ToDo,
+					Login, Utils, MysqlUser, Eksperiment, Projekt, CSV) {
 
 		$scope.user = Login.currentUser();
 		$scope.alerts = [];
@@ -151,105 +153,13 @@ angular.module('myrejagtenApp')
 			$scope.$apply()
 		}
 
-		$scope.updateAlerts = function() {
-			var err = '';
-
-			['fulde_navn', 'postnr' /*'adresse', 'by', 'kommune', 'region' */ ].forEach(function(field) {
-				if (!$scope.user[field] || $scope.user[field].trim() == '') {
-					if (err) err += ', ';
-					err += field == 'fulde_navn' ? '<strong>fulde navn</strong>' : '<strong>'+field+'</strong>'
-				}
-				if (field == 'postnr' /*'region'*/ && err != '') {
-					err += '.'
-					//replace last , with og if number of , > 1
-					//if (err.match(/,/g).length > 1) err = err.replace(/,(?=[^,]*$)/, ' og ') 
-					if (err.match(/,/g) && err.match(/,/g).length > 0) err = err.replace(/,(?=[^,]*$)/, ' og ') 
-					$scope.alerts.push({ 
-						message: 'Brugeroplysninger : Du mangler at udfylde ' + err,
-						type: 'alert-danger alert-brugeroplysninger',
-					})
-				}
-			})
-
-			function getEksName(e, index) {
-				return e.titel && e.titel.trim() != '' ? e.titel : 'Myrejagt #'+index
-			}
-			function getEksLokalitetErr(e) {
-				return !e.lat || !e.lng ? 'Sted / lokalitet er ikke angivet. ' : ''
-			}
-			function getEksDatoErr(e) {
-				return !e.dato || !e.start_tid || !e.slut_tid ? 'Dato og tid mangler. ' : ''
-			}
-			function getEksAdresseErr(e) {
-				return !e.adresse || 
-							!e.postnr ||
-							!e.by ||
-							!e.kommune ||
-							!e.region ? 'Adresseoplysninger mangler. ' : ''
-			}
-			function getEksDataErr(e) {
-				if (!e.sol) return 'Angivelse af sol / skygge mangler. '
-				if (!e.vind) return 'Angivelse af vindstyrke mangler. ' 
-				if (!e.vejr) return 'Angivelse af vejrlig mangler. '
-				if (typeof e.temp != 'number') return 'Angivelse af temperatur mangler. '  
-				for (var i=0, l=e.Data.length; i<l; i++) {
-					if (typeof e.Data[i].myrer_frysning != 'number' || typeof e.Data[i].myrer_indsamlet != 'number') {
-						return 'En eller flere myre-optællinger manlger. '
-					}
-				}
-				return ''
-			}
-
-			Projekt.query().$promise.then(function(projekt) {	
-
-				function getProjektName(projekt_id) {
-					for (var i=0, l=projekt.length; i<l; i++) {
-						if (projekt[i].projekt_id == projekt_id) {
-							return projekt[i].titel.trim() || projekt[i].lokalitet.trim() || 'Projekt #'+projekt_id
-						}
-					}
-				}
-
-				//query eksperiments for user
-				var query = { user_id: $scope.user.user_id };
-				if ($scope.user.role == 0) query.projekt_id = { '$gt': 0 };
-
-				Eksperiment.query({ where: query }).$promise.then(function(data) {
-					for (var i=0, l=data.length; i<l; i++) {
-
-						var myrejagtName = getEksName(data[i], i);
-						if (data[i].projekt_id > 0) {
-							myrejagtName = getProjektName(data[i].projekt_id) + ', ' + myrejagtName
-						}
-						myrejagtName = myrejagtName.charAt(0).toUpperCase() + myrejagtName.slice(1)
-
-						var hash = data[i].projekt_id > 0 
-							? data[i].projekt_id + '_' + data[i].eksperiment_id
-							: data[i].eksperiment_id
-
-						var name = '<strong><a href="/eksperimenter#' + hash + '" title="Rediger ' + myrejagtName +'">' + myrejagtName +'</a></strong>'
-						var err = getEksDatoErr(data[i])
-						err += getEksLokalitetErr(data[i])
-						err += getEksAdresseErr(data[i])
-						err += getEksDataErr(data[i])
-						if (err && err.trim() != '')	$scope.alerts.push({ 
-							message: name + '  : ' + '<span class="text-danger">' + err + '</span>',
-							type: 'alert-warning'
-						})
-					}
-				})
-			})
-
-			$('body').on('click', '.alert-close', function() {
-				var $alert = $(this).closest('.alert')
-				$alert.slideUp(400)
-			})
-			$('body').on('click', '.alert-brugeroplysninger', function() {
-				$scope.scrollToForm()
-			})
-		}
-		$scope.updateAlerts()
-
+		/**
+			get alerts / missing info for account
+		*/
+		ToDo.account($scope.user).then(function(alerts) {
+			$scope.alerts = alerts;
+		})
+		
 		$scope.scrollToForm = function() {
 			var $form = angular.element('#form-cnt')
 			if ($form.offset()) $("body").animate({scrollTop: $form.offset().top-20 }, 400);
@@ -265,8 +175,12 @@ angular.module('myrejagtenApp')
 	download
 ***********************/
 		$scope.downloadData = function() {
+			var d = new Date();
+			var date = Utils.strPad(d.getDate(), 2) + '-' + Utils.strPad(d.getMonth(), 2) + '-' + d.getFullYear();
+			var user = $scope.user.brugernavn || $scope.user.fulde_navn || $scope.user.email;
+			var fileName = 'myrejagten_' + user + '_' + date + '.csv';
 			$http.get('/api/download/data/'+$scope.user.user_id).then(function(res) {
-				CSV.download(res.data, 'myrejagten.csv')
+				CSV.download(res.data, fileName)
 			})
 		}
 

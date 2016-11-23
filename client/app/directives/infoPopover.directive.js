@@ -8,10 +8,13 @@ angular.module('myrejagtenApp')
       terminal: true,
       priority: 1000,
       link: function link(scope, element, attrs) {
+				var content = attrs['infoPopover'] ? attrs['infoPopover'] : 'undefined';
+				var placement = attrs['infoPlacement'] ? attrs['infoPlacement'] : 'top';
+
 				element.attr('bs-popover', '')
-				element.attr('data-content', attrs['infoPopover'] ? attrs['infoPopover'] : 'undefined' )
+				element.attr('data-content', content)
 				element.attr('data-trigger', 'hover')
-				element.attr('data-placement', 'top')
+				element.attr('data-placement', placement)
 				element.attr('data-container', 'html')
 	
         element.removeAttr("info-popover"); //remove the attribute to avoid indefinite loop
@@ -26,7 +29,7 @@ angular.module('myrejagtenApp')
 				$template.attr('bs-popover', '')
 				$template.attr('data-content', attrs['infoPopover'] ? attrs['infoPopover'] : 'undefined' )
 				$template.attr('data-trigger', 'hover')
-				$template.attr('data-placement', 'top')
+				$template.attr('data-placement', placement)
 				$template.attr('data-container', 'html')
 				$template.css('backgroundColor', '#fff')
 				$template.find('i').css('backgroundColor', '#fff')
@@ -39,6 +42,11 @@ angular.module('myrejagtenApp')
 				function getAttrVal(v) {
 					return attrs.hasOwnProperty(v) ? v.replace('info', '').toLowerCase() : false
 				}
+
+				$template.css('position', 'relative');
+				$template.css('top', '-2px');
+				$template.css('font-family', 'verdana')
+
 				var size = getAttrVal('infoXs') || getAttrVal('infoSm') || getAttrVal('infoMd') || getAttrVal('infoLg') || 'md';
 				switch (size) {
 
@@ -69,7 +77,7 @@ angular.module('myrejagtenApp')
 					default :
 						$template.css('width', '30px')
 						$template.css('height', '30px')
-						$template.find('i').css('fontSize', '20px')
+						$template.find('i').css('fontSize', '21px')
 						$template.find('i').css('marginLeft', '8px')
 						$template.find('i').css('marginTop', '5px')
 						break;

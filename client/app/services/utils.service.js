@@ -72,15 +72,19 @@ angular.module('myrejagtenApp')
 			formIsEdited: function(id) {
 				var form = document.querySelector(id)
 				if (form) {
-					var i, 
-							inputs = form.querySelectorAll('input:not(.exclude-from-form)'),
-							selects = form.querySelectorAll('button[bs-select]');
+					var i; 
+					var inputs = form.querySelectorAll('input:not(.exclude-from-form)');
+					var textareas = form.querySelectorAll('textarea:not(.exclude-from-form)');
+					var selects = form.querySelectorAll('button[bs-select]');
 	
 					for (i=0; i<inputs.length; i++) {
 						if (angular.element(inputs[i]).hasClass('ng-dirty')) return true
 					}
 					for (i=0; i<selects.length; i++) {
 						if (angular.element(selects[i]).hasClass('ng-dirty')) return true
+					}
+					for (i=0; i<textareas.length; i++) {
+						if (angular.element(textareas[i]).hasClass('ng-dirty')) return true
 					}
 
 				}
@@ -90,9 +94,10 @@ angular.module('myrejagtenApp')
 			formReset: function(id) {
 				var form = document.querySelector(id)
 				if (form) {
-					var i, 
-							inputs = form.querySelectorAll('input:not(.exclude-from-form)'),
-							selects = form.querySelectorAll('button[bs-select]');
+					var i;
+					var inputs = form.querySelectorAll('input:not(.exclude-from-form)');
+					var textareas = form.querySelectorAll('textarea:not(.exclude-from-form)');
+					var selects = form.querySelectorAll('button[bs-select]');
 
 					for (i=0; i<inputs.length; i++) {
 						angular.element(inputs[i]).removeClass('ng-dirty')
@@ -102,6 +107,12 @@ angular.module('myrejagtenApp')
 					for (i=0; i<selects.length; i++) {
 						angular.element(selects[i]).removeClass('ng-dirty')
 					}
+					for (i=0; i<textareas.length; i++) {
+						angular.element(textareas[i]).removeClass('ng-dirty')
+						angular.element(textareas[i]).removeClass('ng-touched')
+						angular.element(textareas[i]).addClass('ng-pristine')
+					}
+
 				}
 			},
 
@@ -119,7 +130,9 @@ angular.module('myrejagtenApp')
 				//console.log(this)
 				var form = document.querySelector(id), obj = {}
 				if (form) {
-					var e, name, isDatePicker, inputs = form.querySelectorAll('input');
+					var e, name, isDatePicker;
+					var inputs = form.querySelectorAll('input, textarea');
+
 					for (var i=0, l=inputs.length; i<l; i++) {
 						e = inputs[i];
 						name = e.getAttribute('name');

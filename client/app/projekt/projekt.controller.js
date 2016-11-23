@@ -1,17 +1,40 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .controller('ProjektCtrl', ['$scope', '$http', '$location', 'Login', 'Alert', 'KR', '$timeout', '$modal', '$q', 'Projekt', 'Eksperiment', 
+  .controller('ProjektCtrl', ['$scope', '$http', '$location', 'Login', 'Alert', 'KR', '$timeout', '$modal', '$q', 'Projekt', 'Eksperiment', 'ToDo', 
 							'Data', 'Geo', 'TicketService', 'Utils', 'leafletData', 'video', 'UploadModal',
 
-	function($scope, $http, $location, Login, Alert, KR, $timeout, $modal, $q, Projekt, Eksperiment, 
+	function($scope, $http, $location, Login, Alert, KR, $timeout, $modal, $q, Projekt, Eksperiment, ToDo,
 							Data, Geo, TicketService, Utils, leafletData, video, UploadModal) {
+
+		//Alert.show($scope, 'Uploads', 'Er du sikker på du vil fjerne billedet?').then(function(ok) {
+
+		$scope.user = Login.currentUser()
+
+		//check for changes
+		ToDo.data(Login.currentUser()).then(function(alerts) {
+			$scope.alerts = alerts
+		})
+
+		//is about to leave page, check for changes
+		$scope.$on('$locationChangeStart', function(e) {
+			var changes = false;
+			$('.btn-eksperiment-save').each(function(i, btn) {
+				//console.log(btn)
+				if ($(btn).hasClass('btn-ku')) changes = true;
+			})
+			if (changes) {
+				var leave = confirm("Du har lavet ændringer der endnu ikke er gemt. Er du sikker på du vil forlade siden?")
+	  	  if (!leave) {
+					e.preventDefault();
+				}
+			}
+		});
 
 		/**
 			storage for all lists and predefined types
 		*/
 		$scope.items = {}
-
 
 		/**
 			Projekt
@@ -25,8 +48,6 @@ angular.module('myrejagtenApp')
 		$scope.projektSortering = { value: '-projekt_id' }
 
 		var lokalitetPolygon;
-
-		$scope.user = Login.currentUser()
 
 		//reload projekts, only called if user == "skole"
 		$scope.reloadProjekts = function() {
@@ -403,10 +424,6 @@ angular.module('myrejagtenApp')
 		})
 		
 
-		$scope.$watch('eksperimenter', function(newVal, oldVal) {
-			console.log('watch', arguments)
-		}, true)
-
 		/**
 			image / video 
 		*/			
@@ -455,34 +472,23 @@ angular.module('myrejagtenApp')
 			{ value: 0, label: 'Nej' },
 			{ value: 1, label: 'Ja' }
 		];
+
 		$scope.items.vejr = [
-			{ value: 'solskin', label: 'Solskin' },
-			{ value: 'Let overskyet', label: 'Let overskyet' },
-			{ value: 'Halvt overskuet', label: 'Halvt overskuet' },
+			{ value: 'Skyfrit', label: 'Skyfrit' },
+			{ value: 'Halvskyet', label: 'Halvskyet' },
+			{ value: 'Overskyet', label: 'Overskyet' },
 			{ value: 'Fuldt overskyet', label: 'Fuldt overskyet' },
-			{ value: 'Regnvejr', label: 'Regnvejr' },
-			{ value: 'Andet', label: 'Andet' }
+			{ value: 'Regn', label: 'Regn' }
 		];
 		$scope.items.sol = [
-			{ value: 'Sol', label: 'Sol' },
-			{ value: 'Delvis skygge', label: 'Delvis skygge' },
-			{ value: 'Skygge', label: 'Skygge' },
-			{ value: 'Andet', label: 'Andet' }
+			{ value: 'Ingen skygge', label: 'Ingen skygge' },
+			{ value: 'Delvist i skygge', label: 'Delvist i skygge' },
+			{ value: 'Helt i skygge', label: 'Helt i skygge' }
 		];
 		$scope.items.vind = [
-			{ value: 'Stille', label: 'Stille ' },
-			{ value: 'Næsten stille', label: 'Næsten stille' },
+			{ value: 'Vindstille', label: 'Vindstille' },
 			{ value: 'Svag vind', label: 'Svag vind' },
-			{ value: 'Let vind', label: 'Let vind' },
-			{ value: 'Jævn vind', label: 'Jævn vind' },
-			{ value: 'Frisk vind', label: 'Frisk vind' },
-			{ value: 'Hård vind', label: 'Hård vind' },
-			{ value: 'Stiv kuling', label: 'Stiv kuling' },
-			{ value: 'Hård kuling', label: 'Hård kuling' },
-			{ value: 'Stormende kuling', label: 'Stormende kuling' },
-			{ value: 'Storm', label: 'Storm ' },
-			{ value: 'Stærk storm', label: 'Stærk storm' },
-			{ value: 'Orkan', label: 'Orkan' }
+			{ value: 'Kraftig vind', label: 'Kraftig vind' }
 		];
 		$scope.items.madding = [
 			{ madding: 'Vand' },
@@ -521,10 +527,13 @@ angular.module('myrejagtenApp')
 
 						var updateValues = { 
 							myrejagt_id: getMyrejagtId($scope.user.user_id, $scope.projekt_id, e.eksperiment_id),
-							titel: 'Myrejagt #' + p.length,
+							titel: 'Myrejagt #' + p.length
+							/*
+							do not set timestamp settings
 							start_tid: now.getHours()+':00',
 							slut_tid: now.getHours()+5+':00',
 							dato: now.toString()
+							*/
 						}
 
 						Eksperiment.update({ id: e.eksperiment_id }, updateValues).$promise.then(function(e) {
@@ -717,8 +726,10 @@ angular.module('myrejagtenApp')
 
 					e.mapId = 'map' + e.eksperiment_id;
 					e.adresseType = 'adresser'
+					/*
 					e.start_tid = createTime( e.start_tid )
 					e.slut_tid = createTime( e.slut_tid )
+					*/
 					
 					return e
 				})
@@ -731,6 +742,13 @@ angular.module('myrejagtenApp')
 						$scope.$apply() //ensure immedatiate update of the buttons
 					})
 				}
+
+				for (var i=0,l=$scope.eksperimenter.length; i<l; i++) {
+					$scope.$watch('eksperimenter['+i+']', function(newVal, oldVal) {
+						console.log('array waTCH');
+					})
+				}
+				
 
 				$scope.refreshMaps()
 			})
@@ -827,6 +845,12 @@ angular.module('myrejagtenApp')
 				$scope.$apply()							
 			}
 
+			function formatAdresse(a,p,b,k,r) {
+				var r = a;
+				r += ', ' + p + ' ' + b;
+				return r
+			}
+
 			var form = angular.element('#formLokalitet'+eksperiment_id)
 			var e = $scope.eksperimentById(eksperiment_id)
 			switch (adresseType) {
@@ -843,7 +867,7 @@ angular.module('myrejagtenApp')
 
 					var adresse = item.streetName;
 					adresse += item.streetBuildingIdentifier ? ' '+item.streetBuildingIdentifier : '';
-					form.find('input[name="adresse"]').val( adresse )
+					//form.find('input[name="adresse"]').val( adresse )
 
 					form.find('input[name="geometryWkt"]').val( item.geometryWkt )
 					form.find('input[name="postnr"]').val( item.postCodeIdentifier )
@@ -854,6 +878,14 @@ angular.module('myrejagtenApp')
 						form.find('input[name="region"]').val( kommune.region.navn.replace('Region', '').trim() )
 					}
 	
+					form.find('input[name="adresse"]').val( formatAdresse(
+						adresse,
+						item.postCodeIdentifier, 
+						item.districtName,
+						kommune ? kommune.navn : '',
+						kommune ? kommune.region.navn : ''
+					));
+
 					Utils.formSetDirty('#formLokalitet'+eksperiment_id)
 					break;
 
@@ -885,10 +917,6 @@ angular.module('myrejagtenApp')
 			}
 		}
 
-		$scope.renderFinished = function() {
-			$scope.done = true;
-		}
-
   }]);
 
 
@@ -897,6 +925,7 @@ angular.module('myrejagtenApp')
   return function(scope, element, attrs) {
 
     if (scope.$last) {
+			console.log('LAST', 'renderFinsished');
 			if ($location.$$hash && $location.$$hash != '') {
 
 				var eksperiment_id = ~$location.$$hash.indexOf('_')
@@ -913,5 +942,6 @@ angular.module('myrejagtenApp')
 		}
   };
 }]);
+
 
 

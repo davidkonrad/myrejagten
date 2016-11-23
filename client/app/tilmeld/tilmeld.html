@@ -1,6 +1,6 @@
-<div class="container">
+<div class="container-fluid">
 
-  <h3>Tilmelding til Myrejagten</h3>
+  <h3>Opret bruger</h3>
 
   <div class="col-md-6" ng-if="processed">
     <em class="text-warning" ng-if="processed.error">
@@ -11,14 +11,13 @@
 		</em>
   </div>
 
-  <div class="col-md-6" ng-if="!processed">
+  <div class="col-md-7" ng-if="!processed">
 
 		<div class="control-group">
       <div class="controls">
-        <div class="radio" xstyle="margin-left:20px;">
+        <div class="radio">
           Vælg brugertype&nbsp;:&nbsp;&nbsp;
-          <label style="font-size:125%;" 
-						bs-popover 
+          <label bs-popover 
 						data-trigger="hover" 
 						data-placement="bottom" 
 						data-content="Vælg denne brugertype hvis du laver Myrejagten i tilknytning til en skole, et fritidshjem, en børnehave, en spejdergruppe el. lign. Denne brugertype inddeler eksperimenter i overordnede projekter, hvilket giver mulighed for inddeling i hold."
@@ -26,11 +25,10 @@
             <input type="radio" name="brugertype" value="0" ng-model="user.role">Institution
           </label>
           &nbsp;&nbsp;
-          <label style="font-size:125%;" 
-						bs-popover 
+          <label bs-popover 
 						data-trigger="hover" 
 						data-placement="bottom" 
-						data-content="Vælg denne brugertype hvis du laver Myrejagten i privat regi, f.eks. med familie, venner eller andet."
+						data-content="”Vælg denne brugertype hvis du laver Myrejagten i privat regi, f.eks. med familie eller venner"
 					>
             <input type="radio" name="brugertype" value="1" ng-model="user.role" checked>Privat
           </label>
@@ -44,7 +42,7 @@
         <div class="input-group">
           <input type="text" id="email" ng-model="user.email" placeholder="" class="form-control input-lg">
           <span class="input-group-btn">
-						<i style="margin-left:5px;" info-popover="Din email-adresse skal være gyldig da den benyttes som login. Der sendes en bekræftelsesmail til email-adressen."></i>
+						<i style="margin-left:5px;" info-popover="Du skal vælge en gyldig e-mailadresse da den benyttes til login. Din e-mailadresse skal endeligt godkendes via en bekræftelse du får automatisk får tilsendt efter oprettelsen. "></i>
   		    </span>
         </div>
         <p class="help-block error" ng-show="emailInUse()">
@@ -95,7 +93,8 @@
 							ng-disabled="!canCreateUser()" 
 							ng-click="createUser()"
 							ng-class="{ 'btn-ku': canCreateUser() }">
-              <i class="fa fa-check" ng-show="canCreateUser()"></i> Tilmeld
+              <i class="fa fa-check" ng-show="canCreateUser()"></i>
+							Opret
             </button>
           </div>
         </div>
@@ -103,7 +102,7 @@
     </form>
   </div>
 
-  <div class="col-md-6">
+  <div class="col-md-5">
     <div mj-content="Tilmeld_1"></div>
   </div>
 

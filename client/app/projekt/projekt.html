@@ -1,7 +1,14 @@
-<div class="container">
+<div class="container-fluid">
+
+		<div ng-repeat="a in alerts" class="alert alert-dismissible {{ a.type }}" role="alert" >
+			<button type="button" class="close alert-close" aria-label="Luk besked" title="Luk besked">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<span ng-bind-html="a.message"></span>
+		</div>
 
 <!------------------- skole user ----------------------->
-	<div ng-if="user.role == 0"  class="col-md-11">
+	<div ng-if="user.role == 0"  class="col-md-12">
 	
 		<div mj-content="Eksperiment_skole_1"></div>
 
@@ -10,8 +17,8 @@
 				<i class="fa fa-plus"></i>&nbsp;Nyt projekt
 			</button>
 
-			<label class="pull-right small normal" style="margin-top: 5px;">
-				Sortér&nbsp;
+			<label class="pull-right small normal sorter">
+				Sortér projekter&nbsp;
 				<button data-placeholder="Sortering"
 					style="width: 110px !important;text-align:left; position:relative;top:-2px;"
 				  type="button" 
@@ -25,26 +32,7 @@
 					<span class="caret"></span>
 				</button>
 			</label>
-
-<!--
-			<button data-placeholder="Sortering"
-				style="width: 100px !important;text-align:left; position:relative;top:10px;"
-			  type="button" 
-				class="btn btn-default select sortering btn-xs pull-right" 
-				ng-model="projektSortering.value" 
-				data-toggle="true" 
-				bs-options="i.value as i.label for i in items.projektSortering" 
-				bs-select
-				title="Sortering af projekter"
-			>
-				<span class="caret"></span>
-			</button>
--->
-
 		</h4>
-
-
-<!-- accordion eksperiment start -->
 
 		<div class="panel-group" id="accordion" role="tablist" >
 			<div ng-repeat="p in projekts | orderBy : projektSortering.value" class="panel panel-default" role="tab" projekt-id="{{ p.projekt_id }}" id="{{ 'heading' + p.projekt_id }}">
@@ -59,26 +47,20 @@
 							aria-controls="{{ 'projekt_'+p.projekt_id }}"
 							ng-click="skoleProjektClick(p.projekt_id)"
 						>
-							<!--
-			        Collapsible Group {{ p.projekt_id }} 
-							-->
 
-				<span class="projekt-item projekt-delimiter projekt-timestamp"> {{ p.created_timestamp | date:'dd-MM-yyyy :HH:mm' }} </span>
-				<span class="projekt-item projekt-delimiter projekt-titel"> {{ p.titel }} </span>
-				<span class="projekt-item projekt-lokalitet"> {{ p.lokalitet }} </span>
+							<span class="projekt-item projekt-delimiter projekt-timestamp"> {{ p.created_timestamp | date:'dd-MM-yyyy :HH:mm' }} </span>
+							<span class="projekt-item projekt-delimiter projekt-titel"> {{ p.titel }} </span>
+							<span class="projekt-item projekt-lokalitet"> {{ p.lokalitet }} </span>
 
-				<span class="projekt-item projekt-edit">
-					<button type="button" class="btn btn-ku btn-xs" title="Rediger projekt" ng-click="showProjekt(p.projekt_id)">
-						<i class="fa fa-edit"></i>
-					</button>
-				</span>
+							<span class="projekt-item projekt-edit">
+								<button type="button" class="btn btn-ku btn-xs" title="Rediger projekt" ng-click="showProjekt(p.projekt_id)">
+									<i class="fa fa-edit"></i>
+								</button>
+							</span>
 
-				<span class="projekt-item projekt-count" title="{{ p.eksperiment_count.$$state.value }} {{ p.eksperiment_count.$$state.value == 1 ? 'eksperiment' : 'eksperimenter' }} "> 
-					{{ p.eksperiment_count.$$state.value }} 
-				</span>
-
-
-
+							<span class="projekt-item projekt-count" title="{{ p.eksperiment_count.$$state.value }} {{ p.eksperiment_count.$$state.value == 1 ? 'eksperiment' : 'eksperimenter' }} "> 
+								{{ p.eksperiment_count.$$state.value }} 
+							</span>
 						</a>
 		      </h4>
 		    </div>
@@ -90,9 +72,10 @@
 								<i class="fa fa-plus"></i>
 								Nyt eksperiment	
 							</button>
-		
-							<label class="pull-right small normal" style="margin-top: 5px;">
-								Sortering&nbsp;
+
+							<h4>		
+							<label class="pull-right small normal sorter">
+								Sortér eksperimenter&nbsp;
 								<button style="width: 110px !important;text-align:left; position:relative; top: -2px;"
 								  type="button" 
 									class="btn btn-default select sortering btn-xs pull-right" 
@@ -104,6 +87,7 @@
 									<span class="caret"></span>
 								</button>
 							</label>
+							</h4>
 								<br><br>
 								<span ng-include="'app/projekt/eksperiment.inc.html'"></span>
 						</div>
@@ -112,56 +96,6 @@
 			</div>
 		</div>
 	</div>
-<!-- accordion eksperiment end -->
-
-<!--
-		<div ng-repeat="p in projekts | orderBy : projektSortering.value ">
-
-			<div class="projekt-bar" 
-				ng-class="{ 'bg-ku' : projekt_id == p.projekt_id }"
-				ng-click="skoleProjektClick(p.projekt_id)"
-				style="margin-bottom: 0px;"
-			>
-
-				<span class="projekt-item projekt-delimiter projekt-timestamp"> {{ p.created_timestamp | date:'dd-MM-yyyy :HH:mm' }} </span>
-				<span class="projekt-item projekt-delimiter projekt-titel"> {{ p.titel }} </span>
-				<span class="projekt-item projekt-lokalitet"> {{ p.lokalitet }} </span>
-
-				<span class="projekt-item projekt-edit">
-					<button type="button" class="btn btn-ku btn-xs" title="Rediger projekt" ng-click="showProjekt(p.projekt_id)">
-						<i class="fa fa-edit"></i>
-					</button>
-				</span>
-
-				<span class="projekt-item projekt-count" title="{{ p.eksperiment_count.$$state.value }} {{ p.eksperiment_count.$$state.value == 1 ? 'eksperiment' : 'eksperimenter' }} "> 
-					{{ p.eksperiment_count.$$state.value }} 
-				</span>
-
-			</div>
-
-			<div ng-if="projekt_id == p.projekt_id" style="border:0px !important;">
-				<button role="button" class="btn btn-ku btn-sm" ng-click="createEksperiment()" title="Opret nyt eksperiment">
-					<i class="fa fa-plus"></i>
-					Nyt eksperiment	
-				</button>
-
-				<button style="width: 100px !important;text-align:left; position:relative;top:0px;"
-				  type="button" 
-					class="btn btn-default select sortering btn-xs pull-right" 
-					ng-model="sortering.value" 
-					data-toggle="true" 
-					bs-options="i.value as i.label for i in items.sortering" 
-					bs-select
-				>
-					<span class="caret"></span>
-				</button>
-				<br><br>
-				<span ng-include="'app/projekt/eksperiment.inc.html'"></span>
-				</div>
-
-			</div>
-		</div>
--->
 
 <!--////////////////--skole user ----------------------->
 

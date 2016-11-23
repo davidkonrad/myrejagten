@@ -53,7 +53,8 @@
 .btn-eksperiment-delete {
 	position: absolute;
 	bottom: -1px;
-	right: -20px;
+	right: -16px;
+	width: 18px;
 	box-shadow: 2px 2px 3px #dadada; 
 	border-left: 1px solid #fff;
 	background-color: #fafafa; 
@@ -453,4 +454,11 @@ section.video section.full-screen {
     cursor: pointer;
     padding: 10px;
     color: white;
+}
+
+label.sorter {
+	font-size: 11px;
+	display: inline;
+	color: #666;
+	line-height: 16px;
 }

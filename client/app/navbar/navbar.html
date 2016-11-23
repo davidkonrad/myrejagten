@@ -27,7 +27,7 @@
 		-->
     <div collapse="isCollapsed" class="navbar-collapse collapse" id="ku-navbar">
 
-      <ul class="nav navbar-nav navbar-right">
+      <ul class="nav navbar-nav navbar-right navbar-myrejagten">
 
         <li ng-show="isLoggedIn()" >
 					<a href="/konto" ng-class="{ 'active-page' : isActive('/konto') }" class="user-account-link">
@@ -48,23 +48,25 @@
 					</a>
 				</li>
 
+				<!--
         <li>
 					<a href="/forside" ng-class="{ 'active-page' : isActive('/') }">
 						Forside
 					</a>
 				</li>
+				-->
 
         <li>
 					<a href="/data-visualisering" ng-class="{ 'active-page' : isActive('/data-visualisering') }">
-						Indkomne data
+						Resultater
 					</a>
 				</li>
 
         <li ng-show="!isLoggedIn()" ng-class="{ 'active-page' : isActive('/tilmeld') }">
-					<a href="/tilmeld">Tilmeld dig Myrejagten</a>
+					<a href="/tilmeld">Opret bruger</a>
 				</li>
 
-        <li ng-show="!isLoggedIn()" ng-class="{ 'active-page' : isActive('/betingelser-og-vilkår') }">
+        <li XXXng-show="!isLoggedIn()" ng-class="{ 'active-page' : isActive('/betingelser-og-vilkår') }">
 					<a href="/betingelser-og-vilkår">Betingelser og vilkår</a>
 				</li>
 

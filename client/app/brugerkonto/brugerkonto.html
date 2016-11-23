@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
 
 	<h2>
 		{{ user.fulde_navn }}
@@ -16,7 +16,7 @@
 		<div bs-tabs class="control-group col-md-12" id="form-cnt">
 
 <!------ private oplysninger ----->
-			<div bs-pane data-title="Private oplysninger">
+			<div bs-pane data-title="Brugeroplysninger">
 
 				<button role="button" 
 								class="btn btn-sm btn-save" 
@@ -63,7 +63,7 @@
 
 
 					<div class="control-group col-md-9">
-						<label class="normal required">Fulde navn</label>
+						<label class="normal">Fulde navn</label>
 						<input type="text" class="form-control bold input-lg" ng-model="user.fulde_navn" id="fulde_navn" />
 					</div>
 <!--
@@ -109,7 +109,7 @@
 			<div bs-pane data-title="Download data">
 				<div mj-content="Download_beskrivelse_1"></div>
 				<br>
-				<button class="btn btn-primary" ng-click="downloadData()">Download dine egne data i regnearksformat</button>
+				<button class="btn btn-primary" ng-click="downloadData()">Download egne data</button>
 			</div>			
 <!--/// download ----->
 
