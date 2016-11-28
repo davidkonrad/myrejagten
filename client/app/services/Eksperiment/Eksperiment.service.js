@@ -7,6 +7,11 @@ angular.module('myrejagtenApp')
 	  return $resource('/api/eksperiment/:id', { id: '@eksperiment_id' }, {
 			update: {
 				method: 'PUT' // this method issues a PUT request
+			},
+			resultat: {
+				method: 'GET',
+				url: '/api/eksperiment/resultat',
+				isArray: true
 			}
 		});
    

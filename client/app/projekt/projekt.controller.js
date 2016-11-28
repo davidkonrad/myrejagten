@@ -1,30 +1,51 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .controller('ProjektCtrl', ['$scope', '$http', '$location', 'Login', 'Alert', 'KR', '$timeout', '$modal', '$q', 'Projekt', 'Eksperiment', 'ToDo', 
-							'Data', 'Geo', 'TicketService', 'Utils', 'leafletData', 'video', 'UploadModal',
+  .controller('ProjektCtrl', ['$scope', '$http', '$location', '$sce', 'Login', 'Alert', 'KR', '$timeout', '$modal', '$q', 'Projekt', 'Eksperiment', 
+			'ToDo', 'Data', 'Geo', 'TicketService', 'Utils', 'leafletData', 'video', 'UploadModal',
+	function($scope, $http, $location, $sce, Login, Alert, KR, $timeout, $modal, $q, Projekt, Eksperiment, 
+			ToDo,	Data, Geo, TicketService, Utils, leafletData, video, UploadModal) {
 
-	function($scope, $http, $location, Login, Alert, KR, $timeout, $modal, $q, Projekt, Eksperiment, ToDo,
-							Data, Geo, TicketService, Utils, leafletData, video, UploadModal) {
-
-		//Alert.show($scope, 'Uploads', 'Er du sikker på du vil fjerne billedet?').then(function(ok) {
-
-		$scope.user = Login.currentUser()
+		$scope.user = Login.currentUser();
 
 		//check for changes
-		ToDo.data(Login.currentUser()).then(function(alerts) {
-			$scope.alerts = alerts
+		$scope.reloadToDo = function() {
+			ToDo.data(Login.currentUser()).then(function(alerts) {
+				$scope.alerts = alerts
+			})
+		}
+		$scope.reloadToDo();
+		$scope.to_trusted = function(html_code) {
+	    return $sce.trustAsHtml(html_code);
+		}
+		//click on todo items
+		$('body').on('click', '.todo-item', function() {
+			var projekt_id = $(this).attr('projekt-id');
+			var eksperiment_id = $(this).attr('eksperiment-id');
+
+			function scrollToEksperiment() {
+				var $eks = angular.element('#eksperiment-cnt-' + eksperiment_id)
+				if ($eks.offset()) $("body").animate({scrollTop: $eks.offset().top-20 }, 400);
+			}
+
+			if ($('.panel[projekt-id='+projekt_id+']').find('.in').length>0) {
+				scrollToEksperiment();
+			} else {
+				$('.panel[projekt-id='+projekt_id+'] .no-underline').click();
+				$timeout(function() {
+					scrollToEksperiment();
+				}, 500)
+			}
 		})
 
 		//is about to leave page, check for changes
 		$scope.$on('$locationChangeStart', function(e) {
 			var changes = false;
 			$('.btn-eksperiment-save').each(function(i, btn) {
-				//console.log(btn)
 				if ($(btn).hasClass('btn-ku')) changes = true;
 			})
 			if (changes) {
-				var leave = confirm("Du har lavet ændringer der endnu ikke er gemt. Er du sikker på du vil forlade siden?")
+				var leave = confirm("Du har lavet ændringer i dit eksperiment, som endnu ikke er gemt. Er du sikker på at du vil forlade siden?")
 	  	  if (!leave) {
 					e.preventDefault();
 				}
@@ -79,14 +100,11 @@ angular.module('myrejagtenApp')
 		showName += showName.charAt( showName.length ).toLowerCase() != 's' ? '´s' : '´'
 		$scope.user.showName = showName;
 
-
 		$scope.projektLoaded = function() {
-			//console.log('projektLoaded', $scope.currentProjektId)
 			return typeof $scope.currentProjektId == 'number'
 		}
 
 		$scope.skoleProjektClick = function(projekt_id) {
-			$scope.done = false;
 			$scope.projekt_id = projekt_id
 			$scope.reloadEksperimenter(projekt_id)
 		}
@@ -94,9 +112,18 @@ angular.module('myrejagtenApp')
 		/**
 			projekt modal
 		*/
+		$('body').on('click', '.btn-projekt-edit', function(e) {
+			e.stopPropagation();
+			e.preventDefault();
+			e.stopImmediatePropagation();
+			var projekt_id = $(this).attr('projekt-id');
+			if (projekt_id) $scope.showProjekt(projekt_id);
+			return false;
+		})
+	
 		$scope.showProjekt = function(projekt_id) {
 			$scope.marker = null
-			$scope.markers = {} //['marker'] = null
+			$scope.markers = {} 
 
 			var showModal = function() {
 				var modal = $modal({
@@ -104,7 +131,9 @@ angular.module('myrejagtenApp')
 					templateUrl: 'app/projekt/projekt.modal.html',
 					backdrop: 'static',
 					show: true,
-					internalName: 'projekt'
+					internalName: 'projekt',
+					animation: "am-fade-and-scale", //??
+					placement: "center" 
 				})
 			}
 
@@ -131,7 +160,6 @@ angular.module('myrejagtenApp')
 			}
 		}
 		$scope.$on('modal.show', function(e, target) {
-			//console.log(e, target)
 			$scope.initializeStednavne_v2($scope)
 			if ($scope.__projekt && $scope.__projekt.projekt_id) {
 				$scope.updateMapElements($scope.__projekt)
@@ -169,12 +197,10 @@ angular.module('myrejagtenApp')
 		$scope.doCreateProjekt = function() { 
 			if ($scope.__projekt.projekt_id) {
 				Projekt.update({ id: $scope.__projekt.projekt_id }, $scope.__projekt).$promise.then(function(res) {	
-					//console.log(res)
 				})
 			} else {
 				$scope.__projekt.user_id = $scope.user.user_id;
 				Projekt.save({ projekt_id: '' }, $scope.__projekt).$promise.then(function(res) {	
-					//console.log(res)
 					$scope.reloadProjekts()
 				})
 			}
@@ -274,20 +300,19 @@ angular.module('myrejagtenApp')
 			}
 		})
 
-		//console.log($scope.layers)
-
 		/**
 			for some reason EPSG:4326 is not supported by Kortforsyningen, 
 			even they state the GeoService do, so wkt and Geo is needed
 		*/
 		var wkt = new Wkt.Wkt()
-
+		/*
 		function geometryWktLatLng(geometryWkt) {
 			wkt.read(geometryWkt);
 			if (!wkt.components[0].length) return null
 			var xy = wkt.components[0][0]
 			return Geo.EPSG25832_to_WGS84(xy.x, xy.y)
 		}
+		*/
 
 		function geometryWktPolygon(geometryWkt, map) {
 			wkt.read(geometryWkt);
@@ -477,7 +502,7 @@ angular.module('myrejagtenApp')
 			{ value: 'Skyfrit', label: 'Skyfrit' },
 			{ value: 'Halvskyet', label: 'Halvskyet' },
 			{ value: 'Overskyet', label: 'Overskyet' },
-			{ value: 'Fuldt overskyet', label: 'Fuldt overskyet' },
+			//{ value: 'Fuldt overskyet', label: 'Fuldt overskyet' },
 			{ value: 'Regn', label: 'Regn' }
 		];
 		$scope.items.sol = [
@@ -655,7 +680,6 @@ angular.module('myrejagtenApp')
 			} else {
 				//find "Lokalitet" tab and click()
 				$timeout(function() {
-					//alert('ok')
 					$('#'+ id)
 						.closest('.eksperiment-block')
 						.find('a[role="tab"]:contains("Lokalitet")')
@@ -715,42 +739,37 @@ angular.module('myrejagtenApp')
 							lat: parseFloat(e.lat),
 							lng: parseFloat(e.lng),
 							focus: true,
-							draggable: true
+							draggable: true,
 						}
 						e.map.center = {
 							lat: parseFloat(e.lat),
 							lng: parseFloat(e.lng),
-							zoom: 17
+							zoom: 6 //17
 						}
 					}
 
 					e.mapId = 'map' + e.eksperiment_id;
-					e.adresseType = 'adresser'
-					/*
-					e.start_tid = createTime( e.start_tid )
-					e.slut_tid = createTime( e.slut_tid )
-					*/
+					e.adresseType = 'adresser';
+					e.start_tid = e.start_tid && e.start_tid != '00:00:00' ? createTime( e.start_tid ) : null;
+					e.slut_tid = e.slut_tid && e.slut_tid != '00:00:00' ? createTime( e.slut_tid ) : null;
 					
 					return e
 				})
 				$scope.eksperimenter = eksperimenter
-				//force 'done' if empty
 				if (eksperimenter.length <= 0) {
-					//console.log('DONE')
-					$scope.done = true
 					$timeout(function() {
 						$scope.$apply() //ensure immedatiate update of the buttons
 					})
 				}
 
-				for (var i=0,l=$scope.eksperimenter.length; i<l; i++) {
-					$scope.$watch('eksperimenter['+i+']', function(newVal, oldVal) {
-						console.log('array waTCH');
-					})
-				}
-				
-
 				$scope.refreshMaps()
+
+				$scope.eksperimenter.forEach(function(eks) {
+					Eksperiment.resultat({ id: eks.eksperiment_id }).$promise.then(function(resultat) {
+						eks.hasResultat = resultat.length>0
+
+					})
+				})
 			})
 		}
 		$scope.reloadEksperimenter()
@@ -766,7 +785,8 @@ angular.module('myrejagtenApp')
 			var data = Utils.formToObj('#' + formId)
 			if (data && data.eksperiment_id) {
 				Eksperiment.update({ id: data.eksperiment_id }, data).$promise.then(function() {
-					Utils.formReset('#' + formId)
+					Utils.formReset('#' + formId);
+					$scope.reloadToDo();
 				})
 			}
 		}
@@ -781,8 +801,10 @@ angular.module('myrejagtenApp')
 				sol: e.sol,
 				vind: e.vind
 			}
-			Eksperiment.update({ id: eksperiment_id }, miljo)
-			Utils.formReset('#formResultater' + eksperiment_id)
+			Eksperiment.update({ id: eksperiment_id }, miljo).$promise.then(function() {
+				Utils.formReset('#formResultater' + eksperiment_id);
+				$scope.reloadToDo();
+			})
 		}
 
 		$scope.eksperimentFormChanged = function(formId) {
@@ -919,29 +941,6 @@ angular.module('myrejagtenApp')
 
   }]);
 
-
-angular.module('myrejagtenApp')
-	.directive('renderFinished', ['$location', '$timeout', function ($location, $timeout) {
-  return function(scope, element, attrs) {
-
-    if (scope.$last) {
-			console.log('LAST', 'renderFinsished');
-			if ($location.$$hash && $location.$$hash != '') {
-
-				var eksperiment_id = ~$location.$$hash.indexOf('_')
-					? $location.$$hash.split('_')[1]
-					: $location.$$hash
-
-				delete $location.$$hash
-
-				$timeout(function() {
-					var $eks = angular.element('#eksperiment-cnt-' + eksperiment_id)
-					if ($eks.offset()) $("body").animate({scrollTop: $eks.offset().top-20 }, 400);
-				})
-			}
-		}
-  };
-}]);
 
 
 

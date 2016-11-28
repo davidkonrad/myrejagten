@@ -13,7 +13,7 @@ angular.module('myrejagtenApp')
 				if (response && response.error) {
 					$scope.errors.other = response.error
 				} else {
-					$location.path('/konto');
+					$location.path('/');
 				}
 			})
 			.catch( function(err) {

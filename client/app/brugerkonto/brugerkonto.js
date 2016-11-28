@@ -3,7 +3,7 @@
 angular.module('myrejagtenApp')
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/konto', {
+      .when('/brugerkonto', {
         templateUrl: 'app/brugerkonto/brugerkonto.html',
         controller: 'BrugerkontoCtrl',
 				authenticate: true

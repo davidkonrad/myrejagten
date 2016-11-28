@@ -31,7 +31,7 @@ angular.module('myrejagtenApp')
       return deferred.promise;
 		},
 
-		data: function(user) {
+		data: function(user, callback) {
 
 			var alerts = [];
 			var err = '';
@@ -41,11 +41,12 @@ angular.module('myrejagtenApp')
 				return e.titel && e.titel.trim() != '' ? e.titel : 'Myrejagt #'+index
 			}
 			function getEksLokalitetErr(e) {
-				return !e.lat || !e.lng ? 'Sted / lokalitet er ikke angivet. ' : ''
+				return !e.lat || !e.lng ? 'Lokalitet ikke angivet. ' : ''
 			}
 			function getEksDatoErr(e) {
 				return !e.dato || !e.start_tid || !e.slut_tid ? 'Dato og tid mangler. ' : ''
 			}
+			/*
 			function getEksAdresseErr(e) {
 				return !e.adresse || 
 							!e.postnr ||
@@ -53,17 +54,39 @@ angular.module('myrejagtenApp')
 							!e.kommune ||
 							!e.region ? 'Adresseoplysninger mangler. ' : ''
 			}
+			*/
+			function arrStr(a, s) {
+				var r = a.join(', ');
+				if (a.length>1) {
+					r = r.replace(/,(?![\s\S]*,)/, s);
+				}
+				return r;
+			}
 			function getEksDataErr(e) {
-				if (!e.sol) return 'Angivelse af sol / skygge mangler. '
-				if (!e.vind) return 'Angivelse af vindstyrke mangler. ' 
-				if (!e.vejr) return 'Angivelse af vejrlig mangler. '
-				if (typeof e.temp != 'number') return 'Angivelse af temperatur mangler. '  
+				var m = [];
+				if (!e.sol) m.push('skygge');
+				if (!e.vind) m.push('vind');
+				if (!e.vejr) m.push('vejr');
+				if (typeof e.temp != 'number') m.push('temperatur');
+				var mStr = arrStr(m, ' og ');
+				if (mStr) {
+					mStr = mStr.indexOf(',')>0 ? 'Oplysninger om '+mStr+' mangler': 'Oplysning om '+mStr+' mangler';
+					mStr += '. ';
+				}
+
+				var d = [];
 				for (var i=0, l=e.Data.length; i<l; i++) {
 					if (typeof e.Data[i].myrer_frysning != 'number' || typeof e.Data[i].myrer_indsamlet != 'number') {
-						return 'En eller flere myre-optællinger manlger. '
+						d.push(e.Data[i].madding.toLowerCase());
 					}
 				}
-				return ''
+				var dStr = arrStr(d, ' samt ');
+				if (dStr) {
+					dStr = dStr.indexOf(',')>0 ? 'fødetyperne '+dStr : 'fødetypen '+dStr;
+					dStr = 'Myretælling for '+dStr+' mangler. ';
+				}
+
+				return mStr + dStr
 			}
 
 			Projekt.query().$promise.then(function(projekt) {	
@@ -88,14 +111,14 @@ angular.module('myrejagtenApp')
 						}
 						myrejagtName = myrejagtName.charAt(0).toUpperCase() + myrejagtName.slice(1)
 
-						var hash = data[i].projekt_id > 0 
-							? data[i].projekt_id + '_' + data[i].eksperiment_id
-							: data[i].eksperiment_id
-	
-						var name = '<strong><a href="/eksperimenter#' + hash + '" title="Rediger ' + myrejagtName +'">' + myrejagtName +'</a></strong>'
+						var name = '<strong><a href="#" class="todo-item" ' 
+							+ 'projekt-id="' + data[i].projekt_id +'" '
+							+ 'eksperiment-id="'+ data[i].eksperiment_id +'" '
+							+ ' title="Rediger ' + myrejagtName +'">' + myrejagtName +'</a></strong>';
+
 						var err = getEksDatoErr(data[i])
 						err += getEksLokalitetErr(data[i])
-						err += getEksAdresseErr(data[i])
+						//err += getEksAdresseErr(data[i])
 						err += getEksDataErr(data[i])
 						if (err && err.trim() != '')	alerts.push({ 
 							message: name + '  : ' + '<span class="text-danger">' + err + '</span>',

@@ -110,12 +110,19 @@
 	float: right;
 	border: 1px solid #dadada;
 	width: 26px;
+	height: 26px;
 	border-radius: 50%;
-	padding-left: 7px;
+	font-size: 80%;
+	padding-left: 8px;
 	margin-right: 5px;
+	padding-top: 6px;
+	overflow:visible;
+	top: -3px;
+	position: relative;
 }
 .projekt-edit {
 	float: right;	
+	width: 26px;
 }
 .projekt-item {
 	white-space: nowrap;

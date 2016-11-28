@@ -2,8 +2,11 @@
 
 	<div bs-tabs class="control-group col-md-12 eksperiment-block" id="eksperiment-cnt-{{ x.eksperiment_id }}">
 
- 		<button class="btn btn-default btn-xs btn-eksperiment-delete" title="Slet eksperiment / myrejagt" ng-click="deleteEksperiment(x.eksperiment_id)">
-			<i class="fa fa-times text-danger"></i>
+ 		<button class="btn btn-default btn-xs btn-eksperiment-delete" 
+			title="{{ !x.hasResultat ? 'Slet eksperiment' : 'Eksperimenter der er blevet analyseret kan ikke slettes' }}" 
+			ng-disabled="x.hasResultat"
+			ng-click="deleteEksperiment(x.eksperiment_id)">
+			<i class="fa fa-times" ng-class="{ 'text-danger': !x.hasResultat }"></i>
 		</button>
 
 		<!--------- oversigt -------->	
@@ -13,28 +16,13 @@
 
 				<div class="col-md-6" style="min-height:300px !important;">
 
-					<!-- different popovers depending on skole / privat -->
-					<label class="normal required">
+					<label class="normal">
 						Navn på eksperiment
-						<!---
-						<span ng-if="user.role == 1">
-							<i info-sm 
-								info-popover="Her kan du navngive dit eksperiment. F.eks. I forhold til hvor du udførte eksperimentet – ”ved sommerhuset”, ”under æbletræet” el. lign. Eller f.eks. I forhold til hvem du udførte eksperimentet sammen med – ”Mormor & Morfar”, ”5.b”, ”Gunnar, Lise og Thor” el. lign. Feltet er ikke obligatorisk.">
-							</i>
-						</span>
-						<span ng-if="user.role == 0">
-							<i info-sm 
-								info-popover="Her kan du navngive dit eksperiment. F.eks. I forhold til hvor du udførte eksperimentet – ”ved boldbanen”, ”under æbletræet på legepladsen” el. lign. Eller f.eks. I forhold til hvem du udførte eksperimentet sammen med –”5.b”, ”Hold 4”, ”Gunnar, Lise og Thor” el. lign. Feltet er ikke obligatorisk.">
-							</i>
-						</span>
-						-->
-							<i info-sm 
-								info-placement="right"
-								info-popover="Her kan du navngive dit eksperiment, fx ud fra hvor du udførte eksperimentet eller hvem du udførte det med. Feltet er ikke obligatorisk, men det kommer til at fremgå på oversigten over dine eksperimenter">
-							</i>
-
+						<i info-sm 
+							info-placement="right"
+							info-popover="Her kan du navngive dit eksperiment, fx ud fra hvor du udførte eksperimentet eller hvem du udførte det med. Feltet er ikke obligatorisk, men det kommer til at fremgå på oversigten over dine eksperimenter">
+						</i>
 					</label>
-
 
 					<input type="text" class="form-control bold input-lg" select-on-click ng-model="x.titel" name="titel" />
 	
@@ -63,9 +51,9 @@
 				</div>
 
 				<button class="btn btn-default btn-eksperiment-save" 
-								ng-class="{ 'btn-ku' : eksperimentFormChanged('formOversigt{{ x.eksperiment_id }}') }"
-								ng-click="updateEksperiment('formOversigt'+x.eksperiment_id)" 
-								ng-disabled="!eksperimentFormChanged('formOversigt{{ x.eksperiment_id }}')">
+					ng-class="{ 'btn-ku' : eksperimentFormChanged('formOversigt{{ x.eksperiment_id }}') }"
+					ng-click="updateEksperiment('formOversigt'+x.eksperiment_id)" 
+					ng-disabled="!eksperimentFormChanged('formOversigt{{ x.eksperiment_id }}')">
 					<i class="fa fa-check"></i>
 					Gem ændringer
 				</button>	
@@ -274,7 +262,7 @@
 							</button>
 							<i info-xs 
 								info-placement="right"
-								info-popover="Her skal du vurdere hvilken graden af vind og her skal du også tage højde for om eksperimentet står i læ ">
+								info-popover="Her skal du vurdere ved hvilken graden af vind eksperimentet står i. Du skal også tage højde for om eksperimentet står i læ. ">
 							</i>
 
 					</td>
@@ -307,7 +295,7 @@
 					Forstyrrelse
 					<i info-sm info-popover="Var maden væk da eksperimentet blev afsluttet? Maden kan være blæst væk, være taget af fugle eller andet. – Detaljer kan noteres under ‘Bemærkninger’"></i>
 				</th>
-				<th class="normal pull-right">Fritekst</th>
+				<th class="normal pull-right">Bemærkninger</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -363,6 +351,11 @@
 		<div class="control-group col-md-6">
 			Billede
 
+			<i info-placement="right"
+				info-sm 
+				info-popover="Her kan du uploade et billede fra dit eksperiment, fx opstillingen, hvem der har udført eksperimentet eller lokaliteten. Dit billede vil være synligt for offentligheden og vises sammen med dit data. Fil størrelsen er begrænset til 10 MB.">
+			</i>
+
 			<button class="btn btn-default btn-xs pull-right" 
 				title="Fjern billede (billedet bliver slettet fra serveren)"
 				ng-disabled="x.upload_billede == undefined"
@@ -373,7 +366,7 @@
 
 			<button class="btn btn-ku btn-xs pull-right" 
 				style="margin-right: 5px;"
-				ng-click="uploadImage(x.eksperiment_id, x.upload_billede)">Upload billede / belæg
+				ng-click="uploadImage(x.eksperiment_id, x.upload_billede)">Upload billede
 			</button>
 			<div class="upload-cnt">
 				<img class="upload" ng-click="uploadImage(x.eksperiment_id, x.upload_billede)" src="{{ x.upload_billede }}" />

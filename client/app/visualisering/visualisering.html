@@ -8,14 +8,45 @@
 			</div>
 		</div>
 
-		<div bs-pane data-title="Resultater" style="padding-left:0px;">
+		<div bs-pane data-title="Fødevalg" style="padding-left:0px;">
+			<button ng-if="user"
+				type="button" 
+				class="btn btn-default"
+				data-placeholder="Sammenlign med eksperiment ..    "
+				ng-model="selected.eksperiment" 
+				data-html="1" 
+				bs-options="e.value as e.label for e in eksperimenter" 
+				ng-change="eksperimentChange()"
+				bs-select
+			>
+			 	<span class="caret"></span>
+			</button>
+			<br><br>
+			<canvas id="bar" 
+				class="chart chart-bar"
+				chart-data="ratioData" 
+				chart-labels="ratioLabels" 
+				chart-series="ratioSeries" 
+				chart-legend="true"
+				chart-options="options"
+				chart-dataset-override="datasetOverride"
+			>
+			</canvas>
+			<div mj-content="Fødevalg_chart"></div>
+		</div>
 
-			<div ng-repeat="c in charts" class="col-md-6">
-				<h3>{{ c.name }} </h3>
-				<canvas id="base" class="chart-horizontal-bar"
-				  chart-data="c.data" chart-labels="c.labels" >
-				</canvas> 
-			</div>
+
+		<div bs-pane data-title="Artshitsliste" style="padding-left:0px;">
+
+			<canvas id="base" 
+				class="chart chart-horizontal-bar"
+				chart-options="arterOptions"
+				chart-data="arterData" 
+				chart-labels="arterLabels" 
+				chart-dataset-override="arterOverride"
+			>
+			</canvas> 
+
 		</div>
 
 	</div>

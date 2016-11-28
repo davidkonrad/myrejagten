@@ -58,16 +58,23 @@ exports.destroy = function(req, res) {
   });
 };
 
+// get resultat associated with eksperiment, if any
+exports.resultat = function(req, res) {
+	var sql = ''
+		+ 'select r.* '
+		+ 'from resultat r, data d, eksperiment e '
+		+ 'where '
+		+ 'r.data_id = d.data_id '
+		+ 'and d.eksperiment_id = e.eksperiment_id '
+		+ 'and e.eksperiment_id ='+req.query.id;
 
-// Describe eksperiment
-exports.describe = function(req, res) {
-  models.Eksperiment.describe().then(function(eksperiment){
-	  console.log(eksperiment);
-  	return res.json(200, eksperiment);	
-  }).catch(function(err){
+	models.sequelize.query(sql,	{ bind: ['active'], type: models.sequelize.QueryTypes.SELECT }).then(function(resultat) {
+		return res.json(200, resultat);
+	}).catch(function(err){
 	  handleError(res, err);
   });
 };
+
 
 function handleError(res, err) {
   return res.send(500, err);

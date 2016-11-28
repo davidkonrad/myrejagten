@@ -5,17 +5,12 @@ angular.module('myrejagtenApp')
 	function($scope, $http, $location, MysqlUser, Login, Utils) {
 
 
-				$http.post('api/email/test/', { id: 4 }).then(function(response) {
-					$scope.processed = response.data ? response.data : ''
-					console.log(response)
-				})	
-
   	MysqlUser.query().$promise.then(function(users) {
 			$scope.users = users
 		})
 
 		$scope.user = {
-			role: 1
+			role: null //1
 		}
 
 		$scope.generatePassword = function() {
@@ -42,23 +37,18 @@ angular.module('myrejagtenApp')
 		
 		$scope.canCreateUser = function() {
 			return $scope.user.brugernavn && $scope.user.brugernavn.length>2 
+						 && $scope.user.role != null
 						 && $scope.user.email && $scope.user.email.length>2 &&	$scope.emailIsValid($scope.user.email) 	
 						 && $scope.user.password && $scope.user.password.length>2 
 						 && $scope.user.termsAccepted
-
 		}
 
 		$scope.createUser = function() {
 			$scope.user.hash = Utils.generateHash(20);
 			MysqlUser.save({ user_id: ''}, $scope.user).$promise.then(function(user) {
-
-				console.log(user)
 				$http.post('api/email/signup/', { id: user.user_id }).then(function(response) {
 					$scope.processed = response.data ? response.data : ''
-					console.log(response)
 				})	
-
-
 			})
 		}
 

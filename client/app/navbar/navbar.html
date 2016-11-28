@@ -30,7 +30,7 @@
       <ul class="nav navbar-nav navbar-right navbar-myrejagten">
 
         <li ng-show="isLoggedIn()" >
-					<a href="/konto" ng-class="{ 'active-page' : isActive('/konto') }" class="user-account-link">
+					<a href="/brugerkonto" ng-class="{ 'active-page' : isActive('/brugerkonto') }" class="user-account-link">
 						<strong>{{ getCurrentUser().brugernavn }}</strong>
 					</a>
 				</li>
@@ -57,13 +57,13 @@
 				-->
 
         <li>
-					<a href="/data-visualisering" ng-class="{ 'active-page' : isActive('/data-visualisering') }">
+					<a href="/resultater" ng-class="{ 'active-page' : isActive('/resultater') }">
 						Resultater
 					</a>
 				</li>
 
-        <li ng-show="!isLoggedIn()" ng-class="{ 'active-page' : isActive('/tilmeld') }">
-					<a href="/tilmeld">Opret bruger</a>
+        <li ng-show="!isLoggedIn()" ng-class="{ 'active-page' : isActive('/opret-bruger') }">
+					<a href="/opret-bruger">Opret bruger</a>
 				</li>
 
         <li XXXng-show="!isLoggedIn()" ng-class="{ 'active-page' : isActive('/betingelser-og-vilkår') }">

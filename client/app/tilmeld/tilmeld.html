@@ -16,7 +16,9 @@
 		<div class="control-group">
       <div class="controls">
         <div class="radio">
-          Vælg brugertype&nbsp;:&nbsp;&nbsp;
+					<label class="normal required no-padding">
+					   Vælg brugertype&nbsp;&nbsp;&nbsp;
+					</label>
           <label bs-popover 
 						data-trigger="hover" 
 						data-placement="bottom" 
@@ -28,9 +30,9 @@
           <label bs-popover 
 						data-trigger="hover" 
 						data-placement="bottom" 
-						data-content="”Vælg denne brugertype hvis du laver Myrejagten i privat regi, f.eks. med familie eller venner"
+						data-content="Vælg denne brugertype hvis du laver Myrejagten i privat regi, f.eks. med familie eller venner"
 					>
-            <input type="radio" name="brugertype" value="1" ng-model="user.role" checked>Privat
+            <input type="radio" name="brugertype" value="1" ng-model="user.role">Privat
           </label>
         </div>
       </div>
@@ -102,7 +104,7 @@
     </form>
   </div>
 
-  <div class="col-md-5">
+  <div class="col-md-5" ng-hide="processed != ''">
     <div mj-content="Tilmeld_1"></div>
   </div>
 

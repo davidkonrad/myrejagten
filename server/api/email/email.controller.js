@@ -83,8 +83,15 @@ exports.signupMail = function(req, res){
 				return res.json(200, { error: 'Bruger eksisterer ikke.' });
 			}
 
+			/*
 			var msg = 'Hej ' + user.brugernavn + ', ' + "\n\n\n";
 			msg += 'Tak for din tilmelding til Myrejagten. For at verificere din emailadresse bedes du klikke på nedenstående link : ' + "\n\n";
+			msg += server + 'bekræft-email/#' + user.hash + "\n\n";
+			msg += 'Ved at klikke på linket afsluttes oprettelsesproceduren, og du videresendes til myrejagtens forside. ' + "\n\n";
+			msg += signature;
+			*/
+			var msg = 'Hej ' + user.brugernavn + ', ' + "\n\n\n";
+			msg += 'Tak for at oprette dig som bruger i Myrejagten. Du skal godkende din emailadresse ved at klikke på nedenstående link. ' + "\n\n";
 			msg += server + 'bekræft-email/#' + user.hash + "\n\n";
 			msg += 'Ved at klikke på linket afsluttes oprettelsesproceduren, og du videresendes til myrejagtens forside. ' + "\n\n";
 			msg += signature;

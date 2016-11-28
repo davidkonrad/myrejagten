@@ -3,7 +3,7 @@
 angular.module('myrejagtenApp')
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/data-visualisering', {
+      .when('/resultater', {
         templateUrl: 'app/visualisering/visualisering.html',
         controller: 'VisualiseringCtrl'
       });

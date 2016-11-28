@@ -11,11 +11,6 @@
 	overflow-x: visible;
 	border:1px solid maroon;
 }
-/*
-.circle:after {
-	content: "_abc...";
-}
-*/
 
 /* display inline */
 .display-inline {
@@ -163,9 +158,6 @@ label.required:before {
 .panel-heading:has(.no-underline:focus) {
 	background-color: red;
 }
-
-
-
 
 /* 
 ----------------------------------------------------------------------

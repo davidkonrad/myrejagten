@@ -5,7 +5,7 @@
 
 	  <div class="col-md-3" style="margin-left:0px;Xpadding-left:0px;">
 
-		  <div class="form-group col-md-12" ng-if="!isLoggedIn">
+		  <div class="form-group col-md-12 no-padding" ng-if="!isLoggedIn">
 				<h4 class="text-uppercase">Login</h4>
 				<input type="text" ng-model="rememberMe.m" class="form-control input-sm bold" placeholder="Email"  />
 				<input type="password" ng-model="rememberMe.p" class="form-control input-sm bold" placeholder="Password" style="margin-top:7px;"  />
@@ -25,7 +25,8 @@
 					</label>
 				</div>
 			</div>
-		  <div class="form-group col-md-12" ng-show="!isLoggedIn">
+		  <div class="form-group col-md-12 no-padding" ng-show="!isLoggedIn">
+				<a href="/glemt-password" class="small pull-right">Glemt password?</a> 
 			  <hr ng-show="!isLoggedIn">
 				<h4 class="text-uppercase">Opret bruger</h4>
 				<p>
