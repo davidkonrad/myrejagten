@@ -2,3 +2,19 @@
 	CSS that is specifically bound to privat.tpl.html
 */
 
+table.miljoe-table {
+	float:left;
+	clear:none;
+	border-spacing:15px 3px;
+	border-collapse: separate;
+}
+
+table.madding-table {
+	border-spacing:15px 3px;
+	border-collapse: collapse; 
+	float: none;
+	margin-left:50px;
+}
+
+
+

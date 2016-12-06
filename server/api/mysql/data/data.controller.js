@@ -27,7 +27,9 @@ exports.joinResultat = function(req, res) {
 		+'data.proeve_analyseret, '
 
 		+'eksperiment.myrejagt_id, '
+		+'eksperiment.user_id, '
 		+'date_format(eksperiment.dato, "%d/%m/%Y") as "eksperiment_dato", '
+
 		+'resultat.resultat_id, '
 		+'resultat.antal '
 

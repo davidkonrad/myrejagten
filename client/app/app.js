@@ -16,7 +16,6 @@ angular.module('myrejagtenApp', [
 	'angular-inview',
 	'ui.checkbox',
 	'ngFileUpload',
-	'ngVideo',
 	'textAngular',
 	'textAngularSetup',
 	'chart.js'

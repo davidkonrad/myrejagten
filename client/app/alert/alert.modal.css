@@ -24,4 +24,19 @@
 	padding-bottom: 5px !important;	
 }
 
-	
+/* */
+#modal-analyse-mail .modal-dialog {
+
+}
+#modal-analyse-mail textarea.form-control {
+  height: 100%;
+  white-space: pre;
+  overflow-wrap: normal;
+  overflow-x: scroll;
+}	
+#modal-analyse-mail .modal-body {
+	padding-bottom: 10px;
+	height: 300px;
+}
+
+

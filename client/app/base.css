@@ -1,3 +1,13 @@
+
+.modal-footer {
+	padding: 15px 0;
+	padding-left: 22px;
+	padding-right: 22px;
+	margin-top: 10px;
+	border-top: 1px solid #E5E5E5;
+	clear: both;
+}
+
 .circle {
 	padding-left: 17px;
 	padding-top: 14px;
@@ -21,6 +31,14 @@
 /* cursor hand in tabs */
 a[role="tab"] {
 	cursor: pointer;
+	user-select: none;
+  -moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+}
+
+.no-select {
 	user-select: none;
   -moz-user-select: none;
 	-khtml-user-select: none;

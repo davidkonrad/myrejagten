@@ -18,3 +18,37 @@
 	margin-right: 0px !important;
 	margin-bottom: 3px;
 }
+
+.dt-buttons {
+	margin-left: 100px;
+	vertical-align: bottom;
+}
+
+/* */
+.button-toggle {
+	padding-top: 2px !important;
+	padding-left: 7px !important;
+	padding-right: 7px !important;
+	padding-bottom: 2px !important;
+}
+
+#button-analyzed, #button-no-data {
+	vertical-align: middle;
+  position: relative;
+  bottom: 4px;
+	margin-right: 3px !important;
+}
+
+#table-miljoe td:nth-child(2n) {
+	padding-right: 15px;
+	padding-left: 4px;
+}
+
+#table-miljoe .small {
+	Xcolor: gray;
+	position: relative;
+	bottom: -3px;
+}
+
+
+	

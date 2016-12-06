@@ -178,11 +178,6 @@ angular.module('myrejagtenApp')
 		};
 
 	  $scope.arterOverride = [{
-	    backgroundColor: 'rgb(0,109,219)',
-	    borderColor: 'rgb(0,109,219)',
-	    hoverBackgroundColor: 'rgb(0,109,219)',
-	    hoverBorderColor: 'rgb(0,109,219)'
-	  }, {
 	    backgroundColor: 'rgb(190,190,190)',
 	    borderColor: 'rgb(190,190,190)',
 	    hoverBackgroundColor: 'rgb(190,190,190)',

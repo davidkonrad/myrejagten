@@ -115,28 +115,6 @@
 					<input type="hidden" ng-model="x.kommune" id="kommune" name="kommune" />
 					<input type="hidden" ng-model="x.region" name="region" />
 
-					<!--
-					<div class="control-group col-md-3" style="padding-left: 0px !important;">
-						<label class="normal required">Postnr</label>
-						<input type="text" class="form-control bold input-md" ng-model="x.postnr" name="postnr"/>
-					</div>
-
-					<div class="control-group col-md-9" style="padding-right: 0px !important; padding-left:0px !important;">
-						<label class="normal required">By</label>
-						<input type="text" class="form-control bold input-md" ng-model="x.by" name="by"/>
-					</div>
-
-					<div class="control-group col-md-7" style="padding-left: 0px !important;">
-						<label class="normal required">Kommune</label>
-						<input type="text" class="form-control bold input-md" ng-model="x.kommune" id="kommune" name="kommune" />
-					</div>
-
-					<div class="control-group col-md-5" style="padding-right: 0px !important; padding-left:0px !important;">
-						<label class="normal required">Region</label>
-						<input type="text" class="form-control bold input-md" ng-model="x.region" name="region"/>
-					</div>
-					-->
-	
 					<div class="control-group col-md-12" style="padding-right: 0px !important; padding-left:0px !important;">
 						<label class="normal">Bemærkninger</label>
 							<i info-sm info-placement="right"
@@ -144,8 +122,6 @@
 							</i>
 						<textarea class="form-control" ng-model="x.kommentar" name="kommentar" rows="4"></textarea>
 					</div>
-					
-
 				</div>
 
 				<div class="control-group col-md-6">
@@ -165,21 +141,21 @@
 	<!---------- resultat ------------->
 <div bs-pane data-title="Data">
 
-	<form novalidate id="formResultater{{ x.eksperiment_id }}">
+	<form novalidate id="formResultater{{ x.eksperiment_id }}"  class="no-padding">
 
-	<table style="float:left;clar:none;border-spacing:15px 3px;border-collapse: separate;">
+	<table class="miljoe-table">
 		<thead>
 				<tr>
-					<th class="normal">
+					<th>
 						Miljødata
 						<i info-sm info-popover="Her skal du taste oplysninger omkring vind og vejr under dit eksperiment. Dine miljødata hjælper forskerne med at lære myrerne og deres levevis bedre at kende. "></i>
 					</th>
-					<th style="width: 150px;"></th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td class="bold">Temperatur °C</td>
+					<td class="normal">Temperatur°</td>
 					<td style="white-space:nowrap;">
 						<input type="number" 
 							placeholder="0" 
@@ -200,12 +176,12 @@
 				</tr>
 
 				<tr>
-					<td class="bold">Vejr</td>
+					<td class="normal">Vejr</td>
 					<td>
 						<button data-placeholder="Vælg"
-									style="width: 99% !important;text-align:left;"
+									style="width: 120px !important;text-align:left;"
 								  type="button" 
-									class="btn btn-default select" 
+									class="btn btn-default select btn-sm" 
 									ng-model="x.vejr" 
 									name="vejr"
 									data-toggle="true" 
@@ -224,12 +200,12 @@
 				</tr>
 
 				<tr>
-					<td class="bold">Skygge</td>
+					<td class="normal">Skygge</td>
 					<td>
 							<button data-placeholder="Vælg"
-									style="width: 99% !important;text-align:left;"
+									style="width: 120px !important;text-align:left;"
 								  type="button" 
-									class="btn btn-default select" 
+									class="btn btn-default select btn-sm" 
 									ng-model="x.sol" 
 									name="sol"
 									data-toggle="true" 
@@ -238,7 +214,7 @@
 									bs-select>
 									<span class="caret"></span>
 								</button>
-							<i info-xs 
+							<i info-sm 
 								info-placement="right"
 								info-popover="Her skal du vurdere graden af skygge som eksperimentet er opsat i, fx under et træ eller ved en mur. ">
 							</i>
@@ -246,12 +222,12 @@
 				</tr>
 
 				<tr>
-					<td class="bold">Vind</td>
+					<td class="normal">Vind</td>
 					<td>
 						<button data-placeholder="Vælg"
-								style="width: 99% !important;text-align:left;"
+								style="width: 120px !important;text-align:left;"
 							  type="button" 
-								class="btn btn-default select" 
+								class="btn btn-default select btn-sm" 
 								name="vind"
 								ng-model="x.vind" 
 								data-toggle="true" 
@@ -260,7 +236,7 @@
 								bs-select>
 									<span class="caret"></span>
 							</button>
-							<i info-xs 
+							<i info-sm 
 								info-placement="right"
 								info-popover="Her skal du vurdere ved hvilken graden af vind eksperimentet står i. Du skal også tage højde for om eksperimentet står i læ. ">
 							</i>
@@ -272,11 +248,11 @@
 		</table>
 
 
-	<table style="border-spacing:15px 3px;border-collapse: separate; float:left;margin-left:50px;">
+	<table class="madding-table">
 		<thead>
 			<tr>
-				<th class="normal">Myredata</th>
-				<th colspan="2" class="normal text-center">
+				<th style="margin-bottom:10px;">Myredata</th>
+				<th colspan="2" class="text-center">
 					Antal myrer
 				</th>
 				<th></th>
@@ -300,7 +276,7 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="d in x.Data">
-					<td class="bold"> {{ d.madding }} </td>
+					<td class="normal"> {{ d.madding }} </td>
 					<td> 
 						<input type="text" 
 									placeholder="0.0"
@@ -327,8 +303,8 @@
 						<checkbox ng-model="d.madding_stjaalet" name="madding_sjaalet" title="test"></checkbox>
 					</td>
 
-					<td rowspan="6" ng-if="$index == 0">
-						<textarea class="form-control" rows="10" ></textarea>
+					<td rowspan="6" ng-if="$index == 0" style="vertical-align:top;">
+						<textarea class="form-control" rows="5"></textarea>
 					</td>
 
 				</tr>
@@ -361,7 +337,7 @@
 				ng-disabled="x.upload_billede == undefined"
 				ng-class="{ 'btn-danger' : x.upload_billede != undefined }"
 				ng-click="deleteImage(x.eksperiment_id, x.upload_billede)">
-				<i class="fa fa-remove"></i>
+				<i class="fa fa-times"></i>
 			</button>
 
 			<button class="btn btn-ku btn-xs pull-right" 
@@ -372,35 +348,6 @@
 				<img class="upload" ng-click="uploadImage(x.eksperiment_id, x.upload_billede)" src="{{ x.upload_billede }}" />
 			</div>
 		</div>
-
-<!--
-		<div class="control-group col-md-6">
-			Video
-
-			<button class="btn btn-default btn-xs pull-right" 
-				title="Fjern video (filen bliver slettet fra serveren)"
-				ng-disabled="x.upload_video == undefined"
-				ng-class="{ 'btn-danger' : x.upload_video != undefined }"
-				ng-click="deleteVideo(x.eksperiment_id, x.upload_video)">
-				<i class="fa fa-remove"></i>
-			</button>
-
-			<button class="btn btn-ku btn-xs pull-right" 
-				style="margin-right: 5px;"
-				ng-click="uploadVideo(x.eksperiment_id, x.upload_video)">Upload Video
-			</button>
-
-			<div class="upload-cnt">
-        <section class="video" ng-video VVng-model="test">
-					<video XXXautoplay="false" vi-screen ng-src="{{ x.upload_video }}" src="{{ x.upload_video }}"></video>
-						<section vi-controls="" class="controls">
-                <span ng-click="interface.controls.play()" title="Afspil" class="glyphicon glyphicon-play"></span>
-                <span ng-click="interface.controls.pause()" title="Pause" class="glyphicon glyphicon-pause"></span>
-            </section>
-				</section>
-			</div>
-		</div>
--->
 
 	</div>
 

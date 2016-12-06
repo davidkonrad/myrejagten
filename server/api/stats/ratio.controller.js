@@ -21,16 +21,17 @@ exports.getTotal = function(req, res) {
 	var sql = '';
 	for (var i=0, l=madding.length; i<l; i++) {
 		if (sql) sql += ',';
-		sql += '(select sum(r.antal) from resultat r, data d where d.madding = "' + madding[i] +'" and r.data_id = d.data_id) as '+madding[i];
+		sql += '(select sum(d.myrer_frysning) from data d where d.madding = "' + madding[i] +'" ) as '+madding[i];
 	}
 	sql = 'select ' + sql;
-	models.sequelize.query(sql,	{ bind: ['active'], type: models.sequelize.QueryTypes.SELECT }).then(function(data) {
+	models.sequelize.query(sql,	{ type: models.sequelize.QueryTypes.SELECT }).then(function(data) {
 		data = createRatios(data[0]);
 		return res.json(200, data);
 	}).catch(function(err){
 	  handleError(res, err);
   });
 }
+
 
 //get user ratios
 exports.getTotalUser = function(req, res) {
@@ -40,10 +41,10 @@ exports.getTotalUser = function(req, res) {
 	var sql = '';
 	for (var i=0, l=madding.length; i<l; i++) {
 		if (sql) sql += ',';
-		sql += '(select sum(r.antal) from resultat r, data d, eksperiment e where e.user_id = ' + user_id + ' and d.eksperiment_id = e.eksperiment_id and d.madding = "'+ madding[i] + '" and r.data_id = d.data_id) as '+madding[i];
+		sql += '(select sum(d.myrer_frysning) from data d, eksperiment e where e.user_id = ' + user_id + ' and d.eksperiment_id = e.eksperiment_id and d.madding = "'+ madding[i] + '" ) as '+madding[i];
 	}
 	sql = 'select ' + sql;
-	models.sequelize.query(sql,	{ bind: ['active'], type: models.sequelize.QueryTypes.SELECT }).then(function(data) {
+	models.sequelize.query(sql,	{ type: models.sequelize.QueryTypes.SELECT }).then(function(data) {
 		data = createRatios(data[0]);
 		return res.json(200, data);
 	}).catch(function(err){
@@ -52,17 +53,16 @@ exports.getTotalUser = function(req, res) {
 }
 
 exports.getEksperiment = function(req, res) {
-	// { param : { eksperiment_id: eksperiment_id }}
 	var eksperiment_id = req.query && req.query.eksperiment_id ? req.query.eksperiment_id : undefined;
 
 	//get eksperiment ratios
 	var sql = '';
 	for (var i=0, l=madding.length; i<l; i++) {
 		if (sql) sql += ',';
-		sql += '(select sum(r.antal) from resultat r, data d where d.madding = "' + madding[i] +'" and r.data_id = d.data_id and d.eksperiment_id='+eksperiment_id+') as '+madding[i];
+		sql += '(select sum(d.myrer_frysning) from data d where d.madding = "' + madding[i] +'" and d.eksperiment_id='+eksperiment_id+') as '+madding[i];
 	}
 	sql = 'select ' + sql;
-	models.sequelize.query(sql,	{ bind: ['active'], type: models.sequelize.QueryTypes.SELECT }).then(function(eks) {
+	models.sequelize.query(sql,	{ type: models.sequelize.QueryTypes.SELECT }).then(function(eks) {
 		eks = createRatios(eks[0])
 		return res.json(200, { eksperiment: eks });
 	}).catch(function(err){
@@ -70,7 +70,6 @@ exports.getEksperiment = function(req, res) {
   });
 
 }
-
 
 function handleError(res, err) {
   return res.send(500, err);

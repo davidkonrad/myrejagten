@@ -119,7 +119,7 @@
 			<button type="button" class="close alert-close" aria-label="Luk besked" title="Luk besked">
 				<span aria-hidden="true">&times;</span>
 			</button>
-			<span ng-bind-html="a.message"></span>
+			<span ng-bind-html="to_trusted(a.message)"></span>
 		</div>
 
 		<h3>
@@ -132,7 +132,7 @@
 				Sortér eksperimenter&nbsp;
 				<button data-placeholder="Sortering"
 					id="sortering"
-					style="width: 100px !important;text-align:left; position:relative;top:10px;"
+					style="width: 110px !important;text-align:left; position:relative;top:-2px;"
 				  type="button" 
 					class="btn btn-default select sortering btn-xs pull-right" 
 					ng-model="sortering.value" 
@@ -142,6 +142,7 @@
 					<span class="caret"></span>
 				</button>
 			</label>
+
 
 		</h3>
 		<div ng-include="'app/projekt/eksperiment.inc.html'"></div>

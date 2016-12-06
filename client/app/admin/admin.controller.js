@@ -6,10 +6,18 @@ angular.module('myrejagtenApp')
 	function($scope, $http, $q, $timeout, Login, Alert, Resultat, Data, Utils, ResultatDlg, CSV, MysqlUser, Cnt, 
 		DTOptionsBuilder, DTColumnBuilder, DTDefaultOptions) {
 
+		$scope.test = function() {
+			ResultatDlg.show($scope.dataById(1), $scope).then(function(changes) {
+				if (changes) $scope.dtInstance.reloadData()
+			})
+		}
+
+		/*
 		//set danish strings for textAngular tooltips
 		if (window.taTools) {
 			//window.taTools.html.tooltiptext = 'test';
 		}
+		*/
 
 		$scope.user = Login.currentUser()
 
@@ -31,11 +39,53 @@ angular.module('myrejagtenApp')
 	    })
 			.withOption('stateSave', true)
 			.withOption('rowCallback', function( row, data, index ) {
-				$(row).attr('data_id', data.data_id)
-				$(row).addClass( data.resultat_id ? 'success' : 'warning' )
+				//console.log(data);
+				$(row).attr('data_id', data.data_id);
+				if (data.proeve_analyseret == 1) $(row).addClass('success')
+				if (!data.proeve_modtaget) {
+					$(row).addClass('danger')
+				}
 			})
 			.withOption('autoWidth', false)
 			.withOption('initComplete', function() {
+				$scope.check = { a: true, d: true };
+
+				$('.button-toggle')
+					.parent()
+					.html(''
+						+ '<div class="checkbox bg-success button-toggle">'
+						+ '  <label class="no-select"><input type="checkbox" id="button-analyzed" checked>Analyserede</label>'
+						+ '</div>'
+						+ '&nbsp;&nbsp;'
+						+ '<div class="checkbox bg-danger button-toggle">'
+						+ '  <label class="no-select"><input type="checkbox" id="button-no-data" checked>Mangler belæg</label>'
+						+ '</div>'
+					);
+
+				$('#button-analyzed').change(function() {
+					$scope.check.a = this.checked;
+					$scope.dtInstance.DataTable.draw()
+				})
+				$('#button-no-data').change(function() {
+					$scope.check.d = this.checked;
+					$scope.dtInstance.DataTable.draw()
+				})
+
+				$.fn.dataTable.ext.search.push(function( settings, data, dataIndex, obj ) {
+					if (settings.sTableId != 'table-resultat') return true;
+					var d = !obj.proeve_modtaget;
+					var a = obj.proeve_analyseret == 1;
+					if (!$scope.check.d && d) return false;
+					if (!$scope.check.a && a) return false;
+					return true
+				})
+
+				//swap text-right to text-center in <th>'s
+				$('th').each(function(i, th) {
+					if ($(th).hasClass('text-right')) {
+						$(th).removeClass('text-right').addClass('text-center');
+					}
+				})
 			})
 			.withOption('drawCallback', function() {
 				$('#table-resultat tbody tr').off('click').on('click', function() {
@@ -45,6 +95,8 @@ angular.module('myrejagtenApp')
 					})
 				})
 			})
+			.withDOM('lBfrtip')
+			.withButtons([ { className: 'button-toggle' } ])
 			.withLanguage(Utils.dataTables_daDk)
 
 
@@ -75,21 +127,35 @@ angular.module('myrejagtenApp')
 				.withOption('width', '120px')
 				.withOption('type', 'dkdato')
 				.withTitle('Dato'),
+
       DTColumnBuilder
 				.newColumn('proeve_modtaget')
 				.withClass('center')
 				.withOption('type', 'dkdato')
 				.withTitle('Modtaget'),
+
+			/*
       DTColumnBuilder
 				.newColumn('proeve_analyseret')
+				.withOption('visible', false)
 				.withClass('center')
 				.withTitle('Analyseret')
 				.renderWith(function(data, type, full) {
 					return type == 'display' ? getIcon(data) : data
 				}),
-      DTColumnBuilder.newColumn('madding').withOption('width', '200px').withTitle('Madding'),
-      DTColumnBuilder.newColumn('myrer_indsamlet').withTitle('Indsamlet'),
-      DTColumnBuilder.newColumn('myrer_frysning').withTitle('Efter frysning')
+			*/
+
+      DTColumnBuilder.newColumn('madding')
+				.withOption('width', '200px')
+				.withTitle('Fødetype'),
+
+      DTColumnBuilder.newColumn('myrer_indsamlet')
+				.withOption('class', 'text-right')
+				.withTitle('Efter indsamling'),
+
+      DTColumnBuilder.newColumn('myrer_frysning')
+				.withOption('class', 'text-right')
+				.withTitle('Efter frysning')
 		]
 
 /*************
@@ -190,13 +256,6 @@ angular.module('myrejagtenApp')
 					$scope.content.content = value;
 					$scope.content.changed = false;
 				})
-				/*
-				$scope.content.content = Cnt.contentByName(newVal);
-				console.log('xxx', $scope.content.content)
-				$timeout(function() {
-					delete $scope.content.changed;
-				})
-				*/
 			}
 		}, true)
 		$scope.$watch('content.content', function(newVal, oldVal) {

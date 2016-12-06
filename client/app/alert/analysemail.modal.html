@@ -1,0 +1,20 @@
+<div class="modal ng-scope top am-fade-and-slide-top center" tabindex="-1" role="dialog" style="display: block;" id="modal-analyse-mail">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			
+			<div class="modal-header">
+				<h4 class="modal-title">Send Analyse-email til bruger &lt;{{ alertParams.email }}> </h4>
+			</div>
+
+			<div class="modal-body">
+				<textarea class="form-control" id="textarea"> {{ alertParams.mailBody }} </textarea>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-ku" ng-click="alertModalClose(true)">Send email</button> 
+				<button type="button" class="btn btn-default" ng-click="alertModalClose(false)">Fortryd</button> 
+			</div>
+
+		</div>
+	</div>
+</div>

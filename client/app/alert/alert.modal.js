@@ -8,7 +8,8 @@ angular.module('myrejagtenApp')
 				name = 'alertParams'
 
 		return {
-			
+
+//************************************************			
 			show: function($scope, title, message, okOnly, icon) {
 				$scope[name] = {
 					title: title,
@@ -41,6 +42,8 @@ angular.module('myrejagtenApp')
 	      return deferred.promise;
 			},
 
+
+//************************************************
 			confirm: function($scope, question) {
 				$scope[name] = {
 					question: question
@@ -66,6 +69,8 @@ angular.module('myrejagtenApp')
 	      return deferred.promise;
 			},
 
+
+//************************************************
 			sorry: function($scope, message) {
 				$scope[name] = {
 					message: message
@@ -85,8 +90,35 @@ angular.module('myrejagtenApp')
 				}
 
 	      return deferred.promise;
-			}			
+			},
 
+//************************************************
+			analyseMail: function($scope, email, mailBody) {
+				$scope[name] = {
+					email: email,
+					mailBody: mailBody
+				}
+				deferred = $q.defer()
+				modal = $modal({
+					scope: $scope,
+					templateUrl: 'app/alert/analysemail.modal.html',
+					backdrop: 'static',
+					show: true
+				})
+
+				modal.$promise.then(modal.show).then(function() {
+					$('#textarea').focus();
+				})
+
+				$scope.alertModalClose = function(value) {
+					if (value) value = $('#textarea').val();
+					delete $scope[name];
+					modal.hide()
+		      deferred.resolve(value)
+				}
+
+	      return deferred.promise;
+			}			
 
 		}
 

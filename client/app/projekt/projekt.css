@@ -1,13 +1,4 @@
 
-.modal-footer {
-    padding: 30px 0;
-		padding-left: 22px;
-		padding-right: 22px;
-    margin-top: 10px;
-    border-top: 1px solid #E5E5E5;
-		clear: both;
-}
-
 #modal-eksperiment .modal-dialog {
 	max-width: 90% !important;
 	width: 80% !important;

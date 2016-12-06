@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .factory('ResultatDlg', ['$modal', '$q', '$http', '$timeout', 'Resultat', 'Eksperiment', 'Data', 'Utils',
-	function($modal, $q, $http, $timeout, Resultat, Eksperiment, Data, Utils) {
+  .factory('ResultatDlg', ['$modal', '$q', '$http', '$timeout', 'Resultat', 'Eksperiment', 'Data', 'Utils', 'Alert', 'MysqlUser',
+	function($modal, $q, $http, $timeout, Resultat, Eksperiment, Data, Utils, Alert, MysqlUser) {
 
 		var lookup = [];
 		var lookup_dk = [];
@@ -35,7 +35,7 @@ angular.module('myrejagtenApp')
 				var changed = false;
 
 				$scope.resDlg = {
-					empty: '…‽',
+					empty: ' ― ',
 					data: data
 				}
 
@@ -102,7 +102,8 @@ angular.module('myrejagtenApp')
 					Resultat.query({ where: { data_id: data.data_id }} ).$promise.then(function(res) {
 						$scope.resDlg.resultater = res
 						$timeout(function() {
-							populateAllearter()
+							$scope.$apply();
+							populateAllearter();
 						})
 					})
 				}
@@ -112,27 +113,24 @@ angular.module('myrejagtenApp')
 					$('#btn-create').on('click', function() {
 						Resultat.save({ id: '' }, { data_id: $scope.resDlg.data.data_id }).$promise.then(function() {
 							changed = true;
-							reload()
+							reload();
 						})
-					})
-					$timeout(function() {
-						$scope.$apply()
 					})
 				})
 
 				var modalHideBefore = $scope.$on("modal.hide.before",function() {
-					//console.log('modal.hide.before');
 					modalHideBefore()
         });
 				var modalHide = $scope.$on("modal.hide",function() {
-					//console.log('modal.hide');
 					modalHide();
 		      deferred.resolve(changed);
 				});
 
 				$scope.resDlg.deleteResultat = function(resultat_id) {
-					Resultat.delete({ id: resultat_id }).$promise.then(function() {
-						reload()
+					Alert.confirm($scope, 'Slet analyseresultat?').then(function(answer) {
+						if (answer) Resultat.delete({ id: resultat_id }).$promise.then(function() {
+							reload()
+						})
 					})
 				}
 
@@ -142,11 +140,83 @@ angular.module('myrejagtenApp')
 					})
 				}
 
+				$scope.resDlg.sendMail = function(user_id, eksperiment_id, myrejagt_id) {
+					var deferred = $q.defer();
+					var mailBody = '' 
+						+ 'Kære myrejæger, ' +"\n\n"
+						+ 'Tusind tak for din deltagelse! ' +"\n\n"
+						+ 'Naturhistorisk Museum har nu analyseret dine fund fra eksperiment '+ myrejagt_id +'. '
+						+ 'Under eksperimentet fandt du: ' +"\n\n"
+						+ '';
+
+					var mailFooter = '' +"\n\n" 
+						+ 'Vi håber din deltagelse har været sjov og lærerig. Husk at du kan deltage så mange gange du vil, og at forskerne ikke kan gennemføre deres studier uden din hjælp! Skulle du have yderligere spørgsmål er du velkommen til at kontakte myrejagten på myrejagten@snm.ku.dk. ' +"\n\n"
+						+ 'Med venlig hilsen,' + "\n\n"
+						+ 'Myrejagtens forskerteam';
+
+					MysqlUser.query({ where : { user_id : user_id }}).$promise.then(function(user) {
+						
+						Data.query({ where : { eksperiment_id: eksperiment_id }}).$promise.then(function(datas) {
+
+							function getMadding(data_id) {
+								for (var di=0, dl=datas.length; di<dl; di++) {								
+									if (datas[di].data_id == data_id) return datas[di].madding
+								}
+								return '??'
+							}
+
+							var result = [];
+							var processed = false;
+						
+							for (var di=0, dl=datas.length; di<dl; di++) {
+								Resultat.query({ where: { data_id: datas[di].data_id }} ).$promise.then(function(res) {
+									var text = '';
+									for (var i=0, l=res.length; i<l; i++) {
+										if (!result[res[i].data_id]) {
+											result[res[i].data_id] = [];
+										}
+										result[res[i].data_id].push(res[i]);
+									}
+								})
+							}
+
+							$timeout(function() {
+								for (var i in result) {
+									var text = getMadding(i) +"\n";
+									var r = result[i];
+									for (var ri=0, rl=r.length; ri<rl; ri++) {
+										text += r[ri].antal +"\t";
+										text += r[ri].navn_videnskabeligt +"\t\t";
+										text += r[ri].navn_dk +"\t\t";
+										text += r[ri].kommentar +"\n"
+									}
+									mailBody += text.replace(/null/g, '(?)') +"\n"
+								}	
+								$timeout(function() {
+									deferred.resolve();
+								})
+							}, 500)
+						})
+
+						deferred.promise.then(function() {
+							Alert.analyseMail($scope, user[0].email, mailBody + mailFooter).then(function(answer) {
+								if (answer) {				
+									var options = {
+										email: user[0].email,
+										mailBody: answer,
+										subject: 'Analyse fra myrejagten'
+									}
+									$http.post('api/email/raw/', options).then(function(response) {
+									})
+								}
+							})
+						})
+					})
+				}
+
 				$scope.updateProeveModtaget = function() {
-					//var date = Utils.fixDate(data.proeve_modtaget)
 					var d = new Date(data.proeve_modtaget)
 					var date = d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();
-					console.log(date, d, data.proeve_modtaget)
 					if (!$scope.resDlg.globalDate) {
 						Data.update({ id: data.data_id }, { proeve_modtaget: date }).$promise.then(function() {
 							changed = true;
@@ -158,7 +228,7 @@ angular.module('myrejagtenApp')
 							datas.forEach(function(d) {
 								console.log(date, d, d.data_id)
 								Data.update({ id: d.data_id }, { proeve_modtaget: date }).$promise.then(function() {
-									console.log('Ok')
+									//console.log('Ok')
 								})
 							})
 						})
@@ -168,7 +238,6 @@ angular.module('myrejagtenApp')
 
 				$scope.updateProeveAnalyseret = function() {
 					Data.update({ id: data.data_id }, { proeve_analyseret: data.proeve_analyseret }).$promise.then(function() {
-						console.log('proeve_analyseret sAVED')
 						changed = true;
 					})
 				}

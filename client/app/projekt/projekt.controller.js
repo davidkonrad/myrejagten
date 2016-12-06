@@ -2,9 +2,9 @@
 
 angular.module('myrejagtenApp')
   .controller('ProjektCtrl', ['$scope', '$http', '$location', '$sce', 'Login', 'Alert', 'KR', '$timeout', '$modal', '$q', 'Projekt', 'Eksperiment', 
-			'ToDo', 'Data', 'Geo', 'TicketService', 'Utils', 'leafletData', 'video', 'UploadModal',
+			'ToDo', 'Data', 'Geo', 'TicketService', 'Utils', 'leafletData', 'UploadModal',
 	function($scope, $http, $location, $sce, Login, Alert, KR, $timeout, $modal, $q, Projekt, Eksperiment, 
-			ToDo,	Data, Geo, TicketService, Utils, leafletData, video, UploadModal) {
+			ToDo,	Data, Geo, TicketService, Utils, leafletData, UploadModal) {
 
 		$scope.user = Login.currentUser();
 
@@ -28,13 +28,18 @@ angular.module('myrejagtenApp')
 				if ($eks.offset()) $("body").animate({scrollTop: $eks.offset().top-20 }, 400);
 			}
 
-			if ($('.panel[projekt-id='+projekt_id+']').find('.in').length>0) {
-				scrollToEksperiment();
-			} else {
-				$('.panel[projekt-id='+projekt_id+'] .no-underline').click();
-				$timeout(function() {
+			//skole
+			if ($scope.user.role == 0) {
+				if ($('.panel[projekt-id='+projekt_id+']').find('.in').length>0) {
 					scrollToEksperiment();
-				}, 500)
+				} else {
+					$('.panel[projekt-id='+projekt_id+'] .no-underline').click();
+					$timeout(function() {
+						scrollToEksperiment();
+					}, 500)
+				}
+			} else {
+				scrollToEksperiment();
 			}
 		})
 
@@ -435,17 +440,10 @@ angular.module('myrejagtenApp')
 			eksperiment
 		*/
 		$('body').on('show.bs.collapse', '.panel', function() {
-			//$scope.projekt_id = 
 			$scope.projekt_id = $(this).attr('projekt-id');
 			$timeout(function() {
-				console.log($scope.projekt_id)
 				$scope.$apply()
 			})
-			/*
-			console.log($scope.projekt_id)
-			console.log(this)
-			console.log('OK')
-			*/
 		})
 		
 
@@ -467,26 +465,6 @@ angular.module('myrejagtenApp')
 						Eksperiment.update({ id: eksperiment_id }, { upload_billede: null }).$promise.then(function(e) {
 							var e = $scope.eksperimentById(eksperiment_id);
 							e.upload_billede = undefined;
-						})				
-					})
-				}
-			})
-		};
-		$scope.uploadVideo = function(eksperiment_id, currentVideo) {
-			UploadModal.video($scope, eksperiment_id, currentVideo).then(function(fileName) {	
-				if (typeof fileName == 'string') {
-					var e = $scope.eksperimentById(eksperiment_id);
-					e.upload_video = fileName
-				}
-			})
-		};
-		$scope.deleteVideo = function(eksperiment_id, currentVideo) {
-			Alert.show($scope, 'Uploads', 'Er du sikker på du vil fjerne videoen?').then(function(ok) {
-				if (ok) {
-					$http.get('/api/upload/remove/'+encodeURIComponent(currentVideo)).then(function(res) {
-						Eksperiment.update({ id: eksperiment_id }, { upload_video: null }).$promise.then(function(e) {
-							var e = $scope.eksperimentById(eksperiment_id);
-							e.upload_video = undefined;
 						})				
 					})
 				}
@@ -521,7 +499,7 @@ angular.module('myrejagtenApp')
 			{ madding: 'Sukkervand' },
 			{ madding: 'Olie' },
 			{ madding: 'Protein' },
-			{ madding: 'Kammerjunker' }
+			{ madding: 'Kammerjunker%nbsp;' }
 		]
 		$scope.items.sortering = [
 			{ value: '-eksperiment_id', label: 'Nyeste' },
