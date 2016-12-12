@@ -3,20 +3,24 @@
 			<div mj-content="Forside_1"></div>	
 		</div>
 
-	  <div class="col-md-3" style="margin-left:0px;Xpadding-left:0px;">
+	  <div class="col-md-3" style="margin-left:0px;">
 
 		  <div class="form-group col-md-12 no-padding" ng-if="!isLoggedIn">
+				<form>
 				<h4 class="text-uppercase">Login</h4>
 				<input type="text" ng-model="rememberMe.m" class="form-control input-sm bold" placeholder="Email"  />
 				<input type="password" ng-model="rememberMe.p" class="form-control input-sm bold" placeholder="Password" style="margin-top:7px;"  />
+				<span class="small text-danger pull-right" XXng-if="error"> {{ error }} </span>
 
 				<button 
+					type="submit"
 					class="btn btn-xs" 
 					style="float:left;margin-top:4px;" 
 					ng-click="login()"
 					ng-class="{ 'btn-ku' : canLogin() }">
 					Login
 				</button>
+				</form>
 
 				<div class="checkbox" style="float:right;margin-top:1px;" ng-checked="rememberMe.rememberMe == true">
 				  <label>

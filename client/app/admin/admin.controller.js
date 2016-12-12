@@ -48,6 +48,8 @@ angular.module('myrejagtenApp')
 			})
 			.withOption('autoWidth', false)
 			.withOption('initComplete', function() {
+				//$('.dt-button').removeClass('dt-button')
+
 				$scope.check = { a: true, d: true };
 
 				$('.button-toggle')
@@ -96,7 +98,11 @@ angular.module('myrejagtenApp')
 				})
 			})
 			.withDOM('lBfrtip')
-			.withButtons([ { className: 'button-toggle' } ])
+			.withButtons([ 
+				{ text : 'test', className: 'Xbutton-toggle' },
+				{ extend: 'pdf', className: 'btn btn-sm btn-primary' }  
+			])
+			.withBootstrap()
 			.withLanguage(Utils.dataTables_daDk)
 
 

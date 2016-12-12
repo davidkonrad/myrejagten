@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-	.controller('NavbarCtrl', function($rootScope, $scope, $location, Login) {
+	.controller('NavbarCtrl', function($rootScope, $scope, $location, $route, Login) {
 
 		$scope.isCollapsed = true;
 		$scope.isLoggedIn = Login.isLoggedIn;
@@ -11,7 +11,8 @@ angular.module('myrejagtenApp')
 
 		$scope.logout = function() {
 			Login.logout();
-			$location.path('/login');
+			$location.path('/');
+			$route.reload();
 		};
 
 		$scope.isActive = function(route) {

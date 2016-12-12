@@ -74,8 +74,9 @@
 				<div class="control-group col-md-6">
 
 					<label class="normal">Søg lokalitet</label>
-							<i info-sm info-placement="right"
-								info-popover="”Her skal du finde stedet for dit eksperiment. Det er meget vigtigt at stedet angives så præcist som muligt ved at zoome helt ind på kortet. Du kan søge eksperimentstedet frem vha. af stednavne eller adresse, men du kan også navigere vha. af kortet”. Husk at klik på kortet på det præcise sted, så vil punktet blive blåt og du har godkendt eksperimentlokaliteten.">
+							<i info-sm 
+								info-placement="right"
+								info-popover="Her skal du finde stedet for dit eksperiment. Det er meget vigtigt at stedet angives så præcist som muligt ved at zoome helt ind på kortet. Du kan søge eksperimentstedet frem vha. af stednavne eller adresse, men du kan også navigere vha. af kortet”. Husk at klik på kortet på det præcise sted, så vil punktet blive blåt og du har godkendt eksperimentlokaliteten.">
 							</i>
 
 					<input type="text" class="form-control bold input-md" ng-model="x.adresse" select-on-click adresse-opslag adresse-type="{{ x.adresseType }}" on-select="eksperimentAdresseSelect" eksperiment-id="{{ x.eksperiment_id }}" name="adresse" />

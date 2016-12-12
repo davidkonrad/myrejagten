@@ -34,7 +34,7 @@ angular.module('myrejagtenApp')
 		},
 
 		logout: function() {
-			currentUser = null
+			currentUser = null;
 			deleteCookie()
 		},
 						

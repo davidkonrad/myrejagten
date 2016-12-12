@@ -2,7 +2,7 @@
 
 	<div bs-tabs class="control-group col-md-9">
 
-		<div bs-pane data-title="Hvor i Danmark" style="padding-left:0px;">
+		<div bs-pane data-title="Kort" style="padding-left:0px;" ng-controller="KortCtrl">
 			<div class="control-group col-md-12">
 				<leaflet id="vis-map" center="map.center" defaults="map.defaults" layers="map.layers" markers="map.markers" events="map.events" height="580px" style="border:1px solid #ccc;border-radius:5px;"></leaflet>
 			</div>
@@ -35,14 +35,13 @@
 			<div mj-content="Fødevalg_chart"></div>
 		</div>
 
-
-		<div bs-pane data-title="Artshitliste" style="padding-left:0px;">
+		<div bs-pane data-title="Artshitliste" style="padding-left:0px;" ng-controller="ArtshitlisteCtrl">
 			<canvas id="base" 
 				class="chart chart-horizontal-bar"
-				chart-options="arterOptions"
-				chart-data="arterData" 
-				chart-labels="arterLabels" 
-				chart-dataset-override="arterOverride"
+				chart-options="options"
+				chart-data="data" 
+				chart-labels="labels" 
+				chart-colors="colors"
 			>
 			</canvas> 
 

@@ -18,21 +18,22 @@
 				<i class="fa fa-plus"></i>&nbsp;Nyt projekt
 			</button>
 
-			<label class="pull-right small normal sorter">
+			<button data-placeholder="Sortering"
+				id="btn-projekt-sorter"
+			  type="button" 
+				class="btn btn-default select sortering btn-xs pull-right" 
+				ng-model="projektSortering.value" 
+				data-toggle="true" 
+				bs-options="i.value as i.label for i in items.projektSortering" 
+				bs-select
+				title="Sortering af projekter"
+			>
+				<span class="caret"></span>
+			</button>
+			<label class="pull-right small normal sorter" for="btn-projekt-sorter">
 				Sortér projekter&nbsp;
-				<button data-placeholder="Sortering"
-					style="width: 110px !important;text-align:left; position:relative;top:-2px;"
-				  type="button" 
-					class="btn btn-default select sortering btn-xs pull-right" 
-					ng-model="projektSortering.value" 
-					data-toggle="true" 
-					bs-options="i.value as i.label for i in items.projektSortering" 
-					bs-select
-					title="Sortering af projekter"
-				>
-					<span class="caret"></span>
-				</button>
 			</label>
+
 		</h4>
 
 		<div class="panel-group" id="accordion" role="tablist" >
@@ -77,16 +78,14 @@
   		    <div class="panel-body">
 
 						<div ng-if="projekt_id == p.projekt_id" style="border:0px !important;">
-							<button role="button" class="btn btn-ku btn-sm" ng-click="createEksperiment()" title="Opret nyt eksperiment">
-								<i class="fa fa-plus"></i>
-								Nyt eksperiment	
-							</button>
 
 							<h4>		
-							<label class="pull-right small normal sorter">
-								Sortér eksperimenter&nbsp;
-								<button style="width: 110px !important;text-align:left; position:relative; top: -2px;"
-								  type="button" 
+								<button role="button" class="btn btn-ku btn-sm" ng-click="createEksperiment()" title="Opret nyt eksperiment">
+									<i class="fa fa-plus"></i>
+									Nyt eksperiment	
+								</button>
+								<button type="button" 
+									id="btn-eksperiment-sorter"
 									class="btn btn-default select sortering btn-xs pull-right" 
 									ng-model="sortering.value" 
 									data-toggle="true" 
@@ -95,10 +94,13 @@
 								>
 									<span class="caret"></span>
 								</button>
-							</label>
+								<label class="pull-right small normal sorter" for="btn-eksperiment-sorter">
+									Sortér eksperimenter&nbsp;
+								</label>
+
 							</h4>
-								<br><br>
-								<span ng-include="'app/projekt/eksperiment.inc.html'"></span>
+							<span ng-include="'app/projekt/eksperiment.inc.html'"></span>
+
 						</div>
 			    </div>
 			  </div>

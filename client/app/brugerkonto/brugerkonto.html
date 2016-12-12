@@ -1,7 +1,7 @@
 <div class="container-fluid">
 
 	<h2>
-		{{ user.fulde_navn }}
+		{{ user.fulde_navn || user.brugernavn }}
 	</h2>
 
 		<div ng-repeat="a in alerts" class="alert alert-dismissible {{ a.type }}" role="alert" >

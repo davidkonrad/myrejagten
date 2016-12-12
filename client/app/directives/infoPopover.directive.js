@@ -34,11 +34,6 @@ angular.module('myrejagtenApp')
 				$template.css('backgroundColor', '#fff')
 				$template.find('i').css('backgroundColor', '#fff')
 
-				/*
-				$template.css('-webkit-box-shadow', '0 0 1px 1px #C2C2C2')
-				$template.css('box-shadow', '0 0 1px 1px #C2C2C2')
-				*/
-
 				function getAttrVal(v) {
 					return attrs.hasOwnProperty(v) ? v.replace('info', '').toLowerCase() : false
 				}

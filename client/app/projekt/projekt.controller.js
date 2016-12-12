@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .controller('ProjektCtrl', ['$scope', '$http', '$location', '$sce', 'Login', 'Alert', 'KR', '$timeout', '$modal', '$q', 'Projekt', 'Eksperiment', 
+  .controller('ProjektCtrl', ['$scope', '$http', '$location', '$interval', '$sce', 'Login', 'Alert', 'KR', '$timeout', '$modal', '$q', 'Projekt', 'Eksperiment', 
 			'ToDo', 'Data', 'Geo', 'TicketService', 'Utils', 'leafletData', 'UploadModal',
-	function($scope, $http, $location, $sce, Login, Alert, KR, $timeout, $modal, $q, Projekt, Eksperiment, 
+	function($scope, $http, $location, $interval, $sce, Login, Alert, KR, $timeout, $modal, $q, Projekt, Eksperiment, 
 			ToDo,	Data, Geo, TicketService, Utils, leafletData, UploadModal) {
 
 		$scope.user = Login.currentUser();
@@ -20,12 +20,33 @@ angular.module('myrejagtenApp')
 		}
 		//click on todo items
 		$('body').on('click', '.todo-item', function() {
+			$('html').addClass('wait');
+
 			var projekt_id = $(this).attr('projekt-id');
 			var eksperiment_id = $(this).attr('eksperiment-id');
 
 			function scrollToEksperiment() {
-				var $eks = angular.element('#eksperiment-cnt-' + eksperiment_id)
-				if ($eks.offset()) $("body").animate({scrollTop: $eks.offset().top-20 }, 400);
+				var stop = $interval(function() {
+					var $eks = angular.element('#eksperiment-cnt-' + eksperiment_id);
+					if ($eks) {
+						$('html').removeClass('wait');
+						$interval.cancel(stop);
+            stop = undefined;
+						//console.log('eexit');
+						if ($eks.offset()) {
+							//console.log('has Offset');
+							if (navigator.userAgent.indexOf('Opera') != -1) {
+								$('html').animate({scrollTop: $eks.offset().top-20 }, 400);
+								return
+							}
+							if (navigator.userAgent.indexOf('Firefox') != -1) {
+								$('html, body').animate({scrollTop: $eks.offset().top-20 }, 400);
+								return
+							}
+							$('body').animate({scrollTop: $eks.offset().top-20 }, 400);
+						}
+					}
+				}, 100);
 			}
 
 			//skole
@@ -34,9 +55,7 @@ angular.module('myrejagtenApp')
 					scrollToEksperiment();
 				} else {
 					$('.panel[projekt-id='+projekt_id+'] .no-underline').click();
-					$timeout(function() {
-						scrollToEksperiment();
-					}, 500)
+					scrollToEksperiment();
 				}
 			} else {
 				scrollToEksperiment();
@@ -131,14 +150,22 @@ angular.module('myrejagtenApp')
 			$scope.markers = {} 
 
 			var showModal = function() {
+				var scope = $scope.$new();
+				scope.projekt_id = projekt_id;
 				var modal = $modal({
-					scope: $scope,
+					/*
+					scope: {
+						projekt_id: projekt_id
+					},
+					*/
+					controller: 'ProjektModalCtrl',
 					templateUrl: 'app/projekt/projekt.modal.html',
 					backdrop: 'static',
 					show: true,
 					internalName: 'projekt',
 					animation: "am-fade-and-scale", //??
-					placement: "center" 
+					placement: "center",
+					scope: scope
 				})
 			}
 
@@ -517,7 +544,7 @@ angular.module('myrejagtenApp')
 		}
 
 		$scope.createEksperiment = function() {
-			Alert.show($scope, 'Eksperiment', 'Opret nyt eksperiment?').then(function(ok) {
+			Alert.confirm($scope, 'Opret nyt eksperiment?').then(function(ok) {
 				if (ok) Eksperiment.save({	eksperiment_id: '' }, { user_id: $scope.user.user_id, projekt_id: $scope.projekt_id }).$promise.then(function(e) {
 
 					$scope.items.madding.forEach(function(m) {

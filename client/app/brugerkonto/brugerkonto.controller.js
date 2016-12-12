@@ -10,9 +10,20 @@ angular.module('myrejagtenApp')
 		$scope.alerts = [];
 		$scope.form = {};
 
+		/**
+			get alerts / missing info for account
+		*/
+		$scope.reloadToDo = function() {
+			ToDo.account($scope.user).then(function(alerts) {
+				$scope.alerts = alerts;
+			})
+		}
+		$scope.reloadToDo();
+
 		$scope.formPersonligeChanged = function() {
 			return Utils.formIsEdited('#form-personlige')
 		}
+
 		$scope.savePersonlige = function() {
 			var updateObj = {
 				user_id: $scope.user.user_id,
@@ -24,17 +35,15 @@ angular.module('myrejagtenApp')
 				kommune: $scope.user.kommune,
 				region: $scope.user.region
 			}
-			//console.log($scope.user.postnr)
 			MysqlUser.update({ user_id: $scope.user.user_id }, updateObj).$promise.then(function(user) {	
 				Login.updateCookie();	
-				//Utils.formReset('#form-personlige');
-
+				Utils.formReset('#form-personlige');
 		    $scope.form.formPersonlige.$setPristine();
 				$timeout(function() {
 					$scope.$apply();
 				})
-
-				$scope.userHaveUpdated = true;
+				$scope.reloadToDo();
+				$scope.showNaggers();
 			})
 		}
 
@@ -55,8 +64,23 @@ angular.module('myrejagtenApp')
 		var postnrPopover = null;
 		var fuldenavnPopover = null;
 
-		$scope.$watch('userHaveUpdated', function(newVal, oldVal) {
-			if ($scope.userHaveUpdated && !$scope.user.postnr) {
+		var closePostnrPopover = function() {
+			if (postnrPopover) {
+				postnrPopover.hide();
+				postnrPopover.destroy();
+			}
+		};
+		var closeFuldenavnPopover = function() {
+			if (fuldenavnPopover) {
+				fuldenavnPopover.hide();
+				fuldenavnPopover.destroy();
+			}
+		};
+
+		$scope.showNaggers = function() {
+			//console.log('showNaggers');
+			if (!$scope.user.postnr) {
+				if (postnrPopover) closePostnrPopover();
 				postnrPopover = $popover(angular.element('#postnr'), {
 					content: 'Vi vil gerne bede om dit postnummer i forhold til vores evaluering af Myrejagten. Dit postnummer er ift. til din egen bopæl, ikke i forhold til hvor du udfører dine Myrejagten eksperimenter.',
 					container: 'html',
@@ -64,7 +88,7 @@ angular.module('myrejagtenApp')
 					show: true,
 					template: post_pt,
 					templateUrl: false,
-					placement: 'right',
+					placement: 'top',
 					animation: 'am-fade',
 					viewport: '#postnr'
 				});
@@ -72,7 +96,8 @@ angular.module('myrejagtenApp')
 				closePostnrPopover();
 			}
 
-			if ($scope.userHaveUpdated && !$scope.user.fulde_navn) {
+			if (!$scope.user.fulde_navn) {
+				if (fuldenavnPopover)	closeFuldenavnPopover();
 				fuldenavnPopover = $popover(angular.element('#fulde_navn'), {
 					content: 'Det fulde navn kan være dit rigtige navn, men også et sigende navn. Feltet benyttes som "Finder"-identifikator i datasindamlingen.', 
 					container: 'html',
@@ -87,7 +112,8 @@ angular.module('myrejagtenApp')
 			} else {
 				closeFuldenavnPopover();
 			}
-		})
+		//})
+		}
 
 		$timeout(function() {
 			$scope.$watch('user.postnr', function(newVal, oldVal) {
@@ -108,19 +134,6 @@ angular.module('myrejagtenApp')
 				closeFuldenavnPopover();
 			});
 		}, 2000);
-
-		var closePostnrPopover = function() {
-			if (postnrPopover) {
-				postnrPopover.hide();
-				postnrPopover.destroy();
-			}
-		};
-		var closeFuldenavnPopover = function() {
-			if (fuldenavnPopover) {
-				fuldenavnPopover.hide();
-				fuldenavnPopover.destroy();
-			}
-		};
 
 		/**
 			institution
@@ -153,13 +166,6 @@ angular.module('myrejagtenApp')
 			$scope.$apply()
 		}
 
-		/**
-			get alerts / missing info for account
-		*/
-		ToDo.account($scope.user).then(function(alerts) {
-			$scope.alerts = alerts;
-		})
-		
 		$scope.scrollToForm = function() {
 			var $form = angular.element('#form-cnt')
 			if ($form.offset()) $("body").animate({scrollTop: $form.offset().top-20 }, 400);

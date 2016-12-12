@@ -83,7 +83,7 @@ angular.module('myrejagtenApp')
 				var dStr = arrStr(d, ' samt ');
 				if (dStr) {
 					dStr = dStr.indexOf(',')>0 ? 'fødetyperne '+dStr : 'fødetypen '+dStr;
-					dStr = 'Myretælling for '+dStr+' mangler. ';
+					dStr = 'Myredata for '+dStr+' mangler. ';
 				}
 
 				return mStr + dStr

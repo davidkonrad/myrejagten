@@ -10,6 +10,7 @@ angular.module('myrejagtenApp')
 
 		var content = null;
 		var contentNames = [];
+		var empty = '__empty__';
 
 		function loadContent() {
 			var	deferred = $q.defer();
@@ -42,8 +43,10 @@ angular.module('myrejagtenApp')
 			},
 
 			saveContent: function(name, newContent) {
+				console.log('save' + newContent + 'save', newContent.length)
 				for (var i=0, l=content.length; i<l; i++) {
 					if (content[i].name == name ) {
+						if (newContent != '' && newContent.trim() == '') newContent = empty;
 						content[i].content = newContent
 						Content.update({ id: content[i].content_id }, { content: newContent }).$promise.then(function() {
 						})
@@ -56,7 +59,7 @@ angular.module('myrejagtenApp')
 				function getValue() {
 					for (var i=0, l=content.length; i<l; i++) {
 						if (content[i].name == name ) {
-							return content[i].content
+							return content[i].content; // == empty ? content[i].content : '  ';
 						}
 					}
 				}

@@ -35,12 +35,12 @@
   ],
   "homepage": "https://datatables.net",
   "license": "MIT",
-  "version": "1.10.12",
-  "_release": "1.10.12",
+  "version": "1.10.13",
+  "_release": "1.10.13",
   "_resolution": {
     "type": "version",
-    "tag": "1.10.12",
-    "commit": "1bf893948299f1bfe2865c1a3977cd8e4b8137da"
+    "tag": "1.10.13",
+    "commit": "45eafc95a5d19175635929885443a135b3a174ec"
   },
   "_source": "https://github.com/DataTables/Dist-DataTables-Bootstrap.git",
   "_target": "*",

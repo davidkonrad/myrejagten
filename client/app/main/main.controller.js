@@ -6,12 +6,15 @@ angular.module('myrejagtenApp')
 
 		$scope.isLoggedIn = Login.isLoggedIn();
 		$scope.rememberMe = RememberMe.get();
+		$scope.error = null;
 
 		$scope.login = function() {
 			Login.login($scope.rememberMe.m, $scope.rememberMe.p, $scope.rememberMe.rememberMe).then(function(response) {
 				if (response && response.error) {
-					$scope.errors.other = response.error
+					console.log(response)
+					$scope.error = response.error
 				} else {
+					$scope.error = null;
 					$location.path('/konto');
 				}
 			})
