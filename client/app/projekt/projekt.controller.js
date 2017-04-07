@@ -2,9 +2,9 @@
 
 angular.module('myrejagtenApp')
   .controller('ProjektCtrl', ['$scope', '$http', '$location', '$interval', '$sce', 'Login', 'Alert', 'KR', '$timeout', '$modal', '$q', 'Projekt', 'Eksperiment', 
-			'ToDo', 'Data', 'Geo', 'TicketService', 'Utils', 'leafletData', 'UploadModal',
+			'ToDo', 'Data', 'Geo', 'TicketService', 'Utils', 'leafletData', 'UploadModal', 'CreateEksperiment',
 	function($scope, $http, $location, $interval, $sce, Login, Alert, KR, $timeout, $modal, $q, Projekt, Eksperiment, 
-			ToDo,	Data, Geo, TicketService, Utils, leafletData, UploadModal) {
+			ToDo,	Data, Geo, TicketService, Utils, leafletData, UploadModal, CreateEksperiment) {
 
 		$scope.user = Login.currentUser();
 
@@ -242,21 +242,12 @@ angular.module('myrejagtenApp')
 			map related events and methods
 		*/
 		$scope.$on('leafletDirectiveMap.*', function(event, args) {
-			console.log('STAR');
-			//$scope.setMarker(args.leafletEvent.latlng)
 		});
 
-		$scope.$on('leafletDirectiveMap.click', function(event, args) {
-			console.log(arguments)
-			console.log('ok 1111');
-			//$scope.setMarker(args.leafletEvent.latlng)
-		});
 		$scope.$on('leafletDirectiveMap.zoom', function(event, args) {
-			console.log('zoom');
 			if ($scope.marker) $scope.center = angular.copy($scope.marker)
 		})
 		$scope.$on('leafletDirectiveMarker.dblclick', function(e, marker) {
-			console.log('dblclick');
 			$scope.center = {
 				lat: $scope.marker.lat,
 				lng: $scope.marker.lng,
@@ -507,7 +498,6 @@ angular.module('myrejagtenApp')
 			{ value: 'Skyfrit', label: 'Skyfrit' },
 			{ value: 'Halvskyet', label: 'Halvskyet' },
 			{ value: 'Overskyet', label: 'Overskyet' },
-			//{ value: 'Fuldt overskyet', label: 'Fuldt overskyet' },
 			{ value: 'Regn', label: 'Regn' }
 		];
 		$scope.items.sol = [
@@ -526,7 +516,7 @@ angular.module('myrejagtenApp')
 			{ madding: 'Sukkervand' },
 			{ madding: 'Olie' },
 			{ madding: 'Protein' },
-			{ madding: 'Kammerjunker%nbsp;' }
+			{ madding: 'Kammerjunker' }
 		]
 		$scope.items.sortering = [
 			{ value: '-eksperiment_id', label: 'Nyeste' },
@@ -543,8 +533,9 @@ angular.module('myrejagtenApp')
 			return 'MJ' + '-' + zeroPad(user_id, 4)	+ '-' + zeroPad(projekt_id, 2) + '-' + zeroPad(eksperiment_id, 2)	
 		}
 
+/*
 		$scope.createEksperiment = function() {
-			Alert.confirm($scope, 'Opret nyt eksperiment?').then(function(ok) {
+			CreateEksperiment.show($scope).then(function(id) {
 				if (ok) Eksperiment.save({	eksperiment_id: '' }, { user_id: $scope.user.user_id, projekt_id: $scope.projekt_id }).$promise.then(function(e) {
 
 					$scope.items.madding.forEach(function(m) {
@@ -558,12 +549,6 @@ angular.module('myrejagtenApp')
 						var updateValues = { 
 							myrejagt_id: getMyrejagtId($scope.user.user_id, $scope.projekt_id, e.eksperiment_id),
 							titel: 'Myrejagt #' + p.length
-							/*
-							do not set timestamp settings
-							start_tid: now.getHours()+':00',
-							slut_tid: now.getHours()+5+':00',
-							dato: now.toString()
-							*/
 						}
 
 						Eksperiment.update({ id: e.eksperiment_id }, updateValues).$promise.then(function(e) {
@@ -571,6 +556,41 @@ angular.module('myrejagtenApp')
 						})
 					})
 				})
+			})
+		}
+*/
+
+		$scope.createEksperiment = function() {
+			CreateEksperiment.show($scope).then(function(myrejagt_id) {
+				if (myrejagt_id) {
+
+					var obj = {
+						user_id: $scope.user.user_id, 
+						projekt_id: $scope.projekt_id,
+						titel: '',
+						lokalitet: '',
+						lat: '',
+						lng: ''
+					};
+
+					Eksperiment.save({	eksperiment_id: '' }, obj).$promise.then(function(e) {
+
+						$scope.items.madding.forEach(function(m) {
+							Data.save({ data_id: ''}, { eksperiment_id: e.eksperiment_id, madding: m.madding })
+						})
+
+						//get #eks for projekt_id
+						Eksperiment.query({ where: { projekt_id: $scope.projekt_id }}).$promise.then(function(p) {
+							var updateValues = { 
+								myrejagt_id: 'SNMMJ-'+myrejagt_id,
+								titel: 'Myrejagt #' + p.length
+							}
+							Eksperiment.update({ id: e.eksperiment_id }, updateValues).$promise.then(function(e) {
+								$scope.reloadEksperimenter()
+							})
+						})
+					})
+				}
 			})
 		}
 
@@ -609,7 +629,12 @@ angular.module('myrejagtenApp')
 				    name: 'Google Hybrid',
 				    layerType: 'HYBRID',
 				    type: 'google',
-						visible: false
+						visible: false,
+						layerOptions: {
+							mapOptions: {
+								styles: DefaultGoogleStyles
+						  }
+						}
 				  },
 					luftfoto: {
 						name: "Orto forår (luffoto)",
@@ -642,16 +667,10 @@ angular.module('myrejagtenApp')
 			popupAnchor: [-2, -46] 
 		}
 
-		$scope.$on('leafletDirectiveMap.*', function(event, target){
-			console.log('QWERTY')
-		})
-
-
 		$scope.$on('leafletDirectiveMap.click', function(event, target){
 			var latLng = target.leafletEvent.latlng
 			var id = target.leafletEvent.target._container.id
 			//var id = target.leafletEvent.target._container.getAttribute('mapId');
-			console.log(id);
 
 			//click on lokalitet->map
 			if (~id.indexOf('_lok')) {
@@ -764,7 +783,7 @@ angular.module('myrejagtenApp')
 				if (eksperimenter.length <= 0) {
 					$timeout(function() {
 						$scope.$apply() //ensure immedatiate update of the buttons
-					})
+					}, 10)
 				}
 
 				$scope.refreshMaps()
@@ -804,7 +823,8 @@ angular.module('myrejagtenApp')
 				temp: e.temp,
 				vejr: e.vejr,
 				sol: e.sol,
-				vind: e.vind
+				vind: e.vind,
+				kommentar: e.kommentar
 			}
 			Eksperiment.update({ id: eksperiment_id }, miljo).$promise.then(function() {
 				Utils.formReset('#formResultater' + eksperiment_id);
@@ -817,7 +837,7 @@ angular.module('myrejagtenApp')
 		}
 
 		$scope.deleteEksperiment = function(eksperiment_id) {
-			Alert.show($scope, '', 'Slet  eksperiment?').then(function(ok) {
+			Alert.show($scope, 'Slet  eksperiment', 'Er du sikker på at du vil slette eksperimentet?').then(function(ok) {
 				if (ok) {
 					var e = $scope.eksperimentById(eksperiment_id)
 					e.Data.forEach(function(d) {

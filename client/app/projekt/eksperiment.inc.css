@@ -3,18 +3,17 @@
 */
 
 table.miljoe-table {
-	float:left;
-	clear:none;
-	border-spacing:15px 3px;
+	border-spacing:5px 3px;
 	border-collapse: separate;
 }
 
 table.madding-table {
-	border-spacing:15px 3px;
+	border-spacing:5px 3px;
 	border-collapse: collapse; 
-	float: none;
-	margin-left:50px;
 }
 
-
+div.eksperiment-cnt {
+	overflow-y: visible;
+	min-height:300px !important;
+}
 

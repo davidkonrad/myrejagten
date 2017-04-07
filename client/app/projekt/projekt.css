@@ -15,7 +15,8 @@
 	border-radius: 5px;
 	margin-bottom: 20px;
 	background-color: #fafafa; 
-	height: 380px;
+	min-height: 380px;
+	overflow-y: visible;
 }
 
 /* ensure transparent background in tbas on hover */
@@ -25,20 +26,15 @@
 }
 
 /* reset tab height */
-.bs-pane {
-	padding-top: 0px;
+.pane-eksperiment {
+	padding-top: 0px !important;
+	padding-left: 0px !important;
 }
 .tab-content {
 	padding-top: 0px !important;
 	padding-right: 0px;
 	padding-left: 0px;
 	padding-bottom: 10px;
-}
-
-.btn-eksperiment-save {
-	position: absolute;
-	bottom: 20px;
-	left: 20px;
 }
 
 .btn-eksperiment-delete {
@@ -49,12 +45,6 @@
 	box-shadow: 2px 2px 3px #dadada; 
 	border-left: 1px solid #fff;
 	background-color: #fafafa; 
-}
-
-.select span.caret {
-	position: absolute;
-	right: 5px !important;
-	top: 9px;
 }
 
 .has-value {
@@ -77,6 +67,10 @@
 }	
 
 /****/
+.panel-heading {
+	white-space: nowrap !important;
+	text-overflow: hidden;
+}
 .projekt-timestamp {
 	width: 150px;
 	max-width: 150px;
@@ -86,6 +80,7 @@
 	width: 30%;
 	max-width: 30%;
 	min-width: 30%;
+	text-overflow: ellipsis;
 }
 .projekt-lokalitet {
 	padding-left: 10px;
@@ -94,7 +89,6 @@
 	min-width: 40%;
 }
 .projekt-count {
-	float: right;
 	border: 1px solid #dadada;
 	width: 26px;
 	height: 26px;
@@ -103,24 +97,24 @@
 	padding-left: 8px;
 	margin-right: 5px;
 	padding-top: 6px;
-	overflow:visible;
 	top: -3px;
 	position: relative;
+	right: 20px;
 }
 .projekt-edit {
-	float: right;	
 	width: 26px;
+	position: absolute;
+	right: 20px;
 }
 .projekt-item {
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	display: inline-block;
 	vertical-align: middle;
 	overflow: hidden;
 }
 .projekt-delimiter {
 	padding-right: 10px;
-	border-right: 2px groove white;
+	border-right: 2px ridge #901a1e;
 }
 .projekt-selected {
 	background-color: #ebebeb;
@@ -144,8 +138,8 @@ div.tooltip-inner {
 	height: 250px;
 }
 img.upload {
-	max-height: 240px;
-	max-width: 420px;
+	max-height: 340px;
+	max-width: 100%;
 	cursor: pointer;
 }
 

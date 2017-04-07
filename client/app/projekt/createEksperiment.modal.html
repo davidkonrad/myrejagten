@@ -1,0 +1,47 @@
+<div class="modal ng-scope top am-fade-and-slide-top center" tabindex="-1" role="dialog" style="display: block;" id="modal-alert">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			
+			<div class="modal-header">
+				<h4 class="modal-title">
+					<i class="fa fa-plus"></i>
+					Nyt eksperiment
+				</h4>
+			</div>
+
+			<div class="modal-body">
+				<p>
+					Indtast det unikke Myrejagt-id. Tallet er på 4 cifre og fremgår af <strong>myrejagten datakort</strong>. 
+				</p>
+				<div class="col-lg-12">
+					<form class="form-inline well" >
+				    <div class="form-group">
+			        <label class="control-label text-muted" for="myrejagt-id">SNMMJ-</label>
+			        <input id="myrejagt-id" 
+								autocomplete="off"
+								only-numbers
+								type="text" 
+								size="4"
+								ng-model="__createMyrejagtId" 
+								maxlength="4"
+								class="form-control input-lg" 
+								style="display:inline;max-width:100px !important;">
+				    </div>
+					</form>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" 
+					class="btn" 
+					ng-class="{ 'btn-success': __createEksperimentMyrejagtIdOK() }"
+					ng-enabled="__createEksperimentMyrejagtIdOK()" 
+					ng-click="__createEksperimentClose(true)">
+						Opret eksperiment
+				</button> 
+				<button type="button" class="btn btn-default" ng-click="__createEksperimentClose(false)">Fortryd</button> 
+			</div>
+
+		</div>
+	</div>
+</div>

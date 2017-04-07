@@ -2,22 +2,15 @@
 
 angular.module('myrejagtenApp')
   .controller('AdminCtrl', ['$scope', '$http', '$q', '$timeout', 'Login', 'Alert', 'Resultat', 'Data', 'Utils', 'ResultatDlg', 'CSV', 'MysqlUser', 'Cnt', 
-		'DTOptionsBuilder', 'DTColumnBuilder', 'DTDefaultOptions',
+		'Projekt', 'Eksperiment', 'DTOptionsBuilder', 'DTColumnBuilder', 'DTDefaultOptions',
 	function($scope, $http, $q, $timeout, Login, Alert, Resultat, Data, Utils, ResultatDlg, CSV, MysqlUser, Cnt, 
-		DTOptionsBuilder, DTColumnBuilder, DTDefaultOptions) {
+		Projekt, Eksperiment, DTOptionsBuilder, DTColumnBuilder, DTDefaultOptions) {
 
 		$scope.test = function() {
 			ResultatDlg.show($scope.dataById(1), $scope).then(function(changes) {
 				if (changes) $scope.dtInstance.reloadData()
 			})
 		}
-
-		/*
-		//set danish strings for textAngular tooltips
-		if (window.taTools) {
-			//window.taTools.html.tooltiptext = 'test';
-		}
-		*/
 
 		$scope.user = Login.currentUser()
 
@@ -32,14 +25,14 @@ angular.module('myrejagtenApp')
 			.fromFnPromise(function() {
 				var defer = $q.defer();
 				Data.joinResultat().$promise.then(function(res) {
-					$scope.data = res
+					$scope.data = res;
+					//console.log(res);
 					defer.resolve(res)
 				})
 				return defer.promise;
 	    })
-			.withOption('stateSave', true)
+			//.withOption('stateSave', true)
 			.withOption('rowCallback', function( row, data, index ) {
-				//console.log(data);
 				$(row).attr('data_id', data.data_id);
 				if (data.proeve_analyseret == 1) $(row).addClass('success')
 				if (!data.proeve_modtaget) {
@@ -48,7 +41,6 @@ angular.module('myrejagtenApp')
 			})
 			.withOption('autoWidth', false)
 			.withOption('initComplete', function() {
-				//$('.dt-button').removeClass('dt-button')
 
 				$scope.check = { a: true, d: true };
 
@@ -88,29 +80,32 @@ angular.module('myrejagtenApp')
 						$(th).removeClass('text-right').addClass('text-center');
 					}
 				})
-			})
-			.withOption('drawCallback', function() {
-				$('#table-resultat tbody tr').off('click').on('click', function() {
+
+				$(document).on('click', '#table-resultat tbody tr', function() {
 					var data_id = $(this).attr('data_id')
 					ResultatDlg.show($scope.dataById(data_id), $scope).then(function(changes) {
 						if (changes) $scope.dtInstance.reloadData()
 					})
 				})
+
+			})
+			.withOption('drawCallback', function(settings) {
 			})
 			.withDOM('lBfrtip')
 			.withButtons([ 
-				{ text : 'test', className: 'Xbutton-toggle' },
+			//	{ text : 'test', className: 'Xbutton-toggle' },
 				{ extend: 'pdf', className: 'btn btn-sm btn-primary' }  
 			])
 			.withBootstrap()
-			.withLanguage(Utils.dataTables_daDk)
-
+			.withLanguage(Utils.dataTables_daDk);
 
 		DTDefaultOptions.setLoadingTemplate('<img src="assets/ajax-loader.gif">')
 
 		$scope.dtInstanceCallback = function(instance) {
 			$scope.dtInstance = instance;
     }
+
+
 
 		function getIcon(data) {
 			switch (data) {
@@ -127,7 +122,11 @@ angular.module('myrejagtenApp')
 		}
 
 		$scope.dtColumns = [
-      DTColumnBuilder.newColumn('myrejagt_id').withOption('width', '200px').withTitle('Myrejagt ID'),
+      DTColumnBuilder
+				.newColumn('myrejagt_id')
+				.withOption('width', '100px')
+				.withTitle('MyrejagtID'),
+
       DTColumnBuilder
 				.newColumn('eksperiment_dato')
 				.withOption('width', '120px')
@@ -140,16 +139,14 @@ angular.module('myrejagtenApp')
 				.withOption('type', 'dkdato')
 				.withTitle('Modtaget'),
 
-			/*
       DTColumnBuilder
 				.newColumn('proeve_analyseret')
-				.withOption('visible', false)
-				.withClass('center')
+				.withOption('width', '100px')
 				.withTitle('Analyseret')
+				.withClass('center')
 				.renderWith(function(data, type, full) {
 					return type == 'display' ? getIcon(data) : data
 				}),
-			*/
 
       DTColumnBuilder.newColumn('madding')
 				.withOption('width', '200px')
@@ -243,10 +240,42 @@ angular.module('myrejagtenApp')
 					} else {
 						return data
 					}
-				})
+				}),
+	    DTColumnBuilder.newColumn('').withOption('width', '50px').withTitle('').renderWith(function(data, type, full) {
+				return full.user_id != $scope.user.user_id 
+					? '<button class="btn btn-sm btn-danger btn-slet-bruger" title="Slet bruger og alle brugerens data" user-id="'+full.user_id+'"><i class="fa fa-times"></i></button>'
+					: ''
+			})
+		];
 
-		]
+		$(document).on('click', '.btn-slet-bruger', function() {
+			var user_id = $(this).attr('user-id');
+			var q = 'Slet <strong>'+$scope.getUserById(user_id)+'</strong> samt, <br><br><ul>';
+			q += '<li>Alle brugerens eksperimenter</li>';
+			q += '<li>Alle brugerens projekter</li>';
+			q += '<li>Alle brugerens resultater</li>';
+			q += '</ul>';
 
+			Alert.confirm($scope, q).then(function(answer) {
+				if (answer) {
+					Projekt.query({ where: { user_id: user_id }}).$promise.then(function(p) {
+						console.log(p);
+					})
+
+					/*
+					var e = $scope.eksperimentById(eksperiment_id)
+					e.Data.forEach(function(d) {
+						Data.delete({ id: d.data_id })
+					})
+					Eksperiment.delete({	id: eksperiment_id }).$promise.then(function() {
+						$scope.dtEksperimentInstance.reloadData();
+					})
+				}
+				*/
+			}
+		})
+	})
+	
 /*************
 	content
 **************/
@@ -296,6 +325,83 @@ angular.module('myrejagtenApp')
 			})
 		}
 
+
+/*************
+	Eksperimenter
+**************/
+
+		$scope.dtEksperimentOptions = DTOptionsBuilder
+			.fromFnPromise(function() {
+				var defer = $q.defer();
+				Eksperiment.query().$promise.then(function(eks) {
+					$scope.eksperimenter = eks;
+					defer.resolve(eks)
+				})
+				return defer.promise;
+	    })
+			.withOption('stateSave', true)
+			.withOption('autoWidth', false)
+			.withOption('initComplete', function() {
+			})
+			.withOption('drawCallback', function() {
+			})
+			.withButtons([ 
+			])
+			.withDOM('lBfrtip')
+			.withBootstrap()
+			.withLanguage(Utils.dataTables_daDk);
+
+		DTDefaultOptions.setLoadingTemplate('<img src="assets/ajax-loader.gif">')
+
+		$scope.dtEksperimentInstanceCallback = function(instance) {
+			$scope.dtEksperimentInstance = instance;
+    };
+
+		$scope.eksperimentById = function(eksperiment_id) {
+			for (var i=0, l=$scope.eksperimenter.length; i<l; i++) {
+				if ($scope.eksperimenter[i].eksperiment_id == eksperiment_id) return $scope.eksperimenter[i]
+			}
+			return false
+		};
+
+		$scope.getUserById = function(user_id) {
+			for (var i=0, l=$scope.users.length; i<l; i++) {
+				if ($scope.users[i].user_id == user_id) return $scope.users[i].email
+			}
+			return '' //
+		};
+				
+		$scope.dtEksperimentColumns = [
+      DTColumnBuilder.newColumn('eksperiment_id').withOption('width', '100px').withTitle('#ID'),
+	    DTColumnBuilder.newColumn('myrejagt_id').withOption('width', '100px').withTitle('MyrejagtID'),
+	    DTColumnBuilder.newColumn('user_id').withOption('width', '100px').withTitle('Bruger').renderWith(function(data, type, full) {
+				return $scope.getUserById(data)
+			}),
+      DTColumnBuilder.newColumn('titel').withOption('width', '200px').withTitle('Titel'),
+	    DTColumnBuilder.newColumn('dato').withOption('width', '200px').withOption('type', 'date').withTitle('Dato'),
+	    DTColumnBuilder.newColumn('adresse').withOption('width', '200px').withTitle('Adresse'),
+	    DTColumnBuilder.newColumn('').withOption('width', '50px').withTitle('').renderWith(function(data, type, full) {
+				return '<button class="btn btn-sm btn-danger btn-slet-eksperiment" title="Slet eksperiment" myrejagt-id="'+full.myrejagt_id+'" eksperiment-id="'+full.eksperiment_id+'"><i class="fa fa-times"></i></button>'
+			})
+		]
+
+		$(document).on('click', '.btn-slet-eksperiment', function() {
+			var eksperiment_id = $(this).attr('eksperiment-id');
+			var myrejagt_id = $(this).attr('myrejagt-id');
+			var q = 'Er du 100% sikker på, at du vil slette myrejagt <strong>'+myrejagt_id+'</strong> inklsiv. eksperimentets resultater?';
+			Alert.confirm($scope, q).then(function(answer) {
+				if (answer) {
+					var e = $scope.eksperimentById(eksperiment_id)
+					e.Data.forEach(function(d) {
+						Data.delete({ id: d.data_id })
+					})
+					Eksperiment.delete({	id: eksperiment_id }).$promise.then(function() {
+						$scope.dtEksperimentInstance.reloadData();
+					})
+				}
+			})
+		})
+			
 
 
   }]);

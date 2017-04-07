@@ -69,7 +69,7 @@ exports.resultat = function(req, res) {
 		+ 'and e.eksperiment_id ='+req.query.id;
 
 	models.sequelize.query(sql,	{ bind: ['active'], type: models.sequelize.QueryTypes.SELECT }).then(function(resultat) {
-		return res.json(200, resultat);
+		return res.json(200, resultat[0]);
 	}).catch(function(err){
 	  handleError(res, err);
   });

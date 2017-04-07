@@ -11,7 +11,7 @@ angular.module('myrejagtenApp')
 			resultat: {
 				method: 'GET',
 				url: '/api/eksperiment/resultat',
-				isArray: true
+				isArray: false
 			}
 		});
    

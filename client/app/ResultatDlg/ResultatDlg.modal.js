@@ -224,9 +224,7 @@ angular.module('myrejagtenApp')
 					} else {
 						//update all data on eksperiment_id
 						Data.query({ where : { eksperiment_id: $scope.resDlg.eksperiment.eksperiment_id }}).$promise.then(function(datas) {
-							console.log(datas)
 							datas.forEach(function(d) {
-								console.log(date, d, d.data_id)
 								Data.update({ id: d.data_id }, { proeve_modtaget: date }).$promise.then(function() {
 									//console.log('Ok')
 								})

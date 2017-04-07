@@ -43,7 +43,6 @@ angular.module('myrejagtenApp')
 			},
 
 			saveContent: function(name, newContent) {
-				console.log('save' + newContent + 'save', newContent.length)
 				for (var i=0, l=content.length; i<l; i++) {
 					if (content[i].name == name ) {
 						if (newContent != '' && newContent.trim() == '') newContent = empty;

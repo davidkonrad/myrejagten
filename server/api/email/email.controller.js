@@ -40,10 +40,10 @@ exports.signupMail = function(req, res){
 				return res.json(200, { error: 'Bruger eksisterer ikke.' });
 			}
 
-			var msg = 'Hej ' + user.brugernavn + ', ' + "\n\n\n";
+			var msg = 'Hej ' + user.brugernavn + ', ' + "\n\n";
 			msg += 'Tak for at oprette dig som bruger i Myrejagten. Du skal godkende din emailadresse ved at klikke på nedenstående link. ' + "\n\n";
 			msg += server + 'bekræft-email/#' + user.hash + "\n\n";
-			msg += 'Ved at klikke på linket afsluttes oprettelsesproceduren, og du videresendes til myrejagtens forside. ' + "\n\n";
+			msg += 'Ved at klikke på linket afsluttes oprettelsesproceduren og du videresendes til myrejagtens forside. ' + "\n\n";
 			msg += signature;
 
 		  var mailOptions = {
@@ -118,7 +118,7 @@ exports.raw = function(req, res) {
 
 	if (!email || !subject || !mailBody) res.json(200, false);
 
-	console.log(email, subject, mailBody)
+	//console.log(email, subject, mailBody)
 
 	var transporter = getTransporter();
 	var mailOptions = {

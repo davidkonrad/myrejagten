@@ -10,6 +10,9 @@ angular.module('myrejagtenApp').
           if (val) {
             var digits = val.replace(/[^0-9.]/g, '');
 
+						//skal også fungere med komma!
+						//67,78 67.78
+				
             if (digits.split('.').length > 2) {
               digits = digits.substring(0, digits.length - 1);
             }

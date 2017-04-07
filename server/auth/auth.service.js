@@ -6,10 +6,8 @@ var config = require('../config/environment');
 var jwt = require('jsonwebtoken');
 var expressJwt = require('express-jwt');
 var compose = require('composable-middleware');
-//var User = require('../api/mongo/user/user.model');
 var User = require('../api/mysql/user/mysqluser.model');
 var validateJwt = expressJwt({ secret: config.secrets.session });
-//var specifydb = require('../api/mysql/')
 
 /**
  * Attaches the user object to the request if authenticated
@@ -35,22 +33,7 @@ function isAuthenticated() {
         next();
       });
     })
-	//.use(attachSpecifyUser());
 }
-
-/*
-function attachSpecifyUser(){
-	return compose()
-	.use(function(req, res, next){
-		specifydb.Specifyuser.find(req.user.specifyUserId).then(function(specifyuser){
-			req.specifyuser = specifyuser;
-			next();
-		}).catch(function(){
-			res.send(401);
-		});
-	});
-}
-*/
 
 /**
  * Checks if the user role meets the minimum requirements of the route

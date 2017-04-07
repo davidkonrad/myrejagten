@@ -10,17 +10,17 @@
 		</button>
 
 		<!--------- oversigt -------->	
-		<div bs-pane data-title="{{ x.titel || x.myrejagt_id }}" style="padding-left:0px;">
+		<div bs-pane data-title="{{ x.titel || x.myrejagt_id }}" class="pane-eksperiment">
 			<form novalidate id="formOversigt{{ x.eksperiment_id }}">
 				<input type="hidden" name="eksperiment_id" value="{{ x.eksperiment_id }}" />
 
-				<div class="col-md-6" style="min-height:300px !important;">
+				<div class="col-md-6" class="eksperiment-cnt">
 
 					<label class="normal">
 						Navn på eksperiment
 						<i info-sm 
 							info-placement="right"
-							info-popover="Her kan du navngive dit eksperiment, fx ud fra hvor du udførte eksperimentet eller hvem du udførte det med. Feltet er ikke obligatorisk, men det kommer til at fremgå på oversigten over dine eksperimenter">
+							info-popover="Her kan du navngive dit eksperiment, f.eks ud fra hvor du udførte eksperimentet eller hvem du udførte det med. Feltet er ikke obligatorisk, men det kommer til at fremgå på oversigten over dine eksperimenter">
 						</i>
 					</label>
 
@@ -31,14 +31,39 @@
 						<input type="text" class="form-control bold input-lg" ng-model="x.dato" name="dato" bs-datepicker data-date-format="dd-MM-yyyy" size="7" data-autoclose="true" data-container="body" />
 					</div>
 
+					<!-- 
+					husk at implementere time/minut increase / decrease når musen holdes ned på pilene (så der ikke skal klikkeso for hvert minut
+					-->
+
 					<div class="col-md-3" style="padding-left: 0px !important;">
-						<label class="normal required">Start</label>
-						<input type="text" class="form-control bold input-lg" ng-model="x.start_tid" name="start_tid" bs-timepicker data-time-format="HH:mm" data-time-type="string" data-length="1" data-minute-step="1" data-arrow-behavior="picker" data-autoclose="true" data-container="body" />
+						<label class="normal required">Starttidspunkt</label>
+						<input type="text" 
+							class="form-control bold input-lg" 
+							ng-model="x.start_tid" 
+							name="start_tid" 
+							bs-timepicker 
+							data-time-format="HH:mm" 
+							data-time-type="string" 
+							data-length="1" 
+							data-minute-step="1" 
+							data-arrow-behavior="picker" 
+							data-autoclose="true" 
+							data-container="body" />
 					</div>
 
 					<div class="col-md-3" style="padding-left: 0px !important;">
-						<label class="normal required">Slut</label>
-						<input type="text" class="form-control bold input-lg" ng-model="x.slut_tid" name="slut_tid" bs-timepicker data-time-format="HH:mm" data-length="1" data-minute-step="1" data-arrow-behavior="picker" data-autoclose="true" data-container="body" />
+						<label class="normal required">Sluttidspunkt</label>
+						<input type="text" 
+							class="form-control bold input-lg" 
+							ng-model="x.slut_tid" 
+							name="slut_tid" 
+							bs-timepicker 
+							data-time-format="HH:mm" 
+							data-length="1" 
+							data-minute-step="1" 
+							data-arrow-behavior="picker" 
+							data-autoclose="true" 
+							data-container="body" />
 					</div>
 
 					<label class="normal">Myrejagt-id :</label>
@@ -46,11 +71,13 @@
 
 				</div>
 
+				<br class="visible-xs-block visible-sm-block">
 				<div class="col-md-6">
 					<leaflet id="{{ x.mapId }}" mapId="{{ x.mapId }}" class="eksperiment-map" center="x.map.center" defaults="x.map.defaults" layers="x.map.layers" markers="x.map.markers" events="x.map.events" height="280px" style="border:1px solid #ccc;border-radius:5px;"></leaflet>
 				</div>
 
-				<button class="btn btn-default btn-eksperiment-save" 
+				<br class="visible-xs visible-sm">
+				<button class="btn btn-default" 
 					ng-class="{ 'btn-ku' : eksperimentFormChanged('formOversigt{{ x.eksperiment_id }}') }"
 					ng-click="updateEksperiment('formOversigt'+x.eksperiment_id)" 
 					ng-disabled="!eksperimentFormChanged('formOversigt{{ x.eksperiment_id }}')">
@@ -74,10 +101,10 @@
 				<div class="control-group col-md-6">
 
 					<label class="normal">Søg lokalitet</label>
-							<i info-sm 
-								info-placement="right"
-								info-popover="Her skal du finde stedet for dit eksperiment. Det er meget vigtigt at stedet angives så præcist som muligt ved at zoome helt ind på kortet. Du kan søge eksperimentstedet frem vha. af stednavne eller adresse, men du kan også navigere vha. af kortet”. Husk at klik på kortet på det præcise sted, så vil punktet blive blåt og du har godkendt eksperimentlokaliteten.">
-							</i>
+						<i info-sm 
+							info-placement="right"
+							info-popover="Her skal du finde stedet for dit eksperiment. Det er meget vigtigt at stedet angives så præcist som muligt ved at zoome helt ind på kortet. Du kan søge eksperimentstedet frem ved hjælp af stednavne eller adresse, men du kan også navigere på kortet. Husk at klikke på kortet på det præcise sted, så vil punktet blive blåt og du har godkendt eksperimentlokaliteten.">
+						</i>
 
 					<input type="text" class="form-control bold input-md" ng-model="x.adresse" select-on-click adresse-opslag adresse-type="{{ x.adresseType }}" on-select="eksperimentAdresseSelect" eksperiment-id="{{ x.eksperiment_id }}" name="adresse" />
 	
@@ -100,12 +127,6 @@
 							<input type="radio" class="exclude-from-form" ng-model="x.adresseType" name="opslag" value="adresser" checked  />
 							Adresser
 						</label>
-						<!--
-						<label class="radio-inline"> 
-							<input type="radio" class="exclude-from-form" ng-model="x.adresseType" name="opslag" value="" />
-							Fritekst
-						</label>
-						-->
 					</div>
 	
 					<div class="col-sm-12" style="min-height:10px;"></div>
@@ -119,17 +140,20 @@
 					<div class="control-group col-md-12" style="padding-right: 0px !important; padding-left:0px !important;">
 						<label class="normal">Bemærkninger</label>
 							<i info-sm info-placement="right"
-								info-popover="Her kan du opgive en mere præcis beskrivelse af stedet og/eller notere særlige forhold, t.ex '2 meter fra åen' o.lign.">
+								info-popover="Her kan du opgive en mere præcis beskrivelse af stedet og/eller notere særlige forhold, f.eks. '2 meter fra åen' og lignende.">
 							</i>
 						<textarea class="form-control" ng-model="x.kommentar" name="kommentar" rows="4"></textarea>
 					</div>
 				</div>
 
+				<br class="visible-xs visible-sm">
 				<div class="control-group col-md-6">
 					<leaflet id="{{ x.mapId }}_lok" class="eksperiment-map" center="x.map.center" defaults="x.map.defaults" layers="x.map.layers" markers="x.map.markers" events="x.map.events" height="280px" style="border:1px solid #ccc;border-radius:5px;"></leaflet>
 				</div>
 
 			</form>		
+
+			<br class="visible-xs visible-sm">
 			<button class="btn btn-default btn-eksperiment-save" 
 							ng-class="{ 'btn-ku' : eksperimentFormChanged('formLokalitet{{ x.eksperiment_id }}') }"
 							ng-click="updateEksperiment('formLokalitet'+x.eksperiment_id)" 
@@ -144,8 +168,8 @@
 
 	<form novalidate id="formResultater{{ x.eksperiment_id }}"  class="no-padding">
 
-	<table class="miljoe-table">
-		<thead>
+		<table class="miljoe-table col-md-4 no-padding">
+			<thead>
 				<tr>
 					<th>
 						Miljødata
@@ -156,7 +180,7 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td class="normal">Temperatur°</td>
+					<td class="normal">Temp.°</td>
 					<td style="white-space:nowrap;">
 						<input type="number" 
 							placeholder="0" 
@@ -194,7 +218,7 @@
 
 						<i info-sm 
 							info-placement="right"
-							info-popover="Her skal du vurdere graden af skydække på himlen. ">
+							info-popover="Vurder graden af skydække/regn. ">
 						</i>
 
 					</td>
@@ -217,7 +241,7 @@
 								</button>
 							<i info-sm 
 								info-placement="right"
-								info-popover="Her skal du vurdere graden af skygge som eksperimentet er opsat i, fx under et træ eller ved en mur. ">
+								info-popover="Vurder graden af skygge som eksperimentet er opsat i. ">
 							</i>
 					</td>
 				</tr>
@@ -239,45 +263,47 @@
 							</button>
 							<i info-sm 
 								info-placement="right"
-								info-popover="Her skal du vurdere ved hvilken graden af vind eksperimentet står i. Du skal også tage højde for om eksperimentet står i læ. ">
+								info-popover="Her skal du vurdere ved hvilken graden af vind eksperimentet stod i. Du skal også tage højde for om eksperimentet stod i læ. ">
 							</i>
 
 					</td>
 				</tr>
-
 			</tbody>
 		</table>
 
-
-	<table class="madding-table">
-		<thead>
-			<tr>
-				<th style="margin-bottom:10px;">Myredata</th>
-				<th colspan="2" class="text-center">
-					Antal myrer
-				</th>
-				<th></th>
-			</tr>
-			<tr>
-				<th></th>
-				<th class="normal">
-					Før indsamling
-					<i info-sm info-popover="Antal myrer inden indsamling. Her skriver du det antal myrer du noterede på det pågældende fødeemne ved optælling før indsamling af myrerne. Da det kan være svært at tælle myrerne kan du have fået et gennemsnit med decimaler efter dine optællinger."></i>
-				</th>
-				<th class="normal">
-					Efter frysning
-					<i info-sm info-popover="Antal myrer efter frysning. Her skriver du det antal myrer du noterede på det pågældende fødeemne ved optælling efter indsamling og frysning af myrerne. "></i>
-				</th>
-				<th class="normal">
-					Forstyrrelse
-					<i info-sm info-popover="Var maden væk da eksperimentet blev afsluttet? Maden kan være blæst væk, være taget af fugle eller andet. – Detaljer kan noteres under ‘Bemærkninger’"></i>
-				</th>
-				<th class="normal pull-right">Bemærkninger</th>
+		<br class="visible-xs visible-sm">
+		<table class="madding-table col-md-5">
+			<thead>
+				<tr>
+					<th style="margin-bottom:10px;">Myredata</th>
+					<th colspan="2" class="text-center">
+						Antal myrer
+					</th>
+					<th></th>
+				</tr>
+				<tr>
+					<th></th>
+					<th class="normal small">
+						Før indsamling
+						<i info-sm info-popover="Antal myrer inden indsamling. Her skriver du det antal myrer du noterede på det pågældende fødeemne ved optælling før indsamling af myrerne. Da det kan være svært at tælle myrerne kan du have fået et gennemsnit med decimaler efter dine optællinger."></i>
+					</th>
+					<th class="normal small">
+						Efter frysning
+						<i info-sm info-popover="Antal myrer efter frysning. Her skriver du det antal myrer du noterede på det pågældende fødeemne ved optælling efter indsamling og frysning af myrerne. "></i>
+					</th>
+					<th class="normal small">
+						Forstyrrelse
+						<i info-sm info-popover="Var maden væk da eksperimentet blev afsluttet? Maden kan være blæst væk, være taget af fugle eller andet. – Detaljer kan noteres under ‘Bemærkninger’"></i>
+					</th>
 				</tr>
 			</thead>
 			<tbody>
+				<!---
+					man skal kunne navigere med piletaster; pil op / ned i boksene tabber til den øvre eller nedre boks
+			-->
+
 				<tr ng-repeat="d in x.Data">
-					<td class="normal"> {{ d.madding }} </td>
+					<td class="normal"> {{ d.madding }} &nbsp;</td>
 					<td> 
 						<input type="text" 
 									placeholder="0.0"
@@ -301,36 +327,46 @@
 									ng-class="{ 'has-value' : d.myrer_frysning != undefined }">
 					</td>
 					<td style="text-align:center;"> 
-						<checkbox ng-model="d.madding_stjaalet" name="madding_sjaalet" title="test"></checkbox>
-					</td>
-
-					<td rowspan="6" ng-if="$index == 0" style="vertical-align:top;">
-						<textarea class="form-control" rows="5"></textarea>
+						<checkbox ng-model="d.madding_stjaalet" name="madding_sjaalet" class="button-checkbox"></checkbox>
 					</td>
 
 				</tr>
 			</tbody>
 		</table>
 
-	</form>
-			<button class="btn btn-default btn-eksperiment-save" 
-							ng-class="{ 'btn-ku' : eksperimentFormChanged('formResultater{{ x.eksperiment_id }}') }"
-							ng-click="updateEksperimentData(x.eksperiment_id)" 
-							ng-disabled="!eksperimentFormChanged('formResultater{{ x.eksperiment_id }}')">
+		<br class="visible-xs visible-sm">
+		<div class="col-md-3 no-padding">
+			<div class="hidden-xs hidden-sm">
+				<br><br><br><br>
+			</div>
+			<label>Noter</label>
+			<i info-sm info-popover="Angiv gerne særlige bemærkninger eller forhold, som ikke er blandt valgmulighederne i miljødata eller myredata. "></i>
+			<textarea class="form-control" ng-model="x.kommentar" name="kommentar" rows="5"></textarea>
+		</div>
+
+		<div class="col-md-12 no-padding">
+			<br class="visible-xs visible-sm">
+			<button class="btn btn-default btn-eksperiment-save clearfix" 
+				ng-class="{ 'btn-ku' : eksperimentFormChanged('formResultater{{ x.eksperiment_id }}') }"
+				ng-click="updateEksperimentData(x.eksperiment_id)" 
+				ng-disabled="!eksperimentFormChanged('formResultater{{ x.eksperiment_id }}')">
 				<i class="fa fa-check"></i>
 				Gem ændringer
 			</button>	
+		</div>
+
+		</form>
 
 	</div>
 
-	<div bs-pane data-title="Upload billede og video">
+	<div bs-pane data-title="Upload billede">
 
 		<div class="control-group col-md-6">
 			Billede
 
 			<i info-placement="right"
 				info-sm 
-				info-popover="Her kan du uploade et billede fra dit eksperiment, fx opstillingen, hvem der har udført eksperimentet eller lokaliteten. Dit billede vil være synligt for offentligheden og vises sammen med dit data. Fil størrelsen er begrænset til 10 MB.">
+				info-popover="Her kan du uploade et billede fra dit eksperiment, f.eks opstillingen, hvem der har udført eksperimentet eller lokaliteten. Dit billede vil være synligt for offentligheden og vises sammen med dit data. Fil størrelsen er begrænset til 10 MB.">
 			</i>
 
 			<button class="btn btn-default btn-xs pull-right" 

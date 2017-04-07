@@ -218,6 +218,10 @@ label {
 	padding-right: 0px;
 	margin-right: 0px;
 }
+.no-pointer-events {
+	pointer-events: none;
+}
+
 /**
 * Bootstrap Fonts
 */
@@ -278,5 +282,23 @@ body.modal-open, .modal-open .navbar-fixed-top, .modal-open .navbar-fixed-bottom
 	leaflet fixes 
 */
 .leaflet-control-layers-toggle {
-    background-image: url(../assets/layers.png);
+	background-image: url(../assets/layers.png);
 }
+
+/** 
+	fix mobile menu 
+*/
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+	border-color: transparent;
+}
+.navbar-collapse.in {
+	overflow-y: visible; 
+}
+.navbar-default .navbar-toggle {
+	border-color: transparent;
+}
+.in #ku-navbar {
+	right: 0px;
+	top: 0px;
+}
+

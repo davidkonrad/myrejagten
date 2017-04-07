@@ -2,16 +2,6 @@
 
 	<h2>Admin</h2>
 
-<a class="dt-button buttons-pdf buttons-html5 btn btn-sm btn-primary" 
-	tabindex="0" 
-	aria-controls="table-resultat" href="#">
-		<span>PDF</span>
-</a>
-
-<!--
-<button id="test" ng-click="test()">test</button>
--->
-
 	<div bs-tabs class="control-group col-md-12">
 
 		<div bs-pane data-title="Download" style="padding-left:0px;">
@@ -38,7 +28,19 @@
 			</table>
 		</div>
 
-		<div bs-pane data-title="Indhold" style="padding-left:0px;">
+		<div bs-pane data-title="Eksperimenter" style="padding-left:0px;">
+
+			<table id="table-eksperimenter" 
+				datatable="" 
+				class="table" 
+				dt-options="dtEksperimentOptions" 
+				dt-columns="dtEksperimentColumns" 
+				dt-instance="dtEksperimentInstanceCallback">
+			</table>
+
+		</div>
+
+		<div bs-pane data-title="Indhold (tekster)" style="padding-left:0px;">
 			<button data-placeholder="Vælg element"
 				class="btn btn-default select" 
 				ng-model="content.name" 
@@ -57,7 +59,9 @@
 
 			<br><br>
 			<div class="control-group col-md-12">
-				<text-angular ng-model="content.content"> </text-angular>
+				<text-angular ng-model="beskrivelse"
+					ta-toolbar="[['h1','h2','h3'],['bold','italics','underline'],['undo', 'redo', 'html']]"
+				> </text-angular>
 			</div>
 
 		</div>

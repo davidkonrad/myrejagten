@@ -44,7 +44,9 @@
         <div class="input-group">
           <input type="text" id="email" ng-model="user.email" placeholder="" class="form-control input-lg">
           <span class="input-group-btn">
-						<i style="margin-left:5px;" info-popover="Du skal vælge en gyldig e-mailadresse da den benyttes til login. Din e-mailadresse skal endeligt godkendes via en bekræftelse du får automatisk får tilsendt efter oprettelsen. "></i>
+						<i style="margin-left:5px;" 
+							info-popover="Du skal vælge en gyldig e-mailadresse da den benyttes til login. Din e-mailadresse skal endeligt godkendes via en bekræftelse, som du automatisk får tilsendt efter oprettelsen. ">
+						</i>
   		    </span>
         </div>
         <p class="help-block error" ng-show="emailInUse()">

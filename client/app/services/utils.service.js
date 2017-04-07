@@ -76,16 +76,30 @@ angular.module('myrejagtenApp')
 					var inputs = form.querySelectorAll('input:not(.exclude-from-form)');
 					var textareas = form.querySelectorAll('textarea:not(.exclude-from-form)');
 					var selects = form.querySelectorAll('button[bs-select]');
+					//var ngCheckboxes = form.querySelectorAll('button[name="madding_sjaalet"]');
 	
 					for (i=0; i<inputs.length; i++) {
-						if (angular.element(inputs[i]).hasClass('ng-dirty')) return true
+						if (angular.element(inputs[i]).hasClass('ng-dirty')) {
+							return true
+						}
 					}
 					for (i=0; i<selects.length; i++) {
-						if (angular.element(selects[i]).hasClass('ng-dirty')) return true
+						if (angular.element(selects[i]).hasClass('ng-dirty')) {
+							return true
+						}
 					}
 					for (i=0; i<textareas.length; i++) {
-						if (angular.element(textareas[i]).hasClass('ng-dirty')) return true
+						if (angular.element(textareas[i]).hasClass('ng-dirty')) {
+							return true
+						}
 					}
+					/*
+					for (i=0; i<ngCheckboxes.length; i++) {
+						if (angular.element(ngCheckboxes[i]).hasClass('ng-dirty')) {
+							return true
+						} 
+					}
+					*/
 
 				}
 				return false
@@ -98,6 +112,7 @@ angular.module('myrejagtenApp')
 					var inputs = form.querySelectorAll('input:not(.exclude-from-form)');
 					var textareas = form.querySelectorAll('textarea:not(.exclude-from-form)');
 					var selects = form.querySelectorAll('button[bs-select]');
+					var ngCheckboxes = form.querySelectorAll('button[name="madding_sjaalet"]');
 
 					for (i=0; i<inputs.length; i++) {
 						angular.element(inputs[i]).removeClass('ng-dirty')
@@ -111,6 +126,9 @@ angular.module('myrejagtenApp')
 						angular.element(textareas[i]).removeClass('ng-dirty')
 						angular.element(textareas[i]).removeClass('ng-touched')
 						angular.element(textareas[i]).addClass('ng-pristine')
+					}
+					for (i=0; i<ngCheckboxes.length; i++) {
+						angular.element(ngCheckboxes[i]).removeClass('ng-dirty')
 					}
 
 				}
@@ -183,7 +201,7 @@ angular.module('myrejagtenApp')
 
 /* sorting plugins */
 jQuery.extend( jQuery.fn.dataTableExt.oSort, {
-    "dkdato-pre": function ( a ) {
+	"dkdato-pre": function ( a ) {
       if (a == null || a == "") {
          return 0;
       }
@@ -208,6 +226,9 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
 });
 
 
+//global path to leaflet defaults
+L.Icon.Default.imagePath = 'public/bower_components/leaflet/dist/images';
+
 /** 
 	default google stylers 
 */
@@ -220,15 +241,6 @@ var DefaultGoogleStyles = [
 			visibility: "off" 
 		}]
 	},
-	//fancy colorize
-/*
-	{
-    featureType: 'all',
-    stylers: [{
-      hue: '#0cccc0'
-    }]
-  },
-*/
 	{
    //remove "Danmark / Denmark"
    featureType: "administrative.country",
@@ -244,16 +256,6 @@ var DefaultGoogleStyles = [
      visibility: 'off'
    }]
 	}, 
-	/*
-	{
-		//remove road labels
-	  featureType: "road",
-		elementType: "labels",
-		stylers: [{
-			visibility: "off"
-		}]
-	}
-	*/
 ];
 
 

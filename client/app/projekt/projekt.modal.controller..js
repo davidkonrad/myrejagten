@@ -6,9 +6,10 @@ angular.module('myrejagtenApp')
 	function($scope, $http, $location, $interval, $sce, Login, Alert, KR, $timeout, $modal, $q, Projekt, Eksperiment, 
 			ToDo,	Data, Geo, TicketService, Utils, leafletData, UploadModal) {
 
+		/*
 		console.log('ok');
-
 		console.log($scope);
+		*/
 
   }]);
 

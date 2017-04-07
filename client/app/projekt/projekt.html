@@ -7,7 +7,12 @@
 
 		<!-- should be directive -->
 		<div ng-repeat="a in alerts" class="alert alert-dismissible {{ a.type }}" role="alert" >
-			<button type="button" class="close alert-close" aria-label="Luk besked" title="Luk besked">
+			<button type="button" 
+				class="close alert-close" 
+				aria-label="Luk besked" 
+				title="Skjul besked" 
+				data-dismiss="alert" 
+			>
 				<span aria-hidden="true">&times;</span>
 			</button>
 			<span ng-bind-html="to_trusted(a.message)"></span>
@@ -30,7 +35,7 @@
 			>
 				<span class="caret"></span>
 			</button>
-			<label class="pull-right small normal sorter" for="btn-projekt-sorter">
+			<label class="pull-right small normal sorter hidden-xs" for="btn-projekt-sorter">
 				Sortér projekter&nbsp;
 			</label>
 
@@ -55,11 +60,13 @@
 							ng-click="skoleProjektClick(p.projekt_id)"
 						>
 
-							<span class="projekt-item projekt-delimiter projekt-timestamp"> {{ p.created_timestamp | date:'dd-MM-yyyy  HH:mm' }} </span>
-							<span class="projekt-item projekt-delimiter projekt-titel"> {{ p.titel }} </span>
-							<span class="projekt-item projekt-lokalitet"> {{ p.lokalitet }} </span>
+							<span class="projekt-item projekt-timestamp"> {{ p.created_timestamp | date:'dd-MM-yyyy  HH:mm' }} </span>
+							<span class="projekt-item projekt-delimiter"></span>
+							<span class="projekt-item projekt-titel"> {{ p.titel }} </span>
+							<span class="projekt-item projekt-delimiter hidden-xs hidden-sm"></span>
+							<span class="projekt-item projekt-lokalitet hidden-xs hidden-sm"> {{ p.lokalitet }} </span>
 						</a>
-							<span class="projekt-item projekt-edit">
+							<span class="projekt-item projekt-edit pull-right">
 								<button type="button" 
 									class="btn btn-ku btn-xs btn-projekt-edit" 
 									projekt-id="{{ p.projekt_id }}" 
@@ -68,7 +75,7 @@
 								</button>
 							</span>
 
-							<span class="projekt-item projekt-count" title="{{ p.eksperiment_count.$$state.value }} {{ p.eksperiment_count.$$state.value == 1 ? 'eksperiment' : 'eksperimenter' }} "> 
+							<span class="projekt-item projekt-count pull-right hidden-xs hidden-sm" title="{{ p.eksperiment_count.$$state.value }} {{ p.eksperiment_count.$$state.value == 1 ? 'eksperiment' : 'eksperimenter' }} "> 
 								{{ p.eksperiment_count.$$state.value }} 
 							</span>
 
@@ -94,7 +101,7 @@
 								>
 									<span class="caret"></span>
 								</button>
-								<label class="pull-right small normal sorter" for="btn-eksperiment-sorter">
+								<label class="pull-right small normal sorter hidden-xs" for="btn-eksperiment-sorter">
 									Sortér eksperimenter&nbsp;
 								</label>
 
