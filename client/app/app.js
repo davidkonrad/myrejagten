@@ -13,6 +13,7 @@ angular.module('myrejagtenApp', [
 	'datatables.bootstrap',
 	'datatables.select',
 	'datatables.options',
+	'datatables.fixedheader',
 	'angular-inview',
 	'ui.checkbox',
 	'ngFileUpload',

@@ -6,17 +6,11 @@ angular.module('myrejagtenApp')
 	function($scope, $http, $q, $timeout, Login, Alert, Resultat, Data, Utils, ResultatDlg, CSV, MysqlUser, Cnt, 
 		Projekt, Eksperiment, DTOptionsBuilder, DTColumnBuilder, DTDefaultOptions) {
 
-		$scope.test = function() {
-			ResultatDlg.show($scope.dataById(1), $scope).then(function(changes) {
-				if (changes) $scope.dtInstance.reloadData()
-			})
-		}
-
-		$scope.user = Login.currentUser()
+		$scope.user = Login.currentUser();
 
 		$scope.dataById = function(data_id) {
 			for (var i=0, l=$scope.data.length; i<l; i++) {
-				if ($scope.data[i].data_id == data_id) return $scope.data[i]
+				if ($scope.data[i].data_id == data_id) return $scope.data[i];
 			}
 			//severe error
 		}
@@ -26,12 +20,14 @@ angular.module('myrejagtenApp')
 				var defer = $q.defer();
 				Data.joinResultat().$promise.then(function(res) {
 					$scope.data = res;
-					//console.log(res);
-					defer.resolve(res)
+					defer.resolve(res);
 				})
 				return defer.promise;
 	    })
-			//.withOption('stateSave', true)
+			.withOption('stateSave', true)
+			.withFixedHeader({
+				alwaysCloneTop: true
+			})
 			.withOption('rowCallback', function( row, data, index ) {
 				$(row).attr('data_id', data.data_id);
 				if (data.proeve_analyseret == 1) $(row).addClass('success')
@@ -89,23 +85,18 @@ angular.module('myrejagtenApp')
 				})
 
 			})
-			.withOption('drawCallback', function(settings) {
-			})
 			.withDOM('lBfrtip')
 			.withButtons([ 
-			//	{ text : 'test', className: 'Xbutton-toggle' },
 				{ extend: 'pdf', className: 'btn btn-sm btn-primary' }  
 			])
 			.withBootstrap()
 			.withLanguage(Utils.dataTables_daDk);
 
-		DTDefaultOptions.setLoadingTemplate('<img src="assets/ajax-loader.gif">')
+		DTDefaultOptions.setLoadingTemplate('<img src="assets/ajax-loader.gif">');
 
 		$scope.dtInstanceCallback = function(instance) {
 			$scope.dtInstance = instance;
     }
-
-
 
 		function getIcon(data) {
 			switch (data) {
@@ -130,14 +121,21 @@ angular.module('myrejagtenApp')
       DTColumnBuilder
 				.newColumn('eksperiment_dato')
 				.withOption('width', '120px')
-				.withOption('type', 'dkdato')
-				.withTitle('Dato'),
+				.withOption('type', 'date')
+				.withTitle('Dato')
+				.renderWith(function(data, type, full) {
+					return type == 'display' ? Utils.fixDate(data) : data
+				}),
 
       DTColumnBuilder
 				.newColumn('proeve_modtaget')
 				.withClass('center')
-				.withOption('type', 'dkdato')
-				.withTitle('Modtaget'),
+				.withOption('type', 'date')
+				.withTitle('Modtaget')
+				.renderWith(function(data, type, full) {
+					return type == 'display' ? Utils.fixDate(data) : data
+				}),
+				
 
       DTColumnBuilder
 				.newColumn('proeve_analyseret')

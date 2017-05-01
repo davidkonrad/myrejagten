@@ -215,18 +215,15 @@ angular.module('myrejagtenApp')
 				}
 
 				$scope.updateProeveModtaget = function() {
-					var d = new Date(data.proeve_modtaget)
-					var date = d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();
 					if (!$scope.resDlg.globalDate) {
-						Data.update({ id: data.data_id }, { proeve_modtaget: date }).$promise.then(function() {
+						Data.update({ id: data.data_id }, { proeve_modtaget: data.proeve_modtaget }).$promise.then(function() {
 							changed = true;
 						})
 					} else {
 						//update all data on eksperiment_id
 						Data.query({ where : { eksperiment_id: $scope.resDlg.eksperiment.eksperiment_id }}).$promise.then(function(datas) {
 							datas.forEach(function(d) {
-								Data.update({ id: d.data_id }, { proeve_modtaget: date }).$promise.then(function() {
-									//console.log('Ok')
+								Data.update({ id: d.data_id }, { proeve_modtaget: data.proeve_modtaget }).$promise.then(function() {
 								})
 							})
 						})

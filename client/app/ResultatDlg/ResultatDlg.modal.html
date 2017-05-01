@@ -57,7 +57,8 @@
 					>
 						<i class="fa fa-plus"></i>
 					</button>
-	
+
+					<!-- data-container:%modal-ResultatDlg -->	
 					<div class="pull-left">
 						<label class="checkbox-inline">
 							Modtagelsesdato
@@ -66,7 +67,7 @@
 								style="clear: none; display: inline-block; width:110px;"
 								ng-model="resDlg.data.proeve_modtaget" 
 								bs-datepicker 
-								data-date-format="dd/MM/yyyy" 
+								data-date-format="dd-MM-yyyy"
 								data-autoclose="true" 
 								data-container="#modal-ResultatDlg" 
 								ng-change="updateProeveModtaget()"
@@ -110,7 +111,7 @@
 
 						<span class="col-md-1 resultat-element" style="clear:left;display:inline-block;">
 							<input type="text" 
-									only-numbers
+								only-numbers
 								select-on-click
 								placeholder="0"
 								class="form-control" 
@@ -120,36 +121,36 @@
 
 						<span class="col-md-3 resultat-element">
 							<input type="text" 
-										placeholder="Videnskabeligt navn"
-										resultat_id="{{ r.resultat_id }}"
-										class="form-control aa-vid" 
-										ng-change="r.edited = true" 
-										ng-model="r.navn_videnskabeligt">
+								placeholder="Videnskabeligt navn"
+								resultat_id="{{ r.resultat_id }}"
+								class="form-control aa-vid" 
+								ng-change="r.edited = true" 
+								ng-model="r.navn_videnskabeligt">
 						</span>
 
 						<span class="col-md-3 resultat-element">
 							<input type="text" 
-										placeholder="Dansk navn"
-										resultat_id="{{ r.resultat_id }}"
-										class="form-control aa-dk" 
-										ng-change="r.edited = true" 
-										ng-model="r.navn_dk">
+								placeholder="Dansk navn"
+								resultat_id="{{ r.resultat_id }}"
+								class="form-control aa-dk" 
+								ng-change="r.edited = true" 
+								ng-model="r.navn_dk">
 						</span>
 
 						<span class="col-md-4 resultat-element">
 							<input type="text" 
-										placeholder="Bemærk."
-										class="form-control" 
-										ng-change="r.edited = true" 
-										ng-model="r.kommentar">
+								placeholder="Bemærk."
+								class="form-control" 
+								ng-change="r.edited = true" 
+								ng-model="r.kommentar">
 						</span>
 
 						<span class="col-md-1 resultat-element">
 							<button class="btn btn-sm" 
-										ng-class="{ 'btn-ku' : r.edited }"
-										ng-click="resDlg.saveResultat(r)" 
-										title="Gem ændringer" 
-										ng-disabled="!r.edited">
+								ng-class="{ 'btn-ku' : r.edited }"
+								ng-click="resDlg.saveResultat(r)" 
+								title="Gem ændringer" 
+								ng-disabled="!r.edited">
 								<i class="glyphicon glyphicon-ok"></i>
 							</button>
 							<button class="btn btn-danger btn-xs btn-delete" 

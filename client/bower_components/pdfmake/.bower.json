@@ -1,5 +1,6 @@
 {
   "name": "pdfmake",
+  "version": "0.1.18",
   "homepage": "https://bpampuch.github.io/pdfmake",
   "authors": [
     "Bartek Pampuch <bartosz.pampuch@gmail.com>"
@@ -21,28 +22,23 @@
   "license": "MIT",
   "ignore": [
     "**/.*",
-    "dev-playground",
-    "gulpfile.js",
-    "webpack.config.js",
+    "Gruntfile.js",
     "README.md",
+    "bootstrap",
     "bower.json",
     "examples",
     "node_modules",
     "package.json",
     "src",
-    "tests",
-    "yarn.lock",
-    "composer.json",
-    ".travis.yml"
+    "tests"
   ],
-  "version": "0.1.26",
-  "_release": "0.1.26",
+  "_release": "0.1.18",
   "_resolution": {
     "type": "version",
-    "tag": "0.1.26",
-    "commit": "158d07d5eea5b1e3675d9af87a086d5e79a90cee"
+    "tag": "0.1.18",
+    "commit": "02a859b90b262921bb1a00409c7f548332dce33b"
   },
   "_source": "https://github.com/bpampuch/pdfmake.git",
-  "_target": "*",
+  "_target": "0.1.18",
   "_originalSource": "pdfmake"
 }

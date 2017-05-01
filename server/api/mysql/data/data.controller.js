@@ -23,12 +23,17 @@ exports.joinResultat = function(req, res) {
 		+'data.madding_stjaalet, '
 		+'data.myrer_indsamlet, '
 		+'data.myrer_frysning, '
-		+'date_format(data.proeve_modtaget, "%d/%m/%Y") as proeve_modtaget, '
+
+		//+'date_format(data.proeve_modtaget, "%d/%m/%Y") as proeve_modtaget, '
+		+'data.proeve_modtaget as "proeve_modtaget", '
+
 		+'data.proeve_analyseret, '
 
 		+'eksperiment.myrejagt_id, '
 		+'eksperiment.user_id, '
-		+'date_format(eksperiment.dato, "%d/%m/%Y") as "eksperiment_dato", '
+
+		//+'date_format(eksperiment.dato, "%d/%m/%Y") as "eksperiment_dato", '
+		+'eksperiment.dato as "eksperiment_dato", '
 
 		+'resultat.resultat_id, '
 		+'resultat.antal '
