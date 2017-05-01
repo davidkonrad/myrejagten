@@ -5,7 +5,7 @@
 	<div bs-tabs class="control-group col-md-12">
 
 		<div bs-pane data-title="Download" style="padding-left:0px;">
-			<div class="circle">Download_1</div>
+			<div mj-content="Download_admin_1"></div>	
 
 			<br><br>
 			<button class="btn btn-primary" ng-click="downloadGBIF()">Download til GBIF</button>
@@ -52,16 +52,15 @@
 			<button class="btn btn-default btn-sm pull-right" 
 				ng-class="{ 'btn-ku' : content.changed }"	
 				ng-click="saveContent()"
-				ng-disabled="!content.changed"
-			>
+				ng-disabled="!content.changed">
 				Gem ændringer
 			</button>
 
 			<br><br>
 			<div class="control-group col-md-12">
 				<text-angular ng-model="beskrivelse"
-					ta-toolbar="[['h1','h2','h3'],['bold','italics','underline'],['undo', 'redo', 'html']]"
-				> </text-angular>
+					ta-toolbar="[['h1','h2','h3'],['bold','italics','underline'],['undo', 'redo', 'html']]">
+				</text-angular>
 			</div>
 
 		</div>

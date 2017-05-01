@@ -11,7 +11,7 @@
 
 		<!--------- oversigt -------->	
 		<div bs-pane data-title="{{ x.titel || x.myrejagt_id }}" class="pane-eksperiment">
-			<form novalidate id="formOversigt{{ x.eksperiment_id }}">
+			<form novalidate id="formOversigt{{ x.eksperiment_id }}" auto-complete="off">
 				<input type="hidden" name="eksperiment_id" value="{{ x.eksperiment_id }}" />
 
 				<div class="col-md-6" class="eksperiment-cnt">
@@ -30,10 +30,6 @@
 						<label class="normal required">Dato</label>
 						<input type="text" class="form-control bold input-lg" ng-model="x.dato" name="dato" bs-datepicker data-date-format="dd-MM-yyyy" size="7" data-autoclose="true" data-container="body" />
 					</div>
-
-					<!-- 
-					husk at implementere time/minut increase / decrease når musen holdes ned på pilene (så der ikke skal klikkeso for hvert minut
-					-->
 
 					<div class="col-md-3" style="padding-left: 0px !important;">
 						<label class="normal required">Starttidspunkt</label>
@@ -272,7 +268,8 @@
 		</table>
 
 		<br class="visible-xs visible-sm">
-		<table class="madding-table col-md-5">
+		<form autocomplete="off">
+		<table class="madding-table col-md-6">
 			<thead>
 				<tr>
 					<th style="margin-bottom:10px;">Myredata</th>
@@ -298,10 +295,6 @@
 				</tr>
 			</thead>
 			<tbody>
-				<!---
-					man skal kunne navigere med piletaster; pil op / ned i boksene tabber til den øvre eller nedre boks
-			-->
-
 				<tr ng-repeat="d in x.Data">
 					<td class="normal"> {{ d.madding }} &nbsp;</td>
 					<td> 
@@ -333,15 +326,18 @@
 				</tr>
 			</tbody>
 		</table>
+		</form>
 
 		<br class="visible-xs visible-sm">
-		<div class="col-md-3 no-padding">
+		<div class="col-md-2 no-padding" style="vertical-align: top;">
+			<!--
 			<div class="hidden-xs hidden-sm">
 				<br><br><br><br>
 			</div>
+			-->
 			<label>Noter</label>
 			<i info-sm info-popover="Angiv gerne særlige bemærkninger eller forhold, som ikke er blandt valgmulighederne i miljødata eller myredata. "></i>
-			<textarea class="form-control" ng-model="x.kommentar" name="kommentar" rows="5"></textarea>
+			<textarea class="form-control" ng-model="x.kommentar" name="kommentar" rows="10"></textarea>
 		</div>
 
 		<div class="col-md-12 no-padding">

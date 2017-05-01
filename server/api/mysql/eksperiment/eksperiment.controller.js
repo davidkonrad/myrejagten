@@ -8,7 +8,10 @@ exports.index = function(req, res) {
 	query.include = [{ 
 		model: models.Data,
 		as: 'Data'
-	}]
+	}, { 
+		model: models.User,
+		as: 'User'
+	}];
   models.Eksperiment.findAll(query).then(function(eksperiment) {
   	return res.json(200, eksperiment);	
   }).catch(function(err){

@@ -27,8 +27,7 @@ angular.module('myrejagtenApp')
 	    hoverBorderColor: 'rgb(190,190,190)'
 	  }];
 
- 		//console.dir(Chart.defaults.global)
-		Chart.defaults.global.tooltips.displayColors = false;
+ 		Chart.defaults.global.tooltips.displayColors = false;
 		Chart.defaults.global.defaultFontColor = '#000';
 		Chart.defaults.global.defaultFontFamily = '"noto sans",arial,sans-serif';
 		Chart.defaults.global.elements.line.borderColor = '#000';
@@ -51,7 +50,6 @@ angular.module('myrejagtenApp')
 		      label: function(tooltipItem, data) {
 		        var label = data.labels[tooltipItem.index];
 		        var datasetLabel = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-		        //return label + ': ' + datasetLabel + '%';
 						return datasetLabel+'%';
 		      }
 		    }
@@ -77,7 +75,6 @@ angular.module('myrejagtenApp')
 						display: false
 					},
 					scaleLabel: {
-			      //fontSize: 14,
 		        display: true,
 		        labelString: '% af antal myrer efter frysning'
 		      }
@@ -130,7 +127,5 @@ angular.module('myrejagtenApp')
 			})
 
 		}
-
-
 			
-  }]);
+}]);

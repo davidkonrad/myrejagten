@@ -13,7 +13,6 @@
 	z-index: 20000;
 }
 
-
 #vis-map .leaflet-popup-content h4 {
 	width: 300px;
 	margin-bottom:2px;
@@ -22,6 +21,10 @@
 	padding-left: 5px;
 	margin-top: 0px;
 	position: relative;
+	font-size: 15px;
 	left: -5px;
+  white-space: nowrap;
+  overflow: hidden;
+	text-overflow: ellipsis;
 }
 

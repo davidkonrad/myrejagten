@@ -107,7 +107,6 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     }
 
-	
 	}, {
 		tableName: 'eksperiment',
 		timestamps: false,
@@ -115,6 +114,7 @@ module.exports = function(sequelize, DataTypes) {
 		classMethods: {
       associate: function(models) {
         models.Eksperiment.hasMany(models.Data, { foreignKey : 'eksperiment_id', as : 'Data' })
+        models.Eksperiment.belongsTo(models.User, { foreignKey : 'user_id', as : 'User' })
 			}
 		}
 

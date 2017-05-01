@@ -9,11 +9,11 @@ var errors = require('./components/errors');
 module.exports = function(app) {
 
 	app.use('/api/projekt', require('./api/mysql/projekt'));
-	app.use('/api/eksperiment', require('./api/mysql/eksperiment'));
 	app.use('/api/data', require('./api/mysql/data'));
 	app.use('/api/resultat', require('./api/mysql/resultat'));
 	app.use('/api/mysqluser', require('./api/mysql/user'));
 	app.use('/api/content', require('./api/mysql/content'));
+	app.use('/api/eksperiment', require('./api/mysql/eksperiment'));
 
   app.use('/api/email', require('./api/email'));
   app.use('/api/upload', require('./api/upload'));

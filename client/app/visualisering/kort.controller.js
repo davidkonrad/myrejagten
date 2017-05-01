@@ -4,7 +4,7 @@ angular.module('myrejagtenApp')
   .controller('KortCtrl', ['$scope', '$http', '$timeout', 'Login', 'TicketService', 'Eksperiment', 'Utils',
 	 function($scope, $http, $timeout, Login, TicketService, Eksperiment, Utils) {
 
-/*****************************************/
+
 		$scope.map = {
 			events: {
 				map: {
@@ -66,16 +66,16 @@ angular.module('myrejagtenApp')
 					}
 				}
 			}
-		}
+		};
 
-		$scope.$on('leafletDirectiveMarker.mouseover', function(e, marker) {
+		$scope.$on('leafletDirectiveMarker.click', function(e, marker) {
 			marker.leafletObject.openPopup()
-		})
+		});
 
 		Eksperiment.query().$promise.then(function(eksperimenter) {
 			function getData(e) {
 					if (!e.Data || !e.Data.length) return ''
-				var d = '<table style="width:200px;line-height:14px;">';
+				var d = '<table style="width:180px;line-height:14px;">';
 				for (var i=0, l=e.Data.length; i<l; i++) {
 					if (e.Data[i].maden_stjaalet || e.Data[i].myrer_indsamlet || e.Data[i].myrer_frysning) {
 						d+= '<tr>';
@@ -90,16 +90,19 @@ angular.module('myrejagtenApp')
 				return d
 			}				
 			function getMessage(e) {
-				//console.log(e)
-				var data = getData(e)
-				var titel = e.titel.trim() != '' ? e.titel : e.adresse
+				var data = getData(e);
+				var titel = e.titel.trim() != '' ? e.titel : e.adresse;
+
+				var m = '<h4>' + e.myrejagt_id + ' | ' + titel + '</h4>';
+				m+='Udført af: <strong><small>'+ e.User.brugernavn + '</small></strong> d.' +Utils.fixDate(e.dato)+'<br>';
 
 				var vejr = [];
 				if (e.sol) vejr.push(e.sol);
 				if (e.vejr) vejr.push(e.vejr);
 				if (e.vind) vejr.push(e.vind);
 				if (e.temp) vejr.push(e.temp + '&deg;');
-				var m = '<h4>' + titel + '</h4>';
+
+
 				m+= vejr.length>0 ? '<p style="margin: 0px;font-weight:bold;">' + vejr.join(', ') + '</p>' : '';
 				m+= data;
 				m+= e.upload_billede ? '<img src="' + e.upload_billede + '" style="width: 290px;">' : '';
@@ -111,16 +114,8 @@ angular.module('myrejagtenApp')
 					lat: parseFloat(e.lat),
 					lng: parseFloat(e.lng),
 					message: getMessage(e),
-					/*	
-					icon: {
-						type: "awesomeMarker",
-						prefix: 'fa',
-  		      icon: "trophy",
-  		      markerColor: "blue"
-  			  }
-					*/
 				})
 			})
 		})
 
-  }]);
+}]);
