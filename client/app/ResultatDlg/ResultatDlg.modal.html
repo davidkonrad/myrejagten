@@ -53,8 +53,7 @@
 					<br>
 					<button class="btn btn-ku btn-sm pull-left" 
 						id="btn-create" 
-						title="Nyt analyseresultat"
-					>
+						title="Nyt analyseresultat">
 						<i class="fa fa-plus"></i>
 					</button>
 
@@ -70,19 +69,16 @@
 								data-date-format="dd-MM-yyyy"
 								data-autoclose="true" 
 								data-container="#modal-ResultatDlg" 
-								ng-change="updateProeveModtaget()"
-							/>
+								ng-change="updateProeveModtaget()"/>
 							<input type="checkbox" 
 								checked
 								ng-model="resDlg.globalDate" 
 								style="clear: none; float:right; padding:0px !important;"
-
 								bs-popover 
 								data-trigger="hover" 
 								data-placement="right" 
 								data-content="Hvis krydset af vil samtlige fødetyper for eksperimentet få sat denne modtagelsesdato. "
-								data-container="html"
-							/>
+								data-container="html"/>
 						</label>
 					</div>
 				</div>
@@ -121,6 +117,7 @@
 
 						<span class="col-md-3 resultat-element">
 							<input type="text" 
+								select-on-click
 								placeholder="Videnskabeligt navn"
 								resultat_id="{{ r.resultat_id }}"
 								class="form-control aa-vid" 
@@ -130,6 +127,7 @@
 
 						<span class="col-md-3 resultat-element">
 							<input type="text" 
+								select-on-click
 								placeholder="Dansk navn"
 								resultat_id="{{ r.resultat_id }}"
 								class="form-control aa-dk" 
@@ -156,8 +154,7 @@
 							<button class="btn btn-danger btn-xs btn-delete" 
 								ng-click="resDlg.deleteResultat(r.resultat_id)" 
 								title="Slet analyseresultat"  
-								resultat_id="{{ r.resultat_id }}"
-							>
+								resultat_id="{{ r.resultat_id }}">
 								<i class="fa fa-times"></i>
 							</button>
 						</span>
