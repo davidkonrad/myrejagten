@@ -9,9 +9,13 @@ angular.module('myrejagtenApp')
 				var contentName = attrs['mjContent'] ? attrs['mjContent'] : 'undefined';
 
 				Cnt.contentByName(contentName).then(function(content) {
-					if (content == undefined || content == '') content = '<div class="circle">' + contentName + '</div>';
+					if (content == undefined || content == '') {
+						content = '<div class="circle">' + contentName + '</div>';
+					} else if (content == '.') {
+						content == '';
+					}
 					element.replaceWith(content);			
-				})
+				});
 
 	    }
     };
