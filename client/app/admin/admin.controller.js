@@ -277,29 +277,55 @@ angular.module('myrejagtenApp')
 /*************
 	content
 **************/
+		$scope.textContent = {
+			name: undefined,
+			items: Cnt.getNames('text')
+		};
+
+		$scope.popoverContent = {
+			name: undefined,
+			items: Cnt.getNames('popover')
+		};
+
 		$scope.content = {
 			name: undefined,
 			content: undefined,
-			items: Cnt.getNames()
-		}
+			items: Cnt.getNames('text')
+		};
 		
-		$scope.$watch('content.name', function(newVal, oldVal) {
+		$scope.$watch('textContent.name', function(newVal, oldVal) {
 			if (newVal != oldVal) {
 				Cnt.contentByName(newVal).then(function(value) {
+					$scope.content.name = newVal;
 					$scope.content.content = value;
-					$scope.content.changed = false;
+					$timeout(function() {
+						$scope.content.changed = false;
+					});
 				})
 			}
-		}, true)
+		}, true);
+
+		$scope.$watch('popoverContent.name', function(newVal, oldVal) {
+			if (newVal != oldVal) {
+				Cnt.contentByName(newVal).then(function(value) {
+					$scope.content.name = newVal;
+					$scope.content.content = value;
+					$timeout(function() {
+						$scope.content.changed = false;
+					});
+				})
+			}
+		}, true);
+
 		$scope.$watch('content.content', function(newVal, oldVal) {
 			if (oldVal && newVal != oldVal) {
 				$scope.content.changed = true
 			}
-		}, true)
+		}, true);
 
 		$scope.saveContent = function() {
 			Cnt.saveContent($scope.content.name, $scope.content.content);
-			delete $scope.content.changed;
+			delete $scope.textContent.changed;
 		}
 
 /*************

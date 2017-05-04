@@ -38,8 +38,14 @@ angular.module('myrejagtenApp')
 				loadContent()
 			},
 
-			getNames: function() {
-				return contentNames
+			getNames: function(type) {
+				var r = [];
+				content.forEach(function(c) {
+					if (c.type == type) {
+						r.push(c.name);
+					}
+				});
+				return r;
 			},
 
 			saveContent: function(name, newContent) {
@@ -58,7 +64,7 @@ angular.module('myrejagtenApp')
 				function getValue() {
 					for (var i=0, l=content.length; i<l; i++) {
 						if (content[i].name == name ) {
-							return content[i].content; // == empty ? content[i].content : '  ';
+							return content[i].content;
 						}
 					}
 				}
@@ -73,8 +79,16 @@ angular.module('myrejagtenApp')
 				}
 
 	      return deferred.promise;
+			},
+
+			getContent: function(name) {
+				for (var i=0, l=content.length; i<l; i++) {
+					if (content[i].name == name ) {
+						return content[i].content;
+					}
+				}
 			}
-				
+
 		}
 });
 

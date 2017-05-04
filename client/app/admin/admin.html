@@ -41,10 +41,21 @@
 		</div>
 
 		<div bs-pane data-title="Indhold (tekster)" style="padding-left:0px;">
+			<label class="normal">Side-tekster</label>
 			<button data-placeholder="Vælg element"
 				class="btn btn-default select" 
-				ng-model="content.name" 
-				bs-options="o as o for o in content.items" 
+				ng-model="textContent.name" 
+				bs-options="o as o for o in textContent.items" 
+				bs-select>
+				<span class="caret"></span>
+			</button>			
+			&nbsp;&nbsp;
+
+			<label class="normal">Popover-tekster</label>
+			<button data-placeholder="Vælg element"
+				class="btn btn-default select" 
+				ng-model="popoverContent.name" 
+				bs-options="o as o for o in popoverContent.items" 
 				bs-select>
 				<span class="caret"></span>
 			</button>			

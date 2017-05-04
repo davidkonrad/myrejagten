@@ -22,16 +22,14 @@
           <label bs-popover 
 						data-trigger="hover" 
 						data-placement="bottom" 
-						data-content="Vælg denne brugertype hvis du laver Myrejagten i tilknytning til en skole, et fritidshjem, en børnehave, en spejdergruppe el. lign. Denne brugertype inddeler eksperimenter i overordnede projekter, hvilket giver mulighed for inddeling i hold."
-					>
+						data-content="Vælg denne brugertype hvis du laver Myrejagten i tilknytning til en skole, et fritidshjem, en børnehave, en spejdergruppe el. lign. Denne brugertype inddeler eksperimenter i overordnede projekter, hvilket giver mulighed for inddeling i hold.">
             <input type="radio" name="brugertype" value="0" ng-model="user.role">Institution
           </label>
           &nbsp;&nbsp;
           <label bs-popover 
 						data-trigger="hover" 
 						data-placement="bottom" 
-						data-content="Vælg denne brugertype hvis du laver Myrejagten i privat regi, f.eks. med familie eller venner"
-					>
+						data-content="Vælg denne brugertype hvis du laver Myrejagten i privat regi, f.eks. med familie eller venner">
             <input type="radio" name="brugertype" value="1" ng-model="user.role">Privat
           </label>
         </div>
@@ -44,9 +42,7 @@
         <div class="input-group">
           <input type="text" id="email" ng-model="user.email" placeholder="" class="form-control input-lg">
           <span class="input-group-btn">
-						<i style="margin-left:5px;" 
-							info-popover="Du skal vælge en gyldig e-mailadresse da den benyttes til login. Din e-mailadresse skal endeligt godkendes via en bekræftelse, som du automatisk får tilsendt efter oprettelsen. ">
-						</i>
+						<i style="margin-left:5px;" info-popover content-name="Opret_email""></i>
   		    </span>
         </div>
         <p class="help-block error" ng-show="emailInUse()">
@@ -61,7 +57,7 @@
           <div class="input-group">
             <input type="text" ng-model="user.brugernavn" placeholder="" class="form-control input-lg">
             <span class="input-group-btn">
-						<i style="margin-left:5px;" info-popover="Dit brugernavn vil blive anvendt som dit synlige navn på Myrejagten. Brugernavnet kan indeholde bogstaver, tal, mellemrum mv."></i>
+						<i style="margin-left:5px;" info-popover content-name="Opret_brugernavn"></i>
   		    </span>
           </div>
         </div>
@@ -73,8 +69,8 @@
             <span class="input-group-btn">
 					<button class="btn btn-default btn-lg" style="postion:relative;top:0px;left:-1px;" ng-click="generatePassword()" title="Generer et tilfældigt password med rimelig god sikkerhed"><i class="fa fa-gear"></i></button>
 				</span>
-            <span class="input-group-btn">
-					<i style="margin-left:5px;" info-popover-size="lg" info-popover="Dit password er valgfrit og skal blot være mindst 3 karakterer langt. Ved tryk på tandhjulet genereres et tilfældigt password med god sikkerhed."></i>
+				<span class="input-group-btn">
+					<i style="margin-left:5px;" info-popover content-name="Opret_password"></i>
  		    </span>
           </div>
         </div>

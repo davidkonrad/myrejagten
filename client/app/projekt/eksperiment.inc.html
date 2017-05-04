@@ -18,10 +18,7 @@
 
 					<label class="normal">
 						Navn på eksperiment
-						<i info-sm 
-							info-placement="right"
-							info-popover="Her kan du navngive dit eksperiment, f.eks ud fra hvor du udførte eksperimentet eller hvem du udførte det med. Feltet er ikke obligatorisk, men det kommer til at fremgå på oversigten over dine eksperimenter">
-						</i>
+						<i info-sm info-placement="right" info-popover content-name="Navn_paa_eksperiment"></i>
 					</label>
 
 					<input type="text" class="form-control bold input-lg" select-on-click ng-model="x.titel" name="titel" />
@@ -97,12 +94,15 @@
 				<div class="control-group col-md-6">
 
 					<label class="normal">Søg lokalitet</label>
-						<i info-sm 
-							info-placement="right"
-							info-popover="Her skal du finde stedet for dit eksperiment. Det er meget vigtigt at stedet angives så præcist som muligt ved at zoome helt ind på kortet. Du kan søge eksperimentstedet frem ved hjælp af stednavne eller adresse, men du kan også navigere på kortet. Husk at klikke på kortet på det præcise sted, så vil punktet blive blåt og du har godkendt eksperimentlokaliteten.">
-						</i>
-
-					<input type="text" class="form-control bold input-md" ng-model="x.adresse" select-on-click adresse-opslag adresse-type="{{ x.adresseType }}" on-select="eksperimentAdresseSelect" eksperiment-id="{{ x.eksperiment_id }}" name="adresse" />
+					<i info-sm info-placement="right" info-popover content-name="Soeg_lokalitet"></i>
+					<input type="text" 
+						class="form-control bold input-md" 
+						ng-model="x.adresse" 
+						select-on-click 
+						adresse-opslag 
+						adresse-type="{{ x.adresseType }}" 
+						on-select="eksperimentAdresseSelect" 
+						eksperiment-id="{{ x.eksperiment_id }}" name="adresse" />
 	
 					<div class="col-sm-12 text-right">
 						<label class="radio-inline" 
@@ -135,9 +135,7 @@
 
 					<div class="control-group col-md-12" style="padding-right: 0px !important; padding-left:0px !important;">
 						<label class="normal">Bemærkninger</label>
-							<i info-sm info-placement="right"
-								info-popover="Her kan du opgive en mere præcis beskrivelse af stedet og/eller notere særlige forhold, f.eks. '2 meter fra åen' og lignende.">
-							</i>
+						<i info-sm info-placement="right" info-popover content-name="Eksperiment_bemaerk"></i>
 						<textarea class="form-control" ng-model="x.kommentar" name="kommentar" rows="4"></textarea>
 					</div>
 				</div>
@@ -169,7 +167,7 @@
 				<tr>
 					<th>
 						Miljødata
-						<i info-sm info-popover="Her skal du taste oplysninger omkring vind og vejr under dit eksperiment. Dine miljødata hjælper forskerne med at lære myrerne og deres levevis bedre at kende. "></i>
+						<i info-sm info-popover content-name="Miljoe_data"></i>
 					</th>
 					<th></th>
 				</tr>
@@ -186,13 +184,8 @@
 							ng-class="{ 'has-value' : x.temp != undefined }"
 							style="width:70px !important; display: inline;" 
 							min="-50"
-							max="50"
-						/>
-						<i info-sm 
-							info-placement="right"
-							info-popover="Vælg temperaturen fra DMI eller på din mobiltelefon. ">
-						</i>
-					
+							max="50"/>
+						<i info-sm info-placement="right"	info-popover content-name="Miljoe_temp"></i>
 					</td>
 				</tr>
 
@@ -200,45 +193,37 @@
 					<td class="normal">Vejr</td>
 					<td>
 						<button data-placeholder="Vælg"
-									style="width: 120px !important;text-align:left;"
-								  type="button" 
-									class="btn btn-default select btn-sm" 
-									ng-model="x.vejr" 
-									name="vejr"
-									data-toggle="true" 
-									ng-class="{ 'has-value' : x.vejr != undefined }"
-									bs-options="i.value as i.label for i in items.vejr" 
-									bs-select>
-										<span class="caret"></span>
+							style="width: 120px !important;text-align:left;"
+						  type="button" 
+							class="btn btn-default select btn-sm" 
+							ng-model="x.vejr" 
+							name="vejr"
+							data-toggle="true" 
+							ng-class="{ 'has-value' : x.vejr != undefined }"
+							bs-options="i.value as i.label for i in items.vejr" 
+							bs-select>
+							<span class="caret"></span>
 						</button>
-
-						<i info-sm 
-							info-placement="right"
-							info-popover="Vurder graden af skydække/regn. ">
-						</i>
-
+						<i info-sm info-placement="right"	info-popover content-name="Miljoe_sky_regn"></i>
 					</td>
 				</tr>
 
 				<tr>
 					<td class="normal">Skygge</td>
 					<td>
-							<button data-placeholder="Vælg"
-									style="width: 120px !important;text-align:left;"
-								  type="button" 
-									class="btn btn-default select btn-sm" 
-									ng-model="x.sol" 
-									name="sol"
-									data-toggle="true" 
-									ng-class="{ 'has-value' : x.sol != undefined }"
-									bs-options="i.value as i.label for i in items.sol" 
-									bs-select>
-									<span class="caret"></span>
-								</button>
-							<i info-sm 
-								info-placement="right"
-								info-popover="Vurder graden af skygge som eksperimentet er opsat i. ">
-							</i>
+						<button data-placeholder="Vælg"
+							style="width: 120px !important;text-align:left;"
+						  type="button" 
+							class="btn btn-default select btn-sm" 
+							ng-model="x.sol" 
+							name="sol"
+							data-toggle="true" 
+							ng-class="{ 'has-value' : x.sol != undefined }"
+							bs-options="i.value as i.label for i in items.sol" 
+							bs-select>
+								<span class="caret"></span>
+						</button>
+						<i info-sm info-placement="right"	info-popover content-name="Miljoe_skygge"></i>
 					</td>
 				</tr>
 
@@ -246,22 +231,18 @@
 					<td class="normal">Vind</td>
 					<td>
 						<button data-placeholder="Vælg"
-								style="width: 120px !important;text-align:left;"
-							  type="button" 
-								class="btn btn-default select btn-sm" 
-								name="vind"
-								ng-model="x.vind" 
-								data-toggle="true" 
-								ng-class="{ 'has-value' : x.vind != undefined }"
-								bs-options="i.value as i.label for i in items.vind" 
-								bs-select>
-									<span class="caret"></span>
-							</button>
-							<i info-sm 
-								info-placement="right"
-								info-popover="Her skal du vurdere ved hvilken graden af vind eksperimentet stod i. Du skal også tage højde for om eksperimentet stod i læ. ">
-							</i>
-
+							style="width: 120px !important;text-align:left;"
+						  type="button" 
+							class="btn btn-default select btn-sm" 
+							name="vind"
+							ng-model="x.vind" 
+							data-toggle="true" 
+							ng-class="{ 'has-value' : x.vind != undefined }"
+							bs-options="i.value as i.label for i in items.vind" 
+							bs-select>
+							<span class="caret"></span>
+						</button>
+						<i info-sm info-placement="right"	info-popover content-name="Miljoe_vind"></i>
 					</td>
 				</tr>
 			</tbody>
@@ -281,15 +262,15 @@
 					<th></th>
 					<th class="normal small">
 						Før indsamling
-						<i info-sm info-popover="Antal myrer inden indsamling. Her skriver du det antal myrer du noterede på det pågældende fødeemne ved optælling før indsamling af myrerne. Da det kan være svært at tælle myrerne kan du have fået et gennemsnit med decimaler efter dine optællinger."></i>
+						<i info-sm info-popover content-name="Myrer_foer_frysning"></i>
 					</th>
 					<th class="normal small">
 						Efter frysning
-						<i info-sm info-popover="Antal myrer efter frysning. Her skriver du det antal myrer du noterede på det pågældende fødeemne ved optælling efter indsamling og frysning af myrerne. "></i>
+						<i info-sm info-popover content-name="Myrer_efter_frysning"></i>
 					</th>
 					<th class="normal small">
 						Forstyrrelse
-						<i info-sm info-popover="Var maden væk da eksperimentet blev afsluttet? Maden kan være blæst væk, være taget af fugle eller andet. – Detaljer kan noteres under ‘Bemærkninger’"></i>
+						<i info-sm info-popover content-name="Myrer_forstyrrelse"></i>
 					</th>
 				</tr>
 			</thead>
@@ -329,7 +310,7 @@
 		<br class="visible-xs visible-sm">
 		<div class="col-md-2 no-padding" style="vertical-align: top;">
 			<label>Noter</label>
-			<i info-sm info-popover="Angiv gerne særlige bemærkninger eller forhold, som ikke er blandt valgmulighederne i miljødata eller myredata. "></i>
+			<i info-sm info-popover content-name="Myrer_bemaerk"></i>
 			<textarea class="form-control" ng-model="x.data_kommentar" name="kommentar" rows="10"></textarea>
 		</div>
 
@@ -352,12 +333,7 @@
 
 		<div class="control-group col-md-6">
 			Billede
-
-			<i info-placement="right"
-				info-sm 
-				info-popover="Her kan du uploade et billede fra dit eksperiment, f.eks opstillingen, hvem der har udført eksperimentet eller lokaliteten. Dit billede vil være synligt for offentligheden og vises sammen med dit data. Fil størrelsen er begrænset til 10 MB.">
-			</i>
-
+			<i info-placement="right"	info-sm info-popover content-name="Upload_billede"></i>
 			<button class="btn btn-default btn-xs pull-right" 
 				title="Fjern billede (billedet bliver slettet fra serveren)"
 				ng-disabled="x.upload_billede == undefined"

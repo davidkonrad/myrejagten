@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .directive('infoPopover', function ($compile) {
+  .directive('infoPopover', function ($compile, Cnt) {
     return {
       restrict: 'A',
 			replace: false,
@@ -9,14 +9,14 @@ angular.module('myrejagtenApp')
       priority: 1000,
       link: function link(scope, element, attrs) {
 				var content = attrs['infoPopover'] ? attrs['infoPopover'] : 'undefined';
+
+				//check for content-name, lookup in Cnt
+				if (attrs['contentName']) {
+					content = Cnt.getContent(attrs['contentName'])
+				}
+
 				var placement = attrs['infoPlacement'] ? attrs['infoPlacement'] : 'top';
 
-				element.attr('bs-popover', '')
-				element.attr('data-content', content)
-				element.attr('data-trigger', 'hover')
-				element.attr('data-placement', placement)
-				element.attr('data-container', 'html')
-	
         element.removeAttr("info-popover"); //remove the attribute to avoid indefinite loop
         element.removeAttr("data-info-popover"); //also remove the same attribute with data- prefix in case users specify data-common-things in the html
 
@@ -27,7 +27,7 @@ angular.module('myrejagtenApp')
 				var $template = $($.parseHTML(template))
 
 				$template.attr('bs-popover', '')
-				$template.attr('data-content', attrs['infoPopover'] ? attrs['infoPopover'] : 'undefined' )
+				$template.attr('data-content', content)
 				$template.attr('data-trigger', 'hover')
 				$template.attr('data-placement', placement)
 				$template.attr('data-container', 'html')

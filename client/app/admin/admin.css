@@ -9,4 +9,9 @@
 	word-break: keep-all;
 }
 
+/** fix angular-dataTables pagination issue **/
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+	padding: 0px;
+}
+
 
