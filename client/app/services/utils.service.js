@@ -76,33 +76,25 @@ angular.module('myrejagtenApp')
 					var inputs = form.querySelectorAll('input:not(.exclude-from-form)');
 					var textareas = form.querySelectorAll('textarea:not(.exclude-from-form)');
 					var selects = form.querySelectorAll('button[bs-select]');
-					//var ngCheckboxes = form.querySelectorAll('button[name="madding_sjaalet"]');
 	
 					for (i=0; i<inputs.length; i++) {
 						if (angular.element(inputs[i]).hasClass('ng-dirty')) {
-							return true
+							return true;
 						}
 					}
 					for (i=0; i<selects.length; i++) {
 						if (angular.element(selects[i]).hasClass('ng-dirty')) {
-							return true
+							return true;
 						}
 					}
 					for (i=0; i<textareas.length; i++) {
 						if (angular.element(textareas[i]).hasClass('ng-dirty')) {
-							return true
+							return true;
 						}
 					}
-					/*
-					for (i=0; i<ngCheckboxes.length; i++) {
-						if (angular.element(ngCheckboxes[i]).hasClass('ng-dirty')) {
-							return true
-						} 
-					}
-					*/
 
 				}
-				return false
+				return false;
 			},
 
 			formReset: function(id) {

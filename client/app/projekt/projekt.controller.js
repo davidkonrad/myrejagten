@@ -328,14 +328,6 @@ angular.module('myrejagtenApp')
 			even they state the GeoService do, so wkt and Geo is needed
 		*/
 		var wkt = new Wkt.Wkt()
-		/*
-		function geometryWktLatLng(geometryWkt) {
-			wkt.read(geometryWkt);
-			if (!wkt.components[0].length) return null
-			var xy = wkt.components[0][0]
-			return Geo.EPSG25832_to_WGS84(xy.x, xy.y)
-		}
-		*/
 
 		function geometryWktPolygon(geometryWkt, map) {
 			wkt.read(geometryWkt);
@@ -532,33 +524,6 @@ angular.module('myrejagtenApp')
 			}
 			return 'MJ' + '-' + zeroPad(user_id, 4)	+ '-' + zeroPad(projekt_id, 2) + '-' + zeroPad(eksperiment_id, 2)	
 		}
-
-/*
-		$scope.createEksperiment = function() {
-			CreateEksperiment.show($scope).then(function(id) {
-				if (ok) Eksperiment.save({	eksperiment_id: '' }, { user_id: $scope.user.user_id, projekt_id: $scope.projekt_id }).$promise.then(function(e) {
-
-					$scope.items.madding.forEach(function(m) {
-						Data.save({ data_id: ''}, { eksperiment_id: e.eksperiment_id, madding: m.madding })
-					})
-					var now = new Date()
-
-					//get #eks for projekt_id
-					Eksperiment.query({ where: { projekt_id: $scope.projekt_id }}).$promise.then(function(p) {
-
-						var updateValues = { 
-							myrejagt_id: getMyrejagtId($scope.user.user_id, $scope.projekt_id, e.eksperiment_id),
-							titel: 'Myrejagt #' + p.length
-						}
-
-						Eksperiment.update({ id: e.eksperiment_id }, updateValues).$promise.then(function(e) {
-							$scope.reloadEksperimenter()
-						})
-					})
-				})
-			})
-		}
-*/
 
 		$scope.createEksperiment = function() {
 			CreateEksperiment.show($scope).then(function(myrejagt_id) {
@@ -824,7 +789,7 @@ angular.module('myrejagtenApp')
 				vejr: e.vejr,
 				sol: e.sol,
 				vind: e.vind,
-				kommentar: e.kommentar
+				data_kommentar: e.data_kommentar
 			}
 			Eksperiment.update({ id: eksperiment_id }, miljo).$promise.then(function() {
 				Utils.formReset('#formResultater' + eksperiment_id);

@@ -162,7 +162,7 @@
 	<!---------- resultat ------------->
 <div bs-pane data-title="Data">
 
-	<form novalidate id="formResultater{{ x.eksperiment_id }}"  class="no-padding">
+	<form novalidate id="formResultater{{ x.eksperiment_id }}"  class="no-padding" autocomplete="off">
 
 		<table class="miljoe-table col-md-4 no-padding">
 			<thead>
@@ -268,7 +268,6 @@
 		</table>
 
 		<br class="visible-xs visible-sm">
-		<form autocomplete="off">
 		<table class="madding-table col-md-6">
 			<thead>
 				<tr>
@@ -299,25 +298,25 @@
 					<td class="normal"> {{ d.madding }} &nbsp;</td>
 					<td> 
 						<input type="text" 
-									placeholder="0.0"
-									only-digits
-									style="width: 90px;"
-									name="myrer_indsamlet"
-									class="form-control"
-									select-on-click
-									ng-model="d.myrer_indsamlet"
-									ng-class="{ 'has-value' : d.myrer_indsamlet != undefined }">
+							placeholder="0.0"
+							only-digits
+							style="width: 90px;"
+							name="myrer_indsamlet"
+							class="form-control"
+							select-on-click
+							ng-model="d.myrer_indsamlet"
+							ng-class="{ 'has-value' : d.myrer_indsamlet != undefined }">
 					</td>
 					<td> 
 						<input type="text" 
-									placeholder="0"
-									style="width: 90px;"
-									only-numbers
-									name="myrer_frysning"
-									class="form-control"  
-									select-on-click
-									ng-model="d.myrer_frysning"
-									ng-class="{ 'has-value' : d.myrer_frysning != undefined }">
+							placeholder="0"
+							style="width: 90px;"
+							only-numbers
+							name="myrer_frysning"
+							class="form-control"  
+							select-on-click
+							ng-model="d.myrer_frysning"
+							ng-class="{ 'has-value' : d.myrer_frysning != undefined }">
 					</td>
 					<td style="text-align:center;"> 
 						<checkbox ng-model="d.madding_stjaalet" name="madding_sjaalet" class="button-checkbox"></checkbox>
@@ -326,18 +325,12 @@
 				</tr>
 			</tbody>
 		</table>
-		</form>
 
 		<br class="visible-xs visible-sm">
 		<div class="col-md-2 no-padding" style="vertical-align: top;">
-			<!--
-			<div class="hidden-xs hidden-sm">
-				<br><br><br><br>
-			</div>
-			-->
 			<label>Noter</label>
 			<i info-sm info-popover="Angiv gerne særlige bemærkninger eller forhold, som ikke er blandt valgmulighederne i miljødata eller myredata. "></i>
-			<textarea class="form-control" ng-model="x.kommentar" name="kommentar" rows="10"></textarea>
+			<textarea class="form-control" ng-model="x.data_kommentar" name="kommentar" rows="10"></textarea>
 		</div>
 
 		<div class="col-md-12 no-padding">
