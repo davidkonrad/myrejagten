@@ -1,10 +1,8 @@
-node_modules
+node_modules/
 public
 .tmp
 rettelser.txt
 client/bower_components
-projectdata/Booking af klasser_DNA&LIV_v20160202.xlsx
-projectdata/DNA-og-LIV-indtastning-visning-kravspec_v02.pdf
 npm-debug.log
 dist
 server/config/local.env.js
