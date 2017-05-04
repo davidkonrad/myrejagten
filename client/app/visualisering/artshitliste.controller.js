@@ -3,13 +3,12 @@
 angular.module('myrejagtenApp')
   .controller('ArtshitlisteCtrl', ['$scope', '$http', function($scope, $http) {
 
-		var getInfo = function(navn_videnskabeligt) {
+		var getInfo = function(navn_dk) {
 			for (var i=0, l=$scope.sorted_results.length; i<l;i++) {
-				if ($scope.sorted_results[i].navn_videnskabeligt == navn_videnskabeligt) {
+				if ($scope.sorted_results[i].navn_dk == navn_dk) {
 					return $scope.sorted_results[i];
 				}
 			}
-			//should never happen
 			return ''
 		};
 
@@ -28,12 +27,14 @@ angular.module('myrejagtenApp')
 		    mode: 'single',
 		    callbacks: {
 		      label: function(tooltipItem, data) {
-		        var label = data.labels[tooltipItem.index];
 		        var datasetLabel = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-
 						var info = getInfo(tooltipItem.yLabel);
 						var eks = datasetLabel == 1 ? ' eksperiment. ' : ' eksperimenter. '
-						return info.navn_dk + ' Fundet i' + datasetLabel + eks + info.fundne_myrer +' dyr registreret i alt.';
+						var label = [];
+						label.push(info.navn_videnskabeligt || tooltipItem.yLabel); //avoid undefined on certain species
+						label.push('Fundet i ' + datasetLabel + eks);
+						label.push(info.fundne_myrer +' dyr registreret i alt.');
+						return label;
 		      }
 		    }
 			},
@@ -95,7 +96,7 @@ angular.module('myrejagtenApp')
 
 					sortable.forEach(function(s) {
 						$scope.data.push(s.antal_eksperimenter);
-						$scope.labels.push(s.navn_videnskabeligt);
+						$scope.labels.push(s.navn_dk || s.navn_videnskabeligt);
 						$scope.colors.push({
 					    backgroundColor: 'rgb(190,190,190)',
 					    hoverBackgroundColor: 'rgb(190,190,190)',
