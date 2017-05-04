@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="utf8">
 </head>
 <body>
 <?
@@ -29,6 +29,7 @@ class Convert  {
 				$index = 0;
 				foreach ($this->fieldNames as $fieldName) {
 					$array[$fieldName] = $record[$index];
+					$index++;
 				}
 				$json[] = $array;
 			}
