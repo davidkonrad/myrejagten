@@ -45,21 +45,17 @@ exports.update = function(req, res) {
 
 // Deletes a user from the DB.
 exports.destroy = function(req, res) {
-	models.User.find(req.params.id).then(function(user){
-		if(!user) { return res.send(404); }
-		return user.destroy()
+  models.User.destroy({ where : { user_id : req.params.id }} ).then(function(user) {
 	}).then(function(){
-		return res.send(204);
+  	return res.json(200);
 	}).catch(function(err){
 	  handleError(res, err);
   });
-	
 };
 
 // Describe user
 exports.describe = function(req, res) {
   models.User.describe().then(function(user){
-	  console.log(user);
   	return res.json(200, user);	
   }).catch(function(err){
 	  handleError(res, err);

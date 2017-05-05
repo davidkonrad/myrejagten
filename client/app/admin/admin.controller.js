@@ -136,7 +136,6 @@ angular.module('myrejagtenApp')
 					return type == 'display' ? Utils.fixDate(data) : data
 				}),
 				
-
       DTColumnBuilder
 				.newColumn('proeve_analyseret')
 				.withOption('width', '100px')
@@ -246,33 +245,51 @@ angular.module('myrejagtenApp')
 			})
 		];
 
+		$scope.dtUserInstanceCallback = function(instance) {
+			$scope.dtUserInstance = instance;
+    }
+
 		$(document).on('click', '.btn-slet-bruger', function() {
 			var user_id = $(this).attr('user-id');
-			var q = 'Slet <strong>'+$scope.getUserById(user_id)+'</strong> samt, <br><br><ul>';
-			q += '<li>Alle brugerens eksperimenter</li>';
+			var q = 'Slet <strong>'+$scope.getUserById(user_id)+'</strong> samt, <br><br><ul class="no-padding>';
 			q += '<li>Alle brugerens projekter</li>';
-			q += '<li>Alle brugerens resultater</li>';
+			q += '<li>Alle brugerens eksperimenter</li>';
+			q += '<li>Alle brugerens data</li>';
+			q += '<li>Alle brugerens analysedata</li>';
 			q += '</ul>';
 
 			Alert.confirm($scope, q).then(function(answer) {
 				if (answer) {
-					Projekt.query({ where: { user_id: user_id }}).$promise.then(function(p) {
-						console.log(p);
-					})
-
-					/*
-					var e = $scope.eksperimentById(eksperiment_id)
-					e.Data.forEach(function(d) {
-						Data.delete({ id: d.data_id })
-					})
-					Eksperiment.delete({	id: eksperiment_id }).$promise.then(function() {
-						$scope.dtEksperimentInstance.reloadData();
-					})
+					Projekt.query({ where: { user_id: user_id }}).$promise.then(function(projekter) {
+						projekter.forEach(function(projekt) {
+							console.log(projekter);
+							Eksperiment.query({ where: { projekt_id: projekt.projekt_id }}).$promise.then(function(eksperimenter) {
+								console.log(eksperimenter);
+								eksperimenter.forEach(function(eksperiment) {
+									Data.query({ where: { eksperiment_id: eksperiment.eksperiment_id }}).$promise(function(data) {
+										console.log(data);
+										data.forEach(function(d) {
+											Resultat.query({ where: { data_id: d.data_id }}).$promise.then(function(resultater) {
+												resultater.forEach(function(r) {
+													Resultat.delete({ id: r.resultat_id });
+												});
+											});
+											Data.delete({ id: d.data_id });
+										});
+									});
+									Eksperiment.delete({ id: eksperiment.eksperiment_id });
+								});
+							});
+							Projekt.delete({ id: projekt.projekt_id });
+						});
+						MysqlUser.delete({ id: user_id });
+						$scope.dtUserInstance.reloadData();
+					});	
 				}
-				*/
-			}
-		})
-	})
+			});
+		});
+	
+
 	
 /*************
 	content

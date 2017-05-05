@@ -11,7 +11,7 @@
 
 		<!--------- oversigt -------->	
 		<div bs-pane data-title="{{ x.titel || x.myrejagt_id }}" class="pane-eksperiment">
-			<form novalidate id="formOversigt{{ x.eksperiment_id }}" auto-complete="off">
+			<form novalidate id="formOversigt{{ x.eksperiment_id }}" autocomplete="off">
 				<input type="hidden" name="eksperiment_id" value="{{ x.eksperiment_id }}" />
 
 				<div class="col-md-6" class="eksperiment-cnt">
@@ -84,7 +84,7 @@
 	<!---------- lokalitet ------------->
 		<div bs-pane data-title="Lokalitet" style="padding-left:0px;">
 
-			<form novalidate id="formLokalitet{{ x.eksperiment_id }}">
+			<form novalidate id="formLokalitet{{ x.eksperiment_id }}" autocomplete="off">
 
 				<input type="hidden" name="eksperiment_id" value="{{ x.eksperiment_id }}" />
 				<input type="hidden" name="geometryWkt" value="{{ x.geometryWkt }}" />

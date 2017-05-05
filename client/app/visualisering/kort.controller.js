@@ -75,7 +75,7 @@ angular.module('myrejagtenApp')
 		Eksperiment.query().$promise.then(function(eksperimenter) {
 			function getData(e) {
 					if (!e.Data || !e.Data.length) return ''
-				var d = '<table style="width:180px;line-height:14px;">';
+				var d = '<table style="width:180px;line-height:14px;border-collapse: separate;border-spacing:20px 0px;">';
 				for (var i=0, l=e.Data.length; i<l; i++) {
 					if (e.Data[i].maden_stjaalet || e.Data[i].myrer_indsamlet || e.Data[i].myrer_frysning) {
 						d+= '<tr>';
@@ -101,7 +101,6 @@ angular.module('myrejagtenApp')
 				if (e.vejr) vejr.push(e.vejr);
 				if (e.vind) vejr.push(e.vind);
 				if (e.temp) vejr.push(e.temp + '&deg;');
-
 
 				m+= vejr.length>0 ? '<p style="margin: 0px;font-weight:bold;">' + vejr.join(', ') + '</p>' : '';
 				m+= data;
