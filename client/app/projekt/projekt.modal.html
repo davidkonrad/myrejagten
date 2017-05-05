@@ -18,36 +18,35 @@
 						<label class="normal">Område (Adresse og stednavneopslag)</label>
 						<input type="text" class="form-control bold input-lg" ng-model="__projekt.lokalitet" id="stednavne_v2" />
 						
-						<div class="col-sm-12">
+						<div class="col-sm-12 no-padding">
 	            <label class="radio-inline"> <input type="radio" ng-model="__projekt.lokalitetMethod" name="opslag" value="stednavne_v2" checked />Stednavne</label>
 	            <label class="radio-inline"> <input type="radio" ng-model="__projekt.lokalitetMethod" name="opslag" value="adresser" />Adresser</label>
 	            <label class="radio-inline"> <input type="radio" ng-model="__projekt.lokalitetMethod" name="opslag" value="" />Ingen opslag</label>
 		        </div>
 	
-						<div class="col-sm-6 no-padding">
+						<div class="col-sm-12"><br></div>
+						
+						<div class="col-sm-6 np-padding">
 							<label class="normal">Start dato</label>
 							<input type="text" 
-									class="form-control bold input-lg" 
+									class="form-control bold" 
 									ng-model="__projekt.start_tid" 
 									bs-datepicker 
 									data-date-format="dd-MM-yyyy" 
 									size="7" 
 									data-container="#modal-projekt" 
-									data-autoclose="true" 
-							/>
+									data-autoclose="true"/>
 						</div>
-
-						<div class="col-sm-6  no-padding">
+						<div class="col-sm-6 ">
 							<label class="normal">Slut dato</label>
 							<input type="text" 
-									class="form-control bold input-lg" 
+									class="form-control bold" 
 									ng-model="__projekt.slut_tid" 
 									bs-datepicker 
 									data-date-format="dd-MM-yyyy" 
 									size="7" 
 									data-container="#modal-projekt" 
-									data-autoclose="true" 
-							/>
+									data-autoclose="true" />
 						</div>
 	
 						<br><br>

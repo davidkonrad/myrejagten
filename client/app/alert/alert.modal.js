@@ -44,9 +44,10 @@ angular.module('myrejagtenApp')
 
 
 //************************************************
-			confirm: function($scope, question) {
+			confirm: function($scope, question, message) {
 				$scope[name] = {
-					question: question
+					question: question,
+					message: message
 				}
 				deferred = $q.defer()
 				modal = $modal({

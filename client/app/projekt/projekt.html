@@ -31,8 +31,7 @@
 				data-toggle="true" 
 				bs-options="i.value as i.label for i in items.projektSortering" 
 				bs-select
-				title="Sortering af projekter"
-			>
+				title="Sortering af projekter">
 				<span class="caret"></span>
 			</button>
 			<label class="pull-right small normal sorter hidden-xs" for="btn-projekt-sorter">
@@ -46,8 +45,7 @@
 				class="panel panel-default" 
 				role="tab" 
 				projekt-id="{{ p.projekt_id }}" 
-				id="{{ 'heading' + p.projekt_id }}"
-			>
+				id="{{ 'heading' + p.projekt_id }}">
 		    <div class="panel-heading">
 		      <h4 class="panel-title">
 		        <a class="no-underline" 
@@ -57,8 +55,7 @@
 							data-target="{{ '#projekt_'+p.projekt_id }}" 
 							aria-expanded="true" 
 							aria-controls="{{ 'projekt_'+p.projekt_id }}"
-							ng-click="skoleProjektClick(p.projekt_id)"
-						>
+							ng-click="skoleProjektClick(p.projekt_id)">
 
 							<span class="projekt-item projekt-timestamp"> {{ p.created_timestamp | date:'dd-MM-yyyy  HH:mm' }} </span>
 							<span class="projekt-item projekt-delimiter"></span>
@@ -76,7 +73,7 @@
 							</span>
 
 							<span class="projekt-item projekt-count pull-right hidden-xs hidden-sm" title="{{ p.eksperiment_count.$$state.value }} {{ p.eksperiment_count.$$state.value == 1 ? 'eksperiment' : 'eksperimenter' }} "> 
-								{{ p.eksperiment_count.$$state.value }} 
+								{{ p.eksperiment_count }} 
 							</span>
 
 		      </h4>
@@ -97,8 +94,7 @@
 									ng-model="sortering.value" 
 									data-toggle="true" 
 									bs-options="i.value as i.label for i in items.sortering" 
-									bs-select
-								>
+									bs-select>
 									<span class="caret"></span>
 								</button>
 								<label class="pull-right small normal sorter hidden-xs" for="btn-eksperiment-sorter">
