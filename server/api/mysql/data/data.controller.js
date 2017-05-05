@@ -15,6 +15,9 @@ exports.index = function(req, res) {
 
 // Return data joined with results
 exports.joinResultat = function(req, res) {
+
+	models.sequelize.query('SET SESSION sql_mode = "";');
+
 	var sql = ''
 		+'select '
 		+'data.data_id, '

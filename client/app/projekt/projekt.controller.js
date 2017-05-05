@@ -185,11 +185,12 @@ angular.module('myrejagtenApp')
 		$scope.$on('modal.show', function(e, target) {
 			$scope.initializeStednavne_v2($scope)
 			if ($scope.__projekt && $scope.__projekt.projekt_id) {
-				$scope.updateMapElements($scope.__projekt)
+				$scope.updateMapElements($scope.__projekt);
 			}
 		})
 		$scope.$on('modal.hide', function(e, target) {
-			$scope.marker = null
+			$scope.marker = null;
+			$scope.reloadProjekts();
 		})
 		$scope.setMarker = function(latLng) {
 			if (!$scope.marker) {
@@ -223,12 +224,12 @@ angular.module('myrejagtenApp')
 		$scope.doCreateProjekt = function() { 
 			if ($scope.__projekt.projekt_id) {
 				Projekt.update({ id: $scope.__projekt.projekt_id }, $scope.__projekt).$promise.then(function(res) {	
-				})
+				});
 			} else {
 				$scope.__projekt.user_id = $scope.user.user_id;
 				Projekt.save({ projekt_id: '' }, $scope.__projekt).$promise.then(function(res) {	
-					$scope.reloadProjekts()
-				})
+					$scope.reloadProjekts();
+				});
 			}
 		}
 
