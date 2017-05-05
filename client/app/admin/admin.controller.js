@@ -87,7 +87,7 @@ angular.module('myrejagtenApp')
 			})
 			.withDOM('lBfrtip')
 			.withButtons([ 
-				{ extend: 'pdf', className: 'btn btn-sm btn-primary' }  
+				{ extend: 'excelHtml5', className: 'btn btn-sm btn-primary' }  
 			])
 			.withBootstrap()
 			.withLanguage(Utils.dataTables_daDk);
@@ -262,25 +262,22 @@ angular.module('myrejagtenApp')
 				if (answer) {
 					Projekt.query({ where: { user_id: user_id }}).$promise.then(function(projekter) {
 						projekter.forEach(function(projekt) {
-							console.log(projekter);
-							Eksperiment.query({ where: { projekt_id: projekt.projekt_id }}).$promise.then(function(eksperimenter) {
-								console.log(eksperimenter);
-								eksperimenter.forEach(function(eksperiment) {
-									Data.query({ where: { eksperiment_id: eksperiment.eksperiment_id }}).$promise(function(data) {
-										console.log(data);
-										data.forEach(function(d) {
-											Resultat.query({ where: { data_id: d.data_id }}).$promise.then(function(resultater) {
-												resultater.forEach(function(r) {
-													Resultat.delete({ id: r.resultat_id });
-												});
-											});
-											Data.delete({ id: d.data_id });
-										});
-									});
-									Eksperiment.delete({ id: eksperiment.eksperiment_id });
-								});
-							});
 							Projekt.delete({ id: projekt.projekt_id });
+						});
+						Eksperiment.query({ where: { user_id: user_id }}).$promise.then(function(eksperimenter) {
+							eksperimenter.forEach(function(eksperiment) {
+								Data.query({ where: { eksperiment_id: eksperiment.eksperiment_id }}).$promise.then(function(data) {
+									data.forEach(function(d) {
+										Resultat.query({ where: { data_id: d.data_id }}).$promise.then(function(resultater) {
+											resultater.forEach(function(r) {
+												Resultat.delete({ id: r.resultat_id });
+											});
+										});
+										Data.delete({ id: d.data_id });
+									});
+								});
+								Eksperiment.delete({ id: eksperiment.eksperiment_id });
+							});
 						});
 						MysqlUser.delete({ id: user_id });
 						$scope.dtUserInstance.reloadData();
