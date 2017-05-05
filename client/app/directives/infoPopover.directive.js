@@ -26,13 +26,14 @@ angular.module('myrejagtenApp')
 
 				var $template = $($.parseHTML(template))
 
-				$template.attr('bs-popover', '')
-				$template.attr('data-content', content)
-				$template.attr('data-trigger', 'hover')
-				$template.attr('data-placement', placement)
-				$template.attr('data-container', 'html')
-				$template.css('backgroundColor', '#fff')
-				$template.find('i').css('backgroundColor', '#fff')
+				$template.attr('bs-popover', '');
+				$template.attr('data-html', 'true');
+				$template.attr('data-content', content);
+				$template.attr('data-trigger', 'hover');
+				$template.attr('data-placement', placement);
+				$template.attr('data-container', 'html');
+				$template.css('backgroundColor', '#fff');
+				$template.find('i').css('backgroundColor', '#fff');
 
 				function getAttrVal(v) {
 					return attrs.hasOwnProperty(v) ? v.replace('info', '').toLowerCase() : false

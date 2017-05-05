@@ -48,7 +48,7 @@ angular.module('myrejagtenApp')
 				})
 
 				Eksperiment.query({ where: { eksperiment_id: data.eksperiment_id }} ).$promise.then(function(e) {
-					$scope.resDlg.eksperiment = e[0]
+					$scope.resDlg.eksperiment = e[0];
 				})
 
 				function updateResultat(resultat_id, prop, value) {
@@ -56,7 +56,7 @@ angular.module('myrejagtenApp')
 						if ($scope.resDlg.resultater[i].resultat_id == resultat_id) {
 							$scope.resDlg.resultater[i][prop] = value;
 							$scope.$apply();
-							return
+							return;
 						}
 					}
 				}
@@ -118,12 +118,8 @@ angular.module('myrejagtenApp')
 					})
 				})
 
-				var modalHideBefore = $scope.$on("modal.hide.before",function() {
-					modalHideBefore()
-        });
-				var modalHide = $scope.$on("modal.hide",function() {
-					modalHide();
-		      deferred.resolve(changed);
+				$scope.$on("modal.hide",function() {
+		      deferred.resolve(true);
 				});
 
 				$scope.resDlg.deleteResultat = function(resultat_id) {
@@ -238,7 +234,7 @@ angular.module('myrejagtenApp')
 				}
 				
 				angular.element('body').on('keydown keypress', function(e) {
-					if (e.charCode == 27) $scope.modalClose()
+					if (e.charCode == 27) $scope.modalClose(true)
 				})
 
 	      return deferred.promise;

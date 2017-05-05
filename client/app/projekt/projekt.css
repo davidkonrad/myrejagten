@@ -135,10 +135,10 @@ div.tooltip-inner {
 	border: 2px dotted gray;
 	margin-top: 5px;
 	text-align: center;
-	height: 250px;
+	height: 290px;
 }
 img.upload {
-	max-height: 340px;
+	max-height: 285px;
 	max-width: 100%;
 	cursor: pointer;
 }

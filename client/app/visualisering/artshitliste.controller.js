@@ -33,7 +33,8 @@ angular.module('myrejagtenApp')
 						var label = [];
 						label.push(info.navn_videnskabeligt || tooltipItem.yLabel); //avoid undefined on certain species
 						label.push('Fundet i ' + datasetLabel + eks);
-						label.push(info.fundne_myrer +' dyr registreret i alt.');
+						var fundne = info.fundne_myrer || '?';
+						label.push(fundne +' dyr registreret i alt.');
 						return label;
 		      }
 		    }
@@ -66,13 +67,14 @@ angular.module('myrejagtenApp')
 			var r, eks = {};
 			for (var i=0, l=result.data.length; i<l; i++) {
 				r = result.data[i];
+				var antal = typeof r.antal == 'number' ? parseInt(r.antal) : 0;
 				if (eks[r.navn_videnskabeligt]) {
 	 				eks[r.navn_videnskabeligt].antal_eksperimenter++;
-	 				eks[r.navn_videnskabeligt].fundne_myrer += r.antal;
+	 				eks[r.navn_videnskabeligt].fundne_myrer += antal; //!!
 				} else {
 					eks[r.navn_videnskabeligt] = { 
 						antal_eksperimenter: 1, 
-						fundne_myrer: r.antal,
+						fundne_myrer: antal,
 						navn_dk: r.navn_dk 
 					};
 				}

@@ -1,9 +1,21 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .controller('KortCtrl', ['$scope', '$http', '$timeout', 'Login', 'TicketService', 'Eksperiment', 'Utils',
-	 function($scope, $http, $timeout, Login, TicketService, Eksperiment, Utils) {
+  .controller('KortCtrl', ['$scope', '$http', '$timeout', 'Login', 'TicketService', 'Eksperiment', 'Utils', 'Projekt',
+	 function($scope, $http, $timeout, Login, TicketService, Eksperiment, Utils, Projekt) {
 
+
+		Projekt.query().$promise.then(function(p) {
+			$scope.projekter = p;
+		});
+		$scope.projektNameById = function(projekt_id) {
+			for (var i=0, l=$scope.projekter.length; i<l; i++) {
+				if ($scope.projekter[i].projekt_id == projekt_id) {
+					return $scope.projekter[i].titel;
+				}
+			}
+			return '';
+		};
 
 		$scope.map = {
 			events: {
@@ -94,8 +106,12 @@ angular.module('myrejagtenApp')
 				var titel = e.titel.trim() != '' ? e.titel : e.adresse;
 
 				var m = '<h4>' + e.myrejagt_id + ' | ' + titel + '</h4>';
-				m+='Udført af: <strong><small>'+ e.User.brugernavn + '</small></strong> d.' +Utils.fixDate(e.dato)+'<br>';
 
+				if (e.projekt_id>0) {
+					m+='Projekt: <strong>'+$scope.projektNameById(e.projekt_id)+'</strong><br>';
+				}
+				m+='Udført af: <strong><small>'+ e.User.brugernavn + '</small></strong> d.' +Utils.fixDate(e.dato)+'<br>';
+				
 				var vejr = [];
 				if (e.sol) vejr.push(e.sol);
 				if (e.vejr) vejr.push(e.vejr);

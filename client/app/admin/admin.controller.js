@@ -25,12 +25,11 @@ angular.module('myrejagtenApp')
 				return defer.promise;
 	    })
 			.withOption('stateSave', true)
-			.withFixedHeader({
-				alwaysCloneTop: true
-			})
 			.withOption('rowCallback', function( row, data, index ) {
 				$(row).attr('data_id', data.data_id);
-				if (data.proeve_analyseret == 1) $(row).addClass('success')
+				if (data.proeve_analyseret == 1) {
+					$(row).addClass('success');
+				}
 				if (!data.proeve_modtaget) {
 					$(row).addClass('danger')
 				}
@@ -80,8 +79,10 @@ angular.module('myrejagtenApp')
 				$(document).on('click', '#table-resultat tbody tr', function() {
 					var data_id = $(this).attr('data_id')
 					ResultatDlg.show($scope.dataById(data_id), $scope).then(function(changes) {
-						if (changes) $scope.dtInstance.reloadData()
-					})
+						if (changes) {
+							$scope.dtInstance.reloadData();
+						}
+					});
 				})
 
 			})
@@ -100,9 +101,6 @@ angular.module('myrejagtenApp')
 
 		function getIcon(data) {
 			switch (data) {
-				case 0 :
-					return '&times;'
-					break
 				case 1 :
 					return '<i class="fa fa-check"></i>'
 					break
@@ -138,7 +136,7 @@ angular.module('myrejagtenApp')
 				
       DTColumnBuilder
 				.newColumn('proeve_analyseret')
-				.withOption('width', '100px')
+				.withOption('width', '90px')
 				.withTitle('Analyseret')
 				.withClass('center')
 				.renderWith(function(data, type, full) {
@@ -339,6 +337,7 @@ angular.module('myrejagtenApp')
 
 		$scope.saveContent = function() {
 			Cnt.saveContent($scope.content.name, $scope.content.content);
+			Cnt.init();
 			delete $scope.textContent.changed;
 		}
 
@@ -415,8 +414,23 @@ angular.module('myrejagtenApp')
 	    DTColumnBuilder.newColumn('user_id').withOption('width', '100px').withTitle('Bruger').renderWith(function(data, type, full) {
 				return $scope.getUserById(data)
 			}),
+
       DTColumnBuilder.newColumn('titel').withOption('width', '200px').withTitle('Titel'),
-	    DTColumnBuilder.newColumn('dato').withOption('width', '200px').withOption('type', 'date').withTitle('Dato'),
+
+	    DTColumnBuilder.newColumn('dato')
+				.withOption('width', '200px')
+				.withOption('type', 'date')
+				.withTitle('Dato')
+				.renderWith(function(data, type, full) {
+					if (type == 'display') {
+						var d = new Date(data);
+						var s = d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();
+						return s;
+					} else {
+						return data
+					}
+				}),
+
 	    DTColumnBuilder.newColumn('adresse').withOption('width', '200px').withTitle('Adresse'),
 	    DTColumnBuilder.newColumn('').withOption('width', '50px').withTitle('').renderWith(function(data, type, full) {
 				return '<button class="btn btn-sm btn-danger btn-slet-eksperiment" title="Slet eksperiment" myrejagt-id="'+full.myrejagt_id+'" eksperiment-id="'+full.eksperiment_id+'"><i class="fa fa-times"></i></button>'

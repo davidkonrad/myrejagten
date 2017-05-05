@@ -20,22 +20,22 @@ angular.module('myrejagtenApp')
 
 				//populate contentNames (used by dropdown menu)
 				cnt.forEach(function(item) {
-					contentNames.push(item.name)
+					contentNames.push(item.name);
 				})
 
 				//alpha sort content
 				$timeout(function() {
-					contentNames.sort()
+					contentNames.sort();
 				})
 
-	      deferred.resolve(true)
+	      deferred.resolve(true);
 			})
       return deferred.promise;
 		}
 
 		return {
 			init: function() {
-				loadContent()
+				loadContent();
 			},
 
 			getNames: function(type) {
@@ -75,7 +75,7 @@ angular.module('myrejagtenApp')
 			      deferred.resolve(getValue())
 					})
 				} else {
-		      deferred.resolve(getValue())
+		      deferred.resolve(getValue());
 				}
 
 	      return deferred.promise;
@@ -94,7 +94,7 @@ angular.module('myrejagtenApp')
 
 //initialize
 angular.module('myrejagtenApp').run(function(Cnt) {
-	Cnt.init()
+	Cnt.init();
 });
 
 
