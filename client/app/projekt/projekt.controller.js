@@ -540,6 +540,14 @@ angular.module('myrejagtenApp')
 			return 'MJ' + '-' + zeroPad(user_id, 4)	+ '-' + zeroPad(projekt_id, 2) + '-' + zeroPad(eksperiment_id, 2)	
 		}
 
+		/* 
+			ui.checkbox seems not to set ng-dirty on the button when it is unchecked
+		*/
+		$scope.setNgDirty = function(event) {
+			var element = angular.element(event.delegateTarget);
+			if (!element.hasClass('ng-dirty')) element.addClass('ng-dirty');
+		}
+
 		$scope.createEksperiment = function() {
 			CreateEksperiment.show($scope).then(function(myrejagt_id) {
 				if (myrejagt_id) {

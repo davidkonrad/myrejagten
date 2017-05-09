@@ -300,7 +300,11 @@
 							ng-class="{ 'has-value' : d.myrer_frysning != undefined }">
 					</td>
 					<td style="text-align:center;"> 
-						<checkbox ng-model="d.madding_stjaalet" name="madding_sjaalet" class="button-checkbox"></checkbox>
+						<checkbox ng-model="d.madding_stjaalet" 
+							ng-click="setNgDirty($event)"
+							name="madding_sjaalet" 
+							class="button-checkbox">
+						</checkbox>
 					</td>
 
 				</tr>

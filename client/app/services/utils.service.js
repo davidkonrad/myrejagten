@@ -76,7 +76,8 @@ angular.module('myrejagtenApp')
 					var inputs = form.querySelectorAll('input:not(.exclude-from-form)');
 					var textareas = form.querySelectorAll('textarea:not(.exclude-from-form)');
 					var selects = form.querySelectorAll('button[bs-select]');
-	
+					var checks = form.querySelectorAll('button.button-checkbox');
+
 					for (i=0; i<inputs.length; i++) {
 						if (angular.element(inputs[i]).hasClass('ng-dirty')) {
 							return true;
@@ -92,6 +93,11 @@ angular.module('myrejagtenApp')
 							return true;
 						}
 					}
+					for (i=0; i<checks.length; i++) {
+						if (angular.element(checks[i]).hasClass('ng-dirty')) {
+							return true;
+						}
+					}
 
 				}
 				return false;
@@ -104,23 +110,25 @@ angular.module('myrejagtenApp')
 					var inputs = form.querySelectorAll('input:not(.exclude-from-form)');
 					var textareas = form.querySelectorAll('textarea:not(.exclude-from-form)');
 					var selects = form.querySelectorAll('button[bs-select]');
-					var ngCheckboxes = form.querySelectorAll('button[name="madding_sjaalet"]');
+					var checks = form.querySelectorAll('button.button-checkbox');
 
 					for (i=0; i<inputs.length; i++) {
-						angular.element(inputs[i]).removeClass('ng-dirty')
-						angular.element(inputs[i]).removeClass('ng-touched')
-						angular.element(inputs[i]).addClass('ng-pristine')
+						angular.element(inputs[i]).removeClass('ng-dirty');
+						angular.element(inputs[i]).removeClass('ng-touched');
+						angular.element(inputs[i]).addClass('ng-pristine');
 					}
 					for (i=0; i<selects.length; i++) {
-						angular.element(selects[i]).removeClass('ng-dirty')
+						angular.element(selects[i]).removeClass('ng-dirty');
 					}
 					for (i=0; i<textareas.length; i++) {
-						angular.element(textareas[i]).removeClass('ng-dirty')
-						angular.element(textareas[i]).removeClass('ng-touched')
-						angular.element(textareas[i]).addClass('ng-pristine')
+						angular.element(textareas[i]).removeClass('ng-dirty');
+						angular.element(textareas[i]).removeClass('ng-touched');
+						angular.element(textareas[i]).addClass('ng-pristine');
 					}
-					for (i=0; i<ngCheckboxes.length; i++) {
-						angular.element(ngCheckboxes[i]).removeClass('ng-dirty')
+					for (i=0; i<checks.length; i++) {
+						angular.element(checks[i]).removeClass('ng-dirty');
+						angular.element(textareas[i]).removeClass('ng-touched');
+						angular.element(textareas[i]).addClass('ng-pristine');
 					}
 
 				}
