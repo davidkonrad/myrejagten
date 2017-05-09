@@ -15,6 +15,10 @@ angular.module('myrejagtenApp')
 			//severe error
 		}
 
+
+/*************
+	Analyse
+**************/
 		$scope.dtOptions = DTOptionsBuilder
 			.fromFnPromise(function() {
 				var defer = $q.defer();
@@ -76,7 +80,7 @@ angular.module('myrejagtenApp')
 					}
 				})
 
-				$(document).on('click', '#table-resultat tbody tr', function() {
+				$('#table-resultat').on('click', 'tbody tr', function() {
 					var data_id = $(this).attr('data_id')
 					ResultatDlg.show($scope.dataById(data_id), $scope).then(function(changes) {
 						if (changes) {
@@ -366,7 +370,6 @@ angular.module('myrejagtenApp')
 /*************
 	Eksperimenter
 **************/
-
 		$scope.dtEksperimentOptions = DTOptionsBuilder
 			.fromFnPromise(function() {
 				var defer = $q.defer();
