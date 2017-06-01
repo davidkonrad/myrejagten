@@ -12,9 +12,9 @@ angular.module('myrejagtenApp')
 				url: '/api/data/resultat',
 				isArray: true
 			},
-			numbers: {
+			stats: {
 				method: 'GET',
-				url: '/api/data/numbers',
+				url: '/api/data/stats',
 				isArray: true
 			}
 		})

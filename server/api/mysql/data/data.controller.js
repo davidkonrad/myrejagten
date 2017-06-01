@@ -13,9 +13,9 @@ exports.index = function(req, res) {
 };
 
 //return total number of myrer counted
-exports.numbers = function(req, res) {
+exports.stats = function(req, res) {
 	var sql = 'select '
-		+ 'sum(myrer_indsamlet) as indsamlet '
+		+ 'sum(myrer_indsamlet) as indsamlet, '
 		+ 'sum(myrer_frysning) as frysning '
 		+ 'from data ';
 	models.sequelize.query(sql,	{ bind: ['active'], type: models.sequelize.QueryTypes.SELECT }).then(function(data) {

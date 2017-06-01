@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .controller('KortCtrl', ['$scope', '$http', '$timeout', 'Login', 'TicketService', 'Eksperiment', 'Utils', 'Projekt',
-	 function($scope, $http, $timeout, Login, TicketService, Eksperiment, Utils, Projekt) {
+  .controller('KortCtrl', ['$scope', '$http', '$timeout', 'Login', 'TicketService', 'Eksperiment', 'Utils', 'Projekt', 'Data',
+	 function($scope, $http, $timeout, Login, TicketService, Eksperiment, Utils, Projekt, Data) {
 
 
 		Projekt.query().$promise.then(function(p) {
@@ -148,6 +148,14 @@ angular.module('myrejagtenApp')
 					icon: iconBlue
 				})
 			})
+
+			Data.stats().$promise.then(function(res) {
+				$scope.stats = {
+					antal: eksperimenter.length,
+					indsamlet: res[0].indsamlet,
+					frysning: res[0].frysning
+				}
+			});
 		})
 
 }]);

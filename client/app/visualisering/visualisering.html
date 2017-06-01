@@ -1,10 +1,13 @@
 <div class="container-fluid">
 
-	<div bs-tabs class="XXcontrol-group col-sm-9">
+	<div bs-tabs class="col-sm-9">
 
 		<div bs-pane data-title="Kort" style="padding-left:0px;" ng-controller="KortCtrl">
 			<div class="control-group col-md-12">
 				<leaflet id="vis-map" center="map.center" defaults="map.defaults" layers="map.layers" markers="map.markers" events="map.events" height="580px" style="border:1px solid #ccc;border-radius:5px;"></leaflet>
+				<small class="text-muted">
+					{{ stats.antal }} eksperimenter oprettet i alt. Totalt {{ stats.indsamlet }} myrer indsamlet, {{ stats.frysning }} myrer optalt efter frysning.
+				</small>
 			</div>
 		</div>
 
