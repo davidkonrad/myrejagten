@@ -17,6 +17,21 @@ angular.module('myrejagtenApp')
 			return '';
 		};
 
+		var iconBlue = {
+			iconUrl: 'assets/images/blue.png',
+			iconSize: [15, 26],
+			iconAnchor: [12, 21], 
+			shadowAnchor: [4, 62], 
+			popupAnchor: [-4, -20] 
+		};
+		var iconGreen = {
+			iconUrl: 'assets/images/green.png',
+			iconSize: [15, 26],
+			iconAnchor: [12, 21], 
+			shadowAnchor: [4, 62], 
+			popupAnchor: [-4, -20] 
+		};
+
 		$scope.map = {
 			events: {
 				map: {
@@ -129,7 +144,8 @@ angular.module('myrejagtenApp')
 					lat: parseFloat(e.lat),
 					lng: parseFloat(e.lng),
 					message: getMessage(e),
-					getMessageScope: function() { return $scope; }
+					getMessageScope: function() { return $scope },
+					icon: iconBlue
 				})
 			})
 		})
