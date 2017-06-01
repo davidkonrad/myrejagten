@@ -5,6 +5,7 @@ var controller = require('./data.controller');
 
 var router = express.Router();
 router.get('/resultat', controller.joinResultat);
+router.get('/numbers', controller.numbers);
 router.get('/', controller.index);
 router.get('/:id', controller.show);
 router.post('/', controller.create);

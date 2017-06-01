@@ -2,7 +2,6 @@
 var models = require('../');
 var qp = require('../nestedQueryParser');
 
-
 // Get list of datas
 exports.index = function(req, res) {
 	var query = (req.query) ? qp.parseQueryString(req.query) : undefined;
@@ -13,10 +12,21 @@ exports.index = function(req, res) {
   });
 };
 
+//return total number of myrer counted
+exports.numbers = function(req, res) {
+	var sql = 'select '
+		+ 'sum(myrer_indsamlet) as indsamlet '
+		+ 'sum(myrer_frysning) as frysning '
+		+ 'from data ';
+	models.sequelize.query(sql,	{ bind: ['active'], type: models.sequelize.QueryTypes.SELECT }).then(function(data) {
+		return res.json(200, data);
+	}).catch(function(err){
+	  handleError(res, err);
+  });
+};
+
 // Return data joined with results
 exports.joinResultat = function(req, res) {
-
-	//models.sequelize.query('SET GLOBAL sql_mode = "";');
 
 	var sql = ''
 		+'select '
@@ -27,15 +37,11 @@ exports.joinResultat = function(req, res) {
 		+'data.myrer_indsamlet, '
 		+'data.myrer_frysning, '
 
-		//+'date_format(data.proeve_modtaget, "%d/%m/%Y") as proeve_modtaget, '
 		+'data.proeve_modtaget as "proeve_modtaget", '
-
 		+'data.proeve_analyseret, '
 
 		+'eksperiment.myrejagt_id, '
 		+'eksperiment.user_id, '
-
-		//+'date_format(eksperiment.dato, "%d/%m/%Y") as "eksperiment_dato", '
 		+'eksperiment.dato as "eksperiment_dato", '
 
 		+'resultat.resultat_id, '
@@ -70,7 +76,6 @@ exports.create = function(req, res) {
 	  handleError(res, err);
   });
 };
-
 
 // Updates an existing data in the DB.
 exports.update = function(req, res) {
