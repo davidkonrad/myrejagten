@@ -28,3 +28,12 @@
 	text-overflow: ellipsis;
 }
 
+
+/* fix fancy box image movement */
+#fbplus-wrap {
+	box-sizing: content-box;
+}
+#fbplus-content { 
+	box-sizing: content-box;
+}
+

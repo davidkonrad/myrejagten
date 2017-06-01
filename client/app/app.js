@@ -19,7 +19,8 @@ angular.module('myrejagtenApp', [
 	'ngFileUpload',
 	'textAngular',
 	'textAngularSetup',
-	'chart.js'
+	'chart.js',
+	'fancyboxplus'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider, $logProvider, ChartJsProvider) {
 		L.Icon.Default.imagePath = '../assets/';

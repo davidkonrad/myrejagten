@@ -120,7 +120,7 @@ angular.module('myrejagtenApp')
 
 				m+= vejr.length>0 ? '<p style="margin: 0px;font-weight:bold;">' + vejr.join(', ') + '</p>' : '';
 				m+= data;
-				m+= e.upload_billede ? '<img src="' + e.upload_billede + '" style="width: 290px;">' : '';
+				m+= e.upload_billede ? '<img src="' + e.upload_billede + '" style="width: 290px;cursor:pointer;" fancyboxable>' : '';
 
 				return m
 			}
@@ -129,6 +129,7 @@ angular.module('myrejagtenApp')
 					lat: parseFloat(e.lat),
 					lng: parseFloat(e.lng),
 					message: getMessage(e),
+					getMessageScope: function() { return $scope; }
 				})
 			})
 		})
