@@ -519,17 +519,17 @@ angular.module('myrejagtenApp')
 		];
 		$scope.items.madding = [
 			{ madding: 'Vand' },
-			{ madding: 'Saltvand' },
 			{ madding: 'Sukkervand' },
+			{ madding: 'Saltvand' },
 			{ madding: 'Olie' },
 			{ madding: 'Protein' },
 			{ madding: 'Kammerjunker' }
-		]
+		];
 		$scope.items.sortering = [
 			{ value: '-eksperiment_id', label: 'Nyeste' },
 			{ value: 'eksperiment_id', label: 'Ældste' },
 			{ value: 'titel', label: 'Navn' }
-		]
+		];
 		$scope.sortering = { value: '-eksperiment_id' }
 
 		function getMyrejagtId(user_id, projekt_id, eksperiment_id) {
