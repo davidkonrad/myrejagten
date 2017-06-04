@@ -109,6 +109,10 @@ module.exports = function(sequelize, DataTypes) {
     data_kommentar: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    utm: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
 
 	}, {

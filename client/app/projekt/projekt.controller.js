@@ -2,9 +2,9 @@
 
 angular.module('myrejagtenApp')
   .controller('ProjektCtrl', ['$scope', '$http', '$location', '$interval', '$sce', 'Login', 'Alert', 'KR', '$timeout', '$modal', '$q', 'Projekt', 'Eksperiment', 
-			'ToDo', 'Data', 'Geo', 'TicketService', 'Utils', 'leafletData', 'UploadModal', 'CreateEksperiment', 
+			'ToDo', 'Data', 'Geo', 'TicketService', 'Utils', 'leafletData', 'UploadModal', 'CreateEksperiment', 'UTM',
 	function($scope, $http, $location, $interval, $sce, Login, Alert, KR, $timeout, $modal, $q, Projekt, Eksperiment, 
-			ToDo,	Data, Geo, TicketService, Utils, leafletData, UploadModal, CreateEksperiment) {
+			ToDo,	Data, Geo, TicketService, Utils, leafletData, UploadModal, CreateEksperiment, UTM) {
 
 		$scope.user = Login.currentUser();
 
@@ -857,8 +857,9 @@ angular.module('myrejagtenApp')
 		$scope.eksperimentAdresseSelect = function(eksperiment_id, adresseType, item) {
 
 			function setLatLng(e, form, lat, lng) {
-				form.find('input[name="lat"]').val( lat )
-				form.find('input[name="lng"]').val( lng )
+				form.find('input[name="lat"]').val( lat );
+				form.find('input[name="lng"]').val( lng );
+				form.find('input[name="utm"]').val( UTM.get(lat, lng) );
 				if (!e.map.marker) {
 					e.map.marker = {
 						lat: lat,
@@ -868,7 +869,7 @@ angular.module('myrejagtenApp')
 						message: 'Zoom helt ind på kortet og klik for at angive den helt nøjagtige position.',
 						draggable: true
 					}
-					e.map.markers['marker'] = e.map.marker
+					e.map.markers['marker'] = e.map.marker;
 				} else {
 					e.map.marker.lat = lat
 					e.map.marker.lng = lng
@@ -879,13 +880,13 @@ angular.module('myrejagtenApp')
 					lng: lng,
 					zoom: 16
 				}
-				$scope.$apply()							
+				$scope.$apply()							;
 			}
 
 			function formatAdresse(a,p,b,k,r) {
 				var r = a;
 				r += ', ' + p + ' ' + b;
-				return r
+				return r;
 			}
 
 			var form = angular.element('#formLokalitet'+eksperiment_id)
