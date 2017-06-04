@@ -859,7 +859,7 @@ angular.module('myrejagtenApp')
 			function setLatLng(e, form, lat, lng) {
 				form.find('input[name="lat"]').val( lat );
 				form.find('input[name="lng"]').val( lng );
-				form.find('input[name="utm"]').val( UTM.get(lat, lng) );
+				form.find('input[name="UTM"]').val( UTM.get(lat, lng) );
 				if (!e.map.marker) {
 					e.map.marker = {
 						lat: lat,
