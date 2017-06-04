@@ -362,7 +362,15 @@ angular.module('myrejagtenApp')
 		$scope.downloadData = function() {
 			$http.get('/api/download/all').then(function(res) {
 				var fileName = 'myrejagten_' + getDateStr() + '.csv';
-				CSV.download(res.data, fileName)
+				//convert null to ""
+				res.data.forEach(function(d) {
+					for (var item in d) {
+						if (d[item] === null) d[item] = '';
+					}
+				});
+				$timeout(function() {
+					CSV.download(res.data, fileName)
+				});
 			})
 		}
 

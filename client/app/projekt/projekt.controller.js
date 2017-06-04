@@ -871,8 +871,8 @@ angular.module('myrejagtenApp')
 					}
 					e.map.markers['marker'] = e.map.marker;
 				} else {
-					e.map.marker.lat = lat
-					e.map.marker.lng = lng
+					e.map.marker.lat = lat;
+					e.map.marker.lng = lng;
 				}
 
 				e.map.center = {
@@ -880,7 +880,7 @@ angular.module('myrejagtenApp')
 					lng: lng,
 					zoom: 16
 				}
-				$scope.$apply()							;
+				$scope.$apply();
 			}
 
 			function formatAdresse(a,p,b,k,r) {
