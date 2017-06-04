@@ -45,11 +45,11 @@ angular.module('myrejagtenApp')
 					templateUrl: 'app/ResultatDlg/ResultatDlg.modal.html',
 					backdrop: 'static',
 					show: true
-				})
+				});
 
 				Eksperiment.query({ where: { eksperiment_id: data.eksperiment_id }} ).$promise.then(function(e) {
 					$scope.resDlg.eksperiment = e[0];
-				})
+				});
 
 				function updateResultat(resultat_id, prop, value) {
 					for (var i=0, l=$scope.resDlg.resultater.length; i<l; i++) {
@@ -78,6 +78,7 @@ angular.module('myrejagtenApp')
 								var id = this.$element.attr('resultat_id');
 								setDanskNavn(id, item.Dansk_navn)
 							}, 
+							autoSelect: false,
 							items : 20,
 							source: lookup
 						})
@@ -91,6 +92,7 @@ angular.module('myrejagtenApp')
 								var id = this.$element.attr('resultat_id');
 								setVidenskabeligtNavn(id, item.Videnskabeligt_navn)
 							}, 
+							autoSelect: false,
 							showHintOnFocus: true,
 							items : 20,
 							source: lookup_dk
@@ -98,12 +100,15 @@ angular.module('myrejagtenApp')
 					})
 				}
 				
-				function reload() {
+				function reload(resultat_id) {
 					Resultat.query({ where: { data_id: data.data_id }} ).$promise.then(function(res) {
 						$scope.resDlg.resultater = res
 						$timeout(function() {
 							$scope.$apply();
 							populateAllearter();
+							if (resultat_id) {
+								angular.element('#antal'+resultat_id).focus().click();
+							}
 						})
 					})
 				}
@@ -111,12 +116,12 @@ angular.module('myrejagtenApp')
 
 				modal.$promise.then(modal.show).then(function() {
 					$('#btn-create').on('click', function() {
-						Resultat.save({ id: '' }, { data_id: $scope.resDlg.data.data_id }).$promise.then(function() {
+						Resultat.save({ id: '' }, { data_id: $scope.resDlg.data.data_id }).$promise.then(function(r) {
 							changed = true;
-							reload();
-						})
+							reload(r.resultat_id);
+						});
 					})
-				})
+				});
 
 				$scope.$on("modal.hide",function() {
 		      deferred.resolve(true);
@@ -186,7 +191,7 @@ angular.module('myrejagtenApp')
 										text += r[ri].navn_dk +"\t\t";
 										text += r[ri].kommentar +"\n"
 									}
-									mailBody += text.replace(/null/g, '(?)') +"\n"
+									mailBody += text.replace(/null/g, '') +"\n"
 								}	
 								$timeout(function() {
 									deferred.resolve();
