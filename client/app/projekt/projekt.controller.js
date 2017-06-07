@@ -87,7 +87,6 @@ angular.module('myrejagtenApp')
 			{ value: '-projekt_id', label: 'Nyeste' },
 			{ value: 'projekt_id', label: 'Ældste' },
 			{ value: 'titel', label: 'Navn' },
-			//{ value: '!eksperiment_count.$$state.value', label: 'Eksperimenter' },
 			{ value: '!eksperiment_count', label: 'Eksperimenter' },
 		]
 		$scope.projektSortering = { value: '-projekt_id' }
@@ -141,16 +140,28 @@ angular.module('myrejagtenApp')
 			if (projekt_id) $scope.showProjekt(projekt_id);
 			return false;
 		})
-	
+
 		$scope.showProjekt = function(projekt_id) {
 			$scope.marker = null
 			$scope.markers = {} 
+
+			var showHandler = $scope.$on('modal.show', function(e, target) {
+				$scope.initializeStednavne_v2($scope)
+				if ($scope.__projekt && $scope.__projekt.projekt_id) {
+					$scope.updateMapElements($scope.__projekt);
+				}
+				showHandler();
+			})
+			var hideHandler = $scope.$on('modal.hide', function(e, target) {
+				$scope.marker = null;
+				$scope.reloadProjekts();
+				hideHandler();
+			})
 
 			var showModal = function() {
 				var scope = $scope.$new();
 				scope.projekt_id = projekt_id;
 				$scope.projektModal = $modal({
-					//controller: 'ProjektModalCtrl',
 					templateUrl: 'app/projekt/ProjektDlg.modal.html',
 					backdrop: 'static',
 					show: true,
@@ -181,17 +192,8 @@ angular.module('myrejagtenApp')
 				}
 				showModal()
 			}
+
 		}
-		$scope.$on('modal.show', function(e, target) {
-			$scope.initializeStednavne_v2($scope)
-			if ($scope.__projekt && $scope.__projekt.projekt_id) {
-				$scope.updateMapElements($scope.__projekt);
-			}
-		})
-		$scope.$on('modal.hide', function(e, target) {
-			$scope.marker = null;
-			$scope.reloadProjekts();
-		})
 		$scope.setMarker = function(latLng) {
 			if (!$scope.marker) {
 				$scope.marker = {
@@ -469,7 +471,7 @@ angular.module('myrejagtenApp')
 			$timeout(function() {
 				$scope.$apply()
 			})
-		})
+		});
 		
 
 		/**
@@ -532,14 +534,6 @@ angular.module('myrejagtenApp')
 		];
 		$scope.sortering = { value: '-eksperiment_id' }
 
-		function getMyrejagtId(user_id, projekt_id, eksperiment_id) {
-			function zeroPad(num, places) {
-			  var zero = places - num.toString().length + 1;
-			  return Array(+(zero > 0 && zero)).join("0") + num;
-			}
-			return 'MJ' + '-' + zeroPad(user_id, 4)	+ '-' + zeroPad(projekt_id, 2) + '-' + zeroPad(eksperiment_id, 2)	
-		}
-
 		/* 
 			ui.checkbox seems not to set ng-dirty on the button when it is unchecked
 		*/
@@ -551,7 +545,6 @@ angular.module('myrejagtenApp')
 		$scope.createEksperiment = function() {
 			CreateEksperiment.show($scope).then(function(myrejagt_id) {
 				if (myrejagt_id) {
-
 					var obj = {
 						user_id: $scope.user.user_id, 
 						projekt_id: $scope.projekt_id,
@@ -776,9 +769,9 @@ angular.module('myrejagtenApp')
 				$scope.refreshMaps()
 
 				$scope.eksperimenter.forEach(function(eks) {
+					Utils.formReset('formResultater'+eks.eksperiment_id);
 					Eksperiment.resultat({ id: eks.eksperiment_id }).$promise.then(function(resultat) {
 						eks.hasResultat = resultat.length>0
-
 					})
 				})
 			})
@@ -889,8 +882,8 @@ angular.module('myrejagtenApp')
 				return r;
 			}
 
-			var form = angular.element('#formLokalitet'+eksperiment_id)
-			var e = $scope.eksperimentById(eksperiment_id)
+			var form = angular.element('#formLokalitet'+eksperiment_id);
+			var e = $scope.eksperimentById(eksperiment_id);
 			switch (adresseType) {
 				case 'adresser': 
 					wkt.read(item.geometryWkt);

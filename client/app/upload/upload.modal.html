@@ -9,9 +9,16 @@
 			<div class="modal-body">
 					<div class="control-group col-md-12">
 
-					<form xxng-app="fileUpload" name="form">
-					  <div class="btn btn-primary" ngf-select="registerFile($file, $invalidFiles)" ng-model="file" name="file" ngf-pattern="'image/*'"
-					    ngf-accept="'image/*'" ngf-max-size="10MB" ngf-min-height="100">Vælg billede fra computer
+					<form name="form">
+					  <div class="btn btn-primary btn-sm" 
+							ngf-select="registerFile($file, $invalidFiles)" 
+							ng-model="file" 
+							name="file" 
+							ngf-pattern="'image/*'"
+					    ngf-accept="'image/*'" 
+							ngf-max-size="12MB" 
+							ngf-min-height="100">
+							Vælg billede fra computer
 						</div>
 
 						<br><br>
@@ -22,8 +29,7 @@
 							  ngf-src="selectedFile || '{{ currentImage }}' "
 							  ngf-background="selectedFile" 
 							  ngf-resize="{width: 400, height: 250, quality: 0.9}" 
-							  ngf-no-object-url="false" 
-							>
+							  ngf-no-object-url="false">
 						</div>
 					</form>			
 				</div>

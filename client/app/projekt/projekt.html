@@ -11,8 +11,7 @@
 				class="close alert-close" 
 				aria-label="Luk besked" 
 				title="Skjul besked" 
-				data-dismiss="alert" 
-			>
+				data-dismiss="alert">
 				<span aria-hidden="true">&times;</span>
 			</button>
 			<span ng-bind-html="to_trusted(a.message)"></span>
@@ -57,7 +56,7 @@
 							aria-controls="{{ 'projekt_'+p.projekt_id }}"
 							ng-click="skoleProjektClick(p.projekt_id)">
 
-							<span class="projekt-item projekt-timestamp"> {{ p.created_timestamp | date:'dd-MM-yyyy  HH:mm' }} </span>
+							<span class="projekt-item projekt-timestamp" title="Tidspunkt for oprettelse"> {{ p.created_timestamp | date:'dd-MM-yyyy  HH:mm' }} </span>
 							<span class="projekt-item projekt-delimiter"></span>
 							<span class="projekt-item projekt-titel"> {{ p.titel }} </span>
 							<span class="projekt-item projekt-delimiter hidden-xs hidden-sm"></span>

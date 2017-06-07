@@ -42,12 +42,12 @@
   ],
   "homepage": "https://datatables.net",
   "license": "MIT",
-  "version": "2.2.0",
-  "_release": "2.2.0",
+  "version": "1.3.1",
+  "_release": "1.3.1",
   "_resolution": {
     "type": "version",
-    "tag": "2.2.0",
-    "commit": "cd40562b4244fcef841b012436a11df682236eb0"
+    "tag": "1.3.1",
+    "commit": "7ef94793ec765d29296b2d1617f5d5723fe9b8ca"
   },
   "_source": "https://github.com/DataTables/Dist-DataTables-Buttons.git",
   "_target": "*",
