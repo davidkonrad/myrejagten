@@ -62,59 +62,9 @@ angular.module('myrejagtenApp')
 				})
 
 	      return deferred.promise;
-			},
-
-			//******************************************
-
-			video: function(scope, eksperiment_id) {
-				scope.currentImage = ''
-
-				scope.uploadFile = function() {
-					var file = scope.selectedFile
-	        if (file) {
-            file.upload = Upload.upload({
-							url: '/api/upload', 
-							data: {file: file}
-            }).then(function(response) {
-							var fileName = response.data ? response.data : '';
-							Eksperiment.update({ id: eksperiment_id }, { upload_video: fileName }).$promise.then(function(result)  {
-								scope.modalClose(fileName)
-							})
-						})
-	        }   
-				}
-
-				scope.registerFile = function(file, errFiles) {
-					console.log(arguments)
-
-        	scope.f = file;
-					scope.errFile = errFiles && errFiles[0];
-					scope.selectedFile = file
-
-					$timeout(function() {
-						$(window).trigger('resize')
-						scope.$apply()
-					})
-		    }
- 
-				deferred = $q.defer()
-				modal = $modal({
-					scope: scope,
-					templateUrl: 'app/upload/uploadVideo.modal.html',
-					backdrop: 'static',
-					show: true
-				})
-
-				scope.modalClose = function(value) {
-					modal.hide()
-		      deferred.resolve(value)
-				}
-
-	      return deferred.promise;
 			}
-
 		}
 
-	}]);
+}]);
 
 

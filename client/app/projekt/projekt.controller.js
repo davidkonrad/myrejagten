@@ -2,9 +2,9 @@
 
 angular.module('myrejagtenApp')
   .controller('ProjektCtrl', ['$scope', '$http', '$location', '$interval', '$sce', 'Login', 'Alert', 'KR', '$timeout', '$modal', '$q', 'Projekt', 'Eksperiment', 
-			'ToDo', 'Data', 'Geo', 'TicketService', 'Utils', 'leafletData', 'UploadModal', 'CreateEksperiment', 'UTM',
+			'ToDo', 'Data', 'Geo', 'TicketService', 'Utils', 'leafletData', 'UploadModal', 'CreateEksperiment', 'UTM','ProjektDlg',
 	function($scope, $http, $location, $interval, $sce, Login, Alert, KR, $timeout, $modal, $q, Projekt, Eksperiment, 
-			ToDo,	Data, Geo, TicketService, Utils, leafletData, UploadModal, CreateEksperiment, UTM) {
+			ToDo,	Data, Geo, TicketService, Utils, leafletData, UploadModal, CreateEksperiment, UTM, ProjektDlg) {
 
 		$scope.user = Login.currentUser();
 
@@ -150,8 +150,8 @@ angular.module('myrejagtenApp')
 				var scope = $scope.$new();
 				scope.projekt_id = projekt_id;
 				$scope.projektModal = $modal({
-					controller: 'ProjektModalCtrl',
-					templateUrl: 'app/projekt/projekt.modal.html',
+					//controller: 'ProjektModalCtrl',
+					templateUrl: 'app/projekt/ProjektDlg.modal.html',
 					backdrop: 'static',
 					show: true,
 					internalName: 'projekt',
