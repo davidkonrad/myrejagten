@@ -3,32 +3,29 @@
 		<div class="modal-content">
 			
 			<div class="modal-header">
-				<h4 class="modal-title"> Upload billede</h4>
+				<h4 class="modal-title pull-left" style="display:inline-block;">Upload billede</h4>
+				<span class="btn btn-primary btn-sm pull-right" 
+					ngf-select="registerFile($file, $invalidFiles)" 
+					ng-model="file" 
+					name="file" 
+					ngf-pattern="'image/*'"
+			    ngf-accept="'image/*'" 
+					ngf-max-size="12MB" 
+					ngf-min-height="100">
+					<i class="fa fa-upload"></i>
+					<strong>Vælg billede fra computer</strong>
+				</span>
 			</div>
 
 			<div class="modal-body">
-					<div class="control-group col-md-12">
-
+				<div class="control-group col-md-12">
 					<form name="form">
-					  <div class="btn btn-primary btn-sm" 
-							ngf-select="registerFile($file, $invalidFiles)" 
-							ng-model="file" 
-							name="file" 
-							ngf-pattern="'image/*'"
-					    ngf-accept="'image/*'" 
-							ngf-max-size="12MB" 
-							ngf-min-height="100">
-							Vælg billede fra computer
-						</div>
-
-						<br><br>
-						<div style="border:2px dotted gray; clear:both; float: left; padding:10px; display: block; min-width: 99%; min-height: 300px; text-align: center; vertical-align: middle;">
-							<img id="upload-image-modal"
-								width="450"
-								style="display:inline-block !important; max-height:250px !important;"
+						<div class="form-control col-md-12 modal-upload-cnt">
+							<img id="modal-upload-image"
+								style="display:inline-block !important; max-height:275px !important;"
 							  ngf-src="selectedFile || '{{ currentImage }}' "
 							  ngf-background="selectedFile" 
-							  ngf-resize="{width: 400, height: 250, quality: 0.9}" 
+							  ngf-resize="{ height: 300, quality: 0.9}" 
 							  ngf-no-object-url="false">
 						</div>
 					</form>			

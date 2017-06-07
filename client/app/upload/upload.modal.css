@@ -31,4 +31,17 @@
 	transform:translateX(-50%) translateY(-50%)
 }
 
+.modal-upload-cnt {
+	border:2px dotted gray; 
+	clear:both; 
+	float: left; 
+	padding:10px; 
+	display: block; 
+	min-width: 99%; 
+	min-height: 300px; 
+	text-align: center; 
+	vertical-align: middle;
+}
+
+
 

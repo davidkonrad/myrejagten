@@ -48,13 +48,13 @@ angular.module('myrejagtenApp')
 
 				modal.$promise.then(modal.show).then(function() {
 					delete scope.selectedFile
-					$compile(angular.element('#upload-image-modal').contents())(scope)
+					$compile(angular.element('#modal-upload-image').contents())(scope)
 					//
 				})
 
 				scope.modalClose = function(value) {
-					modal.hide()
-		      deferred.resolve(value)
+					modal.hide();
+		      deferred.resolve(value);
 				}
 
 				angular.element('body').on('keydown keypress', function(e) {
