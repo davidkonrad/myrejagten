@@ -1,6 +1,6 @@
 {
   "name": "myrejagtenApp",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "main": "server/app.js",
   "dependencies": {
     "bluebird": "2.9.13",
