@@ -406,8 +406,16 @@ angular.module('myrejagtenApp')
 			
 		$scope.downloadGBIF = function() {
 			$http.get('/api/download/gbif/').then(function(res) {
+				//convert null to ""
+				res.data.forEach(function(d) {
+					for (var item in d) {
+						if (d[item] === null) d[item] = '';
+					}
+				});
 				var fileName = 'gbif_myrejagten_' + getDateStr() + '.csv';
-				CSV.download(res.data, fileName)
+				$timeout(function() {
+					CSV.download(res.data, fileName)
+				});
 			})
 		}
 		$scope.downloadData = function() {

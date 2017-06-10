@@ -93,7 +93,7 @@ exports.gbif = function(req, res) {
 			if (record[p] == null) record[p] = 'Not set'
 		}
 		var prop = {
-			bait: 	record.madding,
+			bait:	record.madding,
 			baitMissing: record.madding_stjaalet ? 'Yes' : 'No',
 			organismCountCollected: record.myrer_indsamlet,
 			organismCountAfterFreeze: record.myrer_frysning,
@@ -115,6 +115,7 @@ exports.gbif = function(req, res) {
 					eventTime: data[i].start_tid + '/' + data[i].slut_tid,
 					decimalLatitude: data[i].lat,
 					decimalLongitude: data[i].lng,
+					verbatimCoordinates: data[i].UTM,
 					verbatimLocality: data[i].lokalitet,
 					recordedBy: data[i].brugernavn,
 					basisOfRecord: 'MATERIAL_SAMPLE',
