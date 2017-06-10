@@ -60,12 +60,6 @@ angular.module('myrejagtenApp')
 						}
 					}
 				}
-				function setDanskNavn(resultat_id, value) {
-					updateResultat(resultat_id, 'navn_dk', value)
-				}
-				function setVidenskabeligtNavn(resultat_id, value) {
-					updateResultat(resultat_id, 'navn_videnskabeligt', value)
-				}
 
 				function populateAllearter() {
 					$('.aa-vid').each(function() {
@@ -76,7 +70,10 @@ angular.module('myrejagtenApp')
 							showHintOnFocus: true,
 							afterSelect: function(item) {
 								var id = this.$element.attr('resultat_id');
-								setDanskNavn(id, item.Dansk_navn)
+								updateResultat(id, 'navn_dk', item.Dansk_navn);
+								var specie = item.Videnskabeligt_navn.split(' ');
+								updateResultat(id, 'genus', specie[0]);
+								updateResultat(id, 'specie', specie[1] ? specie[1] : '' );
 							}, 
 							autoSelect: false,
 							items : 20,
@@ -90,7 +87,10 @@ angular.module('myrejagtenApp')
 							},
 							afterSelect: function(item) {
 								var id = this.$element.attr('resultat_id');
-								setVidenskabeligtNavn(id, item.Videnskabeligt_navn)
+								updateResultat(id, 'navn_videnskabeligt', item.Videnskabeligt_navn);
+								var specie = item.Videnskabeligt_navn.split(' ');
+								updateResultat(id, 'genus', specie[0]);
+								updateResultat(id, 'specie', specie[1] ? specie[1] : '' );
 							}, 
 							autoSelect: false,
 							showHintOnFocus: true,
