@@ -4,15 +4,114 @@
 
 	<div bs-tabs class="control-group col-md-12">
 
+<!-- download -->
 		<div bs-pane data-title="Download" style="padding-left:0px;">
 			<div mj-content="Download_admin_1"></div>	
 
 			<br><br>
 			<button class="btn btn-primary" ng-click="downloadGBIF()">Download til GBIF</button>
-			<button class="btn btn-primary" ng-click="downloadData()">Download alle data i regnearksformat</button>
+			<hr>
+			<button class="btn btn-primary" ng-click="downloadData()">Download data i regnearksformat</button>
+			<div class="clearfix"></div>
+
+			<form name="downloadFields">
+			<div class="col-md-2">
+				<div class="checkbox"><input type="checkbox" class="select-all" title="Tilvælg / fravælg alle">
+					<strong>Bruger-felter</strong>
+				</div>
+				<div class="checkbox"><label><input type="checkbox" id="user_user_id">user_id</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="user_hash">hash</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="user_confirmed">confirmed</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="user_is_admin">is_admin</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="user_email">email</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="user_brugernavn">brugernavn</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="user_password">password</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="user_role">role</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="user_institution">institution</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="user_fulde_navn">fulde_navn</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="user_adresse">adresse</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="user_postnr">postnr</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="user_by">by</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="user_kommune">kommune</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="user_region">region</label></div>
+			</div>
+			<div class="col-md-2">
+				<div class="checkbox"><input type="checkbox" class="select-all" title="Tilvælg / fravælg alle">
+					<strong>Projekt-felter</strong>
+				</div>
+				<div class="checkbox"><label><input type="checkbox" id="projekt_projekt_id">projekt_id</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="projekt_user_id">user_id</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="projekt_created_timestamp">created_timestamp</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="projekt_titel">titel</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="projekt_lokalitet">lokalitet</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="projekt_geometryWkt">geometryWkt</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="projekt_lat">lat</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="projekt_lng">lng</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="projekt_start_tid">start_tid</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="projekt_slut_tid">slut_tid</label></div>
+			</div>
+			<div class="col-md-2">
+				<div class="checkbox"><input type="checkbox" class="select-all" title="Tilvælg / fravælg alle">
+					<strong>Eksperiment-felter</strong>
+				</div>
+				<div class="checkbox"><label><input type="checkbox" id="eksperiment_projekt_id">projekt_id</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="eksperiment_eksperiment_id">eksperiment_id</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="eksperiment_created_timestamp">created_timestamp</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="eksperiment_user_id">user_id</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="eksperiment_myrejagt_id">myrejagt_id</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="eksperiment_dato">dato</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="eksperiment_start_tid">start_tid</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="eksperiment_slut_tid">slut_tid</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="eksperiment_titel">titel</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="eksperiment_lokalitet">lokalitet</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="eksperiment_lat">lat</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="eksperiment_lng">lng</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="eksperiment_geometryWkt">geometryWkt</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="eksperiment_adresse">adresse</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="eksperiment_postnr">postnr</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="eksperiment_by">by</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="eksperiment_kommune">kommune</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="eksperiment_region">region</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="eksperiment_upload_billede">upload_billede</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="eksperiment_temp">temp</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="eksperiment_vejr">vejr</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="eksperiment_sol">sol</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="eksperiment_vind">vind</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="eksperiment_kommentar">kommentar</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="eksperiment_data_kommentar">data_kommenntar</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="eksperiment_UTM">UTM</label></div>
+			</div>
+			<div class="col-md-2">
+				<div class="checkbox"><input type="checkbox" class="select-all" title="Tilvælg / fravælg alle">
+					<strong>Data-felter</strong>
+				</div>
+				<div class="checkbox"><label><input type="checkbox" id="data_data_id">data_id</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="data_eksperiment_id">eksperiment_id</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="data_madding">madding</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="data_myrer_indsamlet">myrer_indsamlet</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="data_myrer_frysning">myrer_frysning</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="data_madding_stjaalet">madding_stjaalet</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="data_proeve_modtaget">proeve_modtaget</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="data_proeve_analyseret">proeve_analyseret</label></div>
+			</div>	
+			<div class="col-md-2">
+				<div class="checkbox"><input type="checkbox" class="select-all" title="Tilvælg / fravælg alle">
+					<strong>Resultat-felter</strong>
+				</div>
+				<div class="checkbox"><label><input type="checkbox" id="resultat_resultat_id">resultat_id</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="resultat_data_id">data_id</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="resultat_antal">antal</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="resultat_navn_videnskabeligt">navn_videnskabeligt</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="resultat_navn_dk">navn_dk</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="resultat_genus">genus</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="resultat_specie">specie</label></div>
+				<div class="checkbox"><label><input type="checkbox" id="resultat_kommentar">kommentar</label></div>
+			</div>	
+			</form>
 
 		</div>
 
+<!-- analyse -->
 		<div bs-pane data-title="Analyse" style="padding-left:0px;">
 			<table id="table-resultat" 
 				datatable="" 
@@ -23,6 +122,7 @@
 			</table>
 		</div>
 
+<!-- users -->
 		<div bs-pane data-title="Brugere" style="padding-left:0px;">
 			<table id="table-user" 
 				datatable="" 
@@ -33,8 +133,8 @@
 			</table>
 		</div>
 
+<!-- eksperimenter -->
 		<div bs-pane data-title="Eksperimenter" style="padding-left:0px;">
-
 			<table id="table-eksperimenter" 
 				datatable="" 
 				class="table" 
@@ -42,9 +142,9 @@
 				dt-columns="dtEksperimentColumns" 
 				dt-instance="dtEksperimentInstanceCallback">
 			</table>
-
 		</div>
 
+<!-- indhold / tekster -->
 		<div bs-pane data-title="Indhold (tekster)" style="padding-left:0px;">
 			<label class="normal">Side-tekster</label>
 			<button data-placeholder="Vælg element"
@@ -80,11 +180,7 @@
 				<p><small><strong>Bemærk</strong>: For at fjerne en tekst fuldstændig, indsæt et enkelt punktum. Dvs et punktum og intet andet.</p></small>
 			</div>
 
-
 		</div>
-
 	</div>	
-
 </div>
-
 
