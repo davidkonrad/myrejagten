@@ -130,9 +130,9 @@ exports.raw = function(req, res) {
 
   return transporter.sendMail(mailOptions, function(err, info) {
     if (err) {
-			return res.json(200, 'Fejl ved afsendelse af mail :'+ err +'.');
+			return res.json(200, { error: 'Fejl ved afsendelse af mail :'+ err +'.' } );
     } else {
-			return res.json(200, 'Mail sendt til '+ email +'.');
+			return res.json(200, { ok: 'Mail sendt til '+ email +'.' } );
     }
   });
 }

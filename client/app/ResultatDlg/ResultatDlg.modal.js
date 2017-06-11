@@ -208,6 +208,7 @@ angular.module('myrejagtenApp')
 										subject: 'Analyse fra myrejagten'
 									}
 									$http.post('api/email/raw/', options).then(function(response) {
+										console.log('email', response);
 									})
 								}
 							})

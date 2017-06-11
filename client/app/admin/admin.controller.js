@@ -2,9 +2,13 @@
 
 angular.module('myrejagtenApp')
   .controller('AdminCtrl', ['$scope', '$http', '$q', '$timeout', '$cookies', 'Login', 'Alert', 'Resultat', 'Data', 'Utils', 'ResultatDlg', 'CSV', 'MysqlUser', 'Cnt', 
-		'Projekt', 'Eksperiment', 'DTOptionsBuilder', 'DTColumnBuilder', 'DTDefaultOptions', 
+		'Projekt', 'Eksperiment', 'DTOptionsBuilder', 'DTColumnBuilder', 'DTDefaultOptions', 'Analyse_mail',
 	function($scope, $http, $q, $timeout, $cookies, Login, Alert, Resultat, Data, Utils, ResultatDlg, CSV, MysqlUser, Cnt, 
-		Projekt, Eksperiment, DTOptionsBuilder, DTColumnBuilder, DTDefaultOptions) {
+		Projekt, Eksperiment, DTOptionsBuilder, DTColumnBuilder, DTDefaultOptions, Analyse_mail) {
+
+		Analyse_mail.query().$promise.then(function(r) {
+			console.log(r);
+		});
 
 		$scope.user = Login.currentUser();
 
