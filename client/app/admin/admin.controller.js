@@ -6,12 +6,22 @@ angular.module('myrejagtenApp')
 	function($scope, $http, $q, $timeout, $cookies, Login, Alert, Resultat, Data, Utils, ResultatDlg, CSV, MysqlUser, Cnt, 
 		Projekt, Eksperiment, DTOptionsBuilder, DTColumnBuilder, DTDefaultOptions, Analyse_mail) {
 
-		Analyse_mail.query().$promise.then(function(r) {
-			console.log(r);
+		//analyse_mails
+		var analyse_mails = [];
+		Analyse_mail.query().$promise.then(function(a) {
+			analyse_mails = a;
 		});
+		function analyseMailSend(myrejagt_id) {
+			for (var i=0, l=analyse_mails.length; i<l; i++) {
+				if (analyse_mails[i].myrejagt_id == myrejagt_id) return true
+			}
+			return false
+		}
 
+		//user 
 		$scope.user = Login.currentUser();
 
+		//return a data item
 		$scope.dataById = function(data_id) {
 			for (var i=0, l=$scope.data.length; i<l; i++) {
 				if ($scope.data[i].data_id == data_id) return $scope.data[i];
@@ -122,11 +132,13 @@ angular.module('myrejagtenApp')
       DTColumnBuilder
 				.newColumn('myrejagt_id')
 				.withOption('width', '100px')
+				.withClass('no-break')
 				.withTitle('MyrejagtID'),
 
       DTColumnBuilder
 				.newColumn('eksperiment_dato')
 				.withOption('width', '120px')
+				.withClass('no-break')
 				.withOption('type', 'date')
 				.withTitle('Dato')
 				.renderWith(function(data, type, full) {
@@ -135,9 +147,9 @@ angular.module('myrejagtenApp')
 
       DTColumnBuilder
 				.newColumn('proeve_modtaget')
-				.withClass('center')
+				.withClass('no-break')
 				.withOption('type', 'date')
-				.withTitle('Modtaget')
+				.withTitle('Indsamling modtaget')
 				.renderWith(function(data, type, full) {
 					return type == 'display' ? Utils.fixDate(data) : data
 				}),
@@ -161,7 +173,14 @@ angular.module('myrejagtenApp')
 
       DTColumnBuilder.newColumn('myrer_frysning')
 				.withOption('class', 'text-right')
-				.withTitle('Efter frysning')
+				.withTitle('Efter frysning'),
+
+      DTColumnBuilder.newColumn('myrejagt_id')
+				.withOption('class', 'text-center')
+				.withTitle('Mail sendt')
+				.renderWith(function(data, type, full) {
+					return analyseMailSend(data) ? '<i class="fa fa-check"></i>' : ''
+				})
 		]
 
 /*************

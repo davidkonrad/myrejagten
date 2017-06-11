@@ -13,6 +13,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER(11),
       allowNull: false
 		},
+		myrejagt_id: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false
+		},
 		email: {
       type: DataTypes.STRING,
       allowNull: false

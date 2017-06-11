@@ -11,9 +11,9 @@
 
 				<div class="col-md-8" style="border-right:1px solid #e5e5e5;">
 					<dl class="dl-horizontal">
-						<dt>Dato</dt>
+						<dt>Eksp. dato</dt>
 						<dd> 
-							{{ resDlg.data.eksperiment_dato }}
+							{{ resDlg.data.eksperiment_dato | date }}
 						</dd>
 
 						<dt>Sted</dt>
@@ -100,6 +100,12 @@
 					<button class="btn btn-ku btn-sm" ng-click="resDlg.sendMail(resDlg.data.user_id, resDlg.data.eksperiment_id, resDlg.data.myrejagt_id)">
 						Send Analyse-mail til bruger
 					</button>
+					<br><br>
+					<b>Tidligere sendte emails</b><br>
+					<div ng-repeat="m in analyseMails" style="clear:both; float:left; white-space:nowrap;" >
+						{{ m.send_timestamp | date : 'short' }},
+						{{ m.email }}
+					</div>
 				</div>
 
 

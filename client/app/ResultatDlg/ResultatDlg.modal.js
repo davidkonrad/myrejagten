@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .factory('ResultatDlg', ['$modal', '$q', '$http', '$timeout', 'Resultat', 'Eksperiment', 'Data', 'Utils', 'Alert', 'MysqlUser',
-	function($modal, $q, $http, $timeout, Resultat, Eksperiment, Data, Utils, Alert, MysqlUser) {
+  .factory('ResultatDlg', ['$modal', '$q', '$http', '$timeout', 'Resultat', 'Eksperiment', 'Data', 'Utils', 'Alert', 'MysqlUser', 'Analyse_mail', 
+	function($modal, $q, $http, $timeout, Resultat, Eksperiment, Data, Utils, Alert, MysqlUser, Analyse_mail) {
 
 		var lookup = [];
 		var lookup_dk = [];
@@ -50,6 +50,13 @@ angular.module('myrejagtenApp')
 				Eksperiment.query({ where: { eksperiment_id: data.eksperiment_id }} ).$promise.then(function(e) {
 					$scope.resDlg.eksperiment = e[0];
 				});
+
+				function getAnalyseMails() {
+					Analyse_mail.query({ where: { eksperiment_id: data.eksperiment_id }} ).$promise.then(function(m) {
+						$scope.analyseMails = m;
+					})
+				}
+				getAnalyseMails();
 
 				function updateResultat(resultat_id, prop, value) {
 					for (var i=0, l=$scope.resDlg.resultater.length; i<l; i++) {
@@ -208,12 +215,26 @@ angular.module('myrejagtenApp')
 										subject: 'Analyse fra myrejagten'
 									}
 									$http.post('api/email/raw/', options).then(function(response) {
-										console.log('email', response);
-									})
+										if (response.data.ok) {
+											changed = true;
+											var obj = {
+												email: user[0].email,
+												mail_body: answer,
+												eksperiment_id: $scope.resDlg.eksperiment.eksperiment_id,
+												myrejagt_id: $scope.resDlg.eksperiment.myrejagt_id
+											};
+											Analyse_mail.save( { analyse_mail_id: '' }, obj).$promise.then(function() {
+												//update the list of sent mails
+												getAnalyseMails();
+											});
+										} else {
+											console.log('email fejl: ', response.data.error);
+										}
+									});
 								}
-							})
-						})
-					})
+							});
+						});
+					});
 				}
 
 				$scope.updateProeveModtaget = function() {

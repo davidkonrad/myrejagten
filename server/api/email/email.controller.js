@@ -111,14 +111,11 @@ exports.glemtPassword = function(req,res){
 }
 
 exports.raw = function(req, res) {
-	//console.log(req);
 	var email = req.body.email ? req.body.email : null;
 	var subject = req.body.subject ? req.body.subject : null;
 	var mailBody = req.body.mailBody ? req.body.mailBody : null;
 
 	if (!email || !subject || !mailBody) res.json(200, false);
-
-	//console.log(email, subject, mailBody)
 
 	var transporter = getTransporter();
 	var mailOptions = {
