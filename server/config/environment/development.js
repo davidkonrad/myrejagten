@@ -12,7 +12,8 @@ module.exports = {
 	  password: 'dadk'
   },
 
-	uploadDir : './client/uploads'
+	uploadDir : './client/uploads',
+	cacheDir : './client/cache'
 
   
 };

@@ -9,14 +9,14 @@ angular.module('myrejagtenApp')
 				name = 'uploadModal'
 
 		return {
-			
+
 			image: function(scope, eksperiment_id, currentImage) {
 				scope.currentImage = currentImage
 				scope.uploadFile = function() {
 					var file = scope.selectedFile
 	        if (file) {
             file.upload = Upload.upload({
-							url: '/api/upload', 
+							url: '/api/upload/image', 
 							data: {file: file}
             }).then(function(response) {
 							var fileName = response.data ? response.data : '';

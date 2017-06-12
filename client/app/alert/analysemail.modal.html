@@ -11,6 +11,20 @@
 			</div>
 
 			<div class="modal-footer">
+				<div class="pull-left">
+					<span class="btn btn-primary btn-sm" 
+						ngf-select="registerFile($file, $invalidFiles)" 
+						ng-model="file" 
+						name="file" 
+						ngf-pattern="'*/*'"
+				    ngf-accept="'*/*'" 
+						ngf-max-size="12MB" 
+						ngf-min-height="100">
+						<i class="fa fa-attach"></i>
+						<strong>Vedlæg en fil</strong>
+					</span>
+					{{ attachFile.name }}
+				</div>
 				<button type="button" class="btn btn-ku" ng-click="alertModalClose(true)">Send email</button> 
 				<button type="button" class="btn btn-default" ng-click="alertModalClose(false)">Fortryd</button> 
 			</div>

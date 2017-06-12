@@ -1,6 +1,7 @@
 var env = process.env.NODE_ENV || "development";
 var config = require('../../config/environment');
 var uploadDir = config.uploadDir;
+var cacheDir = config.cacheDir;
 var fs = require('fs');
 
 exports.getFile = function(req, res) {
@@ -23,6 +24,21 @@ exports.removeFile = function(req, res) {
 	})
 };
 
+exports.getFileCache = function(req, res) {
+	var cached = req.files.file.path;
+	var original = req.files.file.originalname;
+	res.send(200, { cachedFileName: cached, originalFileName: original });
+};
 
+exports.removeFileCache = function(req, res) {
+	var fileName = req.params.fileName;
+	fs.unlink(fileName, function next(err, result) {
+		if (err) {
+			res.send(200, err);
+		} else {
+			res.send(200, result);
+		}
+	})
+};
 
 

@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .factory('Alert', ['$modal', '$q', '$timeout', function($modal, $q, $timeout) {
+  .factory('Alert', ['$modal', '$q', '$timeout', 'Upload', function($modal, $q, $timeout, Upload) {
 
-		var deferred = null,
-				modal = null,
-				name = 'alertParams'
+		var deferred = null;
+		var	modal = null;
+		var name = 'alertParams';
 
 		return {
 
@@ -42,6 +42,23 @@ angular.module('myrejagtenApp')
 	      return deferred.promise;
 			},
 
+//************************************************
+			waitModal: undefined,
+			waitShow: function($scope, title) {
+				$scope[name] = {
+					title: title
+				}
+				this.waitModal = $modal({
+					scope: $scope,
+					templateUrl: 'app/alert/wait.modal.html',
+					backdrop: 'static',
+					show: true
+				})
+			},
+			waitHide: function() {
+				this.waitModal.hide();
+				this.waitModal = undefined;
+			},
 
 //************************************************
 			confirm: function($scope, question, message) {
@@ -58,9 +75,9 @@ angular.module('myrejagtenApp')
 				})
 
 				$scope.alertModalClose = function(value) {
-					delete $scope[name] 
-					modal.hide()
-		      deferred.resolve(value)
+					delete $scope[name];
+					modal.hide();
+		      deferred.resolve(value);
 				}
 
 				angular.element('body').on('keydown keypress', function(e) {
@@ -99,23 +116,47 @@ angular.module('myrejagtenApp')
 					email: email,
 					mailBody: mailBody
 				}
+
 				deferred = $q.defer()
 				modal = $modal({
 					scope: $scope,
 					templateUrl: 'app/alert/analysemail.modal.html',
 					backdrop: 'static',
 					show: true
-				})
+				});
+
+				delete $scope.attachFile;
+				$scope.registerFile = function(file, errFiles) {
+					$scope.attachFile = file;
+		    }
 
 				modal.$promise.then(modal.show).then(function() {
 					$('#textarea').focus();
-				})
+				});
 
 				$scope.alertModalClose = function(value) {
-					if (value) value = $('#textarea').val();
-					delete $scope[name];
-					modal.hide()
-		      deferred.resolve(value)
+					if (value) {
+						var options = {
+							mailBody: $('#textarea').val()
+						};
+						var file = $scope.attachFile;
+		        if (file) {
+	            file.upload = Upload.upload({
+								url: '/api/upload/cache', 
+								data: {file: file}
+	            }).then(function(response) {
+								options.attach = response.data ? response.data : '';
+					      deferred.resolve(options);
+							})
+		        } else {
+				      deferred.resolve(options);
+						}
+						modal.hide();
+					} else {
+						delete $scope[name];
+						modal.hide();
+			      deferred.resolve(false)
+					}
 				}
 
 	      return deferred.promise;

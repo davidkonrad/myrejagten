@@ -111,6 +111,7 @@ exports.glemtPassword = function(req,res){
 }
 
 exports.raw = function(req, res) {
+	console.log(req.body);
 	var email = req.body.email ? req.body.email : null;
 	var subject = req.body.subject ? req.body.subject : null;
 	var mailBody = req.body.mailBody ? req.body.mailBody : null;
@@ -124,6 +125,13 @@ exports.raw = function(req, res) {
 		from: 'noreply <myrejagten@snm.ku.dk>', 
 		text: mailBody
   };
+
+	if (typeof req.body.attach == 'object') {
+		mailOptions.attachments = [{
+			filename: req.body.attach.originalFileName,
+			path: req.body.attach.cachedFileName
+		}];
+	}
 
   return transporter.sendMail(mailOptions, function(err, info) {
     if (err) {

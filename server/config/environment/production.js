@@ -22,8 +22,8 @@ module.exports = {
 	  database: 'myrejagten'
   },
 
-	uploadDir : './public/uploads'
-
+	uploadDir : './public/uploads',
+	cacheDir : './public/cache'
 
 
 };

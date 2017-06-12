@@ -207,28 +207,35 @@ angular.module('myrejagtenApp')
 						})
 
 						deferred.promise.then(function() {
-							Alert.analyseMail($scope, user[0].email, mailBody + mailFooter).then(function(answer) {
-								if (answer) {				
-									var options = {
-										email: user[0].email,
-										mailBody: answer,
-										subject: 'Analyse fra myrejagten'
-									}
+							Alert.analyseMail($scope, user[0].email, mailBody + mailFooter).then(function(options) {
+								if (options) {		
+									Alert.waitShow($scope, 'Sender email ...');
+									options.email = user[0].email;
+									options.subject = 'Analyse fra myrejagten';
 									$http.post('api/email/raw/', options).then(function(response) {
 										if (response.data.ok) {
 											changed = true;
 											var obj = {
-												email: user[0].email,
-												mail_body: answer,
+												email: options.email,
+												mail_body: options.mailBody,
 												eksperiment_id: $scope.resDlg.eksperiment.eksperiment_id,
 												myrejagt_id: $scope.resDlg.eksperiment.myrejagt_id
 											};
 											Analyse_mail.save( { analyse_mail_id: '' }, obj).$promise.then(function() {
 												//update the list of sent mails
 												getAnalyseMails();
+												Alert.waitHide();
 											});
+
+											//remove cached file
+											if (options.attach) {
+												$http.get('/api/upload/removeCache/'+encodeURIComponent(options.attach.cachedFileName)).then(function(res) {
+													//console.log('cached file '+options.attach.cachedFileName+' deleted');
+												})
+											}
 										} else {
 											console.log('email fejl: ', response.data.error);
+											Alert.waitHide();
 										}
 									});
 								}
