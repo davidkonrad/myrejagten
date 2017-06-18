@@ -111,7 +111,6 @@ exports.glemtPassword = function(req,res){
 }
 
 exports.raw = function(req, res) {
-	console.log(req.body);
 	var email = req.body.email ? req.body.email : null;
 	var subject = req.body.subject ? req.body.subject : null;
 	var mailBody = req.body.mailBody ? req.body.mailBody : null;
@@ -122,7 +121,11 @@ exports.raw = function(req, res) {
 	var mailOptions = {
 		to: email,
     subject: subject,
-		from: 'noreply <myrejagten@snm.ku.dk>', 
+		//from: 'noreply <myrejagten@snm.ku.dk>', 
+		from : {
+	    name: 'noreply',
+	    address: 'myrejagten@snm.ku.dk'
+		},
 		text: mailBody
   };
 
@@ -134,6 +137,7 @@ exports.raw = function(req, res) {
 	}
 
   return transporter.sendMail(mailOptions, function(err, info) {
+		console.dir(info);
     if (err) {
 			return res.json(200, { error: 'Fejl ved afsendelse af mail :'+ err +'.' } );
     } else {

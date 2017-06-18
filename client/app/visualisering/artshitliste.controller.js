@@ -31,7 +31,7 @@ angular.module('myrejagtenApp')
 						var info = getInfo(tooltipItem.yLabel);
 						var eks = datasetLabel == 1 ? ' eksperiment. ' : ' eksperimenter. '
 						var label = [];
-						label.push(info.navn_videnskabeligt || tooltipItem.yLabel); //avoid undefined on certain species
+						label.push(info.navn_videnskabeligt+"\l" || tooltipItem.yLabel); //avoid undefined on certain species
 						label.push('Fundet i ' + datasetLabel + eks);
 						var fundne = info.fundne_myrer || '?';
 						label.push(fundne +' dyr registreret i alt.');
@@ -50,7 +50,11 @@ angular.module('myrejagtenApp')
 						display: false,
 						color:  '#000',
 					},
-					ticks: {}
+					ticks: {},
+					scaleLabel: {
+		        display: true,
+		        labelString: 'Antal eksperimenter'
+		      }
 				}],
 				yAxes: [{
 					gridLines: {

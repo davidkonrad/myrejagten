@@ -4,8 +4,6 @@ angular.module('myrejagtenApp')
   .controller('KortCtrl', ['$scope', '$http', '$timeout', 'Login', 'TicketService', 'Eksperiment', 'Utils', 'Projekt', 'Data', 'UTM',
 	 function($scope, $http, $timeout, Login, TicketService, Eksperiment, Utils, Projekt, Data, UTM) {
 
-		console.log(UTM.get(55.944448,9.480331));
-
 		Projekt.query().$promise.then(function(p) {
 			$scope.projekter = p;
 		});

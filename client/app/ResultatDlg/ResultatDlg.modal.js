@@ -219,7 +219,8 @@ angular.module('myrejagtenApp')
 												email: options.email,
 												mail_body: options.mailBody,
 												eksperiment_id: $scope.resDlg.eksperiment.eksperiment_id,
-												myrejagt_id: $scope.resDlg.eksperiment.myrejagt_id
+												myrejagt_id: $scope.resDlg.eksperiment.myrejagt_id,
+												attachments: options.attach ? options.attach.originalFileName : ''
 											};
 											Analyse_mail.save( { analyse_mail_id: '' }, obj).$promise.then(function() {
 												//update the list of sent mails
