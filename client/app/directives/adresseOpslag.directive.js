@@ -6,10 +6,10 @@ angular.module('myrejagtenApp')
       restrict: 'A',
 			link: function(scope, element, attrs) {
 
-        var eksperiment_id = attrs['eksperimentId'],
-						adresseType = attrs['adresseType'],
-						value = attrs['onSelect'], 
-						onSelect = scope[value] ? scope[value] : null;
+        var eksperiment_id = attrs['eksperimentId'];
+				var	adresseType = attrs['adresseType'];
+				var	value = attrs['onSelect'];
+				var	onSelect = scope[value] ? scope[value] : null;
 
 				function initialize() {
 					$(element).typeahead('destroy')
@@ -34,19 +34,15 @@ angular.module('myrejagtenApp')
 						source: function(query, process) {
 							switch (attrs.adresseType) {
 								case 'adresser' :
-									var url = 'https://services.kortforsyningen.dk/Geosearch?search='+query+'*&resources=adresser&crs=EPSG:4326&limit=100&ticket='+TicketService.get()
+									var url = 'https://services.kortforsyningen.dk/Geosearch?search=*'+query+'*&resources=adresser&crs=EPSG:4326&limit=10&ticket='+TicketService.get()
 									break;
 								//stednavne_v2 does not support EPSG:4326
 								case 'stednavne_v2' :
-									var url = 'https://services.kortforsyningen.dk/Geosearch?search='+query+'*&resources=stednavne_v2&limit=100&ticket='+TicketService.get()
+									var url = 'https://services.kortforsyningen.dk/Geosearch?search='+query+'*&resources=stednavne_v2&limit=10&ticket='+TicketService.get()
 									break;
 								default :
 									break;
 							}
-							/*
-							if (!method) return
-							var url = 'https://services.kortforsyningen.dk/Geosearch?search='+query+'*&resources='+method+'&crs=EPSG:4326&limit=100&ticket='+TicketService.get()
-							*/
 					    return $.getJSON(url, function(resp) {
 								var data = [], caption = '';
 								for (var i in resp.data) {
@@ -59,9 +55,9 @@ angular.module('myrejagtenApp')
 				}
 
 				attrs.$observe('adresseType', function(value) {
-					adresseType = value
-					initialize()
-				})
+					adresseType = value;
+					initialize();
+				});
 
 			}
 		}

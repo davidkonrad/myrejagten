@@ -2,7 +2,7 @@
 
   <h3>Opret bruger</h3>
 
-  <div class="col-md-6" ng-if="processed">
+  <div class="col-md-12 col-xs-12" ng-if="processed">
     <em class="text-warning" ng-if="processed.error">
 			{{ processed.error }}
 		</em>
@@ -11,7 +11,7 @@
 		</em>
   </div>
 
-  <div class="col-md-7" ng-if="!processed">
+  <div class="col-md-7 col-sm-12" ng-if="!processed">
 
 		<div class="control-group">
       <div class="controls">
@@ -106,7 +106,7 @@
     </form>
   </div>
 
-  <div class="col-md-5" ng-if="processed == null">
+  <div class="col-md-5 col-sm-12" ng-if="processed == null">
     <div mj-content="Tilmeld_1"></div>
   </div>
 

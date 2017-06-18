@@ -847,6 +847,19 @@ angular.module('myrejagtenApp')
 			return deferred.promise;
 		}
 
+		/*
+			reset lokalitet input (but not hidden fields) to street address
+			so user can continue typing a house or street number
+		*/
+		$scope.eksperimentAdresseClick = function(eksperiment_id) {
+			var form = angular.element('#formLokalitet'+eksperiment_id);
+			var item = 	form.find('input[name="adresse"]').data('item');			
+			if (item) {
+				form.find('input[name="adresse"]').val( item.streetName+' ');
+				form.find('input[name="adresse"]').trigger('keyup');
+			}
+		}
+
 		$scope.eksperimentAdresseSelect = function(eksperiment_id, adresseType, item) {
 
 			function setLatLng(e, form, lat, lng) {
@@ -891,10 +904,10 @@ angular.module('myrejagtenApp')
 						? wkt.components[0]
 						: wkt.components[0][0];
 
-					if (point && !point.length) setLatLng(e, form, point.y, point.x)
+					if (point && !point.length) setLatLng(e, form, point.y, point.x);
 							
-					var kommuneNr = item.municipalityCode ? item.municipalityCode : item.municipalityCodes
-					var kommune = KR.kommuneByNr( kommuneNr )
+					var kommuneNr = item.municipalityCode ? item.municipalityCode : item.municipalityCodes;
+					var kommune = KR.kommuneByNr( kommuneNr );
 
 					var adresse = item.streetName;
 					adresse += item.streetBuildingIdentifier ? ' '+item.streetBuildingIdentifier : '';
@@ -908,6 +921,9 @@ angular.module('myrejagtenApp')
 						form.find('input[name="region"]').val( kommune.region.navn.replace('Region', '').trim() );
 					}
 	
+					//store item on the input
+					form.find('input[name="adresse"]').data('item', item);
+
 					form.find('input[name="adresse"]').val( formatAdresse(
 						adresse,
 						item.postCodeIdentifier, 
