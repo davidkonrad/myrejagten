@@ -44,48 +44,29 @@ exports.data = function(req, res) {
 };	
 
 exports.gbif = function(req, res) {
-	/*
-	var sql = ''
-		+'select '
-		+'data.data_id, '
-		+'data.eksperiment_id, '
-		+'data.madding as samplingProtocol  , '
-
-		+'eksperiment.myrejagt_id as datasetName, '
-		+'concat_ws(", ", eksperiment.sol, eksperiment.vind, eksperiment.vejr, eksperiment.temp) as locationRemarks, '
-
-		+'"DK" as countryCode , '
-		+'eksperiment.lat as decimalLatitude, '
-		+'eksperiment.lng as decimalLongitude, '
-		+'eksperiment.dato as eventDate , '
-		
-		+'projekt.titel as projekt_navn, '
-
-		+'resultat.antal as individualCount  , '
-		+'resultat.navn_videnskabeligt as scientificName  , '
-		+'resultat.navn_dk as vernacularName , '
-
-		+'user.fulde_navn as individualCount, '
-		+'user.institution '
-
-		+'from data '
-		+'left join eksperiment on data.eksperiment_id = eksperiment.eksperiment_id '
-		+'left join projekt on eksperiment.projekt_id = projekt.projekt_id '
-		+'left join user on eksperiment.user_id = user.user_id '
-		+'left join resultat on data.data_id = resultat.data_id '
-	*/
-
 	var sql = '' +
 	'select '+
 	'resultat.*, '+
 	'data.*, '+
-	'eksperiment.*, '+
-	'projekt.*, '+
+
+	'eksperiment.eksperiment_id as eks_eksperiment_id, ' +
+	'eksperiment.dato as eks_dato, ' +
+	'eksperiment.start_tid as eks_start_tid, ' +
+	'eksperiment.slut_tid as eks_slut_tid, ' +
+	'eksperiment.adresse as eks_adresse, ' +
+	'eksperiment.lat as eks_lat, ' +
+	'eksperiment.lng as eks_lng, ' +
+	'eksperiment.myrejagt_id as eks_myrejagt_id, ' +
+	'eksperiment.temp as eks_temp, ' +
+	'eksperiment.vejr as eks_vejr, ' +
+	'eksperiment.sol as eks_sol, ' +  
+	'eksperiment.vind as eks_vind, ' +
+	'eksperiment.UTM as eks_UTM, ' +
+
   'user.* '+
 	'from resultat  '+
 	'left join data on resultat.data_id = data.data_id  '+
 	'left join eksperiment on data.eksperiment_id = eksperiment.eksperiment_id  '+
-	'left join projekt on eksperiment.projekt_id = projekt.projekt_id  '+
 	'left join user on eksperiment.user_id = user.user_id  ';
 
 	function getDynamicProperty(record) {
@@ -97,26 +78,45 @@ exports.gbif = function(req, res) {
 			baitMissing: record.madding_stjaalet ? 'Yes' : 'No',
 			organismCountCollected: record.myrer_indsamlet,
 			organismCountAfterFreeze: record.myrer_frysning,
-			celsiusDegree: record.temp,
-			wind: record.vind,
-			sunShadow: record.sol,
-			wheather: record.vejr
+			celsiusDegree: record.eks_temp,
+			wind: record.eks_vind,
+			sunShadow: record.eks_sol,
+			wheather: record.eks_vejr
 		}
 		return JSON.stringify(prop).replace(/"/g, "'")
+	}
+
+	function getTimeStr(start_tid, slut_tid) {
+		var a,b;
+		if (!start_tid) {
+			a ='?';
+		} else {
+			a = start_tid.split(':');
+			a.pop();
+			a = a.join(':');
+		}
+		if (!slut_tid) {
+			b ='?';
+		} else {
+			b = slut_tid.split(':');
+			b.pop();
+			b = b.join(':');
+		}
+		return a+'-'+b;
 	}
 
 	models.sequelize.query(sql,	{ bind: ['active'], type: models.sequelize.QueryTypes.SELECT }).then(function(data) {
 			var resultat = [];
 			for (var i=0, l=data.length; i<l; i++) {
 				resultat.push({
-					datasetName: data[i].myrejagt_id,
-					recordNumber: data[i].eksperiment_id,
-					eventDate: data[i].dato,
-					eventTime: data[i].start_tid + '/' + data[i].slut_tid,
-					decimalLatitude: data[i].lat,
-					decimalLongitude: data[i].lng,
-					verbatimCoordinates: data[i].UTM,
-					verbatimLocality: data[i].lokalitet,
+					datasetName: data[i].eks_myrejagt_id,
+					recordNumber: data[i].eks_eksperiment_id,
+					eventDate: data[i].eks_dato,
+					eventTime: getTimeStr(data[i].eks_start_tid, data[i].eks_slut_tid),
+					decimalLatitude: data[i].eks_lat,
+					decimalLongitude: data[i].eks_lng,
+					verbatimCoordinates: data[i].eks_UTM,
+					verbatimLocality: data[i].eks_adresse,
 					recordedBy: data[i].brugernavn,
 					basisOfRecord: 'MATERIAL_SAMPLE',
 					dynamicProperties: getDynamicProperty(data[i]),
