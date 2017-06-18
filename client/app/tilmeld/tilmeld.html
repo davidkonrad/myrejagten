@@ -67,11 +67,15 @@
           <div class="input-group">
             <input type="text" id="password" ng-model="user.password" class="form-control input-lg">
             <span class="input-group-btn">
-					<button class="btn btn-default btn-lg" style="postion:relative;top:0px;left:-1px;" ng-click="generatePassword()" title="Generer et tilfældigt password med rimelig god sikkerhed"><i class="fa fa-gear"></i></button>
-				</span>
-				<span class="input-group-btn">
-					<i style="margin-left:5px;" info-popover content-name="Opret_password"></i>
- 		    </span>
+							<button class="btn xbtn-default btn-lg btn-password-generate" 
+								ng-click="generatePassword()" 
+								title="Generer et tilfældigt password med rimelig god sikkerhed">
+									<i class="fa fa-gear text-muted"></i>
+							</button>
+						</span>
+						<span class="input-group-btn">
+							<i style="margin-left:5px;" info-popover content-name="Opret_password"></i>
+		 		    </span>
           </div>
         </div>
 
@@ -102,7 +106,7 @@
     </form>
   </div>
 
-  <div class="col-md-5" ng-hide="processed != ''">
+  <div class="col-md-5" ng-if="processed == null">
     <div mj-content="Tilmeld_1"></div>
   </div>
 

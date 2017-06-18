@@ -4,18 +4,6 @@
 	width: 60% !important;
 }
 
-/* center modal -> placement: "center" */
-.modal.center .modal-dialog {
-    position: fixed;
-    top: 40%;
-    left: 50%;
-    min-width: 320px;
-    max-width: 630px;
-    width: 50%;
-    -webkit-transform:translateX(-50%) translateY(-50%);
-    transform:translateX(-50%) translateY(-50%)
-}
-
 /* datatables */
 table.dataTable tbody th, 
 table.dataTable tbody td {
@@ -38,4 +26,14 @@ h2.info {
 	margin-top: 15%;
 	padding-left: 7px;
 	cursor: pointer;
+}
+
+.btn-password-generate {
+	postion:relative;
+	left:-1px;
+	border-radius: 0px;
+}
+.btn-password-generate:hover {
+	border:1px solid silver;
+	border-bottom:2px solid silver;
 }
