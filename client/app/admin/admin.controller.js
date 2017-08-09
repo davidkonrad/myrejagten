@@ -253,8 +253,20 @@ angular.module('myrejagtenApp')
       DTColumnBuilder.newColumn('fulde_navn').withOption('width', '200px').withTitle('Fulde navn'),
 	    DTColumnBuilder.newColumn('postnr').withOption('width', '100px').withTitle('Postnr.'),
 	    DTColumnBuilder.newColumn('kommune').withOption('width', '200px').withTitle('Kommune'),
+	    DTColumnBuilder.newColumn('confirmed')
+				.withTitle('Bekræftet')
+				.withClass('text-center')
+				.renderWith(function(data, type, full) {
+					if (type == 'display') {
+						return data == '1' ? '<i class="fa fa-check"></i>'  : ''
+					} else {
+						return data
+					}
+				}),
+			
       DTColumnBuilder.newColumn('is_admin')
 				.withOption('width', '50px')
+				.withClass('text-center')
 				.withTitle('Admin')
 				.renderWith(function(data, type, full) {
 					if (type == 'display') {

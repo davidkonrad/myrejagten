@@ -11,7 +11,6 @@ angular.module('myrejagtenApp')
 		$scope.login = function() {
 			Login.login($scope.rememberMe.m, $scope.rememberMe.p, $scope.rememberMe.rememberMe).then(function(response) {
 				if (response && response.error) {
-					console.log(response)
 					$scope.error = response.error
 				} else {
 					$scope.error = null;
