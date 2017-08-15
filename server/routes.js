@@ -20,7 +20,7 @@ module.exports = function(app) {
   app.use('/api/upload', require('./api/upload'));
   app.use('/api/download', require('./api/download'));
   app.use('/api/stats', require('./api/stats'));
-
+	app.use('/api/backup', require('./api/backup'));
 
 	// All undefined asset or api routes should return a 404
 	app.route('/:url(api|auth|components|app|bower_components|assets)/*')

@@ -2,7 +2,7 @@
 
 angular.module('myrejagtenApp')
   .controller('AdminCtrl', ['$scope', '$http', '$q', '$timeout', '$cookies', 'Login', 'Alert', 'Resultat', 'Data', 'Utils', 'ResultatDlg', 'CSV', 'MysqlUser', 'Cnt', 
-		'Projekt', 'Eksperiment', 'DTOptionsBuilder', 'DTColumnBuilder', 'DTDefaultOptions', 'Analyse_mail',
+		'Projekt', 'Eksperiment', 'DTOptionsBuilder', 'DTColumnBuilder', 'DTDefaultOptions', 'Analyse_mail', 
 	function($scope, $http, $q, $timeout, $cookies, Login, Alert, Resultat, Data, Utils, ResultatDlg, CSV, MysqlUser, Cnt, 
 		Projekt, Eksperiment, DTOptionsBuilder, DTColumnBuilder, DTDefaultOptions, Analyse_mail) {
 
@@ -574,9 +574,79 @@ angular.module('myrejagtenApp')
 			})
 		})
 			
+/*************
+	Backup
+**************/
+
+		$scope.backup = {
+			create: true,
+			insert: true,
+			user: true,
+			analyse_mail: false,
+			content: false,
+			data: true,
+			eksperiment: true,
+			projekt: true,
+			resultat: true
+		};
+
+		$scope.canBackup = function() {
+			return ($scope.backup.create || $scope.backup.insert) &&
+				($scope.backup.user || $scope.backup.analyse_mail || $scope.backup.content || 
+				 $scope.backup.data || $scope.backup.eksperiment || $scope.backup.projekt || $scope.backup.result)
+		}
+
+		$scope.runBackup = function() {
+			$scope.backup.sql = '';
+
+			var run=function(table) {	
+				if ($scope.backup[table]) {
+					if ($scope.backup.create) {
+						$http({
+							url: 'api/backup/getCreateTable/'+table,
+						}).then(function(r) {
+							$scope.backup.sql += r.data[0]['Create Table'];
+							$scope.backup.sql += "\n" + "\n";
+						});
+					}
+					if ($scope.backup.insert) {
+						$http({
+							url: 'api/backup/getTableSQL/'+table,
+						}).then(function(r) {
+							$scope.backup.sql += r.data.sql
+							$scope.backup.sql += "\n" + "\n";
+						});
+					}
+				}
+			}
+
+			run('user');
+			run('analyse_mail');
+			run('content');
+			run('projekt');
+			run('eksperiment');
+			run('data');
+			run('resultat');
+		}
+
+/*	
+		$http({
+			url: 'api/backup/getCreateTable/user',
+		}).then(function(r) {
+			console.log($scope.backup);
+			console.log(r);
+		})
+
+		$http({
+			url: 'api/backup/getTableSQL/content',
+		}).then(function(r) {
+			console.log(r.data);
+			//console.log( test('content', r.data));
+		})
+*/
 
 
-  }]);
+}]);
 
 
 

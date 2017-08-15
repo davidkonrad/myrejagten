@@ -179,8 +179,53 @@
 				</text-angular>
 				<p><small><strong>Bemærk</strong>: For at fjerne en tekst fuldstændig, indsæt et enkelt punktum. Dvs et punktum og intet andet.</p></small>
 			</div>
-
 		</div>
+
+<!-- database backup -->
+		<div bs-pane data-title="DB backup" style="padding-left:0px;">
+			<form name="backup-form">
+				<div class="col-md-3">
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" ng-model="backup.create">
+							CREATE script
+						</label>
+						<label>
+							<input type="checkbox" ng-model="backup.insert">
+							INSERT script
+						</label>
+					</div>
+					<button class="btn btn-default"
+						ng-class="{ 'btn-primary' : canBackup() }"
+						ng-click="runBackup()"
+						ng-disabled="!canBackup()">
+					Generer scripts
+					</button>
+				</div>
+				<div class="col-md-3">
+					<div class="checkbox"><label><input type="checkbox" ng-model="backup.user">user</label></div>
+					<div class="checkbox"><label><input type="checkbox" ng-model="backup.analyse_mail">analyse_mail</label></div>
+					<div class="checkbox"><label><input type="checkbox" ng-model="backup.content">content</label></div>
+				</div>
+				<div class="col-md-3">
+					<div class="checkbox"><label><input type="checkbox" ng-model="backup.resultat">resultat</label></div>
+					<div class="checkbox"><label><input type="checkbox" ng-model="backup.eksperiment">eksperiment</label></div>
+					<div class="checkbox"><label><input type="checkbox" ng-model="backup.projekt">projekt</label></div>
+					<div class="checkbox"><label><input type="checkbox" ng-model="backup.data">data</label></div>
+				</div>
+
+				<div class="col-md-12">
+					<textarea class="form-control" 
+						style="white-space: pre;"
+						xxwrap="soft"
+						ng-model="backup.sql" 
+						cols="400" 
+						rows="10" > 
+					</textarea>
+				</div>	
+			</form>
+		</div>
+
 	</div>	
 </div>
 
