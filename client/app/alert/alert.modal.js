@@ -134,6 +134,12 @@ angular.module('myrejagtenApp')
 					$('#textarea').focus();
 				});
 
+				//text much be larger than 50 chars
+				$scope.checkBodyLength = function() {
+					if (!$('#textarea').length) return; //modal closed
+					return $('#textarea').val().length > 50;
+				}
+
 				$scope.alertModalClose = function(value) {
 					if (value) {
 						var options = {

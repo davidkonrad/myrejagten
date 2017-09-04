@@ -332,11 +332,6 @@ angular.module('myrejagtenApp')
 			.fromFnPromise(function() {
 				var defer = $q.defer();
 				MysqlUser.query().$promise.then(function(res) {
-					/*
-					res.forEach(function(r) {
-						r.sendEmail = true
-					});
-					*/
 					$scope.massEmailUsers = res;
 					defer.resolve(res);
 				})
@@ -377,6 +372,47 @@ angular.module('myrejagtenApp')
 							$(this).find('input').prop('checked', false);
 						})
 					}
+				},
+				{ text: 'Skriv og send email', 
+					className: 'btn btn-sm btn-success',
+					titleAttr: 'Skriv og send mail til valgte brugere',
+					action: function ( e, dt, node, config ) {
+						Alert.analyseMail($scope, 'alle valgte brugere', '').then(function(options) {
+							if (options) {
+								Alert.waitShow($scope, 'Sender emails ...');
+								var total = $scope.dtMassEmailInstance.DataTable.rows().data().length;
+									$scope.dtMassEmailInstance.DataTable.rows().every(function(rowIdx, tableLoop, rowLoop ) {
+										if (this.nodes().to$().find('input').prop('checked')) {
+										var email = this.data().email;
+										options.email = email;
+										options.subject = 'Myrejagten';
+										$http.post('api/email/raw/', options).then(function(response) {
+											if (response.data.ok) {
+												var obj = {
+													email: options.email,
+													mail_body: options.mailBody,
+													eksperiment_id: -1,
+													myrejagt_id: -1,
+													attachments: options.attach ? options.attach.originalFileName : ''
+												};
+												Analyse_mail.save( { analyse_mail_id: '' }, obj).$promise.then(function() {
+												});
+											} else {
+												console.log('email fejl: ', response.data.error);
+												//Alert.waitHide();
+											}
+										})
+									}
+									if ((rowIdx+1) == total) {
+										$timeout(function() {
+											Alert.waitHide();
+										}, 2000);
+									}
+								})
+							}
+							//console.log(options);
+						})
+					}
 				}
 			])
 			.withLanguage(Utils.dataTables_daDk);
@@ -386,7 +422,7 @@ angular.module('myrejagtenApp')
 				.withOption('width', '40px')
 				.withClass('text-center')
 				.withTitle('#')
-				.notSortable()
+				//.notSortable()
 				.withOption('createdCell', function(cell) {
 					$(cell).find('input').prop('checked', true);
 				})
@@ -717,22 +753,6 @@ angular.module('myrejagtenApp')
 			run('data');
 			run('resultat');
 		}
-
-/*	
-		$http({
-			url: 'api/backup/getCreateTable/user',
-		}).then(function(r) {
-			console.log($scope.backup);
-			console.log(r);
-		})
-
-		$http({
-			url: 'api/backup/getTableSQL/content',
-		}).then(function(r) {
-			console.log(r.data);
-			//console.log( test('content', r.data));
-		})
-*/
 
 
 }]);

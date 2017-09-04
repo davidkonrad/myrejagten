@@ -7,7 +7,7 @@
 			</div>
 
 			<div class="modal-body">
-				<textarea class="form-control" id="textarea"> {{ alertParams.mailBody }} </textarea>
+				<textarea class="form-control" id="textarea" ng-model="alertParams.mailBody"> {{ alertParams.mailBody }} </textarea>
 			</div>
 
 			<div class="modal-footer">
@@ -25,7 +25,13 @@
 					</span>
 					{{ attachFile.name }}
 				</div>
-				<button type="button" class="btn btn-ku" ng-click="alertModalClose(true)">Send email</button> 
+				<button type="button" 
+					class="btn" 
+					ng-class="{ 'btn-ku' : checkBodyLength() }"
+					ng-disabled="!checkBodyLength()"
+					ng-click="alertModalClose(true)">
+						Send email
+				</button> 
 				<button type="button" class="btn btn-default" ng-click="alertModalClose(false)">Fortryd</button> 
 			</div>
 
