@@ -353,6 +353,10 @@ angular.module('myrejagtenApp')
 			})
 			.withDOM('lBfrtip')
 			.withButtons([ 
+				{ text: '', 
+					className: 'btn btn-sm btn-default btn-selected-count',
+					titleAttr: '',
+				},
 				{ text: 'Vælg alle', 
 					className: 'btn btn-sm btn-primary',
 					titleAttr: 'Marker alle brugere som modtagere af email',
@@ -361,6 +365,7 @@ angular.module('myrejagtenApp')
 						column.nodes().to$().each(function () {
 							$(this).find('input').prop('checked', true);
 						})
+						$scope.setSelectedCount();
 					}
 				},
 				{ text: 'Fravælg alle', 
@@ -371,6 +376,7 @@ angular.module('myrejagtenApp')
 						column.nodes().to$().each(function () {
 							$(this).find('input').prop('checked', false);
 						})
+						$scope.setSelectedCount();
 					}
 				},
 				{ text: 'Skriv og send email', 
@@ -410,24 +416,41 @@ angular.module('myrejagtenApp')
 									}
 								})
 							}
-							//console.log(options);
 						})
 					}
 				}
 			])
 			.withLanguage(Utils.dataTables_daDk);
-	
+
+
+		$scope.getSelectedCount = function() {
+			var column = $scope.dtMassEmailInstance.DataTable.column(0);
+			var count = 0;
+			column.nodes().to$().each(function() {
+				if ($(this).find('input').prop('checked')) count++
+			 })
+			return count
+		}
+			
+		$scope.setSelectedCount = function() {
+			$('.btn-selected-count').text($scope.getSelectedCount()+' valgt');
+		}
+
+		$('body').on('click', '.select-checkbox', function() {
+			$scope.setSelectedCount();
+		});
+
 		$scope.dtMassEmailColumns = [
       DTColumnBuilder.newColumn(null)
 				.withOption('width', '40px')
 				.withClass('text-center')
 				.withTitle('#')
-				//.notSortable()
+				.notSortable()
 				.withOption('createdCell', function(cell) {
 					$(cell).find('input').prop('checked', true);
 				})
 				.renderWith(function(data, type, full) {
-					return '<input type="checkbox" data-id="'+full.user_id+'">'
+					return '<input type="checkbox" data-id="'+full.user_id+'" class="select-checkbox">'
 				}),
       DTColumnBuilder.newColumn('brugernavn').withOption('width', '100px').withTitle('Brugernavn'),
 	    DTColumnBuilder.newColumn('email').withOption('width', '200px').withTitle('Email'),
@@ -447,6 +470,7 @@ angular.module('myrejagtenApp')
 
 		$scope.dtMassEmailInstanceCallback = function(instance) {
 			$scope.dtMassEmailInstance = instance;
+			$scope.setSelectedCount();
     }
 
 	
