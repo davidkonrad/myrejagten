@@ -34,7 +34,7 @@ exports.getTableSQL = function(req, res) {
 			for (var i=0, l=keys.length; i<l; i++) {
 				if (values != '') values += ',';
 				if (!row[keys[i]]) {
-					values += ""
+					values += '""'
 				} else {
 					values += '"' + row[keys[i]].toString().replace(/"/g, '\\"') + '"';
 				}

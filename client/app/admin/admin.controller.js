@@ -254,7 +254,7 @@ angular.module('myrejagtenApp')
 	    DTColumnBuilder.newColumn('postnr').withOption('width', '100px').withTitle('Postnr.'),
 	    DTColumnBuilder.newColumn('kommune').withOption('width', '200px').withTitle('Kommune'),
 	    DTColumnBuilder.newColumn('confirmed')
-				.withTitle('Bekræftet')
+				.withTitle('Bekræft')
 				.withClass('text-center')
 				.renderWith(function(data, type, full) {
 					if (type == 'display') {
@@ -263,11 +263,10 @@ angular.module('myrejagtenApp')
 						return data
 					}
 				}),
-			
-      DTColumnBuilder.newColumn('is_admin')
-				.withOption('width', '50px')
+			DTColumnBuilder.newColumn('is_admin')
+				.withOption('width', '30px')
 				.withClass('text-center')
-				.withTitle('Admin')
+				.withTitle('Adm')
 				.renderWith(function(data, type, full) {
 					if (type == 'display') {
 						return '<input type="checkbox" class="is-admin" user_id="'+ full.user_id +'" ' + (data ? 'checked' : '') +'/>' 
@@ -275,11 +274,13 @@ angular.module('myrejagtenApp')
 						return data
 					}
 				}),
-	    DTColumnBuilder.newColumn('').withOption('width', '50px').withTitle('').renderWith(function(data, type, full) {
-				return full.user_id != $scope.user.user_id 
-					? '<button class="btn btn-sm btn-danger btn-slet-bruger" title="Slet bruger og alle brugerens data" user-id="'+full.user_id+'"><i class="fa fa-times"></i></button>'
-					: ''
-			})
+	    DTColumnBuilder.newColumn('').withOption('width', '30px')
+				.withTitle('')
+				.renderWith(function(data, type, full) {
+					return full.user_id != $scope.user.user_id 
+						? '<button class="btn btn-sm btn-danger btn-slet-bruger" title="Slet bruger og alle brugerens data" user-id="'+full.user_id+'"><i class="fa fa-times"></i></button>'
+						: ''
+				})
 		];
 
 		$scope.dtUserInstanceCallback = function(instance) {
@@ -322,7 +323,95 @@ angular.module('myrejagtenApp')
 				}
 			});
 		});
+
+
+/*************
+	mass email
+**************/
+		$scope.dtMassEmailOptions = DTOptionsBuilder
+			.fromFnPromise(function() {
+				var defer = $q.defer();
+				MysqlUser.query().$promise.then(function(res) {
+					/*
+					res.forEach(function(r) {
+						r.sendEmail = true
+					});
+					*/
+					$scope.massEmailUsers = res;
+					defer.resolve(res);
+				})
+				return defer.promise;
+	    })
+			.withOption('stateSave', true)
+			.withOption('displayLength', 50)
+			.withOption('rowCallback', function( row, data, index ) {
+			})
+			.withOption('autoWidth', false)
+			.withOption('initComplete', function() {
+				$('#table-mass-email_wrapper .dt-button').each(function() {
+					//awful hack
+					$(this).css('margin-right', '10px');
+					$(this).removeClass('dt-button');
+				})
+			})
+			.withOption('drawCallback', function() {
+			})
+			.withDOM('lBfrtip')
+			.withButtons([ 
+				{ text: 'Vælg alle', 
+					className: 'btn btn-sm btn-primary',
+					titleAttr: 'Marker alle brugere som modtagere af email',
+					action: function ( e, dt, node, config ) {
+						var column = $scope.dtMassEmailInstance.DataTable.column(0);
+						column.nodes().to$().each(function () {
+							$(this).find('input').prop('checked', true);
+						})
+					}
+				},
+				{ text: 'Fravælg alle', 
+					className: 'btn btn-sm btn-primary',
+					titleAttr: 'Fravælg alle brugere som modtagere af email',
+					action: function ( e, dt, node, config ) {
+						var column = $scope.dtMassEmailInstance.DataTable.column(0);
+						column.nodes().to$().each(function () {
+							$(this).find('input').prop('checked', false);
+						})
+					}
+				}
+			])
+			.withLanguage(Utils.dataTables_daDk);
 	
+		$scope.dtMassEmailColumns = [
+      DTColumnBuilder.newColumn(null)
+				.withOption('width', '40px')
+				.withClass('text-center')
+				.withTitle('#')
+				.notSortable()
+				.withOption('createdCell', function(cell) {
+					$(cell).find('input').prop('checked', true);
+				})
+				.renderWith(function(data, type, full) {
+					return '<input type="checkbox" data-id="'+full.user_id+'">'
+				}),
+      DTColumnBuilder.newColumn('brugernavn').withOption('width', '100px').withTitle('Brugernavn'),
+	    DTColumnBuilder.newColumn('email').withOption('width', '200px').withTitle('Email'),
+      DTColumnBuilder.newColumn('fulde_navn').withOption('width', '200px').withTitle('Fulde navn'),
+	    DTColumnBuilder.newColumn('postnr').withOption('width', '100px').withTitle('Postnr.'),
+	    DTColumnBuilder.newColumn('confirmed')
+				.withTitle('Bekræftet')
+				.withClass('text-center')
+				.renderWith(function(data, type, full) {
+					if (type == 'display') {
+						return data == '1' ? '<i class="fa fa-check"></i>'  : ''
+					} else {
+						return data
+					}
+				}),
+		];
+
+		$scope.dtMassEmailInstanceCallback = function(instance) {
+			$scope.dtMassEmailInstance = instance;
+    }
 
 	
 /*************
