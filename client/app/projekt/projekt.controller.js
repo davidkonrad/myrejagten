@@ -769,10 +769,13 @@ angular.module('myrejagtenApp')
 				$scope.refreshMaps()
 
 				$scope.eksperimenter.forEach(function(eks) {
-					Utils.formReset('formResultater'+eks.eksperiment_id);
+					//Utils.formReset('formResultater'+eks.eksperiment_id);
+					eks.hasResultat = false;//resultat.length>0
+					/* 13.11.2017 eks
 					Eksperiment.resultat({ id: eks.eksperiment_id }).$promise.then(function(resultat) {
 						eks.hasResultat = resultat.length>0
 					})
+ 					*/
 				})
 			})
 		}
