@@ -1,4 +1,6 @@
-<div ng-repeat="x in eksperimenter | orderBy : sortering.value " >
+
+<div ng-repeat="x in pagedEksperimenter[currentPage] | orderBy : sortering.value " >
+
 	<div bs-tabs class="control-group col-md-12 eksperiment-block" id="eksperiment-cnt-{{ x.eksperiment_id }}">
 
  		<button class="btn btn-default btn-xs btn-eksperiment-delete" 
@@ -166,208 +168,225 @@
 			</button>	
 		</div>
 
-	<!---------- resultat ------------->
-<div bs-pane data-title="Data">
+		<!---------- resultat ------------->
+		<div bs-pane data-title="Data">
 
-	<form novalidate id="formResultater{{ x.eksperiment_id }}"  class="no-padding" autocomplete="off">
+			<form novalidate id="formResultater{{ x.eksperiment_id }}"  class="no-padding" autocomplete="off">
 
-		<table class="miljoe-table col-md-4 no-padding">
-			<thead>
-				<tr>
-					<th>
-						Miljødata
-						<i info-sm info-popover content-name="Miljoe_data"></i>
-					</th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td class="normal">Temp.°</td>
-					<td style="white-space:nowrap;">
-						<input type="number" 
-							placeholder="0" 
-							class="form-control" 
-							ng-model="x.temp" 
-							name="temp"
-							ng-class="{ 'has-value' : x.temp != undefined }"
-							style="width:70px !important; display: inline;" 
-							min="-50"
-							max="50"/>
-						<i info-sm info-placement="right"	info-popover content-name="Miljoe_temp"></i>
-					</td>
-				</tr>
+				<table class="miljoe-table col-md-4 no-padding">
+					<thead>
+						<tr>
+							<th>
+								Miljødata
+								<i info-sm info-popover content-name="Miljoe_data"></i>
+							</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="normal">Temp.°</td>
+							<td style="white-space:nowrap;">
+								<input type="number" 
+									placeholder="0" 
+									class="form-control" 
+									ng-model="x.temp" 
+									name="temp"
+									ng-class="{ 'has-value' : x.temp != undefined }"
+									style="width:70px !important; display: inline;" 
+									min="-50"
+									max="50"/>
+								<i info-sm info-placement="right"	info-popover content-name="Miljoe_temp"></i>
+							</td>
+						</tr>
 
-				<tr>
-					<td class="normal">Vejr</td>
-					<td>
-						<button data-placeholder="Vælg"
-							style="width: 120px !important;text-align:left;"
-						  type="button" 
-							class="btn btn-default select btn-sm" 
-							ng-model="x.vejr" 
-							name="vejr"
-							data-toggle="true" 
-							ng-class="{ 'has-value' : x.vejr != undefined }"
-							bs-options="i.value as i.label for i in items.vejr" 
-							bs-select>
-							<span class="caret"></span>
-						</button>
-						<i info-sm info-placement="right"	info-popover content-name="Miljoe_sky_regn"></i>
-					</td>
-				</tr>
+						<tr>
+							<td class="normal">Vejr</td>
+							<td>
+								<button data-placeholder="Vælg"
+									style="width: 120px !important;text-align:left;"
+								  type="button" 
+									class="btn btn-default select btn-sm" 
+									ng-model="x.vejr" 
+									name="vejr"
+									data-toggle="true" 
+									ng-class="{ 'has-value' : x.vejr != undefined }"
+									bs-options="i.value as i.label for i in items.vejr" 
+									bs-select>
+									<span class="caret"></span>
+								</button>
+								<i info-sm info-placement="right"	info-popover content-name="Miljoe_sky_regn"></i>
+							</td>
+						</tr>
 
-				<tr>
-					<td class="normal">Skygge</td>
-					<td>
-						<button data-placeholder="Vælg"
-							style="width: 120px !important;text-align:left;"
-						  type="button" 
-							class="btn btn-default select btn-sm" 
-							ng-model="x.sol" 
-							name="sol"
-							data-toggle="true" 
-							ng-class="{ 'has-value' : x.sol != undefined }"
-							bs-options="i.value as i.label for i in items.sol" 
-							bs-select>
-								<span class="caret"></span>
-						</button>
-						<i info-sm info-placement="right"	info-popover content-name="Miljoe_skygge"></i>
-					</td>
-				</tr>
+						<tr>
+							<td class="normal">Skygge</td>
+							<td>
+								<button data-placeholder="Vælg"
+									style="width: 120px !important;text-align:left;"
+								  type="button" 
+									class="btn btn-default select btn-sm" 
+									ng-model="x.sol" 
+									name="sol"
+									data-toggle="true" 
+									ng-class="{ 'has-value' : x.sol != undefined }"
+									bs-options="i.value as i.label for i in items.sol" 
+									bs-select>
+										<span class="caret"></span>
+								</button>
+								<i info-sm info-placement="right"	info-popover content-name="Miljoe_skygge"></i>
+							</td>
+						</tr>
 
-				<tr>
-					<td class="normal">Vind</td>
-					<td>
-						<button data-placeholder="Vælg"
-							style="width: 120px !important;text-align:left;"
-						  type="button" 
-							class="btn btn-default select btn-sm" 
-							name="vind"
-							ng-model="x.vind" 
-							data-toggle="true" 
-							ng-class="{ 'has-value' : x.vind != undefined }"
-							bs-options="i.value as i.label for i in items.vind" 
-							bs-select>
-							<span class="caret"></span>
-						</button>
-						<i info-sm info-placement="right"	info-popover content-name="Miljoe_vind"></i>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+						<tr>
+							<td class="normal">Vind</td>
+							<td>
+								<button data-placeholder="Vælg"
+									style="width: 120px !important;text-align:left;"
+								  type="button" 
+									class="btn btn-default select btn-sm" 
+									name="vind"
+									ng-model="x.vind" 
+									data-toggle="true" 
+									ng-class="{ 'has-value' : x.vind != undefined }"
+									bs-options="i.value as i.label for i in items.vind" 
+									bs-select>
+									<span class="caret"></span>
+								</button>
+								<i info-sm info-placement="right"	info-popover content-name="Miljoe_vind"></i>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 
-		<br class="visible-xs visible-sm">
-		<table class="madding-table col-md-6">
-			<thead>
-				<tr>
-					<th style="margin-bottom:10px;">Myredata</th>
-					<th colspan="2" class="text-center">
-						Antal myrer
-					</th>
-					<th></th>
-				</tr>
-				<tr>
-					<th></th>
-					<th class="normal small">
-						Før indsamling
-						<i info-sm info-popover content-name="Myrer_foer_frysning"></i>
-					</th>
-					<th class="normal small">
-						Efter frysning
-						<i info-sm info-popover content-name="Myrer_efter_frysning"></i>
-					</th>
-					<th class="normal small">
-						Forstyrrelse
-						<i info-sm info-popover content-name="Myrer_forstyrrelse"></i>
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="d in x.Data">
-					<td class="normal"> {{ d.madding }} &nbsp;</td>
-					<td> 
-						<input type="text" 
-							placeholder="0.0"
-							only-digits
-							style="width: 90px;"
-							name="myrer_indsamlet"
-							class="form-control"
-							select-on-click
-							ng-model="d.myrer_indsamlet"
-							ng-class="{ 'has-value' : d.myrer_indsamlet != undefined }">
-					</td>
-					<td> 
-						<input type="text" 
-							placeholder="0"
-							style="width: 90px;"
-							only-numbers
-							name="myrer_frysning"
-							class="form-control"  
-							select-on-click
-							ng-model="d.myrer_frysning"
-							ng-class="{ 'has-value' : d.myrer_frysning != undefined }">
-					</td>
-					<td style="text-align:center;"> 
-						<checkbox ng-model="d.madding_stjaalet" 
-							ng-click="setNgDirty($event)"
-							name="madding_sjaalet" 
-							class="button-checkbox">
-						</checkbox>
-					</td>
+				<br class="visible-xs visible-sm">
+				<table class="madding-table col-md-6">
+					<thead>
+						<tr>
+							<th style="margin-bottom:10px;">Myredata</th>
+							<th colspan="2" class="text-center">
+								Antal myrer
+							</th>
+							<th></th>
+						</tr>
+						<tr>
+							<th></th>
+							<th class="normal small">
+								Før indsamling
+								<i info-sm info-popover content-name="Myrer_foer_frysning"></i>
+							</th>
+							<th class="normal small">
+								Efter frysning
+								<i info-sm info-popover content-name="Myrer_efter_frysning"></i>
+							</th>
+							<th class="normal small">
+								Forstyrrelse
+								<i info-sm info-popover content-name="Myrer_forstyrrelse"></i>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="d in x.Data">
+							<td class="normal"> {{ d.madding }} &nbsp;</td>
+							<td> 
+								<input type="text" 
+									placeholder="0.0"
+									only-digits
+									style="width: 90px;"
+									name="myrer_indsamlet"
+									class="form-control"
+									select-on-click
+									ng-model="d.myrer_indsamlet"
+									ng-class="{ 'has-value' : d.myrer_indsamlet != undefined }">
+							</td>
+							<td> 
+								<input type="text" 
+									placeholder="0"
+									style="width: 90px;"
+									only-numbers
+									name="myrer_frysning"
+									class="form-control"  
+									select-on-click
+									ng-model="d.myrer_frysning"
+									ng-class="{ 'has-value' : d.myrer_frysning != undefined }">
+							</td>
+							<td style="text-align:center;"> 
+								<checkbox ng-model="d.madding_stjaalet" 
+									ng-click="setNgDirty($event)"
+									name="madding_sjaalet" 
+									class="button-checkbox">
+								</checkbox>
+							</td>
 
-				</tr>
-			</tbody>
-		</table>
+						</tr>
+					</tbody>
+				</table>
 
-		<br class="visible-xs visible-sm">
-		<div class="col-md-2 no-padding" style="vertical-align: top;">
-			<label>Noter</label>
-			<i info-sm info-popover content-name="Myrer_bemaerk"></i>
-			<textarea class="form-control" ng-model="x.data_kommentar" name="kommentar" rows="10"></textarea>
+				<br class="visible-xs visible-sm">
+				<div class="col-md-2 no-padding" style="vertical-align: top;">
+					<label>Noter</label>
+					<i info-sm info-popover content-name="Myrer_bemaerk"></i>
+					<textarea class="form-control" ng-model="x.data_kommentar" name="kommentar" rows="10"></textarea>
+				</div>
+
+				<div class="col-md-12 no-padding">
+					<br class="visible-xs visible-sm">
+					<button class="btn btn-default btn-eksperiment-save clearfix" 
+						ng-class="{ 'btn-ku' : eksperimentFormChanged('formResultater{{ x.eksperiment_id }}') }"
+						ng-click="updateEksperimentData(x.eksperiment_id)" 
+						ng-disabled="!eksperimentFormChanged('formResultater{{ x.eksperiment_id }}')">
+						<i class="fa fa-check"></i>
+						Gem ændringer
+					</button>	
+				</div>
+
+			</form>
+
 		</div>
 
-		<div class="col-md-12 no-padding">
-			<br class="visible-xs visible-sm">
-			<button class="btn btn-default btn-eksperiment-save clearfix" 
-				ng-class="{ 'btn-ku' : eksperimentFormChanged('formResultater{{ x.eksperiment_id }}') }"
-				ng-click="updateEksperimentData(x.eksperiment_id)" 
-				ng-disabled="!eksperimentFormChanged('formResultater{{ x.eksperiment_id }}')">
-				<i class="fa fa-check"></i>
-				Gem ændringer
-			</button>	
-		</div>
-
-		</form>
-
-	</div>
-
-	<div bs-pane data-title="Upload billede">
-
-		<div class="control-group col-md-6">
-			Billede
-			<i info-placement="right"	info-sm info-popover content-name="Upload_billede"></i>
-			<button class="btn btn-default btn-xs pull-right" 
-				title="Fjern billede (billedet bliver slettet fra serveren)"
-				ng-disabled="x.upload_billede == undefined"
-				ng-class="{ 'btn-danger' : x.upload_billede != undefined }"
-				ng-click="deleteImage(x.eksperiment_id, x.upload_billede)">
-				<i class="fa fa-times"></i>
-			</button>
-
-			<button class="btn btn-ku btn-xs pull-right" 
-				style="margin-right: 5px;"
-				ng-click="uploadImage(x.eksperiment_id, x.upload_billede)">Upload billede
-			</button>
-			<div class="upload-cnt">
-				<img class="upload" ng-click="uploadImage(x.eksperiment_id, x.upload_billede)" src="{{ x.upload_billede }}" />
+		<!---------- billede ------------->
+		<div bs-pane data-title="Upload billede">
+			<div class="control-group col-md-6">
+				Billede
+				<i info-placement="right"	info-sm info-popover content-name="Upload_billede"></i>
+				<button class="btn btn-default btn-xs pull-right" 
+					title="Fjern billede (billedet bliver slettet fra serveren)"
+					ng-disabled="x.upload_billede == undefined"
+					ng-class="{ 'btn-danger' : x.upload_billede != undefined }"
+					ng-click="deleteImage(x.eksperiment_id, x.upload_billede)">
+					<i class="fa fa-times"></i>
+				</button>
+	
+				<button class="btn btn-ku btn-xs pull-right" 
+					style="margin-right: 5px;"
+					ng-click="uploadImage(x.eksperiment_id, x.upload_billede)">Upload billede
+				</button>
+				<div class="upload-cnt">
+					<img class="upload" ng-click="uploadImage(x.eksperiment_id, x.upload_billede)" src="{{ x.upload_billede }}" />
+				</div>
 			</div>
 		</div>
-
 	</div>
-
 </div>
 
-
+<!--- pagination --->
+<div class="pull-right">
+	<ul class="pagination">
+		<li class="paginate_button"
+			ng-class="{disabled: currentPage == 0}">
+			<a href ng-click="prevPage()">« Forrige</a>
+		</li>
+		<li class="paginate_button"
+			ng-repeat="n in range(pagedEksperimenter.length)"
+			ng-class="{active: n == currentPage}"
+			ng-click="setPage()">
+			<a href ng-bind="n + 1">1</a>
+		</li>
+		<li class="paginate_button"
+			ng-class="{disabled: currentPage == pagedEksperimenter.length - 1}">
+			<a href ng-click="nextPage()">Næste »</a>
+		</li>
+	</ul>
+</div>
 
 

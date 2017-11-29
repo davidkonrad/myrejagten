@@ -3,6 +3,7 @@
 angular.module('myrejagtenApp')
   .controller('ProjektCtrl', ['$scope', '$http', '$location', '$interval', '$sce', 'Login', 'Alert', 'KR', '$timeout', '$modal', '$q', 'Projekt', 'Eksperiment', 
 			'ToDo', 'Data', 'Geo', 'TicketService', 'Utils', 'leafletData', 'UploadModal', 'CreateEksperiment', 'UTM','ProjektDlg',
+
 	function($scope, $http, $location, $interval, $sce, Login, Alert, KR, $timeout, $modal, $q, Projekt, Eksperiment, 
 			ToDo,	Data, Geo, TicketService, Utils, leafletData, UploadModal, CreateEksperiment, UTM, ProjektDlg) {
 
@@ -210,7 +211,6 @@ angular.module('myrejagtenApp')
 			$scope.__projekt.lat = latLng.lat
 			$scope.__projekt.lng = latLng.lng
 		}
-
 
 		/**
 			projekt
@@ -766,7 +766,7 @@ angular.module('myrejagtenApp')
 					}, 10)
 				}
 
-				$scope.refreshMaps()
+				$scope.refreshMaps();
 
 				$scope.eksperimenter.forEach(function(eks) {
 					//Utils.formReset('formResultater'+eks.eksperiment_id);
@@ -776,7 +776,48 @@ angular.module('myrejagtenApp')
 						eks.hasResultat = resultat.length>0
 					})
  					*/
-				})
+				});
+
+				//create array for pagination
+				var itemsPerPage = 10;        
+				$scope.currentPage = 1;
+        $scope.pagedEksperimenter = [];
+				for (var i = 0; i < $scope.eksperimenter.length; i++) {
+					if (i % itemsPerPage === 0) {
+						$scope.pagedEksperimenter[Math.floor(i / itemsPerPage)] = [ $scope.eksperimenter[i] ];
+					} else {
+						$scope.pagedEksperimenter[Math.floor(i / itemsPerPage)].push($scope.eksperimenter[i]);
+					}
+				}
+
+				$scope.range = function(start, end) {
+					var ret = [];
+					if (!end) {
+						end = start;
+						start = 0;
+					}
+					for (var i = start; i < end; i++) {
+						ret.push(i);
+					}
+					return ret;
+				};
+    
+				$scope.prevPage = function() {
+					if ($scope.currentPage > 0) {
+						$scope.currentPage--;
+					}
+				};
+    
+				$scope.nextPage = function() {
+					if ($scope.currentPage < $scope.pagedEksperimenter.length - 1) {
+						$scope.currentPage++;
+					}
+				};
+    
+				$scope.setPage = function() {
+					$scope.currentPage = this.n;
+				};
+
 			})
 		}
 		$scope.reloadEksperimenter()
@@ -966,8 +1007,5 @@ angular.module('myrejagtenApp')
 			}
 		}
 
-  }]);
-
-
-
+}]);
 
