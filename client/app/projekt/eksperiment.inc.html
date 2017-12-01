@@ -90,7 +90,7 @@
 			</form>
 		</div>
 
-	<!---------- lokalitet ------------->
+		<!---------- lokalitet ------------->
 		<div bs-pane data-title="Lokalitet" style="padding-left:0px;">
 
 			<form novalidate id="formLokalitet{{ x.eksperiment_id }}" autocomplete="off">
@@ -153,7 +153,15 @@
 
 				<br class="visible-xs visible-sm">
 				<div class="control-group col-md-6">
-					<leaflet id="{{ x.mapId }}_lok" class="eksperiment-map" center="x.map.center" defaults="x.map.defaults" layers="x.map.layers" markers="x.map.markers" events="x.map.events" height="280px" style="border:1px solid #ccc;border-radius:5px;"></leaflet>
+					<leaflet id="{{ x.mapId }}_lok" 
+						class="eksperiment-map" 
+						center="x.map.center" 
+						defaults="x.map.defaults" 
+						layers="x.map.layers" 
+						markers="x.map.markers" 
+						events="x.map.events" 
+						height="280px">
+					</leaflet>
 				</div>
 
 			</form>		

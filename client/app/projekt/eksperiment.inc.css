@@ -17,3 +17,9 @@ div.eksperiment-cnt {
 	min-height:300px !important;
 }
 
+div.eksperiment-map {
+	margin-top: 8px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+
