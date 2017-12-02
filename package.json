@@ -20,6 +20,7 @@
     "multer": "0.1.8",
     "mysql": "2.5.3",
     "nodemailer": "~2.6.1",
+    "nodemailer-smtp-transport": "~2.2.2",
     "passport": "~0.2.0",
     "passport-local": "~0.1.6",
     "q": "^1.4.1",
