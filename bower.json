@@ -2,8 +2,7 @@
   "name": "myrejagtenapp",
   "version": "0.0.1",
   "dependencies": {
-    "angular": "^1.5.9",
-    "json3": "~3.3.1",
+    "angular": "^1.6.7",
     "es5-shim": "~3.0.1",
     "jquery": "~1.11.0",
     "bootstrap": "^3.3.7",
@@ -21,8 +20,6 @@
     "Wicket": "*",
     "angular-bootstrap3-typeahead": "*",
     "leaflet-plugins": "^1.9.0",
-    "ng-tags-input": "^3.1.1",
-    "bootstrap-tagsinput": "^0.8.0",
     "jszip": "2.6.0",
     "pdfmake": "0.1.18",
     "angular-datatables": "0.6.2",
