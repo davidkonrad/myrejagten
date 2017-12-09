@@ -2,25 +2,21 @@ var models = require('../mysql');
 
 exports.getTotal = function(req, res) {
 
-/*
 	var sql = ''
-		+ 'select r.navn_videnskabeligt, r.navn_dk, sum(r.antal) as antal '
-		+ 'from resultat r '
-		+ 'group by navn_videnskabeligt order by antal desc ';
-*/
+		+ 'select '
+		+ 'sum(r.antal) as antal_dyr, count(*) antal_madding, r.navn_videnskabeligt, r.navn_dk, '
+		
+		+ '(select '
+		+ 'count(distinct d.eksperiment_id) '
+		+ 'from data d, resultat rr '
+		+ 'where '
+		+ 'd.data_id = rr.data_id '
+		+ 'and rr.navn_videnskabeligt = r.navn_videnskabeligt) as antal_eksperimenter '
 
-/*
-select count(data_id) as eks, antal, navn_videnskabeligt, navn_dk
-from resultat
-where antal>0
-group by data_id
-*/
-	
-	//må bare bygge den op i script indtil videre
-	var sql = ''
-		+ 'select data_id, navn_videnskabeligt, navn_dk, antal '
-		+ 'from resultat '
-		+ 'where antal>0 ';
+		+ 'from resultat r '
+		+ 'where r.navn_videnskabeligt<>"" '
+		+ 'group by r.navn_videnskabeligt '
+		+ 'order by antal_eksperimenter desc ';
 
 	models.sequelize.query(sql,	{ bind: ['active'], type: models.sequelize.QueryTypes.SELECT }).then(function(data) {
 		return res.json(200, data);

@@ -36,7 +36,7 @@
     "angular-file-upload": "^2.3.4",
     "ng-file-upload": "^12.2.12",
     "textAngular": "^1.5.16",
-    "chart.js": "^2.6.0",
+    "chart.js": "^2.7.1",
     "angular-chart.js": "^1.1.1",
     "angular-fancybox-plus": "^1.0.3"
   },
