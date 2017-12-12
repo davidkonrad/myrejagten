@@ -4,9 +4,18 @@
 
 		<div bs-pane data-title="Kort" style="padding-left:0px;" ng-controller="KortCtrl">
 			<div class="control-group col-md-12">
-				<leaflet id="vis-map" center="map.center" defaults="map.defaults" layers="map.layers" markers="map.markers" events="map.events" height="580px" style="border:1px solid #ccc;border-radius:5px;"></leaflet>
-				<small class="text-muted">
-					I alt er der gennemført {{ stats.antal }} eksperimenter. Totalt {{ stats.indsamlet }} myrer indsamlet, {{ stats.frysning }} myrer optalt efter frysning.
+				<leaflet id="vis-map" 
+					center="map.center" 
+					defaults="map.defaults" 
+					layers="map.layers" 
+					markers="map.markers" 
+					events="map.events" 
+					height="580px" 
+					paths="paths" 
+					style="border:1px solid #ccc;border-radius:5px;">
+				</leaflet>
+				<small class="text-muted" style="line-height: 120% !important;display:inline-block;margin-top:5px;">
+					I alt er der gennemført {{ stats.antal_eksperimenter }} eksperimenter. Totalt {{ stats.myrer_indsamlet | number }} myrer indsamlet, {{ stats.myrer_frysning | number }} myrer optalt efter frysning. Indtil videre er {{ stats.antal_myre_arter }} unikke myrearter identifceret.
 				</small>
 			</div>
 		</div>

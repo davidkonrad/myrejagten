@@ -1,22 +1,9 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .controller('VisualiseringCtrl', ['$scope', '$http', '$timeout', 'Login', 'TicketService', 'Eksperiment', 'Utils',
-	 function($scope, $http, $timeout, Login, TicketService, Eksperiment, Utils) {
+  .controller('VisualiseringCtrl', 
+	function($scope, $http, $timeout, Login, TicketService, Eksperiment, Utils) {
 
-		//var url = 'https://services.kortforsyningen.dk/Geosearch?search=*'+query+'*&resources=adresser&crs=EPSG:4326&limit=10&ticket='+TicketService.get()
-		/*
-		var url = 'https://services.kortforsyningen.dk/Geosearch?search=0101&resources=kommuner&crs=EPSG:4326&limit=1&ticket='+TicketService.get();
-		$.ajax({
-			url: url,
-			success: function(data) {
-				console.log(data);
-			},
-			fail: function() {
-				console.log(arguments)
-			}
-		});
-		*/
 
 		$scope.charts = [];
 		$scope.user = Login.currentUser();
@@ -142,4 +129,4 @@ angular.module('myrejagtenApp')
 
 		}
 			
-}]);
+});

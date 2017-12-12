@@ -13,5 +13,6 @@ router.get('/ratioGetTotalUser', ratio.getTotalUser);
 router.get('/ratioGetEksperiment', ratio.getEksperiment);
 
 router.get('/arterGetTotal', arter.getTotal);
+router.get('/arterGetStats', arter.getStats);
 
 module.exports = router;
