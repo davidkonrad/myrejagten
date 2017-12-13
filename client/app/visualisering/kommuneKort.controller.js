@@ -1,0 +1,185 @@
+'use strict';
+
+angular.module('myrejagtenApp')
+	.controller('KommuneKortCtrl', function($scope, $http, $timeout, TicketService, Geo, KR, leafletData, Eksperiment) {
+
+		Eksperiment.query().$promise.then(function(eksperimenter) {
+			$scope.eksKommuner = {};
+			eksperimenter.forEach(function(e) {
+				var k = e.kommune+'';
+				k = k.toLowerCase();
+				k = k.replace('kommune', '');
+				k = k.trim();
+				if ($scope.eksKommuner[k]) {
+					$scope.eksKommuner[k].count++
+				} else {
+					$scope.eksKommuner[k] = { count: 1 }
+				}
+			})
+			$scope.run()
+		});
+		function countEksperimenter(navn) {
+			navn = navn.toLowerCase();
+			var count = 0;
+			for (var k in $scope.eksKommuner) {
+				if (k.indexOf(navn)>-1) {
+					count = count + parseInt($scope.eksKommuner[k].count);
+				}
+			}
+			return count;
+		}
+
+		$('body').on('shown.bs.tab', 'a', function (e) {
+      leafletData.getMap().then(function(map) {
+        map.invalidateSize();
+      });
+		});
+
+		//remove road labels
+		var styles = $.extend([], DefaultGoogleStyles);
+		styles.push({
+	    "featureType": "road",
+	    "elementType": "labels",
+	    "stylers": [
+	      { "visibility": "off" }
+	    ]
+	  });
+
+		$scope.map = {
+			events: {
+				map: {
+					enable: ['zoomstart', 'drag', 'click', 'dblclick', 'mouseover'],
+					logic: 'emit'
+				}
+			},
+			markers: [],
+			paths: {},
+			center: {
+				lat: 56.126627523318206,
+				lng: 11.457741782069204,
+				zoom: 7
+			},
+			defaults: {
+				zoomAnimation: true,
+				markerZoomAnimation: true,
+				fadeAnimation: true,
+				tileLayerOptions: {
+					detectRetina: true,
+					reuseTiles: true
+				}
+			},
+			layers: {
+        baselayers: {
+					googleTerrain: {
+				    name: 'Google Terrain',
+				    layerType: 'TERRAIN',
+				    type: 'google',
+						visible: true,
+						layerOptions: {
+							mapOptions: {
+								styles: styles 
+						  }
+						}
+					},
+					googleHybrid: {
+				    name: 'Google Hybrid',
+				    layerType: 'HYBRID',
+				    type: 'google',
+						visible: false
+				  },
+					luftfoto: {
+						name: "Orto forår (luffoto)",
+						type: 'wms',
+						url: "http://kortforsyningen.kms.dk/topo_skaermkort",
+						layerOptions: {
+							layers: "orto_foraar",
+							servicename: "orto_foraar",
+							version: "1.1.1",
+							request: "GetMap",
+							format: "image/jpeg",
+							service: "WMS",
+							styles: "default",
+							exceptions: "application/vnd.ogc.se_inimage",
+							jpegquality: "80",
+							attribution: "Indeholder data fra GeoDatastyrelsen, WMS-tjeneste",
+							ticket: TicketService.get()
+						}
+					}
+				}
+			}
+		};
+
+		function kommuneNavn(s) {
+			s = s.replace(/ /g, '');
+			s = s.replace(/[\/]/g, '');
+			s = s.replace(/æ/g, 'ae');
+			s = s.replace(/ø/g, 'oe');
+			s = s.replace(/å/g, 'aa');
+			s = s.replace(/é/g, 'e');
+			s = s.replace(/-/g, '');
+			return s;
+		};
+
+		var rainbow = new Rainbow(); 
+		rainbow.setNumberRange(1, 10);
+		rainbow.setSpectrum('darkgreen', 'lime');
+
+		$scope.run = function() {
+			var kommuner = KR.get();
+			kommuner.forEach(function(kommune) {
+				var url = 'https://services.kortforsyningen.dk/Geosearch?search='+kommune.nr+'&resources=kommuner&limit=1&ticket='+TicketService.get();
+				$.ajax({
+					url: url,
+					success: function(data) {
+						var wkt = new Wkt.Wkt();
+						wkt.read(data.data[0].geometryWkt_detail);
+						var polygons = [];
+	
+						function parse(array) {
+							var poly = [];
+							for (var o in array) {
+								if (array[o].hasOwnProperty('length')) {
+									parse(array[o]);
+								} else {
+									array[o].WGS84 = Geo.EPSG25832_to_WGS84(array[o].x, array[o].y);
+									poly.push( { lat: array[o].WGS84.lng, lng: array[o].WGS84.lat });  
+								}
+							}
+							polygons.push(poly);
+						}
+						parse(wkt.components);
+
+						var eksCount = countEksperimenter(kommune.navn);
+						var fillColor = '#'+rainbow.colourAt(1);
+						if (eksCount>10) {
+							fillColor = '#'+rainbow.colourAt(10) 
+						} else {
+							fillColor = '#'+rainbow.colourAt(eksCount) 
+						}
+							
+						$scope.map.paths[kommuneNavn(kommune.navn)] = {
+							type: "multiPolygon",
+							weight: 1,
+							color: '#000080',
+							fillColor: fillColor, //'#'+rainbow.colourAt(3), //'#000080',
+							fillRule: 'nonzero',
+							fillOpacity: 0.8,
+							latlngs: polygons,
+
+							message: 'test ', //'test', //getMessage(e),
+							getMessageScope: function() { return $scope },
+						}
+					},
+					fail: function() {
+						console.log(arguments)
+					}
+				})
+			});
+		}
+
+
+
+
+
+});
+

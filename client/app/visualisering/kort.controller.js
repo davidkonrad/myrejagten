@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .controller('KortCtrl', function($scope, $http, $timeout, Login, TicketService, Eksperiment, Utils, Projekt, Data, UTM, Geo, leafletData) {
+  .controller('KortCtrl', function($scope, $http, $timeout, Login, TicketService, Eksperiment, Utils, Projekt, Data, UTM) {
 
 		Projekt.query().$promise.then(function(p) {
 			$scope.projekter = p;
@@ -39,6 +39,7 @@ angular.module('myrejagtenApp')
 				}
 			},
 			markers: [],
+			paths: {},
 			center: {
 				lat: 56.126627523318206,
 				lng: 11.457741782069204,
@@ -153,91 +154,6 @@ angular.module('myrejagtenApp')
 			$scope.stats = result.data[0]
 		});
 
-
-//-------------------------------
-/*
-		var url = 'https://services.kortforsyningen.dk/Geosearch?search=0101&resources=kommuner&limit=1&ticket='+TicketService.get();
-		$.ajax({
-			url: url,
-			success: function(data) {
-				//console.log(data.data[0]);
-				var wkt = new Wkt.Wkt();
-				wkt.read(data.data[0].geometryWkt_detail);
-				console.log(wkt);
-
-				var polygonOptions = {
-					fillColor: '#ffff00',
-					color: '#ffff00',
-					weight: 3,
-					fillRule: 'nonzero'
-				}
-
-
-				$scope.paths = {};
-				leafletData.getMap().then(function(map) {
-					//console.log('map then', map);
-			    //$scope.map = map;
-
-				var count = 0;
-				function test(array) {
-					count++;
-					//console.log(array);
-					var poly = [];
-					for (var o in array) {
-						//console.log(array[o]);
-						if (array[o].hasOwnProperty('length')) {
-							test(array[o]);
-						} else {
-							array[o].WGS84 = Geo.EPSG25832_to_WGS84(array[o].x, array[o].y);
-							//poly.push(Geo.EPSG25832_to_WGS84(array[o].x, array[o].y));
-							poly.push([array[o].WGS84.lat, array[o].WGS84.lng]); //Geo.EPSG25832_to_WGS84(array[o].x, array[o].y));
-						}
-					}
-
-					//console.log('map', $scope.map);
-
-					var a = [
-						[55.61379008437097,12.505510990690711],
-						[54.61379008437097,13.505510990690711],
-						[54.61379008437097,14.505510990690711],
-						[55.61379008437097,15.505510990690711],
-						[55.61379008437097,12.505510990690711]
-					];
-					L.multiPolygon(a, {
-						fillColor: '#00FF00',
-						color: '#00FF00',
-						weight: 3,
-						fillOpacity: 0.6
-					}).addTo(map)
-
-					L.circle([50.5, 30.5], {
-				    color: 'red',
-				    fillColor: '#f03',
-				    fillOpacity: 0.5,
-				    radius: 5000
-					}).addTo(map);
-
-					var circle = L.circle( [12.505510990690711,55.61379008437097], {
-				    color: 'red',
-				    fillColor: '#f03',
-				    fillOpacity: 0.5,
-				    radius: 5000
-					}).addTo(map);
-					
-					//polygons.push(L.polygon(poly, polygonOptions))
-					
-				}
-				test(wkt.components);
-				console.log(wkt.components);
-				//console.log(polygons);
-				})
-
-			},
-			fail: function() {
-				console.log(arguments)
-			}
-		});
-		*/
 
 });
 

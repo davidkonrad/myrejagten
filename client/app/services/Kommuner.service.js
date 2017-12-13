@@ -23,6 +23,10 @@ angular.module('myrejagtenApp')
 					if (kommuner[i].nr.trim() == kommuneNr ) return kommuner[i]
 				}
 				return false
+			},
+
+			get: function() {
+				return kommuner
 			}
 				
 		}

@@ -11,7 +11,7 @@
 					markers="map.markers" 
 					events="map.events" 
 					height="580px" 
-					paths="paths" 
+					paths="map.paths" 
 					style="border:1px solid #ccc;border-radius:5px;">
 				</leaflet>
 				<small class="text-muted" style="line-height: 120% !important;display:inline-block;margin-top:5px;">
@@ -29,8 +29,7 @@
 				data-html="1" 
 				bs-options="e.value as e.label for e in eksperimenter" 
 				ng-change="eksperimentChange()"
-				bs-select
-			>
+				bs-select>
 			 	<span class="caret"></span>
 			</button>
 			<br><br>
@@ -55,6 +54,22 @@
 				chart-colors="colors">
 			</canvas> 
 		</div>
+
+		<div bs-pane data-title="Kommuner" style="padding-left:0px;" ng-controller="KommuneKortCtrl" ng-click="test">
+			<div class="control-group col-md-12">
+				<leaflet id="kommune-kort" 
+					center="map.center" 
+					defaults="map.defaults" 
+					layers="map.layers" 
+					markers="map.markers" 
+					events="map.events" 
+					height="580px" 
+					paths="map.paths" 
+					style="border:1px solid #ccc;border-radius:5px;">
+				</leaflet>
+			</div>
+		</div>
+
 
 	</div>
 
