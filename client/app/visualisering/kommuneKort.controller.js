@@ -19,6 +19,7 @@ angular.module('myrejagtenApp')
 			$scope.run()
 		});
 		function countEksperimenter(navn) {
+			var oldNavn = navn;
 			navn = navn.toLowerCase();
 			var count = 0;
 			for (var k in $scope.eksKommuner) {
@@ -26,7 +27,7 @@ angular.module('myrejagtenApp')
 					count = count + parseInt($scope.eksKommuner[k].count);
 				}
 			}
-			return count;
+			return count
 		}
 
 		$('body').on('shown.bs.tab', 'a', function (e) {
@@ -156,17 +157,20 @@ angular.module('myrejagtenApp')
 						} else {
 							fillColor = '#'+rainbow.colourAt(eksCount) 
 						}
+
+						var messageStr = '<strong>'+kommune.navn+'</strong> kommune, '+ eksCount;
+						messageStr += eksCount == 1 ? ' eksperiment' : ' eksperimenter';
 							
 						$scope.map.paths[kommuneNavn(kommune.navn)] = {
 							type: "multiPolygon",
 							weight: 1,
 							color: '#000080',
-							fillColor: fillColor, //'#'+rainbow.colourAt(3), //'#000080',
+							fillColor: fillColor, 
 							fillRule: 'nonzero',
 							fillOpacity: 0.8,
 							latlngs: polygons,
 
-							message: 'test ', //'test', //getMessage(e),
+							message: messageStr,
 							getMessageScope: function() { return $scope },
 						}
 					},
