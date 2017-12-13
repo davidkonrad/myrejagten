@@ -5,7 +5,7 @@ angular.module('myrejagtenApp')
 
 		$('body').on('shown.bs.tab', 'a', function (e) {
 			$timeout(function() {
-	      leafletData.getMap().then(function(map) {
+	      leafletData.getMap('kommune-kort').then(function(map) {
 					$(window).trigger('resize');
   	      map.invalidateSize();
 				})
@@ -161,6 +161,16 @@ angular.module('myrejagtenApp')
 				$.ajax({
 					url: url,
 					success: function(data) {
+						
+						//probably a ticket problem
+						//happens after kortforsyningen restart 
+						if (!data.data) {
+							console.error('Myrejagten fejl: ', data);
+							console.log('Refreshing ticket ...');
+							TicketService.refresh();
+							return
+						} 
+
 						var wkt = new Wkt.Wkt();
 						wkt.read(data.data[0].geometryWkt_detail);
 						var polygons = [];

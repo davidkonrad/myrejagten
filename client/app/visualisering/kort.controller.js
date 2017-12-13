@@ -1,7 +1,16 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .controller('KortCtrl', function($scope, $http, $timeout, Login, TicketService, Eksperiment, Utils, Projekt, Data, UTM) {
+  .controller('KortCtrl', function($scope, $http, $timeout, Login, TicketService, leafletData, Eksperiment, Utils, Projekt, Data, UTM) {
+
+		$('body').on('shown.bs.tab', 'a', function (e) {
+			$timeout(function() {
+	      leafletData.getMap('prik-kort').then(function(map) {
+					$(window).trigger('resize');
+  	      map.invalidateSize();
+				})
+      }, 100);
+		});
 
 		Projekt.query().$promise.then(function(p) {
 			$scope.projekter = p;
