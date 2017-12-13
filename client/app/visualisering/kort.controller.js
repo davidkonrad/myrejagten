@@ -41,8 +41,8 @@ angular.module('myrejagtenApp')
 			markers: [],
 			paths: {},
 			center: {
-				lat: 56.126627523318206,
-				lng: 11.457741782069204,
+				lat: 56.1,
+				lng: 11.65,
 				zoom: 7
 			},
 			defaults: {
@@ -71,7 +71,12 @@ angular.module('myrejagtenApp')
 				    name: 'Google Hybrid',
 				    layerType: 'HYBRID',
 				    type: 'google',
-						visible: false
+						visible: false,
+						layerOptions: {
+							mapOptions: {
+								styles: DefaultGoogleStyles
+						  }
+						}
 				  },
 					luftfoto: {
 						name: "Orto forår (luffoto)",

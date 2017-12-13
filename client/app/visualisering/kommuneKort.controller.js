@@ -3,6 +3,15 @@
 angular.module('myrejagtenApp')
 	.controller('KommuneKortCtrl', function($scope, $http, $timeout, TicketService, Geo, KR, leafletData, Eksperiment) {
 
+		$('body').on('shown.bs.tab', 'a', function (e) {
+			$timeout(function() {
+	      leafletData.getMap().then(function(map) {
+					$(window).trigger('resize');
+  	      map.invalidateSize();
+				})
+      }, 100);
+		});
+
 		Eksperiment.query().$promise.then(function(eksperimenter) {
 			$scope.eksKommuner = {};
 			eksperimenter.forEach(function(e) {
@@ -30,12 +39,6 @@ angular.module('myrejagtenApp')
 			return count
 		}
 
-		$('body').on('shown.bs.tab', 'a', function (e) {
-      leafletData.getMap().then(function(map) {
-        map.invalidateSize();
-      });
-		});
-
 		//remove road labels
 		var styles = $.extend([], DefaultGoogleStyles);
 		styles.push({
@@ -45,6 +48,26 @@ angular.module('myrejagtenApp')
 	      { "visibility": "off" }
 	    ]
 	  });
+		//remove more labels
+		styles.push({
+	    "featureType": "administrative.neighborhood",
+	    "elementType": "labels",
+	    "stylers": [
+	      { "visibility": "off" }
+	    ]
+	  },{
+  	  "featureType": "administrative.land_parcel",
+  	  "elementType": "labels",
+  	  "stylers": [
+  	    { "visibility": "off" }
+  	  ]
+  	},{
+  	  "featureType": "administrative.locality",
+  	  "elementType": "labels",
+  	  "stylers": [
+  	    { "visibility": "off" }
+  	  ]
+  	});
 
 		$scope.map = {
 			events: {
@@ -56,8 +79,8 @@ angular.module('myrejagtenApp')
 			markers: [],
 			paths: {},
 			center: {
-				lat: 56.126627523318206,
-				lng: 11.457741782069204,
+				lat: 56.1,
+				lng: 11.65,
 				zoom: 7
 			},
 			defaults: {
@@ -86,7 +109,12 @@ angular.module('myrejagtenApp')
 				    name: 'Google Hybrid',
 				    layerType: 'HYBRID',
 				    type: 'google',
-						visible: false
+						visible: false,
+						layerOptions: {
+							mapOptions: {
+								styles: styles 
+						  }
+						}
 				  },
 					luftfoto: {
 						name: "Orto forår (luffoto)",
@@ -127,6 +155,7 @@ angular.module('myrejagtenApp')
 
 		$scope.run = function() {
 			var kommuner = KR.get();
+			kommuner.reverse(); //ensure kbh is last
 			kommuner.forEach(function(kommune) {
 				var url = 'https://services.kortforsyningen.dk/Geosearch?search='+kommune.nr+'&resources=kommuner&limit=1&ticket='+TicketService.get();
 				$.ajax({
@@ -151,10 +180,10 @@ angular.module('myrejagtenApp')
 						parse(wkt.components);
 
 						var eksCount = countEksperimenter(kommune.navn);
-						var fillColor = '#'+rainbow.colourAt(1);
+						var fillColor = '#ff0000';
 						if (eksCount>10) {
 							fillColor = '#'+rainbow.colourAt(10) 
-						} else {
+						} else if (eksCount>0) {
 							fillColor = '#'+rainbow.colourAt(eksCount) 
 						}
 
@@ -180,10 +209,6 @@ angular.module('myrejagtenApp')
 				})
 			});
 		}
-
-
-
-
 
 });
 
