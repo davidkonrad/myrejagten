@@ -11,7 +11,6 @@
 					markers="map.markers" 
 					events="map.events" 
 					height="580px" 
-					paths="map.paths" 
 					style="border:1px solid #ccc;border-radius:5px;">
 				</leaflet>
 				<small class="text-muted" style="line-height: 120% !important;display:inline-block;margin-top:5px;">
@@ -55,7 +54,7 @@
 			</canvas> 
 		</div>
 
-		<div bs-pane data-title="Kommuner" style="padding-left:0px;" ng-controller="KommuneKortCtrl" ng-click="test">
+		<div bs-pane data-title="Kommuner" style="padding-left:0px;" ng-controller="KommuneKortCtrl">
 			<div class="control-group col-md-12">
 				<leaflet id="kommune-kort" 
 					center="map.center" 
@@ -63,8 +62,27 @@
 					layers="map.layers" 
 					markers="map.markers" 
 					events="map.events" 
+					event-broadcast="map.events"
 					height="580px" 
 					paths="map.paths" 
+					style="border:1px solid #ccc;border-radius:5px;">
+				</leaflet>
+
+				<div class="col-md-12">
+					{{ kommuneWkt | json }}
+				</div>
+			</div>
+		</div>
+
+		<div bs-pane data-title="Fundsteder" style="padding-left:0px;" ng-controller="FundstederCtrl">
+			<div class="control-group col-md-12">
+				<leaflet id="fundsteder-kort" 
+					center="map.center" 
+					defaults="map.defaults" 
+					layers="map.layers" 
+					markers="map.markers" 
+					events="map.events" 
+					height="580px" 
 					style="border:1px solid #ccc;border-radius:5px;">
 				</leaflet>
 			</div>

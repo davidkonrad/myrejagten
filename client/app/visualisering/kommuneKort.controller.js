@@ -1,12 +1,11 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-	.controller('KommuneKortCtrl', function($scope, $http, $timeout, TicketService, Geo, KR, leafletData, Eksperiment) {
+	.controller('KommuneKortCtrl', function($scope, $http, $timeout, TicketService, Geo, KR, leafletData, leafletMapEvents, Eksperiment) {
 
 		$('body').on('shown.bs.tab', 'a', function (e) {
 			$timeout(function() {
 	      leafletData.getMap('kommune-kort').then(function(map) {
-					$(window).trigger('resize');
   	      map.invalidateSize();
 				})
       }, 100);
@@ -25,7 +24,7 @@ angular.module('myrejagtenApp')
 					$scope.eksKommuner[k] = { count: 1 }
 				}
 			})
-			$scope.run()
+			$scope.runCached()
 		});
 		function countEksperimenter(navn) {
 			var oldNavn = navn;
@@ -71,8 +70,12 @@ angular.module('myrejagtenApp')
 
 		$scope.map = {
 			events: {
+				path: {
+					enable: [ 'click', 'mouseover', 'mousedown' ],
+					logic: 'emit'
+				},
 				map: {
-					enable: ['zoomstart', 'drag', 'click', 'dblclick', 'mouseover'],
+					enable: ['zoomstart', 'drag', 'click', 'dblclick', 'mouseover', 'mousedown'],
 					logic: 'emit'
 				}
 			},
@@ -153,7 +156,8 @@ angular.module('myrejagtenApp')
 		rainbow.setNumberRange(1, 10);
 		rainbow.setSpectrum('darkgreen', 'lime');
 
-		$scope.run = function() {
+		//live lookup of kommune geometryWkt_details
+		$scope.runLive = function() {
 			var kommuner = KR.get();
 			kommuner.reverse(); //ensure kbh is last
 			kommuner.forEach(function(kommune) {
@@ -208,7 +212,6 @@ angular.module('myrejagtenApp')
 							fillRule: 'nonzero',
 							fillOpacity: 0.8,
 							latlngs: polygons,
-
 							message: messageStr,
 							getMessageScope: function() { return $scope },
 						}
@@ -217,7 +220,69 @@ angular.module('myrejagtenApp')
 						console.log(arguments)
 					}
 				})
-			});
+			})
+			$timeout(function() {
+				$scope.kommuneWkt = SAVE;
+			}, 500);
+		}
+
+		//show kommuner based on loaded JSON 
+		$scope.runCached = function() {
+			var kommuner = KR.geometryWkt_details();
+
+			function render(kommune) {
+				var wkt = new Wkt.Wkt();
+				wkt.read(kommune.geometryWkt_detail);
+				var polygons = [];
+	
+				function parse(array) {
+					var poly = [];
+					for (var o in array) {
+						if (array[o].hasOwnProperty('length')) {
+							parse(array[o]);
+						} else {
+							array[o].WGS84 = Geo.EPSG25832_to_WGS84(array[o].x, array[o].y);
+							poly.push( { lat: array[o].WGS84.lng, lng: array[o].WGS84.lat });  
+						}
+					}
+					polygons.push(poly);
+				}
+				parse(wkt.components);
+
+				var eksCount = countEksperimenter(kommune.navn);
+				var fillColor = '#ff0000';
+				if (eksCount>10) {
+					fillColor = '#'+rainbow.colourAt(10) 
+				} else if (eksCount>0) {
+					fillColor = '#'+rainbow.colourAt(eksCount) 
+				}
+
+				var messageStr = '<strong>'+kommune.navn+'</strong> kommune, '+ eksCount;
+				messageStr += eksCount == 1 ? ' eksperiment' : ' eksperimenter';
+							
+				$scope.map.paths[kommuneNavn(kommune.navn)] = {
+					type: "multiPolygon",
+					weight: 1,
+					color: '#000080',
+					fillColor: fillColor, 
+					fillRule: 'nonzero',
+					fillOpacity: 0.8,
+					latlngs: polygons,
+					message: messageStr,
+					getMessageScope: function() { return $scope }
+				}
+			}
+
+			//need to render 0147 after all other due to leaflet-directive bug
+			for (var nr in kommuner) {
+				if (nr != '0147') {
+					render(kommuner[nr]);
+				} 
+			}
+			$timeout(function() {
+				render(kommuner['0147'])
+			}, 200);
+
 		}
 
 });

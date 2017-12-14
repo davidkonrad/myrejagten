@@ -3,17 +3,23 @@
 /**
 	service for kommuner & regioner 
 	JSON downloaded from oiorest
+
+	geometryWkt_details from https://services.kortforsyningen.dk/Geosearch
 */
 
 angular.module('myrejagtenApp')
   .factory('KR', function($http) {
 
 		var kommuner = null;
+		var geometryWkt_details = null;
 
 		return {
 			init: function() {
 				$.getJSON('assets/kommuner.json', function(json) {
 					kommuner = json
+				})
+				$.getJSON('assets/kommuner_geometryWkt_details.json', function(json) {
+					geometryWkt_details = json
 				})
 			},
 
@@ -27,6 +33,10 @@ angular.module('myrejagtenApp')
 
 			get: function() {
 				return kommuner
+			},
+
+			geometryWkt_details: function() {
+				return geometryWkt_details
 			}
 				
 		}
