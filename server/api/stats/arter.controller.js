@@ -41,6 +41,27 @@ exports.getStats = function(req, res) {
   });
 }
 
+
+exports.getEksperimenterByArt = function(req, res) {
+
+	var sql = ''
+		+ 'select '
+		+ 'r.*, '
+		+ 'd.madding, '
+		+ 'e.* '
+		+ 'from resultat r '
+		+ 'left join data d on r.data_id = d.data_id '
+		+ 'left join eksperiment e on e.eksperiment_id = d.eksperiment_id '
+		+ 'where r.navn_videnskabeligt = "' + req.query.art + '" ';
+
+	models.sequelize.query(sql,	{ bind: ['active'], type: models.sequelize.QueryTypes.SELECT }).then(function(data) {
+		return res.json(200, data);
+	}).catch(function(err){
+	  handleError(res, err);
+  });
+
+}
+
 function handleError(res, err) {
   return res.send(500, err);
 }

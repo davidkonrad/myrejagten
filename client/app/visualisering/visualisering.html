@@ -39,8 +39,7 @@
 				chart-series="ratioSeries" 
 				chart-legend="true"
 				chart-options="options"
-				chart-dataset-override="datasetOverride"
-			>
+				chart-dataset-override="datasetOverride">
 			</canvas>
 		</div>
 
@@ -67,14 +66,24 @@
 					paths="map.paths" 
 					style="border:1px solid #ccc;border-radius:5px;">
 				</leaflet>
-
-				<div class="col-md-12">
-					{{ kommuneWkt | json }}
-				</div>
 			</div>
 		</div>
 
 		<div bs-pane data-title="Fundsteder" style="padding-left:0px;" ng-controller="FundstederCtrl">
+			<div class="col-md-12 no-padding">
+				<div class="btn-group" ng-model="selected.selected" bs-radio-group>
+					<label ng-repeat="art in arter" 
+						class="btn btn-xs btn-default" 
+						style="margin-top:2px;margin-right:2px;" 
+						ng-click="select(art.navn_videnskabeligt)"
+						title="{{ art.navn_dk || art.navn_videnskabeligt }}, {{ art.navn_videnskabeligt }}">
+						<input type="radio" class="btn btn-default" value="{{ $index }}"> 
+						{{ art.navn_dk || art.navn_videnskabeligt }} ({{ art.antal_eksperimenter}})
+					</label>
+				</div>
+				<br><br>
+			</div>
+
 			<div class="control-group col-md-12">
 				<leaflet id="fundsteder-kort" 
 					center="map.center" 
@@ -87,7 +96,6 @@
 				</leaflet>
 			</div>
 		</div>
-
 
 	</div>
 
