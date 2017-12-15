@@ -242,7 +242,7 @@ angular.module('myrejagtenApp')
 							parse(array[o]);
 						} else {
 							array[o].WGS84 = Geo.EPSG25832_to_WGS84(array[o].x, array[o].y);
-							poly.push( { lat: array[o].WGS84.lng, lng: array[o].WGS84.lat });  
+							poly.push( { lat: array[o].WGS84.lat, lng: array[o].WGS84.lng });  
 						}
 					}
 					polygons.push(poly);

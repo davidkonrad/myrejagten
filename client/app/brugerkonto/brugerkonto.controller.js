@@ -1,10 +1,7 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .controller('BrugerkontoCtrl', ['$scope', '$http', '$popover', '$timeout', 'PostNr', 'Geo', 'TicketService', 'ToDo',
-																	'Login', 'Utils', 'MysqlUser', 'Eksperiment', 'Projekt', 'CSV',
-	function($scope, $http, $popover, $timeout, PostNr, Geo, TicketService, ToDo,
-					Login, Utils, MysqlUser, Eksperiment, Projekt, CSV) {
+  .controller('BrugerkontoCtrl', function($scope, $http, $popover, $timeout, PostNr, TicketService, ToDo,	Login, Utils, MysqlUser, Eksperiment, Projekt, CSV) {
 
 		$scope.user = Login.currentUser();
 		$scope.alerts = [];
@@ -190,5 +187,5 @@ angular.module('myrejagtenApp')
 			})
 		}
 
+});
 
-  }]);

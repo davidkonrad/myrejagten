@@ -361,7 +361,7 @@ angular.module('myrejagtenApp')
 				for (var p=0; p<wkt.components.length;p++) {
 					var points = wkt.components[p].map(function(xy) {
 						var latLng = Geo.EPSG25832_to_WGS84(xy.x, xy.y)
-						return [latLng.lng, latLng.lat]
+						return [latLng.lat, latLng.lng]
 					})
 					center = center.concat(points)
 					polygons.push(L.polygon(points, polygonOptions))
@@ -369,7 +369,7 @@ angular.module('myrejagtenApp')
 			} else {
 				var points = wkt.components.map(function(xy) {
 					var latLng = Geo.EPSG25832_to_WGS84(xy.x, xy.y)
-					return [latLng.lng, latLng.lat]
+					return [latLng.lat, latLng.lng]
 				})
 				center = center.concat(points)
 				polygons.push(L.polygon(points, polygonOptions))
@@ -986,7 +986,7 @@ angular.module('myrejagtenApp')
 						: wkt.components[0][0]
 
 					var latLng = Geo.EPSG25832_to_WGS84(point.x, point.y)
-					setLatLng(e, form, latLng.lng, latLng.lat)
+					setLatLng(e, form, latLng.lat, latLng.lng)
 					
 					$scope.findNearestAddress(point.x, point.y).then(function(adresse) {
 						var a = adresse[0].properties ? adresse[0].properties : null;
