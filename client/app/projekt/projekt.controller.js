@@ -23,9 +23,27 @@ angular.module('myrejagtenApp')
 		//click on todo items
 		$('body').on('click', '.todo-item', function() {
 			$('html').addClass('wait');
-
 			var projekt_id = $(this).attr('projekt-id');
 			var eksperiment_id = $(this).attr('eksperiment-id');
+			jumpToEksperiment(eksperiment_id, projekt_id);
+		});
+
+		//jump to the desired kespriment
+		//used by todos and createEksperiment
+		function jumpToEksperiment(eksperiment_id, projekt_id) {
+
+			//if paginated eksperiments, show the correct page
+			if ($scope.pagedEksperimenter && $scope.pagedEksperimenter.length>0) {
+				for (var i=0,l=$scope.pagedEksperimenter.length; i<l; i++) {
+					var p = $scope.pagedEksperimenter[i];
+					for (var ii=0,ll=p.length; ii<ll; ii++) {
+						if (p[ii].eksperiment_id == eksperiment_id) {
+							$scope.currentPage = i;
+							break;
+						}
+					}
+				}
+			}
 
 			function scrollToEksperiment() {
 				var stop = $interval(function() {
@@ -58,9 +76,15 @@ angular.module('myrejagtenApp')
 					scrollToEksperiment();
 				}
 			} else {
-				scrollToEksperiment();
+				if ($scope.pagedEksperimenter && $scope.pagedEksperimenter.length>0) {
+					$timeout(function() {
+						scrollToEksperiment();
+					}, 100)
+				} else {
+					scrollToEksperiment();
+				}
 			}
-		})
+		}
 
 		//is about to leave page, check for changes
 		$scope.$on('$locationChangeStart', function(e) {
@@ -76,14 +100,10 @@ angular.module('myrejagtenApp')
 			}
 		});
 
-		/**
-			storage for all lists and predefined types
-		*/
+		//storage for all lists and predefined types
 		$scope.items = {}
 
-		/**
-			Projekt
-		*/
+		//Projekt
 		$scope.items.projektSortering = [
 			{ value: '-projekt_id', label: 'Nyeste' },
 			{ value: 'projekt_id', label: 'Ældste' },
@@ -462,10 +482,7 @@ angular.module('myrejagtenApp')
 			}
 		})
 
-
-		/**
-			eksperiment
-		*/
+		//eksperiment
 		$('body').on('show.bs.collapse', '.panel', function() {
 			$scope.projekt_id = $(this).attr('projekt-id');
 			$timeout(function() {
@@ -473,10 +490,7 @@ angular.module('myrejagtenApp')
 			})
 		});
 		
-
-		/**
-			image / video 
-		*/			
+		//image / video 
 		$scope.uploadImage = function(eksperiment_id, currentImage) {
 			UploadModal.image($scope, eksperiment_id, currentImage).then(function(fileName) {	
 				if (typeof fileName == 'string') {
@@ -554,6 +568,7 @@ angular.module('myrejagtenApp')
 						lng: ''
 					};
 
+					$('html').addClass('wait');
 					Eksperiment.save({	eksperiment_id: '' }, obj).$promise.then(function(e) {
 
 						$scope.items.madding.forEach(function(m) {
@@ -567,7 +582,14 @@ angular.module('myrejagtenApp')
 								titel: 'Myrejagt #' + p.length
 							}
 							Eksperiment.update({ id: e.eksperiment_id }, updateValues).$promise.then(function(e) {
-								$scope.reloadEksperimenter()
+
+								$scope.reloadEksperimenter();
+								
+								//jump to eksperiment
+								$timeout(function() {
+									jumpToEksperiment(e.eksperiment_id, $scope.projekt_id)
+								}, 1010);
+
 							})
 						})
 					})
@@ -780,7 +802,7 @@ angular.module('myrejagtenApp')
 
 				//create array for pagination
 				var itemsPerPage = 10;        
-				$scope.currentPage = 1;
+				$scope.currentPage = 0;
         $scope.pagedEksperimenter = [];
 				for (var i = 0; i < $scope.eksperimenter.length; i++) {
 					if (i % itemsPerPage === 0) {

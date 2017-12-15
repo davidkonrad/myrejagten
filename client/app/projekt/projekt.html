@@ -120,7 +120,10 @@
 
 		<!-- should be directive -->
 		<div ng-repeat="a in alerts" class="alert alert-dismissible {{ a.type }}" role="alert" >
-			<button type="button" class="close alert-close" aria-label="Luk besked" title="Luk besked">
+			<button type="button" 
+				class="close alert-close" 
+				aria-label="Luk besked" 
+				title="Luk besked">
 				<span aria-hidden="true">&times;</span>
 			</button>
 			<span ng-bind-html="to_trusted(a.message)"></span>

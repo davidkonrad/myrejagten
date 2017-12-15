@@ -4,8 +4,7 @@
 	generates a todo list for the current user
 */
 
-angular.module('myrejagtenApp')
-  .factory('ToDo', function($q, Login, Eksperiment, Projekt) {
+angular.module('myrejagtenApp').factory('ToDo', function($q, Login, Eksperiment, Projekt) {
 
 	return {
 
@@ -46,15 +45,6 @@ angular.module('myrejagtenApp')
 			function getEksDatoErr(e) {
 				return !e.dato || !e.start_tid || !e.slut_tid ? 'Dato og tid mangler. ' : ''
 			}
-			/*
-			function getEksAdresseErr(e) {
-				return !e.adresse || 
-							!e.postnr ||
-							!e.by ||
-							!e.kommune ||
-							!e.region ? 'Adresseoplysninger mangler. ' : ''
-			}
-			*/
 			function arrStr(a, s) {
 				var r = a.join(', ');
 				if (a.length>1) {
@@ -118,7 +108,6 @@ angular.module('myrejagtenApp')
 
 						var err = getEksDatoErr(data[i])
 						err += getEksLokalitetErr(data[i])
-						//err += getEksAdresseErr(data[i])
 						err += getEksDataErr(data[i])
 						if (err && err.trim() != '')	alerts.push({ 
 							message: name + '  : ' + '<span class="text-danger">' + err + '</span>',
