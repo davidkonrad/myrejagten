@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-	.controller('KommuneKortCtrl', function($scope, $http, $timeout, TicketService, Geo, KR, leafletData, leafletMapEvents, Eksperiment) {
+	.controller('KommuneKortCtrl', function($scope, $http, $timeout, $cookies, TicketService, Geo, KR, leafletData, Eksperiment) {
 
 		$('body').on('shown.bs.tab', 'a', function (e) {
 			$timeout(function() {
@@ -97,11 +97,34 @@ angular.module('myrejagtenApp')
 			},
 			layers: {
         baselayers: {
+					Ingen: {
+						name: 'Ingen kort',
+						type: 'xyz',
+						maxZoom: 18,
+						minZoom: 5,
+						url: '',
+						layerOptions: {
+							subdomains: 'abcd',
+							attribution: 'Ingen kort',
+							continuousWorld: true
+						}
+					},
+					cartoDB: {
+						name: 'CartoDB',
+						type: 'xyz',
+						maxZoom: 18,
+						minZoom: 5,
+						url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png',
+						layerOptions: {
+							subdomains: 'abcd',
+							attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+							continuousWorld: true
+						}
+					},
 					googleTerrain: {
 				    name: 'Google Terrain',
 				    layerType: 'TERRAIN',
 				    type: 'google',
-						visible: true,
 						layerOptions: {
 							mapOptions: {
 								styles: styles 
@@ -112,31 +135,12 @@ angular.module('myrejagtenApp')
 				    name: 'Google Hybrid',
 				    layerType: 'HYBRID',
 				    type: 'google',
-						visible: false,
 						layerOptions: {
 							mapOptions: {
 								styles: styles 
 						  }
 						}
-				  },
-					luftfoto: {
-						name: "Orto forår (luffoto)",
-						type: 'wms',
-						url: "http://kortforsyningen.kms.dk/topo_skaermkort",
-						layerOptions: {
-							layers: "orto_foraar",
-							servicename: "orto_foraar",
-							version: "1.1.1",
-							request: "GetMap",
-							format: "image/jpeg",
-							service: "WMS",
-							styles: "default",
-							exceptions: "application/vnd.ogc.se_inimage",
-							jpegquality: "80",
-							attribution: "Indeholder data fra GeoDatastyrelsen, WMS-tjeneste",
-							ticket: TicketService.get()
-						}
-					}
+				  }
 				}
 			}
 		};
@@ -153,10 +157,77 @@ angular.module('myrejagtenApp')
 		};
 
 		var rainbow = new Rainbow(); 
-		rainbow.setNumberRange(1, 10);
-		rainbow.setSpectrum('darkgreen', 'lime');
+		var defaultSettings = {
+			zero: '#ffffff',
+			from: '#98fb98', 
+			to: '#134e13', 
+			depth: 15
+		}
 
+		var cookieName = 'kommuner';
+		var s = $cookies.get(cookieName);
+		if (s) {
+			$scope.settings = JSON.parse(s)
+		} else {
+			$scope.settings = $.extend({}, defaultSettings);
+		}
+		$scope.save = function() {
+			var expireDate = new Date();
+			expireDate.setTime(expireDate.getTime()+(365*24*60*60*1000)) //one year
+			$cookies.put(cookieName, JSON.stringify($scope.settings), { expires: expireDate } )
+		}
+
+		$scope.update = function() {
+			rainbow.setNumberRange(1, $scope.settings.depth);
+			rainbow.setSpectrum($scope.settings.from, $scope.settings.to);
+
+			for (var k in $scope.map.paths) {
+				var p = $scope.map.paths[k];
+				var fillColor = $scope.settings.zero;
+				if (p.eksperimenter > $scope.settings.depth) {
+					fillColor = '#'+rainbow.colourAt($scope.settings.depth) 
+				} else if (p.eksperimenter > 0) {
+					fillColor = '#'+rainbow.colourAt(p.eksperimenter) 
+				}
+				p.fillColor = fillColor;
+			}
+
+			$scope.save();
+		}
+
+		$scope.reset = function() {
+			$scope.settings = $.extend({}, defaultSettings);
+			$scope.map.center = {
+				lat: 56.1,
+				lng: 11.65,
+				zoom: 7
+			}
+			$('#kommune-kort').focus();
+		}
+
+		$scope.$watch('settings.depth', function(newVal, oldVal) {
+			if (!newVal || newVal == oldVal) return;
+			$scope.update();
+		})
+
+		$scope.$watch('settings.zero', function(newVal, oldVal) {
+			if (!newVal || newVal == oldVal) return;
+			$scope.update();
+		})
+
+		$scope.$watch('settings.from', function(newVal, oldVal) {
+			if (!newVal || newVal == oldVal) return;
+			$scope.update();
+		})
+
+		$scope.$watch('settings.to', function(newVal, oldVal) {
+			if (!newVal || newVal == oldVal) return;
+			$scope.update();
+		})
+				
 		//live lookup of kommune geometryWkt_details
+		//only for use when retriveving geometryWkt's the first time
+		/*
 		$scope.runLive = function() {
 			var kommuner = KR.get();
 			kommuner.reverse(); //ensure kbh is last
@@ -195,8 +266,8 @@ angular.module('myrejagtenApp')
 
 						var eksCount = countEksperimenter(kommune.navn);
 						var fillColor = '#ff0000';
-						if (eksCount>10) {
-							fillColor = '#'+rainbow.colourAt(10) 
+						if (eksCount>15) {
+							fillColor = '#'+rainbow.colourAt(15) 
 						} else if (eksCount>0) {
 							fillColor = '#'+rainbow.colourAt(eksCount) 
 						}
@@ -225,6 +296,7 @@ angular.module('myrejagtenApp')
 				$scope.kommuneWkt = SAVE;
 			}, 500);
 		}
+		*/
 
 		//show kommuner based on loaded JSON 
 		$scope.runCached = function() {
@@ -250,21 +322,15 @@ angular.module('myrejagtenApp')
 				parse(wkt.components);
 
 				var eksCount = countEksperimenter(kommune.navn);
-				var fillColor = '#ff0000';
-				if (eksCount>10) {
-					fillColor = '#'+rainbow.colourAt(10) 
-				} else if (eksCount>0) {
-					fillColor = '#'+rainbow.colourAt(eksCount) 
-				}
-
 				var messageStr = '<strong>'+kommune.navn+'</strong> kommune, '+ eksCount;
 				messageStr += eksCount == 1 ? ' eksperiment' : ' eksperimenter';
 							
 				$scope.map.paths[kommuneNavn(kommune.navn)] = {
+					eksperimenter: eksCount,
 					type: "multiPolygon",
 					weight: 1,
 					color: '#000080',
-					fillColor: fillColor, 
+					fillColor: '#000080', 
 					fillRule: 'nonzero',
 					fillOpacity: 0.8,
 					latlngs: polygons,
@@ -281,6 +347,7 @@ angular.module('myrejagtenApp')
 			}
 			$timeout(function() {
 				render(kommuner['0147'])
+				$scope.update();
 			}, 200);
 
 		}

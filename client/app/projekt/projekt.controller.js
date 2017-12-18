@@ -28,11 +28,11 @@ angular.module('myrejagtenApp')
 			jumpToEksperiment(eksperiment_id, projekt_id);
 		});
 
-		//jump to the desired kespriment
+		//jump to the desired eksperiment
 		//used by todos and createEksperiment
 		function jumpToEksperiment(eksperiment_id, projekt_id) {
 
-			//if paginated eksperiments, show the correct page
+			//if paginated eksperimenter, show the correct page
 			if ($scope.pagedEksperimenter && $scope.pagedEksperimenter.length>0) {
 				for (var i=0,l=$scope.pagedEksperimenter.length; i<l; i++) {
 					var p = $scope.pagedEksperimenter[i];
@@ -938,7 +938,7 @@ angular.module('myrejagtenApp')
 						lng: lng,
 						focus: true,
 						icon: iconRed,
-						message: 'Zoom helt ind på kortet og klik for at angive den helt nøjagtige position.',
+						message: 'Zoom ind på kortet og klik for at angive den helt nøjagtige position.',
 						draggable: true
 					}
 					e.map.markers['marker'] = e.map.marker;

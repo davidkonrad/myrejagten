@@ -40,3 +40,10 @@
 #artshitliste {
 	height: 700px;
 }
+
+/* kommuner */
+#kommune-kort.leaflet-container {
+	background: #C3E4ED !important;
+}
+
+

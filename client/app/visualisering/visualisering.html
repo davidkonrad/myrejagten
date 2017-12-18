@@ -55,7 +55,7 @@
 
 		<div bs-pane data-title="Kommuner" style="padding-left:0px;" ng-controller="KommuneKortCtrl">
 			<div class="control-group col-md-12">
-				<leaflet id="kommune-kort" 
+				<leaflet id="kommune-kort"
 					center="map.center" 
 					defaults="map.defaults" 
 					layers="map.layers" 
@@ -66,6 +66,29 @@
 					paths="map.paths" 
 					style="border:1px solid #ccc;border-radius:5px;">
 				</leaflet>
+			</div>
+			<div class="control-group col-md-12">
+				<br>
+				<label class="control-label col-md-2 small">
+					Dybde
+					<input class="form-control input-md" type="number" ng-model="settings.depth" min="2" max="100">
+				</label>			
+				<label class="control-label col-md-2 small">
+					Ingen
+					<input class="form-control input-md" type="color" ng-model="settings.zero">
+				</label>
+				<label class="control-label col-md-2 small">
+					Færrest
+					<input class="form-control input-md" type="color" ng-model="settings.from">
+				</label>
+				<label class="control-label col-md-2 small">
+					Flest
+					<input class="form-control input-md" type="color" ng-model="settings.to">
+				</label>
+				<div class="pull-right">
+					<br>
+					<button class="btn btn-ku btn-sm" ng-click="reset()" title="Sæt farver og dybde tilbage til standard">Nulstil</button>
+				</div>
 			</div>
 		</div>
 

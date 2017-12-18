@@ -3,8 +3,8 @@
 angular.module('myrejagtenApp')
   .factory('Login', ['$cookies', '$q', 'MysqlUser', 'RememberMe', function($cookies, $q, MysqlUser, RememberMe) {
     
-	var cookieName = 'myrejagten', 
-			currentUser = null;
+	var cookieName = 'myrejagten';
+	var currentUser = null;
 
 	function setCookie(user) {
 		var expireDate = new Date()
