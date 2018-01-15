@@ -34,21 +34,19 @@ angular.module('myrejagtenApp')
 						source: function(query, process) {
 							switch (attrs.adresseType) {
 								case 'adresser' :
-									var url = 'https://services.kortforsyningen.dk/Geosearch?search=*'+query+'*&resources=adresser&crs=EPSG:4326&limit=10&ticket='+TicketService.get()
+									var url = 'https://services.kortforsyningen.dk/Geosearch?search='+query+'&resources=adresser&crs=EPSG:4326&limit=25&ticket='+TicketService.get()
+									//if query contain a number we probably search for a specific address
+									if (query.match(/\d+/g)) url+='&type=addressAccess';
 									break;
 								//stednavne_v2 does not support EPSG:4326
 								case 'stednavne_v2' :
-									var url = 'https://services.kortforsyningen.dk/Geosearch?search='+query+'*&resources=stednavne_v2&limit=10&ticket='+TicketService.get()
+									var url = 'https://services.kortforsyningen.dk/Geosearch?search='+query+'*&resources=stednavne_v2&limit=25&ticket='+TicketService.get()
 									break;
 								default :
 									break;
 							}
 					    return $.getJSON(url, function(resp) {
-								var data = [], caption = '';
-								for (var i in resp.data) {
-									data.push(resp.data[i]);
-								}			
-								return process(data);		
+								return process(resp.data);
 					    })
 						}
 					})
