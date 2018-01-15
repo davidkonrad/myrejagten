@@ -330,7 +330,7 @@ angular.module('myrejagtenApp')
 					type: "multiPolygon",
 					weight: 1,
 					color: '#000080',
-					fillColor: '#000080', 
+					fillColor: '#fff', 
 					fillRule: 'nonzero',
 					fillOpacity: 0.8,
 					latlngs: polygons,
