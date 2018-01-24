@@ -294,7 +294,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="d in x.Data">
+						<tr ng-repeat="d in x.Data | orderBy: 'order'">
 							<td class="normal"> {{ d.madding }} &nbsp;</td>
 							<td> 
 								<input type="text" 

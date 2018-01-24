@@ -278,13 +278,16 @@ angular.module('myrejagtenApp')
 		/**
 			map related events and methods
 		*/
-		$scope.$on('leafletDirectiveMap.*', function(event, args) {
+		$scope.$on('.eksperiment-map.leafletDirectiveMap.*', function(event, args) {
+			console.log('leafletDirectiveMap.*')
 		});
 
 		$scope.$on('leafletDirectiveMap.zoom', function(event, args) {
+			console.log('leafletDirectiveMap.zoom')
 			if ($scope.marker) $scope.center = angular.copy($scope.marker)
 		})
 		$scope.$on('leafletDirectiveMarker.dblclick', function(e, marker) {
+			console.log('leafletDirectiveMarker.dblclick')
 			$scope.center = {
 				lat: $scope.marker.lat,
 				lng: $scope.marker.lng,
@@ -547,7 +550,7 @@ angular.module('myrejagtenApp')
 			{ value: 'titel', label: 'Navn' }
 		];
 		$scope.sortering = { value: '-eksperiment_id' }
-
+		
 		/* 
 			ui.checkbox seems not to set ng-dirty on the button when it is unchecked
 		*/
@@ -671,6 +674,8 @@ angular.module('myrejagtenApp')
 		}
 
 		$scope.$on('leafletDirectiveMap.click', function(event, target){
+			console.log('!!! leafletDirectiveMap.click !!!');
+
 			var latLng = target.leafletEvent.latlng;
 			var id = target.leafletEvent.target._container.id;
 
@@ -722,6 +727,8 @@ angular.module('myrejagtenApp')
 			if (index <= 1) {
 				$(this).closest('.eksperiment-block').find('.eksperiment-map').each(function() {
 					leafletData.getMap($(this).attr('id')).then(function(map) {
+						//console.log(arguments);
+						//console.log('role="tab"', map);
 						$timeout(function() {
 							map.invalidateSize();
 						}, 100)
@@ -755,6 +762,17 @@ angular.module('myrejagtenApp')
 				return d
 			}
 
+			function maddingOrder(madding) {
+				if (madding == 'Vand') return 0;
+				if (madding == 'Saltvand') return 1;
+				if (madding == 'Sukkervand') return 2;
+				if (madding == 'Olie') return 3;
+				if (madding == 'Protein') return 4;
+				if (madding == 'Kammerjunker') return 5;
+				console.error('Ukendt madding type: ', madding);
+				return 100;
+			}
+
 			Eksperiment.query({ where: { user_id: $scope.user.user_id, projekt_id: $scope.projekt_id} }).$promise.then(function(eksperimenter) {
 				eksperimenter = eksperimenter.map(function(e) {
 					e.map = angular.copy(mapDefaults);
@@ -778,7 +796,12 @@ angular.module('myrejagtenApp')
 					e.adresseType = 'adresser';
 					e.start_tid = e.start_tid && e.start_tid != '00:00:00' ? createTime( e.start_tid ) : null;
 					e.slut_tid = e.slut_tid && e.slut_tid != '00:00:00' ? createTime( e.slut_tid ) : null;
-					
+
+					//set madding order					
+					e.Data.forEach(function(d) {
+						d.order = maddingOrder(d.madding)
+					})
+
 					return e
 				})
 				$scope.eksperimenter = eksperimenter
@@ -939,12 +962,14 @@ angular.module('myrejagtenApp')
 						focus: true,
 						icon: iconRed,
 						message: 'Zoom ind på kortet og klik for at angive den helt nøjagtige position.',
-						draggable: true
+						draggable: true,
+						focus: true
 					}
 					e.map.markers['marker'] = e.map.marker;
 				} else {
 					e.map.marker.lat = lat;
 					e.map.marker.lng = lng;
+					e.map.marker.focus = true;
 				}
 
 				e.map.center = {

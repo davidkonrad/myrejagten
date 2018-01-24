@@ -161,4 +161,12 @@ button.sortering {
 	padding-top: 2px;
 }
 
+/* remove focus around popovers */
+.popover:focus {
+	outline: none;
+}
+.popover-content:focus {
+	outline: none;
+}
+
 
