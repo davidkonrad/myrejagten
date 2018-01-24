@@ -19,7 +19,7 @@ angular.module('myrejagtenApp')
 							url: '/api/upload/image', 
 							data: {file: file}
             }).then(function(response) {
-							console.log(response);
+							//console.log(response);
 							var fileName = response.data ? response.data : '';
 							Eksperiment.update({ id: eksperiment_id }, { upload_billede: fileName }).$promise.then(function(result)  {
 								scope.modalClose(fileName)

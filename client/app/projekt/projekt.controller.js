@@ -508,7 +508,7 @@ angular.module('myrejagtenApp')
 					$http.get('/api/upload/remove/'+encodeURIComponent(currentImage)).then(function(res) {
 						Eksperiment.update({ id: eksperiment_id }, { upload_billede: null }).$promise.then(function(e) {
 							var e = $scope.eksperimentById(eksperiment_id);
-							e.upload_billede = undefined;
+							e.upload_billede = 'assets/foto-ikon.png';
 						})				
 					})
 				}
@@ -801,6 +801,9 @@ angular.module('myrejagtenApp')
 					e.Data.forEach(function(d) {
 						d.order = maddingOrder(d.madding)
 					})
+
+					//set default photo icon if no photo
+					if (!e.upload_billede) e.upload_billede = 'assets/foto-ikon.png';
 
 					return e
 				})
