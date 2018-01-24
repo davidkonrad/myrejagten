@@ -1,11 +1,8 @@
 'use strict';
 
 angular.module('myrejagtenApp')
-  .controller('ProjektCtrl', ['$scope', '$http', '$location', '$interval', '$sce', 'Login', 'Alert', 'KR', '$timeout', '$modal', '$q', 'Projekt', 'Eksperiment', 
-			'ToDo', 'Data', 'Geo', 'TicketService', 'Utils', 'leafletData', 'UploadModal', 'CreateEksperiment', 'UTM','ProjektDlg',
-
-	function($scope, $http, $location, $interval, $sce, Login, Alert, KR, $timeout, $modal, $q, Projekt, Eksperiment, 
-			ToDo,	Data, Geo, TicketService, Utils, leafletData, UploadModal, CreateEksperiment, UTM, ProjektDlg) {
+  .controller('ProjektCtrl', function($scope, $http, $location, $interval, $sce, Login, Alert, KR, $timeout, $modal, $q, Projekt, 
+	Eksperiment, ToDo, Data, Geo, TicketService, Utils, leafletData, leafletMapEvents, leafletMarkerEvents, UploadModal, CreateEksperiment, UTM, ProjektDlg) {
 
 		$scope.user = Login.currentUser();
 
@@ -278,15 +275,15 @@ angular.module('myrejagtenApp')
 		/**
 			map related events and methods
 		*/
-		$scope.$on('.eksperiment-map.leafletDirectiveMap.*', function(event, args) {
-			console.log('leafletDirectiveMap.*')
+		$scope.$on('leafletDirectiveMap.eksperiment-map.click', function(event, args) {
+			console.log('OLD leafletDirectiveMap.*')
 		});
 
-		$scope.$on('leafletDirectiveMap.zoom', function(event, args) {
+		$scope.$on('*.leafletDirectiveMap.eksperiment-map.zoom', function(event, args) {
 			console.log('leafletDirectiveMap.zoom')
 			if ($scope.marker) $scope.center = angular.copy($scope.marker)
 		})
-		$scope.$on('leafletDirectiveMarker.dblclick', function(e, marker) {
+		$scope.$on('*.leafletDirectiveMarker.dblclick', function(e, marker) {
 			console.log('leafletDirectiveMarker.dblclick')
 			$scope.center = {
 				lat: $scope.marker.lat,
@@ -301,7 +298,7 @@ angular.module('myrejagtenApp')
 		angular.extend($scope, {
 			events: {
 				map: {
-					enable: ['zoomstart', 'drag', 'click', 'dblclick', 'mouseover'],
+					enable: ['zoomstart', 'drag', 'click', 'dblclick', 'mouseover', 'mousedown'],
 					logic: 'emit'
 				}
 			},
@@ -603,7 +600,11 @@ angular.module('myrejagtenApp')
 		var mapDefaults = {
 			events: {
 				map: {
-					enable: ['zoomstart', 'drag', 'click', 'dblclick', 'mouseover'],
+					enable: ['mousedown', 'click', 'mouseover'],
+					logic: 'emit'
+				},
+				markers: {
+					enable: ['dragend', 'dragstart'],
 					logic: 'emit'
 				}
 			},
@@ -664,17 +665,11 @@ angular.module('myrejagtenApp')
 				}
 			}
 		}
-		var iconRed = {
-			iconUrl: 'assets/images/red.png',
-			iconSize: [25, 41],
-			shadowSize: [50, 64], 
-			iconAnchor: [12, 41], 
-			shadowAnchor: [4, 62], 
-			popupAnchor: [-2, -46] 
-		}
+
 
 		$scope.$on('leafletDirectiveMap.click', function(event, target){
 			console.log('!!! leafletDirectiveMap.click !!!');
+			akert('ok')
 
 			var latLng = target.leafletEvent.latlng;
 			var id = target.leafletEvent.target._container.id;
@@ -727,20 +722,16 @@ angular.module('myrejagtenApp')
 			if (index <= 1) {
 				$(this).closest('.eksperiment-block').find('.eksperiment-map').each(function() {
 					leafletData.getMap($(this).attr('id')).then(function(map) {
-						//console.log(arguments);
-						//console.log('role="tab"', map);
 						$timeout(function() {
 							map.invalidateSize();
 						}, 100)
 					})
 				})
 			}
-			if (index == 1)	$timeout(function() {
-				$('input[name="adresse"]').focus()
-			})
 		})
 
 		$scope.refreshMaps = function() {
+			//console.log('refreshMaps')
 			for (var i=0, l=$scope.eksperimenter.length; i<l; i++) {
 				leafletData.getMap($scope.eksperimenter[i].mapId).then(function(map) {
 					map.invalidateSize();
@@ -777,25 +768,62 @@ angular.module('myrejagtenApp')
 				eksperimenter = eksperimenter.map(function(e) {
 					e.map = angular.copy(mapDefaults);
 
-					//create marker if lat ln is set
-					if (e.lat && e.lng) {
-						e.map.markers.marker = {
-							lat: parseFloat(e.lat),
-							lng: parseFloat(e.lng),
-							focus: true,
-							draggable: true,
+					e.mapId = 'map' + e.eksperiment_id;
+					e.mapIdLok = e.mapId+'_lok';
+
+					//create markers
+					e.map.markers.staticMarker = {
+						lat: e.lat ? parseFloat(e.lat) : 0,
+						lng: e.lng ? parseFloat(e.lng) : 0,
+						opacity: e.lat ? 1 : 0,
+						draggable: false,
+						icon: {
+							type: 'awesomeMarker',
+							icon: 'home',
+							prefix: 'fa',
+							iconColor: 'white',
+							markerColor: 'blue' 
 						}
-						e.map.center = {
-							lat: parseFloat(e.lat),
-							lng: parseFloat(e.lng),
-							zoom: 6 //17
+					}
+					e.map.markers.draggableMarker = {
+						lat: e.lat ? parseFloat(e.lat) : 0,
+						lng: e.lng ? parseFloat(e.lng) : 0,
+						opacity: e.lat ? 1 : 0,
+						draggable: true,
+						icon: {
+							type: 'awesomeMarker',
+							icon: 'home',
+							prefix: 'fa',
+							iconColor: 'white',
+							markerColor: 'blue' 
 						}
 					}
 
-					e.mapId = 'map' + e.eksperiment_id;
 					e.adresseType = 'adresser';
 					e.start_tid = e.start_tid && e.start_tid != '00:00:00' ? createTime( e.start_tid ) : null;
 					e.slut_tid = e.slut_tid && e.slut_tid != '00:00:00' ? createTime( e.slut_tid ) : null;
+
+					$scope.$on('leafletDirectiveMarker.'+e.mapIdLok+'.dragend', function(event, args) {
+						if (e.map.markers.draggableMarker.icon.markerColor == 'red') {
+							e.map.markers.draggableMarker.focus = false;
+							e.map.markers.draggableMarker.message = '';
+						}
+						e.map.markers.draggableMarker.icon.markerColor = 'green';
+						e.map.markers.draggableMarker.icon.iconColor = 'white';
+						e.map.markers.draggableMarker.icon.icon = 'question-circle';
+						e.map.markers.draggableMarker.lat = args.model.lat;
+						e.map.markers.draggableMarker.lng = args.model.lng;
+
+						e.lat = args.model.lat;
+						e.lng = args.model.lng;
+
+						var formId = '#formLokalitet'+e.eksperiment_id;
+						var form = angular.element(formId);
+						form.find('input[name="lat"]').val( args.model.lat );
+						form.find('input[name="lng"]').val( args.model.lng );
+						form.find('input[name="UTM"]').val( UTM.get(args.model.lat, args.model.lng) );
+						Utils.formSetDirty(formId)
+					});
 
 					//set madding order					
 					e.Data.forEach(function(d) {
@@ -885,7 +913,30 @@ angular.module('myrejagtenApp')
 					$scope.reloadToDo();
 				})
 			}
+			//update markers if the update is of type #formLokalitet
+			if (~formId.indexOf('formLokalitet')) {
+				var id = formId.match(/\d+/)[0];
+				var e = $scope.eksperimentById(id);
+
+				//normalize the draggable marker
+				e.map.markers.draggableMarker.lat = parseFloat(data.lat);
+				e.map.markers.draggableMarker.lng = parseFloat(data.lng);
+				e.map.markers.draggableMarker.icon.icon = 'home';
+				e.map.markers.draggableMarker.icon.markerColor = 'blue';
+				e.map.markers.draggableMarker.icon.iconColor = 'white';
+				e.map.markers.draggableMarker.focus = false;
+				e.map.markers.draggableMarker.message = '';
+
+				//update staticmarker position
+				e.map.markers.staticMarker.lat = e.map.markers.draggableMarker.lat;
+				e.map.markers.staticMarker.lng = e.map.markers.draggableMarker.lng;
+				e.map.markers.staticMarker.icon.icon = 'home';
+				e.map.markers.staticMarker.icon.markerColor = 'blue';
+				e.map.markers.staticMarker.icon.iconColor = 'white';
+				
+			}
 		}
+
 		$scope.updateEksperimentData = function(eksperiment_id) {
 			var e = $scope.eksperimentById(eksperiment_id)
 			e.Data.forEach(function(d) {
@@ -958,22 +1009,19 @@ angular.module('myrejagtenApp')
 				form.find('input[name="lat"]').val( lat );
 				form.find('input[name="lng"]').val( lng );
 				form.find('input[name="UTM"]').val( UTM.get(lat, lng) );
-				if (!e.map.marker) {
-					e.map.marker = {
-						lat: lat,
-						lng: lng,
-						focus: true,
-						icon: iconRed,
-						message: 'Zoom ind på kortet og klik for at angive den helt nøjagtige position.',
-						draggable: true,
-						focus: true
-					}
-					e.map.markers['marker'] = e.map.marker;
-				} else {
-					e.map.marker.lat = lat;
-					e.map.marker.lng = lng;
-					e.map.marker.focus = true;
-				}
+
+				e.map.markers.draggableMarker.icon.icon = 'question-circle';
+				e.map.markers.draggableMarker.icon.markerColor = 'red';
+				e.map.markers.draggableMarker.lat = lat;
+				e.map.markers.draggableMarker.lng = lng;
+				e.map.markers.draggableMarker.opacity = 1;
+				e.map.markers.draggableMarker.message = 'Zoom ind på kortet og træk markeren hen til den helt nøjagtige position';
+				e.map.markers.draggableMarker.focus = true;
+
+				e.map.markers.staticMarker.icon.icon = 'home';
+				e.map.markers.staticMarker.lat = lat;
+				e.map.markers.staticMarker.lng = lng;
+				e.map.markers.staticMarker.opacity = 1;
 
 				e.map.center = {
 					lat: lat,
@@ -1057,5 +1105,5 @@ angular.module('myrejagtenApp')
 			}
 		}
 
-}]);
+});
 

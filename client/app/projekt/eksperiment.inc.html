@@ -75,7 +75,18 @@
 
 				<br class="visible-xs-block visible-sm-block">
 				<div class="col-md-6">
-					<leaflet id="{{ x.mapId }}" mapId="{{ x.mapId }}" class="eksperiment-map" center="x.map.center" defaults="x.map.defaults" layers="x.map.layers" markers="x.map.markers" events="x.map.events" height="280px" style="border:1px solid #ccc;border-radius:5px;"></leaflet>
+					<leaflet 
+						id="{{ x.mapId }}" 
+						mapId="{{ x.mapId }}" 
+						class="eksperiment-map" 
+						center="x.map.center" 
+						defaults="x.map.defaults" 
+						layers="x.map.layers" 
+						markers="[x.map.markers.staticMarker]" 
+						event-broadcast="events"
+						events="x.map.events" 
+						height="280px" style="border:1px solid #ccc;border-radius:5px;">
+					</leaflet>
 				</div>
 
 				<br class="visible-xs visible-sm">
@@ -153,12 +164,14 @@
 
 				<br class="visible-xs visible-sm">
 				<div class="control-group col-md-6">
-					<leaflet id="{{ x.mapId }}_lok" 
+					<leaflet id="{{ x.mapIdLok }}"
+						mapId="{{ x.mapIdLok }}" 
+						event-broadcast="x.map.events"
 						class="eksperiment-map" 
 						center="x.map.center" 
 						defaults="x.map.defaults" 
 						layers="x.map.layers" 
-						markers="x.map.markers" 
+						markers="[x.map.markers.draggableMarker]" 
 						events="x.map.events" 
 						height="280px">
 					</leaflet>
