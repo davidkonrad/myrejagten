@@ -11,7 +11,7 @@
 		</button>
 
 		<!--------- oversigt -------->	
-		<div bs-pane data-title="{{ x.titel || x.myrejagt_id }}" class="pane-eksperiment">
+		<div bs-pane data-title="{{ x.titel || x.myrejagt_id }}">
 			<form novalidate id="formOversigt{{ x.eksperiment_id }}" autocomplete="off">
 				<input type="hidden" name="eksperiment_id" value="{{ x.eksperiment_id }}" />
 
@@ -89,8 +89,10 @@
 					</leaflet>
 				</div>
 
+			</form>
+
 				<br class="visible-xs visible-sm">
-				<button class="btn btn-default" 
+				<button class="btn btn-default btn-eksperiment-save" 
 					ng-class="{ 'btn-ku' : eksperimentFormChanged('formOversigt{{ x.eksperiment_id }}') }"
 					ng-click="updateEksperiment('formOversigt'+x.eksperiment_id)" 
 					ng-disabled="!eksperimentFormChanged('formOversigt{{ x.eksperiment_id }}')">
@@ -98,11 +100,10 @@
 					Gem ændringer
 				</button>	
 
-			</form>
 		</div>
 
 		<!---------- lokalitet ------------->
-		<div bs-pane data-title="Lokalitet" style="padding-left:0px;">
+		<div bs-pane data-title="Lokalitet" XXstyle="padding-left:0px;">
 
 			<form novalidate id="formLokalitet{{ x.eksperiment_id }}" autocomplete="off">
 
@@ -192,16 +193,15 @@
 		<!---------- resultat ------------->
 		<div bs-pane data-title="Data">
 
-			<form novalidate id="formResultater{{ x.eksperiment_id }}"  class="no-padding" autocomplete="off">
+			<form novalidate id="formResultater{{ x.eksperiment_id }}"  class="col-md-12 no-padding" autocomplete="off">
 
-				<table class="miljoe-table col-md-4 no-padding">
+				<table class="miljoe-table col-md-3 no-padding">
 					<thead>
 						<tr>
-							<th>
+							<th colspan="2">
 								Miljødata
-								<i info-sm info-popover content-name="Miljoe_data"></i>
+								<i info-sm info-popover info-placement="right" content-name="Miljoe_data"></i>
 							</th>
-							<th></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -294,15 +294,15 @@
 							<th></th>
 							<th class="normal small">
 								Før indsamling
-								<i info-sm info-popover content-name="Myrer_foer_frysning"></i>
+								<i info-sm info-popover info-placement="right" content-name="Myrer_foer_frysning"></i>
 							</th>
 							<th class="normal small">
 								Efter frysning
-								<i info-sm info-popover content-name="Myrer_efter_frysning"></i>
+								<i info-sm info-popover info-placement="right" content-name="Myrer_efter_frysning"></i>
 							</th>
 							<th class="normal small">
 								Forstyrrelse
-								<i info-sm info-popover content-name="Myrer_forstyrrelse"></i>
+								<i info-sm info-popover info-placement="right" content-name="Myrer_forstyrrelse"></i>
 							</th>
 						</tr>
 					</thead>
@@ -344,25 +344,25 @@
 				</table>
 
 				<br class="visible-xs visible-sm">
-				<div class="col-md-2 no-padding" style="vertical-align: top;">
+				<div class="col-md-3 no-padding" XXstyle="vertical-align: top;">
 					<label>Noter</label>
-					<i info-sm info-popover content-name="Myrer_bemaerk"></i>
-					<textarea class="form-control" ng-model="x.data_kommentar" name="kommentar" rows="10"></textarea>
-				</div>
-
-				<div class="col-md-12 no-padding">
-					<br class="visible-xs visible-sm">
-					<button class="btn btn-default btn-eksperiment-save clearfix" 
-						ng-class="{ 'btn-ku' : eksperimentFormChanged('formResultater{{ x.eksperiment_id }}') }"
-						ng-click="updateEksperimentData(x.eksperiment_id)" 
-						ng-disabled="!eksperimentFormChanged('formResultater{{ x.eksperiment_id }}')">
-						<i class="fa fa-check"></i>
-						Gem ændringer
-					</button>	
+					<i info-sm info-popover info-placement="right" content-name="Myrer_bemaerk"></i>
+					<br><br>
+					<textarea class="form-control" ng-model="x.data_kommentar" name="kommentar" rows="6"></textarea>
 				</div>
 
 			</form>
-
+			<div class="col-md-12 clearfix pull-left"><br><br></div>
+			<div class="col-md-12 no-padding no-margin">
+				<br class="visible-xs visible-sm">
+				<button class="btn btn-default btn-eksperiment-save" 
+					ng-class="{ 'btn-ku' : eksperimentFormChanged('formResultater{{ x.eksperiment_id }}') }"
+					ng-click="updateEksperimentData(x.eksperiment_id)" 
+					ng-disabled="!eksperimentFormChanged('formResultater{{ x.eksperiment_id }}')">
+					<i class="fa fa-check"></i>
+						Gem ændringer
+				</button>	
+			</div>
 		</div>
 
 		<!---------- billede ------------->

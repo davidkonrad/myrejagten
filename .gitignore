@@ -2,7 +2,7 @@ node_modules/
 public
 .tmp
 rettelser.txt
-client/bower_components
+client/bower_components/
 npm-debug.log
 dist
 server/config/local.env.js

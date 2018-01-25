@@ -58,7 +58,7 @@ angular.module('myrejagtenApp')
 								$('html, body').animate({scrollTop: $eks.offset().top-20 }, 400);
 								return
 							}
-							$('body').animate({scrollTop: $eks.offset().top-20 }, 400);
+							$('html, body').animate({scrollTop: $eks.offset().top-20 }, 400);
 						}
 					}
 				}, 100);
@@ -846,12 +846,10 @@ angular.module('myrejagtenApp')
 
 				$scope.eksperimenter.forEach(function(eks) {
 					//Utils.formReset('formResultater'+eks.eksperiment_id);
-					eks.hasResultat = false;//resultat.length>0
-					/* 13.11.2017 eks
+					//eks.hasResultat = false;//resultat.length>0
 					Eksperiment.resultat({ id: eks.eksperiment_id }).$promise.then(function(resultat) {
-						eks.hasResultat = resultat.length>0
+						eks.hasResultat = !!resultat.antal
 					})
- 					*/
 				});
 
 				//create array for pagination

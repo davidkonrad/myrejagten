@@ -26,10 +26,6 @@
 }
 
 /* reset tab height */
-.pane-eksperiment {
-	padding-top: 0px !important;
-	padding-left: 0px !important;
-}
 .tab-content {
 	padding-top: 0px !important;
 	padding-right: 0px;
@@ -45,6 +41,12 @@
 	box-shadow: 2px 2px 3px #dadada; 
 	border-left: 1px solid #fff;
 	background-color: #fafafa; 
+}
+
+.btn-eksperiment-save {
+	position: relative;
+	bottom: 10px;
+	left: 10px;
 }
 
 .has-value {
