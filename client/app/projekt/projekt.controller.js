@@ -2,7 +2,7 @@
 
 angular.module('myrejagtenApp')
   .controller('ProjektCtrl', function($scope, $http, $location, $interval, $sce, Login, Alert, KR, $timeout, $modal, $q, Projekt, 
-	Eksperiment, ToDo, Data, Geo, TicketService, Utils, leafletData, leafletMapEvents, leafletMarkerEvents, UploadModal, CreateEksperiment, UTM, ProjektDlg) {
+	Eksperiment, ToDo, Data, Geo, TicketService, Utils, leafletData, leafletMarkerEvents, leafletMapEvents, UploadModal, CreateEksperiment, UTM, ProjektDlg) {
 
 		$scope.user = Login.currentUser();
 
@@ -100,7 +100,7 @@ angular.module('myrejagtenApp')
 		//storage for all lists and predefined types
 		$scope.items = {}
 
-		//Projekt
+		//Projekt sortering
 		$scope.items.projektSortering = [
 			{ value: '-projekt_id', label: 'Nyeste' },
 			{ value: 'projekt_id', label: 'Ældste' },
@@ -108,8 +108,6 @@ angular.module('myrejagtenApp')
 			{ value: '!eksperiment_count', label: 'Eksperimenter' },
 		]
 		$scope.projektSortering = { value: '-projekt_id' }
-
-		var lokalitetPolygon;
 
 		//reload projekts, only called if user == "skole"
 		$scope.reloadProjekts = function() {
@@ -147,110 +145,27 @@ angular.module('myrejagtenApp')
 			$scope.reloadEksperimenter(projekt_id)
 		}
 
-		/**
-			projekt modal
-		*/
+		//projekt modal
 		$('body').on('click', '.btn-projekt-edit', function(e) {
 			e.stopPropagation();
 			e.preventDefault();
 			e.stopImmediatePropagation();
 			var projekt_id = $(this).attr('projekt-id');
-			if (projekt_id) $scope.showProjekt(projekt_id);
+			if (projekt_id) {
+				$scope.showProjekt(projekt_id);
+			}
 			return false;
 		})
 
 		$scope.showProjekt = function(projekt_id) {
-			$scope.marker = null
-			$scope.markers = {} 
-
-			var showHandler = $scope.$on('modal.show', function(e, target) {
-				$scope.initializeStednavne_v2($scope)
-				if ($scope.__projekt && $scope.__projekt.projekt_id) {
-					$scope.updateMapElements($scope.__projekt);
-				}
-				showHandler();
+			ProjektDlg.show(projekt_id, $scope.projekts.length, $scope.user.user_id).then(function(value) {
+				if (value) $scope.reloadProjekts()
 			})
-			var hideHandler = $scope.$on('modal.hide', function(e, target) {
-				$scope.marker = null;
-				$scope.reloadProjekts();
-				hideHandler();
-			})
-
-			var showModal = function() {
-				var scope = $scope.$new();
-				scope.projekt_id = projekt_id;
-				$scope.projektModal = $modal({
-					templateUrl: 'app/projekt/ProjektDlg.modal.html',
-					backdrop: 'static',
-					show: true,
-					internalName: 'projekt',
-					placement: "center",
-					scope: scope
-				})
-			}
-
-			if (projekt_id) {
-				Projekt.query({ where: { projekt_id: projekt_id }}).$promise.then(function(projekt) {
-					$scope.__projekt = angular.copy(projekt[0])
-					$scope.__projekt.header = 'Rediger projekt'
-					$scope.__projekt.lokalitetMethod = 'stednavne_v2'
-					$scope.__projekt.btnCaption = 'Opdater og Luk'
-					showModal()
-				})
-			} else {
-				$scope.__projekt = { 
-					header: 'Opret projekt',
-					titel: 'Projekt #' + parseInt($scope.projekts.length+1),
-					lokalitetMethod: 'stednavne_v2',
-					btnCaption: 'Opret og Luk',
-					lokalitet: null,
-					lat: null,
-					lng: null,
-					geometryWkt: null
-				}
-				showModal()
-			}
-
-		}
-		$scope.setMarker = function(latLng) {
-			if (!$scope.marker) {
-				$scope.marker = {
-					lat: latLng.lat,
-					lng: latLng.lng,
-					focus: true,
-					draggable: true
-				}
-				$scope.markers['marker'] = $scope.marker
-			} else {
-				$scope.marker.lat = latLng.lat
-				$scope.marker.lng = latLng.lng
-			}
-			$scope.__projekt.lat = latLng.lat
-			$scope.__projekt.lng = latLng.lng
 		}
 
 		/**
 			projekt
 		**/
-		$scope.canCreateProjekt = function() {
-			return $scope.__projekt.titel &&
-						$scope.__projekt.lokalitet &&
-						$scope.__projekt.lat &&
-						$scope.__projekt.lng &&
-						$scope.__projekt.start_tid 
-		}
-
-		$scope.doCreateProjekt = function() { 
-			if ($scope.__projekt.projekt_id) {
-				Projekt.update({ id: $scope.__projekt.projekt_id }, $scope.__projekt).$promise.then(function(res) {	
-				});
-			} else {
-				$scope.__projekt.user_id = $scope.user.user_id;
-				Projekt.save({ projekt_id: '' }, $scope.__projekt).$promise.then(function(res) {	
-					$scope.reloadProjekts();
-				});
-			}
-		}
 
 		$scope.deleteProjekt = function(projekt_id) {
 			for (var i=0, l=$scope.projekts.length; i<l; i++) {
@@ -271,216 +186,6 @@ angular.module('myrejagtenApp')
 				}
 			}
 		}
-
-		/**
-			map related events and methods
-		*/
-		$scope.$on('leafletDirectiveMap.eksperiment-map.click', function(event, args) {
-			console.log('OLD leafletDirectiveMap.*')
-		});
-
-		$scope.$on('*.leafletDirectiveMap.eksperiment-map.zoom', function(event, args) {
-			console.log('leafletDirectiveMap.zoom')
-			if ($scope.marker) $scope.center = angular.copy($scope.marker)
-		})
-		$scope.$on('*.leafletDirectiveMarker.dblclick', function(e, marker) {
-			console.log('leafletDirectiveMarker.dblclick')
-			$scope.center = {
-				lat: $scope.marker.lat,
-				lng: $scope.marker.lng,
-				zoom: $scope.center.zoom>10 ? 5 : 16
-			}
-		})
-
-		/**
-			leaflet map attributes
-		*/
-		angular.extend($scope, {
-			events: {
-				map: {
-					enable: ['zoomstart', 'drag', 'click', 'dblclick', 'mouseover', 'mousedown'],
-					logic: 'emit'
-				}
-			},
-			markers: {},
-			center: {
-				lat: 56.126627523318206,
-				lng: 11.457741782069204,
-				zoom: 6
-			},
-			defaults: {
-				zoomAnimation: true,
-				markerZoomAnimation: true,
-				fadeAnimation: true
-			},
-			layers: {
-        baselayers: {
-					googleTerrain: {
-				    name: 'Google Terrain',
-				    layerType: 'TERRAIN',
-				    type: 'google',
-						visible: true,
-						layerOptions: {
-							mapOptions: {
-								styles: DefaultGoogleStyles
-						  }
-						}
-				  },
-				  googleHybrid: {
-				    name: 'Google Hybrid',
-				    layerType: 'HYBRID',
-				    type: 'google',
-						visible: false,
-						layerOptions: {
-							mapOptions: {
-								styles: DefaultGoogleStyles
-						  }
-						}
-				  },
-					luftfoto: {
-						name: "Orto forår (luffoto)",
-						type: 'wms',
-						url: "http://kortforsyningen.kms.dk/topo_skaermkort",
-						visible: false,
-						layerOptions: {
-							layers: "orto_foraar",
-							servicename: "orto_foraar",
-							version: "1.1.1",
-							request: "GetMap",
-							format: "image/jpeg",
-							service: "WMS",
-							styles: "default",
-							exceptions: "application/vnd.ogc.se_inimage",
-							jpegquality: "80",
-							attribution: "Indeholder data fra GeoDatastyrelsen, WMS-tjeneste",
-							ticket: TicketService.get()
-						}
-					},
-				}
-			}
-		})
-
-		/**
-			for some reason EPSG:4326 is not supported by Kortforsyningen, 
-			even they state the GeoService do, so wkt and Geo is needed
-		*/
-		var wkt = new Wkt.Wkt()
-
-		function geometryWktPolygon(geometryWkt, map) {
-			wkt.read(geometryWkt);
-			var polygonOptions = {
-				fillColor: '#ff0000',
-				color: '#ffff00',
-				weight: 3,
-				fillRule: 'nonzero'
-			}
-			var center = []
-			var polygons = []
-
-			if (wkt.components[0].length) {
-				for (var p=0; p<wkt.components.length;p++) {
-					var points = wkt.components[p].map(function(xy) {
-						var latLng = Geo.EPSG25832_to_WGS84(xy.x, xy.y)
-						return [latLng.lat, latLng.lng]
-					})
-					center = center.concat(points)
-					polygons.push(L.polygon(points, polygonOptions))
-				}
-			} else {
-				var points = wkt.components.map(function(xy) {
-					var latLng = Geo.EPSG25832_to_WGS84(xy.x, xy.y)
-					return [latLng.lat, latLng.lng]
-				})
-				center = center.concat(points)
-				polygons.push(L.polygon(points, polygonOptions))
-			}
-
-			var layer = L.layerGroup(polygons).addTo(map),
-					center = L.polygon(center);
-
-			layer.__center = center.getBounds().getCenter()
-			layer.__bounds = center.getBounds()
-
-			return layer
-
-		}
-
-		/**
-			stednavn_v2, adresser opslag
-		*/
-		$scope.updateMapElements = function(item) { //item could be item from lookup or __projekt
-
-			leafletData.getMap().then(function(map) {
-				leafletData.getLayers().then(function(layers) {
-					/* why error after update ??
-					for (var layer in layers.baselayers) {
-						if (layer !== 'googleHybrid') {
-							map.removeLayer(layers.baselayers[layer])
-						} else {
-							map.addLayer(layers.baselayers[layer])
-						}
-					}
-					*/
-				})
-
-				if (lokalitetPolygon) map.removeLayer(lokalitetPolygon)
-				lokalitetPolygon = geometryWktPolygon(item.geometryWkt, map)
-
-				$timeout(function() {
-					//set to hybrid map
-					$scope.layers.baselayers.googleHybrid.visible = true
-
-					var center = lokalitetPolygon.__center
-					map.fitBounds(lokalitetPolygon.__bounds, { maxZoom: 17 } )
-					map.setView(center)
-					$scope.setMarker(center)
-					$timeout(function() {
-						map.invalidateSize()
-					})
-				}, 100)
-			})
-		}
-
-		$scope.initializeStednavne_v2 = function() {
-			$('#stednavne_v2').typeahead('destroy')
-			$('#stednavne_v2').typeahead({
-				displayText: function(item) {
-					switch ($scope.__projekt.lokalitetMethod) {
-						case 'stednavne_v2' : 
-							return item.presentationString
-							break
-						case 'adresser' :
-							return item.presentationString
-							break
-						default :
-							return null
-					}
-				},
-				afterSelect: function(item) {
-					$('#stednavne_v2').attr('title', item.presentationString)
-					$scope.__projekt.geometryWkt = item.geometryWkt
-					$scope.updateMapElements(item)
-				}, 
-				items : 20,
-			  source: function(query, process) {
-					var method = $scope.__projekt.lokalitetMethod
-					if (!method) return
-					var url = 'https://services.kortforsyningen.dk/Geosearch?search='+query+'*&resources='+method+'&limit=100&ticket='+TicketService.get()
-			    return $.getJSON(url, function(resp) {
-						var data = [], caption = '';
-						for (var i in resp.data) {
-							data.push(resp.data[i]);
-						}			
-						return process(data);		
-			    })
-			  }
-			})
-		}
-		$scope.$watch('__projekt.lokalitetMethod', function(newVal, oldVal) {
-			if (!oldVal&& oldVal != newVal) {
-				$scope.initializeStednavne_v2()
-			}
-		})
 
 		//eksperiment
 		$('body').on('show.bs.collapse', '.panel', function() {
@@ -548,9 +253,7 @@ angular.module('myrejagtenApp')
 		];
 		$scope.sortering = { value: '-eksperiment_id' }
 		
-		/* 
-			ui.checkbox seems not to set ng-dirty on the button when it is unchecked
-		*/
+		//ui.checkbox seems not to set ng-dirty on the button when it is unchecked
 		$scope.setNgDirty = function(event) {
 			var element = angular.element(event.delegateTarget);
 			if (!element.hasClass('ng-dirty')) element.addClass('ng-dirty');
@@ -570,7 +273,6 @@ angular.module('myrejagtenApp')
 
 					$('html').addClass('wait');
 					Eksperiment.save({	eksperiment_id: '' }, obj).$promise.then(function(e) {
-
 						$scope.items.madding.forEach(function(m) {
 							Data.save({ data_id: ''}, { eksperiment_id: e.eksperiment_id, madding: m.madding })
 						})
@@ -582,13 +284,12 @@ angular.module('myrejagtenApp')
 								titel: 'Myrejagt #' + p.length
 							}
 							Eksperiment.update({ id: e.eksperiment_id }, updateValues).$promise.then(function(e) {
-
 								$scope.reloadEksperimenter();
 								
 								//jump to eksperiment
 								$timeout(function() {
 									jumpToEksperiment(e.eksperiment_id, $scope.projekt_id)
-								}, 1010);
+								}, 1010); //!?
 
 							})
 						})
@@ -600,7 +301,7 @@ angular.module('myrejagtenApp')
 		var mapDefaults = {
 			events: {
 				map: {
-					enable: ['mousedown', 'click', 'mouseover'],
+					enable: ['mousedown'],
 					logic: 'emit'
 				},
 				markers: {
@@ -666,57 +367,7 @@ angular.module('myrejagtenApp')
 			}
 		}
 
-
-		$scope.$on('leafletDirectiveMap.click', function(event, target){
-			console.log('!!! leafletDirectiveMap.click !!!');
-			akert('ok')
-
-			var latLng = target.leafletEvent.latlng;
-			var id = target.leafletEvent.target._container.id;
-
-			//click on lokalitet->map
-			if (~id.indexOf('_lok')) {
-				var eksperiment_id = parseInt( id.match(/\d+/)[0] )
-				var e = $scope.eksperimentById(eksperiment_id)
-
-				if (!e.map.marker) {
-					e.map.marker = {
-						lat: latLng.lat,
-						lng: latLng.lng,
-						focus: true,
-						draggable: true
-					}
-					e.map.markers['marker'] = e.map.marker
-				} else {
-					//update lat,lng force save button to be enabled
-					var formId = '#formLokalitet'+eksperiment_id
-					var form = angular.element(formId)
-					form.find('input[name="lat"]').val( latLng.lat )
-					form.find('input[name="lng"]').val( latLng.lng )
-					Utils.formSetDirty(formId)
-
-					//remove red icon and message if present
-					if (e.map.marker.hasOwnProperty('icon')) {
-						delete e.map.marker.icon
-						delete e.map.marker.message
-					}
-					e.map.marker.lat = latLng.lat
-					e.map.marker.lng = latLng.lng
-				}
-			} else {
-				//find "Lokalitet" tab and click()
-				$timeout(function() {
-					$('#'+ id)
-						.closest('.eksperiment-block')
-						.find('a[role="tab"]:contains("Lokalitet")')
-						.click()
-				})
-			}
-		});
-
-		/**
-			refresh maps if any	when clicking on eksperiment tabs #1 and #2
-		*/
+		//refresh maps if any	when clicking on eksperiment tabs #1 and #2
 		$('body').on('click', '.eksperiment-block a[role="tab"]', function() {
 			var index = parseInt($(this).attr('data-index'))
 			if (index <= 1) {
@@ -731,12 +382,11 @@ angular.module('myrejagtenApp')
 		})
 
 		$scope.refreshMaps = function() {
-			//console.log('refreshMaps')
 			for (var i=0, l=$scope.eksperimenter.length; i<l; i++) {
 				leafletData.getMap($scope.eksperimenter[i].mapId).then(function(map) {
 					map.invalidateSize();
 				})
-				leafletData.getMap($scope.eksperimenter[i].mapId+'_lok').then(function(map) {
+				leafletData.getMap($scope.eksperimenter[i].mapIdLok).then(function(map) {
 					map.invalidateSize();
 				})
 			}
@@ -765,6 +415,7 @@ angular.module('myrejagtenApp')
 			}
 
 			Eksperiment.query({ where: { user_id: $scope.user.user_id, projekt_id: $scope.projekt_id} }).$promise.then(function(eksperimenter) {
+
 				eksperimenter = eksperimenter.map(function(e) {
 					e.map = angular.copy(mapDefaults);
 
@@ -803,10 +454,11 @@ angular.module('myrejagtenApp')
 					e.start_tid = e.start_tid && e.start_tid != '00:00:00' ? createTime( e.start_tid ) : null;
 					e.slut_tid = e.slut_tid && e.slut_tid != '00:00:00' ? createTime( e.slut_tid ) : null;
 
+					//drag marker 
 					$scope.$on('leafletDirectiveMarker.'+e.mapIdLok+'.dragend', function(event, args) {
 						if (e.map.markers.draggableMarker.icon.markerColor == 'red') {
 							e.map.markers.draggableMarker.focus = false;
-							e.map.markers.draggableMarker.message = '';
+							delete e.map.markers.draggableMarker.message;
 						}
 						e.map.markers.draggableMarker.icon.markerColor = 'green';
 						e.map.markers.draggableMarker.icon.iconColor = 'white';
@@ -817,6 +469,9 @@ angular.module('myrejagtenApp')
 						e.lat = args.model.lat;
 						e.lng = args.model.lng;
 
+						//
+						findNearestAdresse(e.eksperiment_id, e.lat, e.lng)
+						//
 						var formId = '#formLokalitet'+e.eksperiment_id;
 						var form = angular.element(formId);
 						form.find('input[name="lat"]').val( args.model.lat );
@@ -844,11 +499,16 @@ angular.module('myrejagtenApp')
 
 				$scope.refreshMaps();
 
-				$scope.eksperimenter.forEach(function(eks) {
-					//Utils.formReset('formResultater'+eks.eksperiment_id);
-					//eks.hasResultat = false;//resultat.length>0
-					Eksperiment.resultat({ id: eks.eksperiment_id }).$promise.then(function(resultat) {
-						eks.hasResultat = !!resultat.antal
+				$scope.eksperimenter.forEach(function(e) {
+					if (e.lat && e.lng) {
+						var adresse = e.adresse.split(',');
+						setStaticMarkerMessage(e.eksperiment_id, adresse[0], adresse[1], '', e.kommune, e.UTM);
+						$timeout(function() {
+							e.map.markers.staticMarker.focus = true
+						})
+					}
+					Eksperiment.resultat({ id: e.eksperiment_id }).$promise.then(function(resultat) {
+						e.hasResultat = !!resultat.antal
 					})
 				});
 
@@ -875,19 +535,16 @@ angular.module('myrejagtenApp')
 					}
 					return ret;
 				};
-    
 				$scope.prevPage = function() {
 					if ($scope.currentPage > 0) {
 						$scope.currentPage--;
 					}
 				};
-    
 				$scope.nextPage = function() {
 					if ($scope.currentPage < $scope.pagedEksperimenter.length - 1) {
 						$scope.currentPage++;
 					}
 				};
-    
 				$scope.setPage = function() {
 					$scope.currentPage = this.n;
 				};
@@ -923,7 +580,7 @@ angular.module('myrejagtenApp')
 				e.map.markers.draggableMarker.icon.markerColor = 'blue';
 				e.map.markers.draggableMarker.icon.iconColor = 'white';
 				e.map.markers.draggableMarker.focus = false;
-				e.map.markers.draggableMarker.message = '';
+				delete e.map.markers.draggableMarker.message;
 
 				//update staticmarker position
 				e.map.markers.staticMarker.lat = e.map.markers.draggableMarker.lat;
@@ -931,7 +588,6 @@ angular.module('myrejagtenApp')
 				e.map.markers.staticMarker.icon.icon = 'home';
 				e.map.markers.staticMarker.icon.markerColor = 'blue';
 				e.map.markers.staticMarker.icon.iconColor = 'white';
-				
 			}
 		}
 
@@ -974,24 +630,8 @@ angular.module('myrejagtenApp')
 			});
 		}
 
-		//we assume Wkt is loaded
-		var wkt = new Wkt.Wkt()
-
-		$scope.findNearestAddress = function(lat, lng) {
-			var	deferred = $q.defer();
-			var url='http://services.kortforsyningen.dk/?servicename=RestGeokeys_v2&method=nadresse&geop='+lat+','+lng+'&hits=1&ticket='+TicketService.get()			
-			$.getJSON(url, function(response) {
-				if (response.features && response.features.length) {
-		      deferred.resolve(angular.copy(response.features))
-				}
-			})
-			return deferred.promise;
-		}
-
-		/*
-			reset lokalitet input (but not hidden fields) to street address
-			so user can continue typing a house or street number
-		*/
+		//reset lokalitet input (but not hidden fields) to street address
+		//so user can continue typing a house or street number
 		$scope.eksperimentAdresseClick = function(eksperiment_id) {
 			var form = angular.element('#formLokalitet'+eksperiment_id);
 			var item = 	form.find('input[name="adresse"]').data('item');			
@@ -999,6 +639,27 @@ angular.module('myrejagtenApp')
 				form.find('input[name="adresse"]').val( item.streetName+' ');
 				form.find('input[name="adresse"]').trigger('keyup');
 			}
+		}
+
+		//we assume Wkt is available
+		var wkt = new Wkt.Wkt()
+
+		var formatAdresse = function(a,p,b,k,r) {
+			var r = a;
+			r += ', ' + p + ' ' + b;
+			return r;
+		}
+
+		var setStaticMarkerMessage = function(eksperiment_id, adresse, postnr, by, kommune, UTM) {
+			var e = $scope.eksperimentById(eksperiment_id);
+			var message = adresse+'<br>'+postnr+' '+by+'<br>'+kommune+'<br>'+UTM;
+			e.map.markers.staticMarker.focus = false;
+			delete e.map.markers.staticMarker.message;
+			$timeout(function() {
+				e.map.markers.staticMarker.message = '<div style="font-weight:bold;white-space: nowrap;">'+message+'</div>';
+				//e.map.markers.staticMarker.focus = false;
+				//e.map.markers.staticMarker.focus = true;
+			})
 		}
 
 		$scope.eksperimentAdresseSelect = function(eksperiment_id, adresseType, item) {
@@ -1027,12 +688,6 @@ angular.module('myrejagtenApp')
 					zoom: 16
 				}
 				$scope.$apply();
-			}
-
-			function formatAdresse(a,p,b,k,r) {
-				var r = a;
-				r += ', ' + p + ' ' + b;
-				return r;
 			}
 
 			var form = angular.element('#formLokalitet'+eksperiment_id);
@@ -1083,24 +738,46 @@ angular.module('myrejagtenApp')
 
 					var latLng = Geo.EPSG25832_to_WGS84(point.x, point.y)
 					setLatLng(e, form, latLng.lat, latLng.lng)
-					
-					$scope.findNearestAddress(point.x, point.y).then(function(adresse) {
-						var a = adresse[0].properties ? adresse[0].properties : null;
-						if (a) {
-							var kommune = KR.kommuneByNr( a.kommune_kode )
-							form.find('input[name="adresse"]').val( item.skrivemaade_officiel +', ' + a.vej_navn +' '+ a.husnr )
-							form.find('input[name="postnr"]').val( a.postdistrikt_kode )
-							form.find('input[name="by"]').val( a.postdistrikt_navn )
-							form.find('input[name="kommune"]').val( a.kommune_navn )
-							form.find('input[name="region"]').val( kommune ? kommune.region.navn.replace('Region', '').trim() : '' )
-						}
-					})
-
+					findNearestAdresse(eksperiment_id, latLng.lat, latLng.lng);
 					break;
 
 				default:
 					break;
 			}
+		}
+
+		var findNearestAdresse = function(eksperiment_id, lat, lng) {
+			var url='http://services.kortforsyningen.dk/?servicename=RestGeokeys_v2&method=nadresse&geop='+lng+','+lat+'&georef=EPSG:4326&geometry=true&hits=1&ticket='+TicketService.get()			
+			$.getJSON(url, function(response) {
+				if (response.features) {
+					var prop = response.features[0].properties;
+					var form = angular.element('#formLokalitet'+eksperiment_id);
+					var kommune = KR.kommuneByNr( prop.kommune_kode );
+
+					form.find('input[name="adresse"]').val( formatAdresse(
+						prop.vej_navn+' '+prop.husnr,
+						prop.postdistrikt_kode, 
+						prop.postdistrikt_navn,
+						kommune ? kommune.navn : '',
+						kommune ? kommune.region.navn : '')
+					);
+
+					form.find('input[name="postnr"]').val( prop.postdistrikt_kode )
+					form.find('input[name="by"]').val( prop.postdistrikt_navn )
+					form.find('input[name="kommune"]').val( prop.kommune_navn )
+					form.find('input[name="region"]').val( kommune ? kommune.region.navn.replace('Region', '').trim() : '' )
+
+					setStaticMarkerMessage(
+						eksperiment_id, 
+						prop.vej_navn+' '+prop.husnr, 
+						prop.postdistrikt_kode, 
+						prop.postdistrikt_navn,
+						kommune ? kommune.navn : '',
+						form.find('input[name="UTM"]').val()
+					)
+
+				}
+			})
 		}
 
 });

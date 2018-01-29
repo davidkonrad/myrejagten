@@ -22,15 +22,18 @@ angular.module('myrejagtenApp', [
 	'chart.js',
 	'fancyboxplus'
 ])
-  .config(function ($routeProvider, $locationProvider, $httpProvider, $logProvider, ChartJsProvider) {
+  .config(function ($routeProvider, $locationProvider, $httpProvider, $logProvider, ChartJsProvider, $compileProvider) {
 		L.Icon.Default.imagePath = '../assets/';
 
 		//turn logs off, primarily due to heavy leaflet logging
-		$logProvider.debugEnabled(false);
+		$logProvider.debugEnabled(true); //false);
 
     $routeProvider.otherwise({ redirectTo: '/' });
     $locationProvider.html5Mode(true);
     $httpProvider.interceptors.push('authInterceptor');
+
+		//disable debug data to speed up performance 
+		//$compileProvider.debugInfoEnabled(false);
 
 		//
 		ChartJsProvider.setOptions({

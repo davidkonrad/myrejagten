@@ -83,7 +83,7 @@
 						defaults="x.map.defaults" 
 						layers="x.map.layers" 
 						markers="[x.map.markers.staticMarker]" 
-						event-broadcast="events"
+						XXevent-broadcast="events"
 						events="x.map.events" 
 						height="280px" style="border:1px solid #ccc;border-radius:5px;">
 					</leaflet>
@@ -132,7 +132,7 @@
 							bs-popover 
 							data-container="html" 
 							data-trigger="hover" 
-							data-placement="top" 
+							data-placement="bottom" 
 							data-content="Opslag i Geodatastyrelsens stednavne-register. Her kan du søge på bygninger, naturområder, seværdigheder etc. med opslag på populærnavne."> 
 							<input type="radio" class="exclude-from-form" ng-model="x.adresseType" name="opslag" value="stednavne_v2" />
 							Stednavne
@@ -141,7 +141,7 @@
 							bs-popover 
 							data-container="html" 
 							data-trigger="hover" 
-							data-placement="top" 
+							data-placement="bottom" 
 							data-content="Opslag i Geodatastyrelsens adresse-register. Her kan du søge på vejnavn og husnr. "> 
 							<input type="radio" class="exclude-from-form" ng-model="x.adresseType" name="opslag" value="adresser" checked  />
 							Adresser
@@ -167,7 +167,7 @@
 				<div class="control-group col-md-6">
 					<leaflet id="{{ x.mapIdLok }}"
 						mapId="{{ x.mapIdLok }}" 
-						event-broadcast="x.map.events"
+						XXevent-broadcast="x.map.events"
 						class="eksperiment-map" 
 						center="x.map.center" 
 						defaults="x.map.defaults" 

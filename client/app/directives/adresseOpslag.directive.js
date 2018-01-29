@@ -46,7 +46,7 @@ angular.module('myrejagtenApp')
 									break;
 							}
 					    return $.getJSON(url, function(resp) {
-								return process(resp.data);
+								return process(resp && resp.data ? resp.data : []);
 					    })
 						}
 					})

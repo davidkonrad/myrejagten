@@ -16,6 +16,7 @@
 						<input type="text" class="form-control bold input-lg" ng-model="__projekt.titel"/>
 
 						<label class="normal">Område (Adresse og stednavneopslag)</label>
+<!--
 						<input type="text" class="form-control bold input-lg" ng-model="__projekt.lokalitet" id="stednavne_v2" />
 						
 						<div class="col-sm-12 no-padding">
@@ -23,7 +24,29 @@
 	            <label class="radio-inline"> <input type="radio" ng-model="__projekt.lokalitetMethod" name="opslag" value="adresser" />Adresser</label>
 	            <label class="radio-inline"> <input type="radio" ng-model="__projekt.lokalitetMethod" name="opslag" value="" />Ingen opslag</label>
 		        </div>
-	
+-->
+
+						<input type="text" 
+							class="form-control bold input-lg" 
+							ng-model="__projekt.lokalitet" 
+							select-on-click
+							adresse-opslag
+							on-select="adresseAfterSelect"
+							adresse-type="{{ adresseType }}"
+							id="stednavne_v2">
+						
+						<div class="col-sm-12 no-padding">
+	            <label class="radio-inline"> 
+								<input type="radio" ng-model="adresseType" name="opslag" value="stednavne_v2" checked>Stednavne
+							</label>
+	            <label class="radio-inline"> 
+								<input type="radio" ng-model="adresseType" name="opslag" value="adresser">Adresser
+							</label>
+	            <label class="radio-inline"> 
+								<input type="radio" ng-model="adresseType" name="opslag" value="">Ingen opslag
+							</label>
+		        </div>
+<!-- -->	
 						<div class="col-sm-12"><br></div>
 						
 						<div class="col-sm-6 np-padding">
@@ -67,10 +90,10 @@
 						Slet Projekt
 					</button> 
 				</span>
-				<button type="button" class="btn btn-success" ng-click="doCreateProjekt();$hide()" id="closeBtn" ng-disabled="!canCreateProjekt()">
+				<button type="button" class="btn btn-success" ng-click="doCreateProjekt()" id="closeBtn" ng-disabled="!canCreateProjekt()">
 					{{ __projekt.btnCaption }}
 				</button> 
-				<button type="button" class="btn btn-primary" ng-click="$hide()" >
+				<button type="button" class="btn btn-primary" ng-click="closeModal(false)" >
 					Fortryd
 				</button> 
 

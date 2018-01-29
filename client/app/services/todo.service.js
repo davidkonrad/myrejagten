@@ -43,7 +43,7 @@ angular.module('myrejagtenApp').factory('ToDo', function($q, Login, Eksperiment,
 				return !e.lat || !e.lng ? 'Lokalitet ikke angivet. ' : ''
 			}
 			function getEksDatoErr(e) {
-				return !e.dato || !e.start_tid || !e.slut_tid ? 'Dato og tid mangler. ' : ''
+				return !e.dato || !e.start_tid || !e.slut_tid ? 'Dato og/eller start tidspunkt mangler. ' : ''
 			}
 			function arrStr(a, s) {
 				var r = a.join(', ');
