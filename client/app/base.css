@@ -302,3 +302,8 @@ body.modal-open, .modal-open .navbar-fixed-top, .modal-open .navbar-fixed-bottom
 	top: 0px;
 }
 
+/* fix blurred text */
+.modal.center .modal-dialog {
+	transform: translateX(-50%) translateY(calc(-50% - .5px)) !important;
+	webkit-transform: translateX(-50%) translateY(calc(-50% - .5px)) !important;
+}
