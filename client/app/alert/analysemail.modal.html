@@ -27,6 +27,7 @@
 				</div>
 				<button type="button" 
 					class="btn" 
+					prevent-keyboard-enter
 					ng-class="{ 'btn-ku' : checkBodyLength() }"
 					ng-disabled="!checkBodyLength()"
 					ng-click="alertModalClose(true)">
