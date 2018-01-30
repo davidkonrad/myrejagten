@@ -70,7 +70,7 @@
 								data-timezone="UTC"
 								data-autoclose="true" 
 								data-container="#modal-ResultatDlg" 
-								ng-change="updateProeveModtaget()"/>
+								ng-change="updateProeveModtaget()">
 							<input type="checkbox" 
 								checked
 								ng-model="resDlg.globalDate" 
@@ -79,9 +79,18 @@
 								data-trigger="hover" 
 								data-placement="right" 
 								data-content="Hvis krydset af vil samtlige fødetyper for eksperimentet få sat denne modtagelsesdato. "
-								data-container="html"/>
+								data-container="html">
 						</label>
-						<button type="button" class="btn btn-ku btn-sm">Marker som ikke relevant</button>
+						<button type="button"
+							ng-if="resDlg.data.proeve_modtaget == '0000-00-00' || resDlg.data.proeve_modtaget == null "
+							bs-popover 
+							data-trigger="hover" 
+							data-placement="right" 
+							data-content="Markerer modtagelsesdato som irrelevant, i.e 0000-00-00"
+							ng-click="updateProeveModtagetIrrelevant()"
+							class="btn btn-default btn-xs">
+							Ikke relevant
+						</button>
 					</div>
 				</div>
 

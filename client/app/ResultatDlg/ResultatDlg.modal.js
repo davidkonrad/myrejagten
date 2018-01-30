@@ -131,7 +131,7 @@ angular.module('myrejagtenApp')
 				});
 
 				$scope.$on("modal.hide",function() {
-		      deferred.resolve(true);
+		      deferred.resolve(changed);
 				});
 
 				$scope.resDlg.deleteResultat = function(resultat_id) {
@@ -255,6 +255,22 @@ angular.module('myrejagtenApp')
 						Data.query({ where : { eksperiment_id: $scope.resDlg.eksperiment.eksperiment_id }}).$promise.then(function(datas) {
 							datas.forEach(function(d) {
 								Data.update({ id: d.data_id }, { proeve_modtaget: data.proeve_modtaget }).$promise.then(function() {
+								})
+							})
+						})
+						changed = true;
+					}
+				}
+
+				$scope.updateProeveModtagetIrrelevant = function() {
+					if (!$scope.resDlg.globalDate) {
+						Data.update({ id: data.data_id }, { proeve_modtaget: '1900-01-01' }).$promise.then(function(r) {
+							changed = true;
+						})
+					} else {
+						Data.query({ where : { eksperiment_id: $scope.resDlg.eksperiment.eksperiment_id }}).$promise.then(function(datas) {
+							datas.forEach(function(d) {
+								Data.update({ id: d.data_id }, { proeve_modtaget: '1900-01-01' }).$promise.then(function(r) {
 								})
 							})
 						})

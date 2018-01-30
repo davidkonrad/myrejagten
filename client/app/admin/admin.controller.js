@@ -98,7 +98,7 @@ angular.module('myrejagtenApp')
 					var data_id = $(this).attr('data_id')
 					ResultatDlg.show($scope.dataById(data_id), $scope).then(function(changes) {
 						if (changes) {
-							$scope.dtInstance.reloadData();
+							$scope.dtInstance.reloadData(false);
 						}
 					});
 				})
@@ -151,7 +151,10 @@ angular.module('myrejagtenApp')
 				.withOption('type', 'date')
 				.withTitle('Indsamling modtaget')
 				.renderWith(function(data, type, full) {
-					return type == 'display' ? Utils.fixDate(data) : data
+					if (type == 'display') {
+						return data == '1900-01-01T00:00:00.000Z' ? '(irrelevant)' : 	Utils.fixDate(data)
+					}
+					return data
 				}),
 				
       DTColumnBuilder

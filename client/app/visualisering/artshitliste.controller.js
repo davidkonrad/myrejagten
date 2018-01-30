@@ -57,7 +57,7 @@ angular.module('myrejagtenApp')
 				xAxes: [{
 					gridLines: {
 						display: false,
-						color:  '#000'
+						color:  '#a0a0a0'
 					},
 					ticks: {},
 					scaleLabel: {
@@ -72,7 +72,7 @@ angular.module('myrejagtenApp')
 					},
 					gridLines: {
 						display: false,
-						color: '#000'
+						color: '#a0a0a0'
 					},
 					position: "right"
 				}]
