@@ -405,8 +405,8 @@ angular.module('myrejagtenApp')
 
 			function maddingOrder(madding) {
 				if (madding == 'Vand') return 0;
-				if (madding == 'Saltvand') return 1;
-				if (madding == 'Sukkervand') return 2;
+				if (madding == 'Sukkervand') return 1;
+				if (madding == 'Saltvand') return 2;
 				if (madding == 'Olie') return 3;
 				if (madding == 'Protein') return 4;
 				if (madding == 'Kammerjunker') return 5;
