@@ -9,4 +9,4 @@ server/config/local.env.js
 server/config/environment/development.js
 uploads
 client/uploads
-
+client/cache
