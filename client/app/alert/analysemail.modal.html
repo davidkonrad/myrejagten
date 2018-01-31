@@ -11,29 +11,48 @@
 			</div>
 
 			<div class="modal-footer">
-				<div class="pull-left">
-					<span class="btn btn-primary btn-sm" 
-						ngf-select="registerFile($file, $invalidFiles)" 
-						ng-model="file" 
-						name="file" 
-						ngf-pattern="'*/*'"
-				    ngf-accept="'*/*'" 
-						ngf-max-size="10MB" 
-						ngf-min-height="100">
-						<i class="fa fa-attach"></i>
-						Vedlæg en fil
+
+				<div class="col-md-12 text-left clearfix no-padding" style="margin-bottom: 5px;">
+					<span ng-repeat="a in attachments">
+						{{ a.name }} 
+						<button type="button" 
+							title="Fjern {{ a.name }}"
+							ng-click="removeAttachment($index)"
+							class="btn btn-default btn-xs no-padding">
+							<i class="fa fa-times fa-fw text-danger"></i>
+						</button>&nbsp;
 					</span>
+<!--
 					{{ attachFile.name }}
+-->
 				</div>
-				<button type="button" 
-					class="btn" 
-					prevent-keyboard-enter
-					ng-class="{ 'btn-ku' : checkBodyLength() }"
-					ng-disabled="!checkBodyLength()"
-					ng-click="alertModalClose(true)">
-						Send email
-				</button> 
-				<button type="button" class="btn btn-default" ng-click="alertModalClose(false)">Fortryd</button> 
+
+				<div class="col-md-12 no-padding">
+					<div class="pull-left">
+						<span class="btn btn-primary btn-sm" 
+							ngf-select="addAttachment($file, $invalidFiles)" 
+							ng-model="file" 
+							name="file" 
+							ngf-pattern="'*/*'"
+					    ngf-accept="'*/*'" 
+							ngf-max-size="10MB" 
+							ngf-min-height="100">
+							<i class="fa fa-attach"></i>
+							Vedlæg en fil
+						</span>
+					</div>
+					<button type="button" 
+						class="btn" 
+						prevent-keyboard-enter
+						ng-class="{ 'btn-ku' : checkBodyLength() }"
+						ng-disabled="!checkBodyLength()"
+						ng-click="alertModalClose(true)">Send email
+					</button> 
+					<button type="button" 
+						class="btn btn-default" 
+						ng-click="alertModalClose(false)">Fortryd
+					</button> 
+				</div>
 			</div>
 
 		</div>

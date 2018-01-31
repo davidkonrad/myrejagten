@@ -117,7 +117,7 @@ exports.raw = function(req, res) {
 
 	if (!email || !subject || !mailBody) res.json(200, false);
 
-	var transporter = getTransporter();
+	var transporter = getTransporter(); //
 	var mailOptions = {
 		to: email,
     subject: subject,
@@ -129,14 +129,18 @@ exports.raw = function(req, res) {
 		text: mailBody
   };
 
-	if (typeof req.body.attach == 'object') {
-		mailOptions.attachments = [{
-			filename: req.body.attach.originalFileName,
-			path: req.body.attach.cachedFileName
-		}];
+	if (req.body.attach) {
+		mailOptions.attachments = [];
+		for (var i=0;i<req.body.attach.length; i++) {
+			mailOptions.attachments.push({
+				filename: req.body.attach[i].originalFileName,
+				path: req.body.attach[i].cachedFileName
+			});
+		}
 	}
 
   return transporter.sendMail(mailOptions, function(err, info) {
+		console.dir(err);
 		console.dir(info);
     if (err) {
 			return res.json(200, { error: 'Fejl ved afsendelse af mail :'+ err +'.' } );

@@ -228,10 +228,12 @@ angular.module('myrejagtenApp')
 												Alert.waitHide();
 											});
 
-											//remove cached file
+											//remove cached file(s)
 											if (options.attach) {
-												$http.get('/api/upload/removeCache/'+encodeURIComponent(options.attach.cachedFileName)).then(function(res) {
-													//console.log('cached file '+options.attach.cachedFileName+' deleted');
+												options.attach.forEach(function(f) {
+													$http.get('/api/upload/removeCache/'+encodeURIComponent(f.cachedFileName)).then(function(res) {
+														//console.log('cached file '+options.attach.cachedFileName+' deleted');
+													})
 												})
 											}
 										} else {

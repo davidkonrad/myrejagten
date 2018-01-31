@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('myrejagtenApp')
-  .factory('Alert', ['$modal', '$q', '$timeout', 'Upload', function($modal, $q, $timeout, Upload) {
+angular.module('myrejagtenApp').factory('Alert', ['$modal', '$q', '$timeout', 'Upload', function($modal, $q, $timeout, Upload) {
 
 		var deferred = null;
 		var	modal = null;
@@ -116,6 +115,7 @@ angular.module('myrejagtenApp')
 					email: email,
 					mailBody: mailBody
 				}
+				$scope.attachments = [];
 
 				deferred = $q.defer()
 				modal = $modal({
@@ -125,9 +125,14 @@ angular.module('myrejagtenApp')
 					show: true
 				});
 
-				delete $scope.attachFile;
-				$scope.registerFile = function(file, errFiles) {
-					$scope.attachFile = file;
+				$scope.removeAttachment = function(index) {
+					$scope.attachments.splice(index, 1);
+				}
+
+				$scope.addAttachment = function(file, errFiles) {
+					if (file) {
+						$scope.attachments.push(file)
+					}
 		    }
 
 				modal.$promise.then(modal.show).then(function() {
@@ -145,19 +150,28 @@ angular.module('myrejagtenApp')
 						var options = {
 							mailBody: $('#textarea').val()
 						};
-						var file = $scope.attachFile;
-		        if (file) {
-	            file.upload = Upload.upload({
-								url: '/api/upload/cache', 
-								data: {file: file}
-	            }).then(function(response) {
-								options.attach = response.data ? response.data : '';
-					      deferred.resolve(options);
-							})
+		        if ($scope.attachments.length>0) {
+							var len = $scope.attachments.length;
+							options.attach = [];
+							for (var i=0; i<len; i++) {
+		            Upload.upload({
+									url: '/api/upload/cache', 
+									data: { file: $scope.attachments[i] }
+		            }).then(function(response) {
+									if (response.data) options.attach.push(response.data)
+						      if (i == len) {
+										$timeout(function() {
+											modal.hide();
+											deferred.resolve(options);
+										})
+									}
+								})
+							}	
 		        } else {
+							modal.hide();
 				      deferred.resolve(options);
 						}
-						modal.hide();
+
 					} else {
 						delete $scope[name];
 						modal.hide();
@@ -170,6 +184,6 @@ angular.module('myrejagtenApp')
 
 		}
 
-	}]);
+}]);
 
 
