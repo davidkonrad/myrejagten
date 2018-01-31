@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('myrejagtenApp')
-	.controller('KommuneKortCtrl', function($scope, $http, $timeout, $cookies, TicketService, Geo, KR, leafletData, Eksperiment) {
+angular.module('myrejagtenApp').controller('KommuneKortCtrl', 
+	function($scope, $http, $timeout, $cookies, TicketService, Geo, KR, leafletData, Eksperiment) {
 
 		$('body').on('shown.bs.tab', 'a', function (e) {
 			$timeout(function() {
@@ -351,6 +351,7 @@ angular.module('myrejagtenApp')
 			}, 200);
 
 		}
+
 
 });
 

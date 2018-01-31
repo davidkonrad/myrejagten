@@ -117,7 +117,7 @@ exports.raw = function(req, res) {
 
 	if (!email || !subject || !mailBody) res.json(200, false);
 
-	var transporter = getTransporter(); //
+	var transporter = getTransporter(); //true if test
 	var mailOptions = {
 		to: email,
     subject: subject,
