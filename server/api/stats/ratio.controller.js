@@ -14,7 +14,7 @@ function createRatios(obj) {
 	return obj
 }
 
-var madding = ['Vand', 'Saltvand', 'Sukkervand', 'Olie', 'Protein', 'Kammerjunker'];
+var madding = ['Vand', 'Sukkervand', 'Saltvand', 'Olie', 'Protein', 'Kammerjunker'];
 
 //get total ratios
 exports.getTotal = function(req, res) {
@@ -36,7 +36,6 @@ exports.getTotal = function(req, res) {
 //get user ratios
 exports.getTotalUser = function(req, res) {
 
-	// { param : { user_id: userId }}
 	var user_id = req.query && req.query.user_id ? req.query.user_id : undefined;
 	var sql = '';
 	for (var i=0, l=madding.length; i<l; i++) {

@@ -83,7 +83,7 @@ angular.module('myrejagtenApp')
 			},
 		};
 
-		$scope.ratioLabels = ['Vand', 'Saltvand', 'Sukkervand', 'Olie', 'Protein', 'Kammerjunker'];
+		$scope.ratioLabels = ['Vand', 'Sukkervand', 'Saltvand', 'Olie', 'Protein', 'Kammerjunker'];
 
 		if ($scope.user) {
 		  $scope.ratioSeries = ['Eksperiment', 'Mine eksperimenter', 'Alle eksperimenter'];
