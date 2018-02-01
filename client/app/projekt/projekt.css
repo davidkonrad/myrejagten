@@ -1,14 +1,4 @@
 
-#modal-eksperiment .modal-dialog {
-	max-width: 90% !important;
-	width: 80% !important;
-	height: 500px !important;
-}
-
-#modal-eksperiment .tab-content {
-	padding:0px;
-}
-
 .eksperiment-block {
 	border:1px solid silver;
 	box-shadow: 2px 2px 3px #dadada;
@@ -125,10 +115,10 @@
 
 /* tooltip */
 div.tooltip-inner {
-    text-align: center;
-    margin-bottom: 6px;
-    background-color: #505050;
-    font-size: 16px;
+	text-align: center;
+	margin-bottom: 6px;
+	background-color: #505050;
+	font-size: 16px;
 }
 
 /* upload */
@@ -169,6 +159,18 @@ button.sortering {
 }
 .popover-content:focus {
 	outline: none;
+}
+
+/* projekt modal */
+#modal-projekt .modal-dialog {
+	max-width: 90% !important;
+	width: 900px !important;
+}
+
+#modal-projekt .projekt-map {
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	height: 300px;
 }
 
 

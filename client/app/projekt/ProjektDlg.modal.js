@@ -92,10 +92,17 @@ angular.module('myrejagtenApp').factory('ProjektDlg', ['$modal', '$q',	function(
 				lokalitetPolygon = geometryWktPolygon(item.geometryWkt, map)
 
 				$timeout(function() {
-					var center = lokalitetPolygon.__center
-					map.fitBounds(lokalitetPolygon.__bounds, { maxZoom: 15 } )
-					map.setView(center)
-					$scope.setMarker(center)
+					var center = lokalitetPolygon.__center;
+					map.fitBounds(lokalitetPolygon.__bounds, { maxZoom: 15 } );
+					map.setView(center);
+
+					//lookup item or saved projekt
+					if (!item.titel) {
+						$scope.setMarker(center)
+					} else {
+						$scope.setMarker({ lat: parseFloat(item.lat), lng: parseFloat(item.lng) })
+					}
+
 					$timeout(function() {
 						map.invalidateSize()
 					})
@@ -122,30 +129,48 @@ angular.module('myrejagtenApp').factory('ProjektDlg', ['$modal', '$q',	function(
 
 			if (wkt.components[0].length) {
 				for (var p=0; p<wkt.components.length;p++) {
+
+					//force set adresseType
+					//this should be fixed in a fure version
+					$scope.adresseType = wkt.components[p][0].x > 100 ? 'stednavne_v2' : 'adresser';
+
 					var points = wkt.components[p].map(function(xy) {
-						var latLng = Geo.EPSG25832_to_WGS84(xy.x, xy.y)
-						return [latLng.lat, latLng.lng]
+						if ($scope.adresseType == 'stednavne_v2') {
+							var latLng = Geo.EPSG25832_to_WGS84(xy.x, xy.y)
+							return [latLng.lat, latLng.lng]
+						} else {
+							return [xy.y, xy.x]
+						}
 					})
 					center = center.concat(points)
 					polygons.push(L.polygon(points, polygonOptions))
 				}
 			} else {
 				var points = wkt.components.map(function(xy) {
-					var latLng = Geo.EPSG25832_to_WGS84(xy.x, xy.y)
-					return [latLng.lat, latLng.lng]
+					if ($scope.adresseType == 'stednavne_v2') {
+						var latLng = Geo.EPSG25832_to_WGS84(xy.x, xy.y)
+						return [latLng.lat, latLng.lng]
+					} else {
+						return [xy.y, xy.x]
+					}
 				})
 				center = center.concat(points)
 				polygons.push(L.polygon(points, polygonOptions))
 			}
 
-			var layer = L.layerGroup(polygons).addTo(map),
-					center = L.polygon(center);
+			var layer = L.layerGroup(polygons).addTo(map);
+			var center = L.polygon(center);
 
 			layer.__center = center.getBounds().getCenter()
 			layer.__bounds = center.getBounds()
 
 			return layer
 		}
+
+		//update center and lat, lng if marker is dragged
+		$scope.$on('leafletDirectiveMarker.map.dragend', function(event, args) {
+			$scope.setMarker(args.leafletEvent.target._latlng)
+		})
 
 		$scope.setMarker = function(latLng) {
 			if (!$scope.marker) {
@@ -166,12 +191,14 @@ angular.module('myrejagtenApp').factory('ProjektDlg', ['$modal', '$q',	function(
 
 		//leaflet settings
 		$scope.marker = null;
-		$scope.markers = {};
-
 		angular.extend($scope, {
 			events: {
 				map: {
-					enable: ['zoomstart', 'drag', 'click', 'dblclick', 'mouseover', 'mousedown'],
+					enable: ['zoomstart', 'dragend', 'click', 'dblclick', 'mouseover', 'mousedown'],
+					logic: 'emit'
+				},
+				markers: {
+					enable: ['dragend', 'dragstart'],
 					logic: 'emit'
 				}
 			},
@@ -225,7 +252,7 @@ angular.module('myrejagtenApp').factory('ProjektDlg', ['$modal', '$q',	function(
 							styles: "default",
 							exceptions: "application/vnd.ogc.se_inimage",
 							jpegquality: "80",
-							attribution: "Indeholder data fra GeoDatastyrelsen, WMS-tjeneste",
+							attribution: "Indeholder data fra Geodatastyrelsen, WMS-tjeneste",
 							ticket: TicketService.get()
 						}
 					},

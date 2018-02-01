@@ -56,24 +56,36 @@
 							aria-controls="{{ 'projekt_'+p.projekt_id }}"
 							ng-click="skoleProjektClick(p.projekt_id)">
 
-							<span class="projekt-item projekt-timestamp" title="Tidspunkt for oprettelse"> {{ p.created_timestamp | date:'dd-MM-yyyy  HH:mm' }} </span>
-							<span class="projekt-item projekt-delimiter"></span>
-							<span class="projekt-item projekt-titel"> {{ p.titel }} </span>
-							<span class="projekt-item projekt-delimiter hidden-xs hidden-sm"></span>
-							<span class="projekt-item projekt-lokalitet hidden-xs hidden-sm"> {{ p.lokalitet }} </span>
-						</a>
-							<span class="projekt-item projekt-edit pull-right">
-								<button type="button" 
-									class="btn btn-ku btn-xs btn-projekt-edit" 
-									projekt-id="{{ p.projekt_id }}" 
-									title="Rediger projekt">
-									<i class="fa fa-edit"></i>
-								</button>
+							<span class="projekt-item projekt-timestamp" title="Periode"> 
+								{{ p.start_tid | date:'dd/MM/yy' }} 
+								<span class="text-muted">&ndash; </span>
+								<span ng-if="p.slut_tid"> {{ p.slut_tid | date:'dd/MM/yy' }}  </span>
+								<span ng-if="!p.slut_tid"> ? </span>
 							</span>
 
-							<span class="projekt-item projekt-count pull-right hidden-xs hidden-sm" title="{{ p.eksperiment_count.$$state.value }} {{ p.eksperiment_count.$$state.value == 1 ? 'eksperiment' : 'eksperimenter' }} "> 
-								{{ p.eksperiment_count }} 
+							<span class="projekt-item projekt-delimiter"></span>
+							<span class="projekt-item projekt-titel" title="Projekt navn / titel"> 
+								{{ p.titel }} 
 							</span>
+							<span class="projekt-item projekt-delimiter hidden-xs hidden-sm"></span>
+							<span class="projekt-item projekt-lokalitet hidden-xs hidden-sm" title="Lokalitet / adresse"> 
+								{{ p.lokalitet }} 
+							</span>
+
+						</a>
+
+						<span class="projekt-item projekt-edit pull-right">
+							<button type="button" 
+								class="btn btn-ku btn-xs btn-projekt-edit" 
+								projekt-id="{{ p.projekt_id }}" 
+								title="Rediger projekt">
+								<i class="fa fa-edit"></i>
+							</button>
+						</span>
+
+						<span class="projekt-item projekt-count pull-right hidden-xs hidden-sm" title="{{ p.eksperiment_count.$$state.value }} {{ p.eksperiment_count.$$state.value == 1 ? 'eksperiment' : 'eksperimenter' }} "> 
+							{{ p.eksperiment_count }} 
+						</span>
 
 		      </h4>
 		    </div>

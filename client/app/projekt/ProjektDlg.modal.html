@@ -11,21 +11,16 @@
 
 				<form class="form-horizontal" role="form" action="" method="POST">
 
-					<div class="control-group col-md-5">
+					<div class="control-group col-md-6">
 						<label class="normal">Titel / Navn på Projekt</label>
-						<input type="text" class="form-control bold input-lg" ng-model="__projekt.titel"/>
+						<input type="text" 
+							select-on-click
+							class="form-control bold input-lg" 
+							ng-model="__projekt.titel">
 
-						<label class="normal">Område (Adresse og stednavneopslag)</label>
-<!--
-						<input type="text" class="form-control bold input-lg" ng-model="__projekt.lokalitet" id="stednavne_v2" />
-						
-						<div class="col-sm-12 no-padding">
-	            <label class="radio-inline"> <input type="radio" ng-model="__projekt.lokalitetMethod" name="opslag" value="stednavne_v2" checked />Stednavne</label>
-	            <label class="radio-inline"> <input type="radio" ng-model="__projekt.lokalitetMethod" name="opslag" value="adresser" />Adresser</label>
-	            <label class="radio-inline"> <input type="radio" ng-model="__projekt.lokalitetMethod" name="opslag" value="" />Ingen opslag</label>
-		        </div>
--->
+						<div class="col-sm-12"><br></div>
 
+						<label class="normal">Område (Stednavne eller adresse opslag)</label>
 						<input type="text" 
 							class="form-control bold input-lg" 
 							ng-model="__projekt.lokalitet" 
@@ -46,7 +41,7 @@
 								<input type="radio" ng-model="adresseType" name="opslag" value="">Ingen opslag
 							</label>
 		        </div>
-<!-- -->	
+
 						<div class="col-sm-12"><br></div>
 						
 						<div class="col-sm-6 np-padding">
@@ -58,7 +53,7 @@
 									data-date-format="dd-MM-yyyy" 
 									size="7" 
 									data-container="#modal-projekt" 
-									data-autoclose="true"/>
+									data-autoclose="true">
 						</div>
 						<div class="col-sm-6 ">
 							<label class="normal">Slut dato</label>
@@ -69,31 +64,38 @@
 									data-date-format="dd-MM-yyyy" 
 									size="7" 
 									data-container="#modal-projekt" 
-									data-autoclose="true" />
+									data-autoclose="true">
 						</div>
-	
-						<br><br>
 					</div>
 
-					<div class="control-group col-md-7">
+					<div class="control-group col-md-6">
 						<label class="normal">Slå op i lokalitet eller klik på kortet for at markere et sted</label>
-						<leaflet id="map" center="center" defaults="defaults" layers="layers" markers="markers" events="events" height="300px" style="border:1px solid #ccc;border-radius:5px;"></leaflet>
+						<leaflet id="map" 
+							center="center" 
+							defaults="defaults" 
+							layers="layers" 
+							markers="markers" 
+							events="events" 
+							class="projekt-map">
+						</leaflet>
 					</div>
 
 				</form>
+
+				<div class="col-md-12 clearfix">&nbsp;</div>
 
 			</div>
 			
 			<div class="modal-footer">
 				<span style="float:left;">
-					<button type="button" class="btn btn-danger btn-sm" ng-disabled="!__projekt.projekt_id" ng-click="deleteProjekt(__projekt.projekt_id)">
+					<button type="button" class="btn btn-danger btn-xs" ng-disabled="!__projekt.projekt_id" ng-click="deleteProjekt(__projekt.projekt_id)">
 						Slet Projekt
 					</button> 
 				</span>
 				<button type="button" class="btn btn-success" ng-click="doCreateProjekt()" id="closeBtn" ng-disabled="!canCreateProjekt()">
 					{{ __projekt.btnCaption }}
 				</button> 
-				<button type="button" class="btn btn-primary" ng-click="closeModal(false)" >
+				<button type="button" class="btn btn-default" ng-click="closeModal(false)" >
 					Fortryd
 				</button> 
 
