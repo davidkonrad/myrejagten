@@ -6,8 +6,8 @@ angular.module('myrejagtenApp').factory('ProjektDlg', ['$modal', '$q',	function(
 	var deferred;
 	var local = this;
 
-	local.modalInstance = ['$scope', '$timeout', 'Projekt', 'TicketService', 'leafletData', 'Geo', 'projekt_id', 'projekt_count', 'user_id', 
-	function($scope, $timeout, Projekt, TicketService, leafletData, Geo, projekt_id, projekt_count, user_id) {
+	local.modalInstance = ['$scope', '$timeout', 'Projekt', 'Eksperiment', 'Alert', 'TicketService', 'leafletData', 'Geo', 'projekt_id', 'projekt_count', 'user_id', 
+	function($scope, $timeout, Projekt, Eksperiment, Alert, TicketService, leafletData, Geo, projekt_id, projekt_count, user_id) {
 
 		$scope.projekt_id = projekt_id || false; //!!
 
@@ -20,6 +20,9 @@ angular.module('myrejagtenApp').factory('ProjektDlg', ['$modal', '$q',	function(
 				$timeout(function() {
 					$scope.updateMapElements($scope.__projekt);
 				})
+			})
+			Eksperiment.query({ where: { projekt_id: projekt_id }}).$promise.then(function(eks) {
+				$scope.har_eksperimenter = eks.length > 0
 			})
 		} else {
 			$scope.__projekt = { 
@@ -260,7 +263,24 @@ angular.module('myrejagtenApp').factory('ProjektDlg', ['$modal', '$q',	function(
 			}
 		})
 
+		$scope.deleteProjekt = function(projekt_id) {
+			Alert.confirm($scope, 'Slet projekt? Sletning kan ikke fortrydes.').then(function(answer) {
+				if (answer) {
+					Projekt.delete({ id: $scope.projekt_id }).$promise.then(function() {
+						$scope.closeModal(true)
+					});
+				}
+			});
+		}
+
+		$scope.showDeleteBtn = function() {
+			if ($scope.projekt_id == false) return false;
+			if ($scope.har_eksperimenter) return false;
+			return true
+		}
+
 	}];
+
 
 	return {
 		show: function(projekt_id, projekt_count, user_id) {

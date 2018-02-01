@@ -163,30 +163,6 @@ angular.module('myrejagtenApp')
 			})
 		}
 
-		/**
-			projekt
-		**/
-
-		$scope.deleteProjekt = function(projekt_id) {
-			for (var i=0, l=$scope.projekts.length; i<l; i++) {
-				if ($scope.projekts[i].projekt_id == projekt_id) {
-					if ($scope.projekts[i].eksperiment_count > 0) {
-						Alert.show($scope, 'Slet projekt', 'Du kan ikke slette et projekt der indeholder eksperimenter. Du må slette alle projektets eksperimenter først.', true).then(function() {
-						})
-					} else {
-						Alert.confirm($scope, 'Slet projekt? Sletning kan ikke fortrydes.').then(function(answer) {
-							if (answer) {
-								$scope.projektModal.hide();
-								Projekt.delete({ id: projekt_id }).$promise.then(function() {
-									$scope.reloadProjekts();
-								});
-							}
-						});
-					}
-				}
-			}
-		}
-
 		//eksperiment
 		$('body').on('show.bs.collapse', '.panel', function() {
 			$scope.projekt_id = $(this).attr('projekt-id');

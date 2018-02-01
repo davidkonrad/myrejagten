@@ -12,7 +12,7 @@
 				<form class="form-horizontal" role="form" action="" method="POST">
 
 					<div class="control-group col-md-6">
-						<label class="normal">Titel / Navn på Projekt</label>
+						<label class="normal required">Titel / Navn på Projekt</label>
 						<input type="text" 
 							select-on-click
 							class="form-control bold input-lg" 
@@ -20,7 +20,7 @@
 
 						<div class="col-sm-12"><br></div>
 
-						<label class="normal">Område (Stednavne eller adresse opslag)</label>
+						<label class="normal required">Område (Stednavne eller adresse opslag)</label>
 						<input type="text" 
 							class="form-control bold input-lg" 
 							ng-model="__projekt.lokalitet" 
@@ -45,7 +45,7 @@
 						<div class="col-sm-12"><br></div>
 						
 						<div class="col-sm-6 np-padding">
-							<label class="normal">Start dato</label>
+							<label class="normal required">Start dato</label>
 							<input type="text" 
 									class="form-control bold" 
 									ng-model="__projekt.start_tid" 
@@ -69,7 +69,7 @@
 					</div>
 
 					<div class="control-group col-md-6">
-						<label class="normal">Slå op i lokalitet eller klik på kortet for at markere et sted</label>
+						<label class="normal">Slå op i stednavne / adresser. Træk markeren rundt for finstilling</label>
 						<leaflet id="map" 
 							center="center" 
 							defaults="defaults" 
@@ -88,7 +88,10 @@
 			
 			<div class="modal-footer">
 				<span style="float:left;">
-					<button type="button" class="btn btn-danger btn-xs" ng-disabled="!__projekt.projekt_id" ng-click="deleteProjekt(__projekt.projekt_id)">
+					<button type="button" 
+						ng-if="showDeleteBtn()"
+						class="btn btn-danger btn-xs" 
+						ng-click="deleteProjekt(__projekt.projekt_id)">
 						Slet Projekt
 					</button> 
 				</span>
