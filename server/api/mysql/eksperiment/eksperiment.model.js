@@ -102,6 +102,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: true
     },
+    andre_observationer: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     data_kommentar: {
       type: DataTypes.STRING,
       allowNull: true

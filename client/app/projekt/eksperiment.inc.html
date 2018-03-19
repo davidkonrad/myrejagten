@@ -342,11 +342,26 @@
 				</table>
 
 				<br class="visible-xs visible-sm">
-				<div class="col-md-3 no-padding" XXstyle="vertical-align: top;">
+				<div class="col-md-3 no-padding" style="vertical-align: top;">
 					<label>Noter</label>
 					<i info-sm info-popover info-placement="right" content-name="Myrer_bemaerk"></i>
-					<br><br>
-					<textarea class="form-control" ng-model="x.data_kommentar" name="kommentar" rows="6"></textarea>
+					<br>
+					<textarea class="form-control" 
+						ng-model="x.data_kommentar" 
+						name="kommentar" 
+						placeholder="Noter til fødevalg"
+						rows="4"></textarea>
+				</div>
+				<span class="col-md-3 clearfix">&nbsp;</span>
+				<div class="col-md-3 no-padding" style="vertical-align: top;">
+					<label>Bemærkninger</label>
+					<i info-sm info-popover info-placement="right" content-name="Myrer_andre_observationer"></i>
+					<br>
+					<textarea class="form-control" 
+						ng-model="x.andre_observationer" 
+						name="andre_observationer" 
+						placeholder="Andre observationer"
+						rows="4"></textarea>
 				</div>
 
 			</form>

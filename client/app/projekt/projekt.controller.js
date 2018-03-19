@@ -577,7 +577,8 @@ angular.module('myrejagtenApp')
 				vejr: e.vejr,
 				sol: e.sol,
 				vind: e.vind,
-				data_kommentar: e.data_kommentar
+				data_kommentar: e.data_kommentar,
+				andre_observationer: e.andre_observationer
 			}
 			Eksperiment.update({ id: eksperiment_id }, miljo).$promise.then(function() {
 				Utils.formReset('#formResultater' + eksperiment_id);
