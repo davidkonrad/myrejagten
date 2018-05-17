@@ -613,7 +613,6 @@ angular.module('myrejagtenApp')
 			$cookies.put('downloadFields', JSON.stringify(fields), { expires: expireDate } )
 			
 			$http.get('/api/download/all').then(function(res) {
-				console.log(res);
 				var fileName = 'myrejagten_' + getDateStr() + '.csv';
 
 				//filter out not needed fields

@@ -175,6 +175,7 @@ exports.all = function(req, res) {
 		+'eksperiment.sol as eksperiment_sol, '      
 		+'eksperiment.vind as eksperiment_vind, '
 		+'eksperiment.kommentar as eksperiment_kommentar, '
+		+'eksperiment.andre_observationer as eksperiment_andre_observationer, '
 		+'eksperiment.data_kommentar as eksperiment_data_kommentar, '
 		+'eksperiment.UTM as eksperiment_UTM, '
 
