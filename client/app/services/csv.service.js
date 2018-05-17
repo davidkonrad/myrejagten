@@ -29,8 +29,9 @@ angular.module('myrejagtenApp')
 			var csvString = csvRows.join("\n");
 
 			$timeout(function() {
+				var blob = new Blob([csvString], {type: 'text/csv'});
 				var a = document.createElement('a');
-				a.href = 'data:attachment/csv,' +  encodeURIComponent(csvString);
+				a.href = window.URL.createObjectURL(blob);
 				a.target = '_blank';
 				a.download = fileName;
 
