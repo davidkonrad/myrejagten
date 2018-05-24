@@ -1,5 +1,4 @@
 const fs = require('fs');
-console.log('-------------------', process.env.NODE_ENV);
 var path = process.env.NODE_ENV == 'development' ? 'client/' : '../public/';
 path += 'udtraek.log';
 
