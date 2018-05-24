@@ -66,7 +66,7 @@ angular.module('myrejagtenApp')
 			layers: {
         baselayers: {
 					googleTerrain: {
-				    name: 'Google Terrain',
+				    name: 'Google Terrain XXX',
 				    layerType: 'TERRAIN',
 				    type: 'google',
 						visible: true,
@@ -104,6 +104,18 @@ angular.module('myrejagtenApp')
 							attribution: "Indeholder data fra GeoDatastyrelsen, WMS-tjeneste",
 							ticket: TicketService.get()
 						}
+					}
+				},
+				overlays: {
+					y2017: {
+						name: '2017',
+						type: 'group',
+						visible: true
+					},
+					y2018: {
+						name: '2018',
+						type: 'group',
+						visible: true
 					}
 				}
 			}
@@ -154,12 +166,15 @@ angular.module('myrejagtenApp')
 				return m
 			}
 			eksperimenter.forEach(function(e) {
+				var year = new Date(e.dato).getFullYear();
+				console.log(year);
 				if (e.lat && e.lng) $scope.map.markers.push({
+					layer: year == 2017 ? 'y2017' : 'y2018',
 					lat: parseFloat(e.lat),
 					lng: parseFloat(e.lng),
 					message: getMessage(e),
 					getMessageScope: function() { return $scope },
-					icon: iconBlue
+					icon: year == 2017 ? iconBlue : iconGreen
 				})
 			})
 		})
