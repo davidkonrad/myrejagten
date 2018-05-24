@@ -6,6 +6,7 @@ angular.module('myrejagtenApp')
 	function($scope, $http, $q, $timeout, $cookies, Login, Alert, Resultat, Data, Utils, ResultatDlg, CSV, MysqlUser, Cnt, 
 		Projekt, Eksperiment, DTOptionsBuilder, DTColumnBuilder, DTDefaultOptions, Analyse_mail) {
 
+		
 		//analyse_mails
 		var analyse_mails = [];
 		Analyse_mail.query().$promise.then(function(a) {
@@ -535,6 +536,22 @@ angular.module('myrejagtenApp')
 /*************
 	download
 **************/
+
+/*
+		function logExport(type, fields) {
+			var params = {
+				userName: $scope.user.brugernavn,
+				userEmail: $scope.user.email,
+				type: type,
+				fields: fields
+			}
+			$http.post('/api/download/log/', params ).then(function(res) {
+				alert('ok');
+				console.log(res);
+			})
+		}
+		logExport('test', 'a,b,c');
+
 		function getDateStr() {
 			var d = new Date();
 			return Utils.strPad(d.getDate(), 2) + '-' + Utils.strPad(d.getMonth(), 2) + '-' + d.getFullYear()
@@ -634,7 +651,7 @@ angular.module('myrejagtenApp')
 				}, 50);
 			})
 		}
-
+*/
 
 /*************
 	Eksperimenter
@@ -783,6 +800,4 @@ angular.module('myrejagtenApp')
 
 
 }]);
-
-
 
