@@ -70,9 +70,9 @@ angular.module('myrejagtenApp').factory('ProjektDlg', ['$modal', '$q',	function(
 		$scope.adresseType = 'stednavne_v2';
 	
 		$scope.adresseAfterSelect = function(eksperiment_id, adresseType, item) {
-			$('#stednavne_v2').attr('title', item.presentationString)
-			$scope.__projekt.geometryWkt = item.geometryWkt
-			$scope.updateMapElements(item)
+			$('#stednavne_v2').attr('title', item.presentationString);
+			$scope.__projekt.geometryWkt = item.geometryWkt;
+			$scope.updateMapElements(item);
 		}
 
 		$scope.updateMapElements = function(item) { //item could be item from lookup or __projekt
@@ -121,6 +121,7 @@ angular.module('myrejagtenApp').factory('ProjektDlg', ['$modal', '$q',	function(
 
 		function geometryWktPolygon(geometryWkt, map) {
 			wkt.read(geometryWkt);
+
 			var polygonOptions = {
 				fillColor: '#ff0000',
 				color: '#ffff00',
@@ -132,25 +133,40 @@ angular.module('myrejagtenApp').factory('ProjektDlg', ['$modal', '$q',	function(
 
 			if (wkt.components[0].length) {
 				for (var p=0; p<wkt.components.length;p++) {
-
-					//force set adresseType
-					//this should be fixed in a fure version
-					$scope.adresseType = wkt.components[p][0].x > 100 ? 'stednavne_v2' : 'adresser';
-
+					
 					var points = wkt.components[p].map(function(xy) {
-						if ($scope.adresseType == 'stednavne_v2') {
-							var latLng = Geo.EPSG25832_to_WGS84(xy.x, xy.y)
-							return [latLng.lat, latLng.lng]
+						if (xy.length) {
+							var r = [];
+							//multiple points
+							for (var point in xy) {
+								var ll = xy[point];
+								//if ($scope.adresseType == 'stednavne_v2') {
+								if (parseFloat(ll.x) > 1000) {
+									var latLng = Geo.EPSG25832_to_WGS84(ll.x, ll.y)
+									r.push([latLng.lat, latLng.lng])
+								} else {
+									r.push([ll.y, ll.x]);
+								}
+							}
+							return r
 						} else {
-							return [xy.y, xy.x]
+							//single point
+							//if ($scope.adresseType == 'stednavne_v2') {
+							if (parseFloat(xy.x) > 1000) {
+								var latLng = Geo.EPSG25832_to_WGS84(xy.x, xy.y)
+								return [latLng.lat, latLng.lng]
+							} else {
+								return [xy.y, xy.x]
+							}
 						}
-					})
+					});
 					center = center.concat(points)
 					polygons.push(L.polygon(points, polygonOptions))
 				}
 			} else {
 				var points = wkt.components.map(function(xy) {
-					if ($scope.adresseType == 'stednavne_v2') {
+					//if ($scope.adresseType == 'stednavne_v2') {
+					if (parseFloat(xy.x) > 1000) {
 						var latLng = Geo.EPSG25832_to_WGS84(xy.x, xy.y)
 						return [latLng.lat, latLng.lng]
 					} else {
