@@ -38,12 +38,14 @@ angular.module('myrejagtenApp')
 			$http.get('api/stats/arterEksperimenter', { params: { art: art }}).then(function(result) {
 				$scope.map.markers = [];
 				result.data.forEach(function(e) {
+					var year = new Date(e.dato).getFullYear();
 					if (e.lat && e.lng) $scope.map.markers.push({
+						layer: year == 2017 ? 'y2017' : 'y2018',
 						lat: parseFloat(e.lat),
 						lng: parseFloat(e.lng),
 						message: getMessage(e),
 						getMessageScope: function() { return $scope },
-						icon: iconBlue
+						icon: year == 2017 ? iconBlue : iconFuchsia
 					})
 				})
 			})
@@ -51,6 +53,13 @@ angular.module('myrejagtenApp')
 
 		var iconBlue = {
 			iconUrl: 'assets/images/blue.png',
+			iconSize: [15, 26],
+			iconAnchor: [12, 21], 
+			shadowAnchor: [4, 62], 
+			popupAnchor: [-4, -20] 
+		};
+		var iconFuchsia = {
+			iconUrl: 'assets/images/fuchsia.png',
 			iconSize: [15, 26],
 			iconAnchor: [12, 21], 
 			shadowAnchor: [4, 62], 
@@ -121,6 +130,18 @@ angular.module('myrejagtenApp')
 							attribution: "Indeholder data fra GeoDatastyrelsen, WMS-tjeneste",
 							ticket: TicketService.get()
 						}
+					}
+				},
+				overlays: {
+					y2017: {
+						name: '2017',
+						type: 'group',
+						visible: true
+					},
+					y2018: {
+						name: '2018',
+						type: 'group',
+						visible: true
 					}
 				}
 			}

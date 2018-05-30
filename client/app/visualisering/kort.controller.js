@@ -32,8 +32,8 @@ angular.module('myrejagtenApp')
 			shadowAnchor: [4, 62], 
 			popupAnchor: [-4, -20] 
 		};
-		var iconGreen = {
-			iconUrl: 'assets/images/green.png',
+		var iconFuchsia = {
+			iconUrl: 'assets/images/fuchsia.png',
 			iconSize: [15, 26],
 			iconAnchor: [12, 21], 
 			shadowAnchor: [4, 62], 
@@ -66,7 +66,7 @@ angular.module('myrejagtenApp')
 			layers: {
         baselayers: {
 					googleTerrain: {
-				    name: 'Google Terrain XXX',
+				    name: 'Google Terrain',
 				    layerType: 'TERRAIN',
 				    type: 'google',
 						visible: true,
@@ -167,14 +167,13 @@ angular.module('myrejagtenApp')
 			}
 			eksperimenter.forEach(function(e) {
 				var year = new Date(e.dato).getFullYear();
-				console.log(year);
 				if (e.lat && e.lng) $scope.map.markers.push({
 					layer: year == 2017 ? 'y2017' : 'y2018',
 					lat: parseFloat(e.lat),
 					lng: parseFloat(e.lng),
 					message: getMessage(e),
 					getMessageScope: function() { return $scope },
-					icon: year == 2017 ? iconBlue : iconGreen
+					icon: year == 2017 ? iconBlue : iconFuchsia
 				})
 			})
 		})
