@@ -220,7 +220,8 @@ angular.module('myrejagtenApp')
 			{ madding: 'Saltvand' },
 			{ madding: 'Olie' },
 			{ madding: 'Protein' },
-			{ madding: 'Kammerjunker' }
+			{ madding: 'Kammerjunker' },
+			{ madding: 'Andet' }
 		];
 		$scope.items.sortering = [
 			{ value: '-eksperiment_id', label: 'Nyeste' },
