@@ -1,6 +1,6 @@
 {
   "name": "Wicket",
-  "version": "1.3.2",
+  "version": "1.3.4",
   "main": [
     "wicket.js",
     "wicket-arcgis.js",
@@ -15,11 +15,11 @@
     "uglify-js": "2.4.x"
   },
   "homepage": "https://github.com/arthur-e/Wicket",
-  "_release": "1.3.2",
+  "_release": "1.3.4",
   "_resolution": {
     "type": "version",
-    "tag": "1.3.2",
-    "commit": "8a0688c67ec790a52579dd7150e22aa04f26b1f2"
+    "tag": "1.3.4",
+    "commit": "e26a91ee3db892e1076a5847265f49a89faa5c5e"
   },
   "_source": "https://github.com/arthur-e/Wicket.git",
   "_target": "*",

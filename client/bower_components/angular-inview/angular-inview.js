@@ -2,7 +2,7 @@
 // - Author: [Nicola Peduzzi](https://github.com/thenikso)
 // - Repository: https://github.com/thenikso/angular-inview
 // - Install with: `npm install angular-inview`
-// - Version: **2.2.0**
+// - Version: **3.0.0**
 (function() {
 'use strict';
 
@@ -11,7 +11,8 @@
 // Use it in your AngularJS app by including the javascript and requireing it:
 //
 // `angular.module('myApp', ['angular-inview'])`
-var angularInviewModule = angular.module('angular-inview', [])
+var moduleName = 'angular-inview';
+angular.module(moduleName, [])
 
 // ## in-view directive
 //
@@ -359,9 +360,9 @@ function signalFromEvent (target, event) {
       subscriber(e);
     };
     var el = angular.element(target);
-    el[0].addEventListener(event, handler, true);
+    event.split(' ').map(e => el[0].addEventListener(e, handler, true));
     subscriber.$dispose = function () {
-      el[0].removeEventListener(event, handler, true);
+      event.split(' ').map(e => el[0].removeEventListener(e, handler, true));
     };
   });
 }
@@ -374,9 +375,9 @@ function signalSingle (value) {
 
 // Module loaders exports
 if (typeof define === 'function' && define.amd) {
-  define(['angular'], angularInviewModule);
+  define(['angular'], moduleName);
 } else if (typeof module !== 'undefined' && module && module.exports) {
-  module.exports = angularInviewModule;
+  module.exports = moduleName;
 }
 
 })();
