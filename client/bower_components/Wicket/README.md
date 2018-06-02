@@ -1,19 +1,18 @@
 # Wicket #
 
-[![Travis CI](https://travis-ci.org/arthur-e/Wicket.svg?branch=master)](https://travis-ci.org/arthur-e/Wicket.svg?branch=master)
-[![CDNJS](https://img.shields.io/cdnjs/v/wicket.svg)](https://cdnjs.com/libraries/wicket)
-
-**Wicket is looking for a permanent maintainer.** Please [contact us](mailto:endsley@umich.edu) if you want to help maintain Wicket.
+![Build Stats](https://travis-ci.org/arthur-e/Wicket.svg?branch=master)
 
 Wicket is a lightweight library for translating between [Well-Known Text (WKT)](http://en.wikipedia.org/wiki/Well-known_text) and various client-side mapping frameworks:
 * Leaflet [(demo)](http://arthur-e.github.com/Wicket/)
-* Google Maps API [(demo)](http://arthur-e.github.com/Wicket/sandbox-gmaps3.html)
+* Google Maps API* [(demo)](http://arthur-e.github.com/Wicket/sandbox-gmaps3.html)
 * ESRI ArcGIS JavaScript API [(demo)](http://arthur-e.github.com/Wicket/sandbox-arcgis.html)
 * Potentially any other web mapping framework through serialization and de-serialization of GeoJSON (with `JSON.parse`)
 
 The core Wicket library and the Leaflet extension are both compatible with Node.js; the Google Maps and ArcGIS API extensions will not work in Node.js because they require a browser.
 
 If you are looking for [Apache Wicket](http://wicket.apache.org/), the web-app development framework for Java, [you'll find it here](http://wicket.apache.org/).
+
+*The Google Maps API extension currently does not support `MULTIPOLYGON` geometries with holes (inner rings) due to [an outstanding bug](https://github.com/arthur-e/Wicket/issues/33).
 
 ## License ##
 
@@ -50,10 +49,6 @@ wkt.write();
 
 // Create a geometry object, ready to be mapped!
 wkt.toObject();
-
-// Convert to GeoJSON
-wkt.toJson(); // Outputs an object
-JSON.stringify(wkt.toJson()); // Outputs a string
 ```
 
 Wicket will read from the geometry objects of any mapping client it understands.
@@ -92,6 +87,8 @@ Minified versions can be generated via:
 ### Testing ###
 
     npm test
+
+The Google Maps API extension cannot be tested by Node.js at the command line; it requires a browser. The Google Maps API tests are run by Jasmine; navigate to the file `tests/wicket-gmap3.html` in a web browser.
 
 ## Documentation ##
 

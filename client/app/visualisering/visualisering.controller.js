@@ -1,9 +1,6 @@
 'use strict';
 
-angular.module('myrejagtenApp')
-  .controller('VisualiseringCtrl', 
-	function($scope, $http, $timeout, Login, TicketService, Eksperiment, Utils) {
-
+angular.module('myrejagtenApp').controller('VisualiseringCtrl', function($scope, $http, $timeout, Login, TicketService, Eksperiment, Utils) {
 
 		$scope.charts = [];
 		$scope.user = Login.currentUser();

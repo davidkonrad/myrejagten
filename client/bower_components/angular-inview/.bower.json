@@ -1,6 +1,6 @@
 {
   "name": "angular-inview",
-  "version": "3.0.0",
+  "version": "2.3.0",
   "main": "./angular-inview.js",
   "dependencies": {
     "angular": "~1"
@@ -11,11 +11,11 @@
     "url": "git://github.com/thenikso/angular-inview.git"
   },
   "homepage": "https://github.com/thenikso/angular-inview",
-  "_release": "3.0.0",
+  "_release": "2.3.0",
   "_resolution": {
     "type": "version",
-    "tag": "v3.0.0",
-    "commit": "50b2cbfe302c15800f13a7b9ccc9505237ab0adb"
+    "tag": "v2.3.0",
+    "commit": "7fef8ac4e950e8329be1593f64cf48c06fe628e1"
   },
   "_source": "https://github.com/thenikso/angular-inview.git",
   "_target": "*",

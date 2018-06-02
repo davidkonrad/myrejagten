@@ -12,7 +12,7 @@
 
 		<!--------- oversigt -------->	
 		<div bs-pane data-title="{{ x.titel || x.myrejagt_id }}">
-			<form novalidate id="formOversigt{{ x.eksperiment_id }}" autocomplete="off">
+			<form novalidate id="formOversigt{{ x.eksperiment_id }}" autocomplete="off" spellcheck="false">
 				<input type="hidden" name="eksperiment_id" value="{{ x.eksperiment_id }}" />
 
 				<div class="col-md-6" class="eksperiment-cnt">
@@ -104,7 +104,7 @@
 		<!---------- lokalitet ------------->
 		<div bs-pane data-title="Lokalitet" XXstyle="padding-left:0px;">
 
-			<form novalidate id="formLokalitet{{ x.eksperiment_id }}" autocomplete="off">
+			<form novalidate id="formLokalitet{{ x.eksperiment_id }}" autocomplete="off" spellcheck="false">
 
 				<input type="hidden" name="eksperiment_id" value="{{ x.eksperiment_id }}" />
 				<input type="hidden" name="geometryWkt" value="{{ x.geometryWkt }}" />
@@ -158,7 +158,12 @@
 					<div class="control-group col-md-12" style="padding-right: 0px !important; padding-left:0px !important;">
 						<label class="normal">Bemærkninger</label>
 						<i info-sm info-placement="right" info-popover content-name="Eksperiment_bemaerk"></i>
-						<textarea class="form-control" ng-model="x.kommentar" name="kommentar" rows="4"></textarea>
+						<textarea class="form-control" 
+							ng-model="x.kommentar" 
+							name="kommentar" 
+							rows="4" 
+							spellcheck="false">
+						</textarea>
 					</div>
 				</div>
 
@@ -191,7 +196,7 @@
 		<!---------- resultat ------------->
 		<div bs-pane data-title="Data">
 
-			<form novalidate id="formResultater{{ x.eksperiment_id }}"  class="col-md-12 no-padding" autocomplete="off">
+			<form novalidate id="formResultater{{ x.eksperiment_id }}"  class="col-md-12 no-padding" autocomplete="off" spellcheck="false">
 
 				<table class="miljoe-table col-md-3 no-padding">
 					<thead>
@@ -251,7 +256,7 @@
 									ng-class="{ 'has-value' : x.sol != undefined }"
 									bs-options="i.value as i.label for i in items.sol" 
 									bs-select>
-										<span class="caret"></span>
+									<span class="caret"></span>
 								</button>
 								<i info-sm info-placement="right"	info-popover content-name="Miljoe_skygge"></i>
 							</td>
@@ -350,6 +355,7 @@
 						ng-model="x.data_kommentar" 
 						name="kommentar" 
 						placeholder="Noter til fødevalg"
+						spellcheck="false"
 						rows="4"></textarea>
 				</div>
 				<span class="col-md-3 clearfix">&nbsp;</span>
@@ -361,6 +367,7 @@
 						ng-model="x.andre_observationer" 
 						name="andre_observationer" 
 						placeholder="Andre observationer"
+						spellcheck="false"
 						rows="4"></textarea>
 				</div>
 

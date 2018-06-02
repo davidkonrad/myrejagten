@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('myrejagtenApp')
-  .controller('KortCtrl', function($scope, $http, $timeout, Login, TicketService, leafletData, Eksperiment, Utils, Projekt, Data, UTM) {
+angular.module('myrejagtenApp').controller('KortCtrl', 
+	function($scope, $http, $timeout, Login, TicketService, leafletData, Eksperiment, Utils, Projekt, Data, UTM) {
 
 		$('body').on('shown.bs.tab', 'a', function (e) {
 			$timeout(function() {

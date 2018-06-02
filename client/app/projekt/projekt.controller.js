@@ -387,6 +387,7 @@ angular.module('myrejagtenApp')
 				if (madding == 'Olie') return 3;
 				if (madding == 'Protein') return 4;
 				if (madding == 'Kammerjunker') return 5;
+				if (madding == 'Andet') return 6;
 				console.error('Ukendt madding type: ', madding);
 				return 100;
 			}

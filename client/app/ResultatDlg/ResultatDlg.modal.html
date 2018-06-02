@@ -11,7 +11,7 @@
 
 				<div class="col-md-8" style="border-right:1px solid #e5e5e5;">
 					<dl class="dl-horizontal">
-						<dt>Eksp. dato</dt>
+						<dt title="Eksperiment dato">Eksp. dato</dt>
 						<dd> 
 							{{ resDlg.data.eksperiment_dato | date }}
 						</dd>
@@ -49,6 +49,17 @@
 								</tr>
 							</table>
 						</dd>
+
+						<dt ng-if="resDlg.eksperiment.data_kommentar">Noter fødevalg</dt>
+						<dd ng-if="resDlg.eksperiment.data_kommentar" style="line-height: 12px; margin-top: 5px;"> 
+							<small>{{ resDlg.eksperiment.data_kommentar }}</small>
+						</dd>
+
+						<dt ng-if="resDlg.eksperiment.andre_observationer" title="Andre observationer">Andre observ.</dt>
+						<dd ng-if="resDlg.eksperiment.andre_observationer" style="line-height: 12px; margin-top: 5px;"> 
+							<small>{{ resDlg.eksperiment.andre_observationer }}</small>
+						</dd>
+
 					</dl>
 					<br>
 					<button class="btn btn-ku btn-sm pull-left" 

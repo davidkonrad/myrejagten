@@ -83,7 +83,7 @@ angular.module('myrejagtenApp')
 								updateResultat(id, 'specie', specie[1] ? specie[1] : '' );
 							}, 
 							autoSelect: false,
-							items : 20,
+							items : 8,
 							source: lookup
 						})
 					})
@@ -101,7 +101,7 @@ angular.module('myrejagtenApp')
 							}, 
 							autoSelect: false,
 							showHintOnFocus: true,
-							items : 20,
+							items : 8,
 							source: lookup_dk
 						})
 					})
