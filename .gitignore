@@ -10,3 +10,4 @@ server/config/environment/development.js
 uploads
 client/uploads
 client/cache
+client/udtraek.log
