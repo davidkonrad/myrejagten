@@ -39,12 +39,14 @@ exports.signupMail = function(req, res){
 			if (!user) {
 				return res.json(200, { error: 'Bruger eksisterer ikke.' });
 			}
+			
+			var link = server + 'bekræft-email/#' + user.hash;
 
-			var msg = 'Hej ' + user.brugernavn + ', ' + "\n\n";
-			msg += 'Tak for at oprette dig som bruger i Myrejagten. Du skal godkende din emailadresse ved at klikke på nedenstående link. ' + "\n\n";
-			msg += server + 'bekræft-email/#' + user.hash + "\n\n";
-			msg += 'Ved at klikke på linket afsluttes oprettelsesproceduren og du videresendes til myrejagtens forside. ' + "\n\n";
-			msg += signature;
+			var msg = 'Hej ' + user.brugernavn + ', ' + "<br><br>";
+			msg += 'Tak for at oprette dig som bruger i Myrejagten. Du skal bekræfte din emailadresse ved at klikke på nedenstående link. ' + "<br><br>";
+			msg += '<a href="' + link + '" target=_blank>' + link + '</a>' + "<br><br>";
+			msg += 'Ved at klikke på linket afsluttes oprettelsesproceduren og du videresendes til myrejagtens forside. ' + "<br><br>";
+			msg += 'Med venlig hilsen' + "<br>" + 'Myrejagten og Statens Naturhistoriske Museum.';
 
 		  var mailOptions = {
 		    to: '"'+user.brugernavn+'"' + '<' + user.email + '>',
@@ -55,7 +57,8 @@ exports.signupMail = function(req, res){
 				headers: {
 					'X-Mailer': 'nodemailer' 
 				},
-				text: msg
+				//text: msg
+				html: msg
 		  };
 
 		  return transporter.sendMail(mailOptions, function(err, info) {
