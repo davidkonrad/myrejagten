@@ -57,6 +57,10 @@
 					<a href="/opret-bruger">Opret bruger</a>
 				</li>
 
+        <li ng-class="{ 'active-page' : isActive('/vejledning') }">
+					<a href="/vejledning">Vejledning</a>
+				</li>
+
         <li ng-if="!isLoggedIn()" ng-class="{ 'active-page' : isActive('/betingelser-og-vilkår') }">
 					<a href="/betingelser-og-vilkår">Betingelser og vilkår</a>
 				</li>
